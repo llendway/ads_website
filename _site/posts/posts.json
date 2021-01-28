@@ -1,19 +1,19 @@
 [
   {
-    "path": "posts/welcome/",
-    "title": "Welcome to Advanced Data Science in R",
-    "description": "Welcome to our new blog, Advanced Data Science in R. We hope you enjoy \nreading what we have to say!",
+    "path": "posts/2021-01-28-gitgithub/",
+    "title": "Using git and GitHub in R Studio",
+    "description": "A short description of the post.",
     "author": [
       {
-        "name": "Nora Jones",
-        "url": "https://example.com/norajones"
+        "name": "Lisa Lendway",
+        "url": {}
       }
     ],
-    "date": "2021-01-27",
+    "date": "2021-03-19",
     "categories": [],
-    "contents": "\n\n\n\n",
+    "contents": "\nHere is where I will write about using git and GitHub, mostly from here.\n\n\n\n",
     "preview": {},
-    "last_modified": "2021-01-27T14:28:08-06:00",
+    "last_modified": "2021-01-28T14:23:26-06:00",
     "input_file": {}
   }
 ]

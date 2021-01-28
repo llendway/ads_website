@@ -1,0 +1,18 @@
+---
+title: "Using git and GitHub in R Studio"
+author:
+  - name: Lisa Lendway
+date: 2021-03-19
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+Here is where I will write about using git and GitHub, mostly from [here](https://github.com/llendway/github_for_collaboration).
+
+

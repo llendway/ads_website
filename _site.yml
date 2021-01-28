@@ -1,12 +1,13 @@
 name: "ads_website"
 title: "Advanced Data Science in R"
 description: |
-  Advanced Data Science in R
+  Materials for the course taught by Lisa Lendway at Macalester College
 output_dir: "_site"
 navbar:
   right:
     - text: "Home"
       href: index.html
-    - text: "About"
-      href: about.html
+    - text: "Course Materials"
+      href: course.html
 output: distill::distill_article
+theme: mac.css
