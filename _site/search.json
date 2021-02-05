@@ -5,14 +5,14 @@
       "title": "Topics",
       "author": [],
       "contents": "\n\n\n\n",
-      "last_modified": "2021-01-28T14:56:41-06:00"
+      "last_modified": "2021-02-05T14:43:17-06:00"
     },
     {
       "path": "index.html",
       "title": "Advanced Data Science in R",
       "author": [],
       "contents": "\n\n\n\n\nSchedule\n\n\n\nResources\ngit/GitHub in R\nLisa’s GitHub for colaboration\nHappy git with R\nR Packages - making a PR\n\nBuilding a website\nSharing on Short Notice with Alison Hill and Desirée De Leon from R Studio\nLisa’s Building a distill website blog post\nTom Mock’s distill post\nEmily Zabor’s tutorial\nblogdown site and check out recent updates here\n\nBuilding an R package\nLisa’s example of building a data package\nTom Westlake’s Writing an R Package From Scratch\nR package book\n\nShiny\nLisa’s intro to building a shiny app\nR Studio tutorials\nStyling Shiny and R markdown with Carson Sievert from R Studio\n\nTidymodels\ntidymodels.org main page\nTidy Models with R textbook\nLisa’s tidymodels noRth presentation\nJulia Silge’s blog with great examples\n\nModel stacking / ensembles\nstacks R package documentation\nHands on Machine Learning\n\nModel interpretation\nDALExtra R package\nlime R package\nInterpretable Machine Learning\nExplanatory Model Analysis\nHands on Machine Learning\n\nData ethics / justice\nfast.ai ethics course\nData Justice intro\nPrediction-Based Decisions and Fairness\n\nUsing databases with R / SQL\nVebash Naidoo’s blog posts\nDr. Simona Picardi’s course material from WILD 6900: Tools for Reproducible Science, Spring 2021, Utah State University\n\nGradient boosted machines (GBM) and H20\nHands on Machine Learning\nH20 documentation\nH20 booklet\n\nDeep Learning\nDeep Learning with R\nHands on Machine Learning\n\nPotential student topics\nmapping (topics NOT covered in the intro course)\ngeom_sf()\ntmap (probably not)\ntidycensus\nosmdata\nrayshader\n\npurrr\nregex\nUsing python in R with reticulate\nText analysis with tidytext\nAnalyzing missing data with naniar\n\n\n\n",
-      "last_modified": "2021-01-28T14:56:44-06:00"
+      "last_modified": "2021-02-05T14:43:20-06:00"
     }
   ],
   "collections": ["posts/posts.json"]
