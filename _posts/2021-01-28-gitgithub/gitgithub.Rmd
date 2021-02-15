@@ -1,8 +1,5 @@
 ---
 title: "Using git and GitHub in R Studio"
-author:
-  - name: Lisa Lendway
-date: 2021-03-19
 output:
   distill::distill_article:
     self_contained: false
@@ -13,6 +10,19 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-Here is where I will write about using git and GitHub, mostly from [here](https://github.com/llendway/github_for_collaboration).
+## Quick Intro
 
+If you haven't used Git and Github before, you should read and work through the [github for collaboration](https://github.com/llendway/github_for_collaboration/blob/master/github_for_collaboration.md) instructions through the **Your turn!!** section right before the **Adding collaborators** section. If you are not able to get things working fairly quickly (~ 1 hour, not including installation times), then contact me so I can help you. 
+
+If you have used Git and Github before but NOT with R Studio, then you can probably start at Step 5 in the **Install Git** section. If you have used them in R Studio before, try going right to the **Create your first repo and use it with R Studio** section and ensure that everything still works. 
+
+For this class, you should plan to always start a new assignment/project by creating a github repo. And, in R Studio you should open the .Rproj file when you want to work with files within the project (see a short video of what I mean [here](https://youtu.be/OduNU4vZ7IM)). Your R project is a folder on your computer and is very much connected with the repo on github. For
+
+At first, I want you to get used to using GitHub regularly for your own files. You should be comfortable with creating a repository on GitHub, cloning it in R Studio, and then consistently following the save --> commit --> push pattern. For a deeper understanding of some of this, see Jenny Bryan's fantastic [Happy Git with R](https://happygitwithr.com/) resource.
+
+## Using Git and GitHub for collaboration   
+
+At first, we will use the instructions I posted in the [github for collaboration](https://github.com/llendway/github_for_collaboration/blob/master/github_for_collaboration.md) documentation starting at the **Adding collaborators** section. Later in the course, we will talking about adding branches, forking, and maybe a few other things.
+
+It is VERY important to remember that communication is a key component to using github successfully for collaboration. Don't forget that part!
 
