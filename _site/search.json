@@ -1,18 +1,32 @@
 {
   "articles": [
     {
+      "path": "assign.html",
+      "title": "Assignments",
+      "author": [],
+      "contents": "\n\n\n\n",
+      "last_modified": "2021-02-23T14:58:51-06:00"
+    },
+    {
       "path": "course.html",
       "title": "Topics",
       "author": [],
       "contents": "\n\n\n\n",
-      "last_modified": "2021-02-15T11:46:44-06:00"
+      "last_modified": "2021-02-23T14:58:51-06:00"
     },
     {
       "path": "index.html",
       "title": "Welcome!",
       "author": [],
-      "contents": "\n\n\n\n\nWelcome to the Advanced Data Science in R course being taught by me, Lisa Lendway. The syllabus and calendar for the course can be found on the course Moodle page. Materials for each topic we cover can be found on the Course Materials page of this website.\n\n\n\n",
-      "last_modified": "2021-02-15T11:46:46-06:00"
+      "contents": "\n\n\n\n\nWelcome to the Advanced Data Science in R course being taught by me, Lisa Lendway. The syllabus and calendar for the course can be found on the course Moodle page, which is where you will also submit assignments. Materials for each topic we cover can be found on the Course Materials page of this website. I also included a page with all the resources I will use and a page with the assignments.\n\n\n\n",
+      "last_modified": "2021-02-23T14:58:54-06:00"
+    },
+    {
+      "path": "resources.html",
+      "title": "Resources",
+      "author": [],
+      "contents": "\ngit/GitHub in R\nLisa’s GitHub for colaboration\nHappy git with R by Jenny Bryan\nR Packages - making a PR from the R Packages boook by Hadley Wickham and Jenny Bryan\n\nBuilding a website\nSharing on Short Notice with Alison Hill and Desirée De Leon from R Studio\nLisa’s Building a distill website blog post\nTom Mock’s distill post\nEmily Zabor’s tutorial\nblogdown book site by Yihui Xie, Amber Thomas, and Alison Hill and check out recent updates here\n\nBuilding an R package\nLisa’s example of building a data package\nTom Westlake’s Writing an R Package From Scratch\nR Packages book by Wickham and Bryan\n\nShiny\nLisa’s intro to building a shiny app\nR Studio tutorials by Garret Grolemund\na gRadual intRoduction to Shiny by Ted Laderas\nStyling Shiny and R markdown with Carson Sievert from R Studio\n\nTidymodels\ntidymodels.org main page\nTidy Models with R textbook by Julia Silge and Max Kuhn\nLisa’s tidymodels noRth presentation\nJulia Silge’s blog with great examples\n\nModel stacking / ensembles\nstacks R package documentation by Simon Couch and Max Kuhn\nHands on Machine Learning by Bradley Boehmke & Brandon Greenwell\n\nModel interpretation\nDALExtra R package by Szymon Maksymiuk, Przemyslaw Biecek\nlime R package tutorial by Bradley Boemke\nInterpretable Machine Learning by Christoph Molnar\nExplanatory Model Analysis by Przemyslaw Biecek and Tomasz Burzykowski\nHands on Machine Learning\n\nData ethics / justice\nfast.ai ethics course by Rachel Thomas\nData Justice intro by Linnet Taylor\nPrediction-Based Decisions and Fairness by Shira Mitchell, Eric Potash, Solon Barocas, Alexander D’Amour, Kristian Lum\nteachdatascience blog\nData Science Ethics chapter of Modern Data Science with R by Baumer, Kaplan, and Horton\nCalling Bullshit course materials by Bergstrom and West.\n\nUsing databases with R / SQL\nVebash Naidoo’s blog posts\nDr. Simona Picardi’s course material from WILD 6900: Tools for Reproducible Science, Spring 2021, Utah State University\nSQL chapter of Modern Data Science with R by Baumer, Kaplan, and Horton\nJacqueline Nolis blog post: Pretending to have a SQL database with RStudio\n\nPutting R into production\nPut R in prod\n\nGradient boosted machines (GBM) and H20\nHands on Machine Learning\nH20 documentation\nH20 booklet\n\nDeep Learning\nDeep Learning with R\nHands on Machine Learning\n\n\n\n\n",
+      "last_modified": "2021-02-23T14:58:55-06:00"
     }
   ],
   "collections": ["posts/posts.json"]

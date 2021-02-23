@@ -86,26 +86,26 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
-  <title>Advanced Data Science in R: Topics</title>
+  <title>Advanced Data Science in R: Resources</title>
   
   
   
   
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="Advanced Data Science in R: Topics"/>
+  <meta property="og:title" content="Advanced Data Science in R: Resources"/>
   <meta property="og:type" content="article"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="Advanced Data Science in R"/>
   
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="Advanced Data Science in R: Topics"/>
+  <meta property="twitter:title" content="Advanced Data Science in R: Resources"/>
   
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","listing"]}},"value":[{"type":"character","attributes":{},"value":["Topics"]},{"type":"NULL"},{"type":"character","attributes":{},"value":["posts"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description"]}},"value":[{"type":"character","attributes":{},"value":["Resources"]},{"type":"NULL"}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2299,12 +2299,12 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 </head>
 
-<body class="layout-listing">
+<body>
 
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Topics","authors":[]}
+{"title":"Resources","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2327,165 +2327,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_navigation_before_body-->
 <!--radix_placeholder_site_before_body-->
 <!--/radix_placeholder_site_before_body-->
-<!--radix_placeholder_article_listing-->
-
-
-<script type="application/javascript">
-
-function init_posts_list() {
-
-  function load_image(img) {
-    var src = $(img).attr('data-src');
-    if (src) {
-      $(img).attr('src', src);
-      $(img).load(function() {
-        img.removeAttribute('data-src');
-      });
-    }
-  }
-
-  function set_posts_visible(posts, visible) {
-    if (visible) {
-
-      // show bottom border by default
-      $(posts).removeClass('post-preview-last');
-
-      // apply limits if need be
-      var max_posts = 25;
-      var apply_limits = $('.posts-container').hasClass('posts-apply-limit');
-      if (apply_limits && posts.length > max_posts) {
-        posts = $(posts).slice(0, max_posts);
-      } else {
-        $('.posts-more a').addClass('hidden');
-      }
-
-      // apply last style
-      $(posts.slice(-1)[0]).addClass('post-preview-last');
-
-      $(posts).removeClass('hidden');
-      $(posts).find('img[data-src]').each(function(i, img) {
-        load_image(img);
-      });
-    } else {
-      $(posts).addClass('hidden');
-    }
-  }
-
-  function apply_hash_filter() {
-
-    // clear active state
-    $('.categories .active').removeClass('active');
-
-    // mark all posts invisible to start
-    set_posts_visible($('.posts-list').children('a'), false);
-
-    // if we have a hash filter
-    if (window.location.hash && window.location.hash.startsWith("#category:")) {
-
-      // mark posts that match the category visible
-      var page_category = window.location.hash.replace(/^#category:/, "");
-      var posts = $('.post-metadata').map(function(idx, script) {
-        var metadata = $.parseJSON($(script).html());
-        var post = null;
-        $.each(metadata.categories, function(idx, category) {
-          category = category.replace(/ /g,"_");
-          if ((page_category || '').toLowerCase() === "articles" || category === page_category) {
-            post = $(script).parent().get();
-            return false;
-          }
-        });
-        return post;
-      });
-      set_posts_visible(posts, true);
-
-      // mark the hash active
-      $('.categories li>a[href="' + window.location.hash + '"]').addClass('active');
-
-      // update the list_caption
-      var list_caption = $('.posts-list-caption');
-      var caption = (page_category || '').toLowerCase() === "articles"
-        ? list_caption.attr('data-caption')
-        : ('Category: ' + page_category.replace(/_/g," "));
-      list_caption.text(caption);
-
-    } else {
-
-      // no hash filter, make all posts visible (subject to max display)
-      set_posts_visible($('.posts-list').children(), true);
-
-      // reset list caption
-      var list_caption = $('.posts-list-caption');
-      list_caption.text(list_caption.attr('data-caption'));
-
-
-    }
-  }
-
-  // more articles
-  function apply_post_limits(apply) {
-    if (apply) {
-      $('.posts-container').addClass('posts-apply-limit');
-      $('.posts-more a').removeClass('hidden');
-    } else {
-      $('.posts-container').removeClass('posts-apply-limit');
-      $('.posts-more a').addClass('hidden');
-    }
-  }
-
-  // click handling for tags
-  $('.dt-tag').click(function(ev) {
-    window.location.hash = '#category:' + $(this).text().replace(/ /g, "_");
-    return false;
-  })
-
-  // hash filter handling
-  apply_hash_filter();
-  $(window).on('hashchange',function() {
-    apply_post_limits(true);
-    apply_hash_filter();
-  });
-
-  // more articles link
-  $('.posts-more a').click(function(e) {
-    e.preventDefault();
-    apply_post_limits(false);
-    apply_hash_filter();
-    return false;
-  });
-
-}
-
-</script>
-
-
-
-<div class="posts-container posts-apply-limit l-page">
-<div class="posts-list">
-<h1 class="posts-list-caption" data-caption="Topics">Topics</h1>
-<a href="posts/2021-01-28-gitgithub/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
-<div class="metadata">
-<div class="publishedDate">Feb. 9, 2021</div>
-<div class="dt-authors"></div>
-</div>
-<div class="thumbnail">
-<img/>
-</div>
-<div class="description">
-<h2>Using git and GitHub in R Studio</h2>
-<div class="dt-tags"></div>
-<p></p>
-</div>
-</a>
-</div>
-<div class="posts-more">
-<a href="#">More articles &raquo;</a>
-</div>
-</div>
-<!--/radix_placeholder_article_listing-->
 
 <div class="d-title">
-<h1>Topics</h1>
+<h1>Resources</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
 
@@ -2493,6 +2337,96 @@ function init_posts_list() {
 
 
 <div class="d-article">
+<ul>
+<li>git/GitHub in R
+<ul>
+<li><a href="https://github.com/llendway/github_for_collaboration/blob/master/github_for_collaboration.md">Lisa’s GitHub for colaboration</a></li>
+<li><a href="https://happygitwithr.com/">Happy git with R</a> by Jenny Bryan</li>
+<li><a href="https://r-pkgs.org/git.html#git-pullreq">R Packages - making a PR</a> from the <em>R Packages</em> boook by Hadley Wickham and Jenny Bryan</li>
+</ul></li>
+<li>Building a website
+<ul>
+<li><a href="https://rstudio.com/resources/webinars/sharing-on-short-notice-how-to-get-your-materials-online-with-r-markdown/">Sharing on Short Notice</a> with Alison Hill and Desirée De Leon from R Studio</li>
+<li><a href="https://lisalendway.netlify.app/posts/2020-12-09-buildingdistill/">Lisa’s Building a distill website blog post</a><br />
+</li>
+<li><a href="https://themockup.blog/posts/2020-08-01-building-a-blog-with-distill/">Tom Mock’s distill post</a></li>
+<li><a href="https://www.emilyzabor.com/tutorials/rmarkdown_websites_tutorial.html">Emily Zabor’s tutorial</a><br />
+</li>
+<li><a href="https://bookdown.org/yihui/blogdown/">blogdown book site</a> by Yihui Xie, Amber Thomas, and Alison Hill and check out recent updates <a href="https://blog.rstudio.com/2021/01/18/blogdown-v1.0/">here</a></li>
+</ul></li>
+<li>Building an R package
+<ul>
+<li><a href="https://lisalendway.netlify.app/posts/2020-12-30-welcometothejungle/">Lisa’s example of building a data package</a></li>
+<li><a href="https://r-mageddon.netlify.app/post/writing-an-r-package-from-scratch/">Tom Westlake’s Writing an R Package From Scratch</a><br />
+</li>
+<li><a href="https://r-pkgs.org/">R Packages</a> book by Wickham and Bryan</li>
+</ul></li>
+<li>Shiny
+<ul>
+<li><a href="https://animation-and-interactivity-in-r.netlify.app/#creating-an-app-with-shiny">Lisa’s intro to building a shiny app</a><br />
+</li>
+<li><a href="https://shiny.rstudio.com/tutorial/">R Studio tutorials</a> by Garret Grolemund<br />
+</li>
+<li><a href="https://laderast.github.io/gradual_shiny/">a gRadual intRoduction to Shiny</a> by Ted Laderas</li>
+<li><a href="https://youtu.be/4OxokLdZQgQ">Styling Shiny and R markdown</a> with Carson Sievert from R Studio</li>
+</ul></li>
+<li>Tidymodels
+<ul>
+<li><a href="https://www.tidymodels.org/">tidymodels.org main page</a></li>
+<li><a href="https://www.tmwr.org/">Tidy Models with R textbook</a> by Julia Silge and Max Kuhn</li>
+<li><a href="https://youtu.be/tVZO-aoXStE">Lisa’s tidymodels noRth presentation</a></li>
+<li><a href="https://juliasilge.com/">Julia Silge’s blog</a> with great examples</li>
+</ul></li>
+<li>Model stacking / ensembles
+<ul>
+<li><a href="https://stacks.tidymodels.org/articles/basics.html">stacks R package documentation</a> by Simon Couch and Max Kuhn</li>
+<li><a href="https://bradleyboehmke.github.io/HOML/stacking.html">Hands on Machine Learning</a> by Bradley Boehmke &amp; Brandon Greenwell</li>
+</ul></li>
+<li>Model interpretation
+<ul>
+<li><a href="https://modeloriented.github.io/DALEXtra/reference/explain_tidymodels.html">DALExtra R package</a> by Szymon Maksymiuk, Przemyslaw Biecek</li>
+<li><a href="https://uc-r.github.io/lime">lime R package</a> tutorial by Bradley Boemke</li>
+<li><a href="https://christophm.github.io/interpretable-ml-book/">Interpretable Machine Learning</a> by Christoph Molnar</li>
+<li><a href="http://ema.drwhy.ai/">Explanatory Model Analysis</a> by Przemyslaw Biecek and Tomasz Burzykowski</li>
+<li><a href="https://bradleyboehmke.github.io/HOML/iml.html">Hands on Machine Learning</a></li>
+</ul></li>
+<li>Data ethics / justice
+<ul>
+<li><a href="https://ethics.fast.ai/videos/?lesson=1">fast.ai ethics course</a> by Rachel Thomas</li>
+<li><a href="https://journals.sagepub.com/doi/10.1177/2053951717736335#:~:text=This%20paper%20posits%20that%20just,paths%20through%20a%20datafying%20world.">Data Justice intro</a> by Linnet Taylor</li>
+<li><a href="https://arxiv.org/abs/1811.07867">Prediction-Based Decisions and Fairness</a> by Shira Mitchell, Eric Potash, Solon Barocas, Alexander D’Amour, Kristian Lum<br />
+</li>
+<li><a href="https://teachdatascience.com/">teachdatascience blog</a><br />
+</li>
+<li><a href="https://mdsr-book.github.io/mdsr2e/ch-ethics.html#ethics-intro">Data Science Ethics</a> chapter of <em>Modern Data Science with R</em> by Baumer, Kaplan, and Horton</li>
+<li><a href="https://www.callingbullshit.org/syllabus.html">Calling Bullshit</a> course materials by Bergstrom and West.</li>
+</ul></li>
+<li>Using databases with R / SQL
+<ul>
+<li><a href="https://sciencificity-blog.netlify.app/posts/2020-12-12-using-the-tidyverse-with-databases/">Vebash Naidoo’s blog posts</a><br />
+</li>
+<li><a href="https://ecorepsci.github.io/reproducible-science/rsqlite.html">Dr. Simona Picardi’s course material</a> from WILD 6900: Tools for Reproducible Science, Spring 2021, Utah State University<br />
+</li>
+<li><a href="https://mdsr-book.github.io/mdsr2e/ch-sql.html#sec:dplyr-sql">SQL chapter</a> of <em>Modern Data Science with R</em> by Baumer, Kaplan, and Horton<br />
+</li>
+<li><a href="https://jnolis.com/blog/sql_database_rstudio/">Jacqueline Nolis blog post</a>: Pretending to have a SQL database with RStudio</li>
+</ul></li>
+<li>Putting R into production
+<ul>
+<li><a href="https://putrinprod.com/">Put R in prod</a></li>
+</ul></li>
+<li>Gradient boosted machines (GBM) and H20
+<ul>
+<li><a href="https://bradleyboehmke.github.io/HOML/gbm.html">Hands on Machine Learning</a></li>
+<li><a href="https://docs.h2o.ai/h2o/latest-stable/h2o-docs/welcome.html">H20 documentation</a></li>
+<li><a href="https://www.h2o.ai/wp-content/uploads/2018/01/RBooklet.pdf">H20 booklet</a></li>
+</ul></li>
+<li>Deep Learning
+<ul>
+<li><a href="https://www.manning.com/books/deep-learning-with-r#toc">Deep Learning with R</a></li>
+<li><a href="https://bradleyboehmke.github.io/HOML/deep-learning.html">Hands on Machine Learning</a></li>
+</ul></li>
+</ul>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
