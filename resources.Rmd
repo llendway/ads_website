@@ -8,7 +8,8 @@ description: |
   - [Hands on Machine Learning with R](https://bradleyboehmke.github.io/HOML/) by Bradley Boehmke and Brandon Greenwell
 
 * git/GitHub in R  
-  - [Lisa's GitHub for colaboration](https://github.com/llendway/github_for_collaboration/blob/master/github_for_collaboration.md)
+  - [Lisa's GitHub for colaboration](https://github.com/llendway/github_for_collaboration/blob/master/github_for_collaboration.md)  
+  - [Lisa's more in-depth post and video](https://lisalendway.netlify.app/posts/2021-02-24-gitinrstudio/) that goes more in-depth on how to collaborate
   - [Happy git with R](https://happygitwithr.com/) by Jenny Bryan
   - [R Packages - making a PR](https://r-pkgs.org/git.html#git-pullreq) from the *R Packages* boook by Hadley Wickham and Jenny Bryan
   
