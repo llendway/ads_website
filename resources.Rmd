@@ -3,7 +3,9 @@ title: "Resources"
 description: |
 ---
 
-
+* Review material
+  - [Lisa's Intro DS coourse](https://ds112-lendway.netlify.app/) 
+  - [Hands on Machine Learning with R](https://bradleyboehmke.github.io/HOML/) by Bradley Boehmke and Brandon Greenwell
 
 * git/GitHub in R  
   - [Lisa's GitHub for colaboration](https://github.com/llendway/github_for_collaboration/blob/master/github_for_collaboration.md)
