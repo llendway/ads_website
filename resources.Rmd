@@ -22,6 +22,7 @@ description: |
   
 * Building an R package  
   - [Lisa's example of building a data package](https://lisalendway.netlify.app/posts/2020-12-30-welcometothejungle/) 
+  - [Your first R package in 1 hour](https://www.pipinghotdata.com/posts/2020-10-25-your-first-r-package-in-1-hour/) blog post by Shannon Pileggi
   - [Tom Westlake's Writing an R Package From Scratch ](https://r-mageddon.netlify.app/post/writing-an-r-package-from-scratch/)  
   - [R Packages](https://r-pkgs.org/) book by Wickham and Bryan
   
