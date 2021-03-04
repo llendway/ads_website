@@ -1,10 +1,19 @@
 ---
 title: "Machine Learning review with an intro to `tidymodels`"
 output:
+  html_document:
+    df_print: paged
   distill::distill_article:
     self_contained: false
 draft: true
 ---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      message = FALSE,
+                      warning = FALSE,
+                      error = TRUE)
+```
 
 ## Resources
 
@@ -40,7 +49,7 @@ And let's review what we do during each of these steps.
 5. **Tuning parameters**: If the model in the previous step involved tuning parameters, use cross-validation (or similar method) to find the best parameter.  
 6. **Evaluate & compare models**: Use cross-validation to evaluate the model. If you have a large number of models you are evaluating, you will probably limit the set of models to your best/favorite few during this step. The image below is to help you remember that process, which I have also written about below.
 
-![Image credit: https://bradleyboehmke.github.io/HOML/process.html#resampling](cv_HOML.png)
+![Figure from https://bradleyboehmke.github.io/HOML/process.html#resampling](cv_HOML.png){.external}
 
   - In $k$-fold cross-validation, we divide the data randomly into $k$ approximately equal groups or *folds*. The schematic here shows 5-fold cross-validation.  
   - The model is fit on $k-1$ of the folds and the remaining fold is used to evaluate the model. Let's look at the first row in the schematic. Here the model is fit on the data that are in folds 2, 3, 4, and 5. The model is evaluated on the data in fold 1.  
@@ -62,14 +71,32 @@ $$
 
 ## Using `tidymodels` for the process
 
-In this section, I will show how we can use the `tidymodels` framework to execute the modeling process. 
+In this section, I will show how we can use the `tidymodels` framework to execute the modeling process. I've updated the diagram from above to include some of the libraries and functions we'll use throughout the process. 
+
+<div class="centered">
+
+![tidymodels machine learning process](modeling_process_tidymodels.png)
+
+</div>
 
 First, let's load some of the libraries we will use:
 
-```{r}
-library(tidyverse)     # for plotting and wrangling
-library(tidymodels)    # for modeling ... tidily 
-library(moderndive)    # for some data
+```{r libraries}
+library(tidyverse)         # for reading in data, graphing, and cleaning
+library(tidymodels)        # for modeling ... tidily
+library(lubridate)         # for date manipulation
+library(moderndive)        # for King County housing data
+library(vip)               # for variable importance plots
+theme_set(theme_minimal()) # my favorite ggplot2 theme :)
+```
+
+Read in the King County Housing data and take a look at the first 5 rows.
+
+```{r data}
+data("house_prices")
+
+house_prices %>% 
+  slice(1:5)
 ```
 
 
