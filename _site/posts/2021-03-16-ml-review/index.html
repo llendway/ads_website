@@ -1,0 +1,3535 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ad0000; } /* Alert */
+code span.an { color: #5e5e5e; } /* Annotation */
+code span.at { color: #20794d; } /* Attribute */
+code span.bn { color: #ad0000; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007ba5; } /* ControlFlow */
+code span.ch { color: #20794d; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #5e5e5e; } /* Comment */
+code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+code span.dt { color: #ad0000; } /* DataType */
+code span.dv { color: #ad0000; } /* DecVal */
+code span.er { color: #ad0000; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #ad0000; } /* Float */
+code span.fu { color: #4758ab; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #5e5e5e; } /* Information */
+code span.kw { color: #007ba5; } /* Keyword */
+code span.op { color: #5e5e5e; } /* Operator */
+code span.ot { color: #007ba5; } /* Other */
+code span.pp { color: #ad0000; } /* Preprocessor */
+code span.sc { color: #20794d; } /* SpecialChar */
+code span.ss { color: #20794d; } /* SpecialString */
+code span.st { color: #20794d; } /* String */
+code span.va { color: #111111; } /* Variable */
+code span.vs { color: #20794d; } /* VerbatimString */
+code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+</style>
+
+  <!--radix_placeholder_meta_tags-->
+<title>Advanced Data Science in R: Machine Learning review with an intro to `tidymodels`</title>
+
+
+
+<!--  https://schema.org/Article -->
+<meta property="article:published" itemprop="datePublished" content="2021-03-11"/>
+<meta property="article:created" itemprop="dateCreated" content="2021-03-11"/>
+
+<!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+<meta property="og:title" content="Advanced Data Science in R: Machine Learning review with an intro to `tidymodels`"/>
+<meta property="og:type" content="article"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:site_name" content="Advanced Data Science in R"/>
+
+<!--  https://dev.twitter.com/cards/types/summary -->
+<meta property="twitter:card" content="summary"/>
+<meta property="twitter:title" content="Advanced Data Science in R: Machine Learning review with an intro to `tidymodels`"/>
+
+<!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+
+<script type="text/json" id="radix-rmarkdown-metadata">
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output","draft","date"]}},"value":[{"type":"character","attributes":{},"value":["Machine Learning review with an intro to `tidymodels`"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["df_print","toc","toc_float","code_download","self_contained"]}},"value":[{"type":"character","attributes":{},"value":["paged"]},{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["03-11-2021"]}]}
+</script>
+<!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["course_flow.png","cv_HOML.png","house_prices_variables.png","ml-review_files/anchor-4.2.2/anchor.min.js","ml-review_files/bowser-1.9.3/bowser.min.js","ml-review_files/distill-2.2.21/template.v2.js","ml-review_files/figure-html5/act_pred_plot-1.png","ml-review_files/figure-html5/expl_cat-1.png","ml-review_files/figure-html5/expl_quant-1.png","ml-review_files/figure-html5/price_pred_plot-1.png","ml-review_files/figure-html5/tune-viz-1.png","ml-review_files/figure-html5/unnamed-chunk-2-1.png","ml-review_files/figure-html5/vip-1.png","ml-review_files/jquery-1.11.3/jquery.min.js","ml-review_files/webcomponents-2.0.0/webcomponents.js","model_args_parsnip.png","modeling_process_HOML.png","modeling_process_tidymodels.png","modeling_process.png","tidymodels_process.gdraw","tidymodels_process.png"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+<meta name="distill:offset" content="../.."/>
+
+<script type="application/javascript">
+
+  window.headroom_prevent_pin = false;
+
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+
+    // initialize headroom for banner
+    var header = $('header').get(0);
+    var headerHeight = header.offsetHeight;
+    var headroom = new Headroom(header, {
+      tolerance: 5,
+      onPin : function() {
+        if (window.headroom_prevent_pin) {
+          window.headroom_prevent_pin = false;
+          headroom.unpin();
+        }
+      }
+    });
+    headroom.init();
+    if(window.location.hash)
+      headroom.unpin();
+    $(header).addClass('headroom--transition');
+
+    // offset scroll location for banner on hash change
+    // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
+    window.addEventListener("hashchange", function(event) {
+      window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
+    });
+
+    // responsive menu
+    $('.distill-site-header').each(function(i, val) {
+      var topnav = $(this);
+      var toggle = topnav.find('.nav-toggle');
+      toggle.on('click', function() {
+        topnav.toggleClass('responsive');
+      });
+    });
+
+    // nav dropdowns
+    $('.nav-dropbtn').click(function(e) {
+      $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
+      $(this).parent().siblings('.nav-dropdown')
+         .children('.nav-dropdown-content').removeClass('nav-dropdown-active');
+    });
+    $("body").click(function(e){
+      $('.nav-dropdown-content').removeClass('nav-dropdown-active');
+    });
+    $(".nav-dropdown").click(function(e){
+      e.stopPropagation();
+    });
+  });
+</script>
+
+<style type="text/css">
+
+/* Theme (user-documented overrideables for nav appearance) */
+
+.distill-site-nav {
+  color: rgba(255, 255, 255, 0.8);
+  background-color: #0F2E3D;
+  font-size: 15px;
+  font-weight: 300;
+}
+
+.distill-site-nav a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.distill-site-nav a:hover {
+  color: white;
+}
+
+@media print {
+  .distill-site-nav {
+    display: none;
+  }
+}
+
+.distill-site-header {
+
+}
+
+.distill-site-footer {
+
+}
+
+
+/* Site Header */
+
+.distill-site-header {
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 3;
+}
+
+.distill-site-header .nav-left {
+  display: inline-block;
+  margin-left: 8px;
+}
+
+@media screen and (max-width: 768px) {
+  .distill-site-header .nav-left {
+    margin-left: 0;
+  }
+}
+
+
+.distill-site-header .nav-right {
+  float: right;
+  margin-right: 8px;
+}
+
+.distill-site-header a,
+.distill-site-header .title {
+  display: inline-block;
+  text-align: center;
+  padding: 14px 10px 14px 10px;
+}
+
+.distill-site-header .title {
+  font-size: 18px;
+  min-width: 150px;
+}
+
+.distill-site-header .logo {
+  padding: 0;
+}
+
+.distill-site-header .logo img {
+  display: none;
+  max-height: 20px;
+  width: auto;
+  margin-bottom: -4px;
+}
+
+.distill-site-header .nav-image img {
+  max-height: 18px;
+  width: auto;
+  display: inline-block;
+  margin-bottom: -3px;
+}
+
+
+
+@media screen and (min-width: 1000px) {
+  .distill-site-header .logo img {
+    display: inline-block;
+  }
+  .distill-site-header .nav-left {
+    margin-left: 20px;
+  }
+  .distill-site-header .nav-right {
+    margin-right: 20px;
+  }
+  .distill-site-header .title {
+    padding-left: 12px;
+  }
+}
+
+
+.distill-site-header .nav-toggle {
+  display: none;
+}
+
+.nav-dropdown {
+  display: inline-block;
+  position: relative;
+}
+
+.nav-dropdown .nav-dropbtn {
+  border: none;
+  outline: none;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 16px 10px;
+  background-color: transparent;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  margin: 0;
+  margin-top: 1px;
+  z-index: 2;
+}
+
+.nav-dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 200px;
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 4px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+  z-index: 1;
+  margin-top: 2px;
+  white-space: nowrap;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.nav-dropdown-content hr {
+  margin-top: 4px;
+  margin-bottom: 4px;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.nav-dropdown-active {
+  display: block;
+}
+
+.nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
+  color: black;
+  padding: 6px 24px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.nav-dropdown-content .nav-dropdown-header {
+  display: block;
+  padding: 5px 24px;
+  padding-bottom: 0;
+  text-transform: uppercase;
+  font-size: 14px;
+  color: #999999;
+  white-space: nowrap;
+}
+
+.nav-dropdown:hover .nav-dropbtn {
+  color: white;
+}
+
+.nav-dropdown-content a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.nav-right .nav-dropdown-content {
+  margin-left: -45%;
+  right: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
+  .distill-site-header a.nav-toggle {
+    float: right;
+    display: block;
+  }
+  .distill-site-header .title {
+    margin-left: 0;
+  }
+  .distill-site-header .nav-right {
+    margin-right: 0;
+  }
+  .distill-site-header {
+    overflow: hidden;
+  }
+  .nav-right .nav-dropdown-content {
+    margin-left: 0;
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+  .distill-site-header.responsive {position: relative; min-height: 500px; }
+  .distill-site-header.responsive a.nav-toggle {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .distill-site-header.responsive a,
+  .distill-site-header.responsive .nav-dropdown {
+    display: block;
+    text-align: left;
+  }
+  .distill-site-header.responsive .nav-left,
+  .distill-site-header.responsive .nav-right {
+    width: 100%;
+  }
+  .distill-site-header.responsive .nav-dropdown {float: none;}
+  .distill-site-header.responsive .nav-dropdown-content {position: relative;}
+  .distill-site-header.responsive .nav-dropdown .nav-dropbtn {
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+}
+
+/* Site Footer */
+
+.distill-site-footer {
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  z-index: 3;
+  margin-top: 30px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  text-align: center;
+}
+
+/* Headroom */
+
+d-title {
+  padding-top: 6rem;
+}
+
+@media print {
+  d-title {
+    padding-top: 4rem;
+  }
+}
+
+.headroom {
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.headroom--transition {
+  transition: all .4s ease-in-out;
+}
+
+.headroom--unpinned {
+  top: -100px;
+}
+
+.headroom--pinned {
+  top: 0;
+}
+
+</style>
+
+<link href="../../site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
+<link href="../../site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
+<script src="../../site_libs/headroom-0.9.4/headroom.min.js"></script>
+<script src="../../site_libs/autocomplete-0.37.1/autocomplete.min.js"></script>
+<script src="../../site_libs/fuse-6.4.1/fuse.min.js"></script>
+
+<script type="application/javascript">
+
+function getMeta(metaName) {
+  var metas = document.getElementsByTagName('meta');
+  for (let i = 0; i < metas.length; i++) {
+    if (metas[i].getAttribute('name') === metaName) {
+      return metas[i].getAttribute('content');
+    }
+  }
+  return '';
+}
+
+function offsetURL(url) {
+  var offset = getMeta('distill:offset');
+  return offset ? offset + '/' + url : url;
+}
+
+function createFuseIndex() {
+
+  // create fuse index
+  var options = {
+    keys: [
+      { name: 'title', weight: 20 },
+      { name: 'categories', weight: 15 },
+      { name: 'description', weight: 10 },
+      { name: 'contents', weight: 5 },
+    ],
+    ignoreLocation: true,
+    threshold: 0
+  };
+  var fuse = new window.Fuse([], options);
+
+  // fetch the main search.json
+  return fetch(offsetURL('search.json'))
+    .then(function(response) {
+      if (response.status == 200) {
+        return response.json().then(function(json) {
+          // index main articles
+          json.articles.forEach(function(article) {
+            fuse.add(article);
+          });
+          // download collections and index their articles
+          return Promise.all(json.collections.map(function(collection) {
+            return fetch(offsetURL(collection)).then(function(response) {
+              if (response.status === 200) {
+                return response.json().then(function(articles) {
+                  articles.forEach(function(article) {
+                    fuse.add(article);
+                  });
+                })
+              } else {
+                return Promise.reject(
+                  new Error('Unexpected status from search index request: ' +
+                            response.status)
+                );
+              }
+            });
+          })).then(function() {
+            return fuse;
+          });
+        });
+
+      } else {
+        return Promise.reject(
+          new Error('Unexpected status from search index request: ' +
+                      response.status)
+        );
+      }
+    });
+}
+
+window.document.addEventListener("DOMContentLoaded", function (event) {
+
+  // get search element (bail if we don't have one)
+  var searchEl = window.document.getElementById('distill-search');
+  if (!searchEl)
+    return;
+
+  createFuseIndex()
+    .then(function(fuse) {
+
+      // make search box visible
+      searchEl.classList.remove('hidden');
+
+      // initialize autocomplete
+      var options = {
+        autoselect: true,
+        hint: false,
+        minLength: 2,
+      };
+      window.autocomplete(searchEl, options, [{
+        source: function(query, callback) {
+          const searchOptions = {
+            isCaseSensitive: false,
+            shouldSort: true,
+            minMatchCharLength: 2,
+            limit: 10,
+          };
+          var results = fuse.search(query, searchOptions);
+          callback(results
+            .map(function(result) { return result.item; })
+            .filter(function(item) { return !!item.description; })
+          );
+        },
+        templates: {
+          suggestion: function(suggestion) {
+            var html = `
+              <div class="search-item">
+                <h3>${suggestion.title}</h3>
+                <div class="search-item-description">
+                  ${suggestion.description}
+                </div>
+                <div class="search-item-preview">
+                  <img src="${suggestion.preview ? offsetURL(suggestion.preview) : ''}"</img>
+                </div>
+              </div>
+            `;
+            return html;
+          }
+        }
+      }]).on('autocomplete:selected', function(event, suggestion) {
+        window.location.href = offsetURL(suggestion.path);
+      });
+      // remove inline display style on autocompleter (we want to
+      // manage responsive display via css)
+      $('.algolia-autocomplete').css("display", "");
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+
+});
+
+</script>
+
+<style type="text/css">
+
+/* Algolioa Autocomplete */
+
+.algolia-autocomplete {
+  display: inline-block;
+  margin-left: 10px;
+  vertical-align: sub;
+  background-color: white;
+  color: black;
+  padding: 6px;
+  padding-top: 8px;
+  padding-bottom: 0;
+  border-radius: 6px;
+  border: 1px #0F2E3D solid;
+  width: 180px;
+}
+
+
+@media screen and (max-width: 768px) {
+  .distill-site-nav .algolia-autocomplete {
+    display: none;
+    visibility: hidden;
+  }
+  .distill-site-nav.responsive .algolia-autocomplete {
+    display: inline-block;
+    visibility: visible;
+  }
+  .distill-site-nav.responsive .algolia-autocomplete .aa-dropdown-menu {
+    margin-left: 0;
+    width: 400px;
+    max-height: 400px;
+  }
+}
+
+.algolia-autocomplete .aa-input, .algolia-autocomplete .aa-hint {
+  width: 90%;
+  outline: none;
+  border: none;
+}
+
+.algolia-autocomplete .aa-hint {
+  color: #999;
+}
+.algolia-autocomplete .aa-dropdown-menu {
+  width: 550px;
+  max-height: 70vh;
+  overflow-x: visible;
+  overflow-y: scroll;
+  padding: 5px;
+  margin-top: 3px;
+  margin-left: -150px;
+  background-color: #fff;
+  border-radius: 5px;
+  border: 1px solid #999;
+  border-top: none;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion {
+  cursor: pointer;
+  padding: 5px 4px;
+  border-bottom: 1px solid #eee;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion:last-of-type {
+  border-bottom: none;
+  margin-bottom: 2px;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item {
+  overflow: hidden;
+  font-size: 0.8em;
+  line-height: 1.4em;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item h3 {
+  margin-block-start: 0;
+  margin-block-end: 5px;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-description {
+  display: inline-block;
+  overflow: hidden;
+  height: 2.8em;
+  width: 80%;
+  margin-right: 4%;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview {
+  display: inline-block;
+  width: 15%;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img {
+  height: 3em;
+  width: auto;
+  display: none;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img[src] {
+  display: initial;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor {
+  background-color: #eee;
+}
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion em {
+  font-weight: bold;
+  font-style: normal;
+}
+
+</style>
+
+
+<!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+
+<style type="text/css">
+
+body {
+  background-color: white;
+}
+
+.pandoc-table {
+  width: 100%;
+}
+
+.pandoc-table>caption {
+  margin-bottom: 10px;
+}
+
+.pandoc-table th:not([align]) {
+  text-align: left;
+}
+
+.pagedtable-footer {
+  font-size: 15px;
+}
+
+d-byline .byline {
+  grid-template-columns: 2fr 2fr;
+}
+
+d-byline .byline h3 {
+  margin-block-start: 1.5em;
+}
+
+d-byline .byline .authors-affiliations h3 {
+  margin-block-start: 0.5em;
+}
+
+.authors-affiliations .orcid-id {
+  width: 16px;
+  height:16px;
+  margin-left: 4px;
+  margin-right: 4px;
+  vertical-align: middle;
+  padding-bottom: 2px;
+}
+
+d-title .dt-tags {
+  margin-top: 1em;
+  grid-column: text;
+}
+
+.dt-tags .dt-tag {
+  text-decoration: none;
+  display: inline-block;
+  color: rgba(0,0,0,0.6);
+  padding: 0em 0.4em;
+  margin-right: 0.5em;
+  margin-bottom: 0.4em;
+  font-size: 70%;
+  border: 1px solid rgba(0,0,0,0.2);
+  border-radius: 3px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+d-article table.gt_table td,
+d-article table.gt_table th {
+  border-bottom: none;
+}
+
+.html-widget {
+  margin-bottom: 2.0em;
+}
+
+.l-screen-inset {
+  padding-right: 16px;
+}
+
+.l-screen .caption {
+  margin-left: 10px;
+}
+
+.shaded {
+  background: rgb(247, 247, 247);
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.shaded .html-widget {
+  margin-bottom: 0;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.shaded .shaded-content {
+  background: white;
+}
+
+.text-output {
+  margin-top: 0;
+  line-height: 1.5em;
+}
+
+.hidden {
+  display: none !important;
+}
+
+d-article {
+  padding-top: 2.5rem;
+  padding-bottom: 30px;
+}
+
+d-appendix {
+  padding-top: 30px;
+}
+
+d-article>p>img {
+  width: 100%;
+}
+
+d-article h2 {
+  margin: 1rem 0 1.5rem 0;
+}
+
+d-article h3 {
+  margin-top: 1.5rem;
+}
+
+d-article iframe {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: 2.0em;
+  width: 100%;
+}
+
+/* Tweak code blocks */
+
+d-article div.sourceCode code,
+d-article pre code {
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+}
+
+d-article pre,
+d-article div.sourceCode,
+d-article div.sourceCode pre {
+  overflow: auto;
+}
+
+d-article div.sourceCode {
+  background-color: white;
+}
+
+d-article div.sourceCode pre {
+  padding-left: 10px;
+  font-size: 12px;
+  border-left: 2px solid rgba(0,0,0,0.1);
+}
+
+d-article pre {
+  font-size: 12px;
+  color: black;
+  background: none;
+  margin-top: 0;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+d-article pre a {
+  border-bottom: none;
+}
+
+d-article pre a:hover {
+  border-bottom: none;
+  text-decoration: underline;
+}
+
+@media(min-width: 768px) {
+
+d-article pre,
+d-article div.sourceCode,
+d-article div.sourceCode pre {
+  overflow: visible !important;
+}
+
+d-article div.sourceCode pre {
+  padding-left: 18px;
+  font-size: 14px;
+}
+
+d-article pre {
+  font-size: 14px;
+}
+
+}
+
+figure img.external {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+/* CSS for d-contents */
+
+.d-contents {
+  grid-column: text;
+  color: rgba(0,0,0,0.8);
+  font-size: 0.9em;
+  padding-bottom: 1em;
+  margin-bottom: 1em;
+  padding-bottom: 0.5em;
+  margin-bottom: 1em;
+  padding-left: 0.25em;
+  justify-self: start;
+}
+
+@media(min-width: 1000px) {
+  .d-contents.d-contents-float {
+    height: 0;
+    grid-column-start: 1;
+    grid-column-end: 4;
+    justify-self: center;
+    padding-right: 3em;
+    padding-left: 2em;
+  }
+}
+
+.d-contents nav h3 {
+  font-size: 18px;
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+.d-contents li {
+  list-style-type: none
+}
+
+.d-contents nav > ul {
+  padding-left: 0;
+}
+
+.d-contents ul {
+  padding-left: 1em
+}
+
+.d-contents nav ul li {
+  margin-top: 0.6em;
+  margin-bottom: 0.2em;
+}
+
+.d-contents nav a {
+  font-size: 13px;
+  border-bottom: none;
+  text-decoration: none
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.d-contents nav a:hover {
+  text-decoration: underline solid rgba(0, 0, 0, 0.6)
+}
+
+.d-contents nav > ul > li > a {
+  font-weight: 600;
+}
+
+.d-contents nav > ul > li > ul {
+  font-weight: inherit;
+}
+
+.d-contents nav > ul > li > ul > li {
+  margin-top: 0.2em;
+}
+
+
+.d-contents nav ul {
+  margin-top: 0;
+  margin-bottom: 0.25em;
+}
+
+.d-article-with-toc h2:nth-child(2) {
+  margin-top: 0;
+}
+
+
+/* Figure */
+
+.figure {
+  position: relative;
+  margin-bottom: 2.5em;
+  margin-top: 1.5em;
+}
+
+.figure img {
+  width: 100%;
+}
+
+.figure .caption {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 12px;
+  line-height: 1.5em;
+}
+
+.figure img.external {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+.figure .caption a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.figure .caption b,
+.figure .caption strong, {
+  font-weight: 600;
+  color: rgba(0, 0, 0, 1.0);
+}
+
+/* Citations */
+
+d-article .citation {
+  color: inherit;
+  cursor: inherit;
+}
+
+div.hanging-indent{
+  margin-left: 1em; text-indent: -1em;
+}
+
+
+/* Tweak 1000px media break to show more text */
+
+@media(min-width: 1000px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 16px;
+  }
+
+  .grid {
+    grid-column-gap: 16px;
+  }
+
+  d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+  }
+  figure .caption, .figure .caption, figure figcaption {
+    font-size: 13px;
+  }
+}
+
+@media(min-width: 1180px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 32px;
+  }
+
+  .grid {
+    grid-column-gap: 32px;
+  }
+}
+
+
+/* Get the citation styles for the appendix (not auto-injected on render since
+   we do our own rendering of the citation appendix) */
+
+d-appendix .citation-appendix,
+.d-appendix .citation-appendix {
+  font-size: 11px;
+  line-height: 15px;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  padding-left: 18px;
+  border: 1px solid rgba(0,0,0,0.1);
+  background: rgba(0, 0, 0, 0.02);
+  padding: 10px 18px;
+  border-radius: 3px;
+  color: rgba(150, 150, 150, 1);
+  overflow: hidden;
+  margin-top: -12px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* Include appendix styles here so they can be overridden */
+
+d-appendix {
+  contain: layout style;
+  font-size: 0.8em;
+  line-height: 1.7em;
+  margin-top: 60px;
+  margin-bottom: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  color: rgba(0,0,0,0.5);
+  padding-top: 60px;
+  padding-bottom: 48px;
+}
+
+d-appendix h3 {
+  grid-column: page-start / text-start;
+  font-size: 15px;
+  font-weight: 500;
+  margin-top: 1em;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.65);
+}
+
+d-appendix h3 + * {
+  margin-top: 1em;
+}
+
+d-appendix ol {
+  padding: 0 0 0 15px;
+}
+
+@media (min-width: 768px) {
+  d-appendix ol {
+    padding: 0 0 0 30px;
+    margin-left: -30px;
+  }
+}
+
+d-appendix li {
+  margin-bottom: 1em;
+}
+
+d-appendix a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+d-appendix > * {
+  grid-column: text;
+}
+
+d-appendix > d-footnote-list,
+d-appendix > d-citation-list,
+d-appendix > distill-appendix {
+  grid-column: screen;
+}
+
+/* Include footnote styles here so they can be overridden */
+
+d-footnote-list {
+  contain: layout style;
+}
+
+d-footnote-list > * {
+  grid-column: text;
+}
+
+d-footnote-list a.footnote-backlink {
+  color: rgba(0,0,0,0.3);
+  padding-left: 0.5em;
+}
+
+
+
+/* Anchor.js */
+
+.anchorjs-link {
+  /*transition: all .25s linear; */
+  text-decoration: none;
+  border-bottom: none;
+}
+*:hover > .anchorjs-link {
+  margin-left: -1.125em !important;
+  text-decoration: none;
+  border-bottom: none;
+}
+
+/* Social footer */
+
+.social_footer {
+  margin-top: 30px;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.67);
+}
+
+.disqus-comments {
+  margin-right: 30px;
+}
+
+.disqus-comment-count {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+
+#disqus_thread {
+  margin-top: 30px;
+}
+
+.article-sharing a {
+  border-bottom: none;
+  margin-right: 8px;
+}
+
+.article-sharing a:hover {
+  border-bottom: none;
+}
+
+.sidebar-section.subscribe {
+  font-size: 12px;
+  line-height: 1.6em;
+}
+
+.subscribe p {
+  margin-bottom: 0.5em;
+}
+
+
+.article-footer .subscribe {
+  font-size: 15px;
+  margin-top: 45px;
+}
+
+
+.sidebar-section.custom {
+  font-size: 12px;
+  line-height: 1.6em;
+}
+
+.custom p {
+  margin-bottom: 0.5em;
+}
+
+/* Styles for listing layout (hide title) */
+.layout-listing d-title, .layout-listing .d-title {
+  display: none;
+}
+
+/* Styles for posts lists (not auto-injected) */
+
+
+.posts-with-sidebar {
+  padding-left: 45px;
+  padding-right: 45px;
+}
+
+.posts-list .description h2,
+.posts-list .description p {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+}
+
+.posts-list .description h2 {
+  font-weight: 700;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.posts-list h2.post-tag {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  padding-bottom: 12px;
+}
+.posts-list {
+  margin-top: 60px;
+  margin-bottom: 24px;
+}
+
+.posts-list .post-preview {
+  text-decoration: none;
+  overflow: hidden;
+  display: block;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 24px 0;
+}
+
+.post-preview-last {
+  border-bottom: none !important;
+}
+
+.posts-list .posts-list-caption {
+  grid-column: screen;
+  font-weight: 400;
+}
+
+.posts-list .post-preview h2 {
+  margin: 0 0 6px 0;
+  line-height: 1.2em;
+  font-style: normal;
+  font-size: 24px;
+}
+
+.posts-list .post-preview p {
+  margin: 0 0 12px 0;
+  line-height: 1.4em;
+  font-size: 16px;
+}
+
+.posts-list .post-preview .thumbnail {
+  box-sizing: border-box;
+  margin-bottom: 24px;
+  position: relative;
+  max-width: 500px;
+}
+.posts-list .post-preview img {
+  width: 100%;
+  display: block;
+}
+
+.posts-list .metadata {
+  font-size: 12px;
+  line-height: 1.4em;
+  margin-bottom: 18px;
+}
+
+.posts-list .metadata > * {
+  display: inline-block;
+}
+
+.posts-list .metadata .publishedDate {
+  margin-right: 2em;
+}
+
+.posts-list .metadata .dt-authors {
+  display: block;
+  margin-top: 0.3em;
+  margin-right: 2em;
+}
+
+.posts-list .dt-tags {
+  display: block;
+  line-height: 1em;
+}
+
+.posts-list .dt-tags .dt-tag {
+  display: inline-block;
+  color: rgba(0,0,0,0.6);
+  padding: 0.3em 0.4em;
+  margin-right: 0.2em;
+  margin-bottom: 0.4em;
+  font-size: 60%;
+  border: 1px solid rgba(0,0,0,0.2);
+  border-radius: 3px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.posts-list img {
+  opacity: 1;
+}
+
+.posts-list img[data-src] {
+  opacity: 0;
+}
+
+.posts-more {
+  clear: both;
+}
+
+
+.posts-sidebar {
+  font-size: 16px;
+}
+
+.posts-sidebar h3 {
+  font-size: 16px;
+  margin-top: 0;
+  margin-bottom: 0.5em;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.sidebar-section {
+  margin-bottom: 30px;
+}
+
+.categories ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.categories li {
+  color: rgba(0, 0, 0, 0.8);
+  margin-bottom: 0;
+}
+
+.categories li>a {
+  border-bottom: none;
+}
+
+.categories li>a:hover {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+.categories .active {
+  font-weight: 600;
+}
+
+.categories .category-count {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+
+@media(min-width: 768px) {
+  .posts-list .post-preview h2 {
+    font-size: 26px;
+  }
+  .posts-list .post-preview .thumbnail {
+    float: right;
+    width: 30%;
+    margin-bottom: 0;
+  }
+  .posts-list .post-preview .description {
+    float: left;
+    width: 45%;
+  }
+  .posts-list .post-preview .metadata {
+    float: left;
+    width: 20%;
+    margin-top: 8px;
+  }
+  .posts-list .post-preview p {
+    margin: 0 0 12px 0;
+    line-height: 1.5em;
+    font-size: 16px;
+  }
+  .posts-with-sidebar .posts-list {
+    float: left;
+    width: 75%;
+  }
+  .posts-with-sidebar .posts-sidebar {
+    float: right;
+    width: 20%;
+    margin-top: 60px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+}
+
+
+/* Improve display for browsers without grid (IE/Edge <= 15) */
+
+.downlevel {
+  line-height: 1.6em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  margin: 0;
+}
+
+.downlevel .d-title {
+  padding-top: 6rem;
+  padding-bottom: 1.5rem;
+}
+
+.downlevel .d-title h1 {
+  font-size: 50px;
+  font-weight: 700;
+  line-height: 1.1em;
+  margin: 0 0 0.5rem;
+}
+
+.downlevel .d-title p {
+  font-weight: 300;
+  font-size: 1.2rem;
+  line-height: 1.55em;
+  margin-top: 0;
+}
+
+.downlevel .d-byline {
+  padding-top: 0.8em;
+  padding-bottom: 0.8em;
+  font-size: 0.8rem;
+  line-height: 1.8em;
+}
+
+.downlevel .section-separator {
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.downlevel .d-article {
+  font-size: 1.06rem;
+  line-height: 1.7em;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+}
+
+
+.downlevel .d-appendix {
+  padding-left: 0;
+  padding-right: 0;
+  max-width: none;
+  font-size: 0.8em;
+  line-height: 1.7em;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.5);
+  padding-top: 40px;
+  padding-bottom: 48px;
+}
+
+.downlevel .footnotes ol {
+  padding-left: 13px;
+}
+
+.downlevel .base-grid,
+.downlevel .distill-header,
+.downlevel .d-title,
+.downlevel .d-abstract,
+.downlevel .d-article,
+.downlevel .d-appendix,
+.downlevel .distill-appendix,
+.downlevel .d-byline,
+.downlevel .d-footnote-list,
+.downlevel .d-citation-list,
+.downlevel .distill-footer,
+.downlevel .appendix-bottom,
+.downlevel .posts-container {
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+@media(min-width: 768px) {
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+  padding-left: 150px;
+  padding-right: 150px;
+  max-width: 900px;
+}
+}
+
+.downlevel pre code {
+  display: block;
+  border-left: 2px solid rgba(0, 0, 0, .1);
+  padding: 0 0 0 20px;
+  font-size: 14px;
+}
+
+.downlevel code, .downlevel pre {
+  color: black;
+  background: none;
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+.downlevel .posts-list .post-preview {
+  color: inherit;
+}
+
+
+
+</style>
+
+<script type="application/javascript">
+
+function is_downlevel_browser() {
+  if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                 window.navigator.userAgent)) {
+    return true;
+  } else {
+    return window.load_distill_framework === undefined;
+  }
+}
+
+// show body when load is complete
+function on_load_complete() {
+
+  // add anchors
+  if (window.anchors) {
+    window.anchors.options.placement = 'left';
+    window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
+  }
+
+
+  // set body to visible
+  document.body.style.visibility = 'visible';
+
+  // force redraw for leaflet widgets
+  if (window.HTMLWidgets) {
+    var maps = window.HTMLWidgets.findAll(".leaflet");
+    $.each(maps, function(i, el) {
+      var map = this.getMap();
+      map.invalidateSize();
+      map.eachLayer(function(layer) {
+        if (layer instanceof L.TileLayer)
+          layer.redraw();
+      });
+    });
+  }
+
+  // trigger 'shown' so htmlwidgets resize
+  $('d-article').trigger('shown');
+}
+
+function init_distill() {
+
+  init_common();
+
+  // create front matter
+  var front_matter = $('<d-front-matter></d-front-matter>');
+  $('#distill-front-matter').wrap(front_matter);
+
+  // create d-title
+  $('.d-title').changeElementType('d-title');
+
+  // create d-byline
+  var byline = $('<d-byline></d-byline>');
+  $('.d-byline').replaceWith(byline);
+
+  // create d-article
+  var article = $('<d-article></d-article>');
+  $('.d-article').wrap(article).children().unwrap();
+
+  // move posts container into article
+  $('.posts-container').appendTo($('d-article'));
+
+  // create d-appendix
+  $('.d-appendix').changeElementType('d-appendix');
+
+  // flag indicating that we have appendix items
+  var appendix = $('.appendix-bottom').children('h3').length > 0;
+
+  // replace footnotes with <d-footnote>
+  $('.footnote-ref').each(function(i, val) {
+    appendix = true;
+    var href = $(this).attr('href');
+    var id = href.replace('#', '');
+    var fn = $('#' + id);
+    var fn_p = $('#' + id + '>p');
+    fn_p.find('.footnote-back').remove();
+    var text = fn_p.html();
+    var dtfn = $('<d-footnote></d-footnote>');
+    dtfn.html(text);
+    $(this).replaceWith(dtfn);
+  });
+  // remove footnotes
+  $('.footnotes').remove();
+
+  // move refs into #references-listing
+  $('#references-listing').replaceWith($('#refs'));
+
+  $('h1.appendix, h2.appendix').each(function(i, val) {
+    $(this).changeElementType('h3');
+  });
+  $('h3.appendix').each(function(i, val) {
+    var id = $(this).attr('id');
+    $('.d-contents a[href="#' + id + '"]').parent().remove();
+    appendix = true;
+    $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+  });
+
+  // show d-appendix if we have appendix content
+  $("d-appendix").css('display', appendix ? 'grid' : 'none');
+
+  // localize layout chunks to just output
+  $('.layout-chunk').each(function(i, val) {
+
+    // capture layout
+    var layout = $(this).attr('data-layout');
+
+    // apply layout to markdown level block elements
+    var elements = $(this).children().not('div.sourceCode, pre, script');
+    elements.each(function(i, el) {
+      var layout_div = $('<div class="' + layout + '"></div>');
+      if (layout_div.hasClass('shaded')) {
+        var shaded_content = $('<div class="shaded-content"></div>');
+        $(this).wrap(shaded_content);
+        $(this).parent().wrap(layout_div);
+      } else {
+        $(this).wrap(layout_div);
+      }
+    });
+
+
+    // unwrap the layout-chunk div
+    $(this).children().unwrap();
+  });
+
+  // remove code block used to force  highlighting css
+  $('.distill-force-highlighting-css').parent().remove();
+
+  // remove empty line numbers inserted by pandoc when using a
+  // custom syntax highlighting theme
+  $('code.sourceCode a:empty').remove();
+
+  // load distill framework
+  load_distill_framework();
+
+  // wait for window.distillRunlevel == 4 to do post processing
+  function distill_post_process() {
+
+    if (!window.distillRunlevel || window.distillRunlevel < 4)
+      return;
+
+    // hide author/affiliations entirely if we have no authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+    if (!have_authors)
+      $('d-byline').addClass('hidden');
+
+    // article with toc class
+    $('.d-contents').parent().addClass('d-article-with-toc');
+
+    // strip links that point to #
+    $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+
+    // add orcid ids
+    $('.authors-affiliations').find('.author').each(function(i, el) {
+      var orcid_id = front_matter.authors[i].orcidID;
+      if (orcid_id) {
+        var a = $('<a></a>');
+        a.attr('href', 'https://orcid.org/' + orcid_id);
+        var img = $('<img></img>');
+        img.addClass('orcid-id');
+        img.attr('alt', 'ORCID ID');
+        img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
+        a.append(img);
+        $(this).append(a);
+      }
+    });
+
+    // hide elements of author/affiliations grid that have no value
+    function hide_byline_column(caption) {
+      $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+    }
+
+    // affiliations
+    var have_affiliations = false;
+    for (var i = 0; i<front_matter.authors.length; ++i) {
+      var author = front_matter.authors[i];
+      if (author.affiliation !== "&nbsp;") {
+        have_affiliations = true;
+        break;
+      }
+    }
+    if (!have_affiliations)
+      $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+
+    // published date
+    if (!front_matter.publishedDate)
+      hide_byline_column("Published");
+
+    // document object identifier
+    var doi = $('d-byline').find('h3:contains("DOI")');
+    var doi_p = doi.next().empty();
+    if (!front_matter.doi) {
+      // if we have a citation and valid citationText then link to that
+      if ($('#citation').length > 0 && front_matter.citationText) {
+        doi.html('Citation');
+        $('<a href="#citation"></a>')
+          .text(front_matter.citationText)
+          .appendTo(doi_p);
+      } else {
+        hide_byline_column("DOI");
+      }
+    } else {
+      $('<a></a>')
+         .attr('href', "https://doi.org/" + front_matter.doi)
+         .html(front_matter.doi)
+         .appendTo(doi_p);
+    }
+
+     // change plural form of authors/affiliations
+    if (front_matter.authors.length === 1) {
+      var grid = $('.authors-affiliations');
+      grid.children('h3:contains("Authors")').text('Author');
+      grid.children('h3:contains("Affiliations")').text('Affiliation');
+    }
+
+    // remove d-appendix and d-footnote-list local styles
+    $('d-appendix > style:first-child').remove();
+    $('d-footnote-list > style:first-child').remove();
+
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+
+    // clear polling timer
+    clearInterval(tid);
+
+    // show body now that everything is ready
+    on_load_complete();
+  }
+
+  var tid = setInterval(distill_post_process, 50);
+  distill_post_process();
+
+}
+
+function init_downlevel() {
+
+  init_common();
+
+   // insert hr after d-title
+  $('.d-title').after($('<hr class="section-separator"/>'));
+
+  // check if we have authors
+  var front_matter = JSON.parse($("#distill-front-matter").html());
+  var have_authors = front_matter.authors && front_matter.authors.length > 0;
+
+  // manage byline/border
+  if (!have_authors)
+    $('.d-byline').remove();
+  $('.d-byline').after($('<hr class="section-separator"/>'));
+  $('.d-byline a').remove();
+
+  // remove toc
+  $('.d-contents').remove();
+
+  // move appendix elements
+  $('h1.appendix, h2.appendix').each(function(i, val) {
+    $(this).changeElementType('h3');
+  });
+  $('h3.appendix').each(function(i, val) {
+    $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+  });
+
+
+  // inject headers into references and footnotes
+  var refs_header = $('<h3></h3>');
+  refs_header.text('References');
+  $('#refs').prepend(refs_header);
+
+  var footnotes_header = $('<h3></h3');
+  footnotes_header.text('Footnotes');
+  $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+
+  // move appendix-bottom entries to the bottom
+  $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+  $('.appendix-bottom').remove();
+
+  // remove appendix if it's empty
+  if ($('.d-appendix').children().length === 0)
+    $('.d-appendix').remove();
+
+  // prepend separator above appendix
+  $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+
+  // trim code
+  $('pre>code').each(function(i, val) {
+    $(this).html($.trim($(this).html()));
+  });
+
+  // move posts-container right before article
+  $('.posts-container').insertBefore($('.d-article'));
+
+  $('body').addClass('downlevel');
+
+  on_load_complete();
+}
+
+
+function init_common() {
+
+  // jquery plugin to change element types
+  (function($) {
+    $.fn.changeElementType = function(newType) {
+      var attrs = {};
+
+      $.each(this[0].attributes, function(idx, attr) {
+        attrs[attr.nodeName] = attr.nodeValue;
+      });
+
+      this.replaceWith(function() {
+        return $("<" + newType + "/>", attrs).append($(this).contents());
+      });
+    };
+  })(jQuery);
+
+  // prevent underline for linked images
+  $('a > img').parent().css({'border-bottom' : 'none'});
+
+  // mark non-body figures created by knitr chunks as 100% width
+  $('.layout-chunk').each(function(i, val) {
+    var figures = $(this).find('img, .html-widget');
+    if ($(this).attr('data-layout') !== "l-body") {
+      figures.css('width', '100%');
+    } else {
+      figures.css('max-width', '100%');
+      figures.filter("[width]").each(function(i, val) {
+        var fig = $(this);
+        fig.css('width', fig.attr('width') + 'px');
+      });
+
+    }
+  });
+
+  // auto-append index.html to post-preview links in file: protocol
+  // and in rstudio ide preview
+  $('.post-preview').each(function(i, val) {
+    if (window.location.protocol === "file:")
+      $(this).attr('href', $(this).attr('href') + "index.html");
+  });
+
+  // get rid of index.html references in header
+  if (window.location.protocol !== "file:") {
+    $('.distill-site-header a[href]').each(function(i,val) {
+      $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+    });
+  }
+
+  // add class to pandoc style tables
+  $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+  $('.kable-table').children('table').addClass('pandoc-table');
+
+  // add figcaption style to table captions
+  $('caption').parent('table').addClass("figcaption");
+
+  // initialize posts list
+  if (window.init_posts_list)
+    window.init_posts_list();
+
+  // implmement disqus comment link
+  $('.disqus-comment-count').click(function() {
+    window.headroom_prevent_pin = true;
+    $('#disqus_thread').toggleClass('hidden');
+    if (!$('#disqus_thread').hasClass('hidden')) {
+      var offset = $(this).offset();
+      $(window).resize();
+      $('html, body').animate({
+        scrollTop: offset.top - 35
+      });
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  if (is_downlevel_browser())
+    init_downlevel();
+  else
+    window.addEventListener('WebComponentsReady', init_distill);
+});
+
+</script>
+
+<style type="text/css">
+/* base variables */
+
+/* Edit the CSS properties in this file to create a custom
+   Distill theme. Only edit values in the right column
+   for each row; values shown are the CSS defaults.
+   To return any property to the default,
+   you may set its value to: unset
+   All rows must end with a semi-colon.                      */
+
+/* Optional: embed custom fonts here with `@import`          */
+/* This must remain at the top of this file.                 */
+
+
+
+html {
+  /*-- Main font sizes --*/
+  --title-size:      50px;
+  --body-size:       1.06rem;
+  --code-size:       14px;
+  --aside-size:      12px;
+  --fig-cap-size:    13px;
+  /*-- Main font colors --*/
+  --title-color:     #000000;
+  --header-color:    rgba(0, 0, 0, 0.8);
+  --body-color:      rgba(0, 0, 0, 0.8);
+  --aside-color:     rgba(0, 0, 0, 0.6);
+  --fig-cap-color:   rgba(0, 0, 0, 0.6);
+  /*-- Specify custom fonts ~~~ must be imported above   --*/
+  --heading-font:    sans-serif;
+  --mono-font:       monospace;
+  --body-font:       sans-serif;
+  --navbar-font:     sans-serif;  /* websites + blogs only */
+}
+
+/*-- ARTICLE METADATA --*/
+d-byline {
+  --heading-size:    0.6rem;
+  --heading-color:   rgba(0, 0, 0, 0.5);
+  --body-size:       0.8rem;
+  --body-color:      rgba(0, 0, 0, 0.8);
+}
+
+/*-- ARTICLE TABLE OF CONTENTS --*/
+.d-contents {
+  --heading-size:    18px;
+  --contents-size:   13px;
+}
+
+/*-- ARTICLE APPENDIX --*/
+d-appendix {
+  --heading-size:    15px;
+  --heading-color:   rgba(0, 0, 0, 0.65);
+  --text-size:       0.8em;
+  --text-color:      rgba(0, 0, 0, 0.5);
+}
+
+/*-- WEBSITE HEADER + FOOTER --*/
+/* These properties only apply to Distill sites and blogs  */
+
+.distill-site-header {
+  --title-size:       18px;
+  --text-color:       rgba(255, 255, 255, 0.8);
+  --text-size:        15px;
+  --hover-color:      white;
+  --bkgd-color:       #0F2E3D;
+}
+
+.distill-site-footer {
+  --text-color:       rgba(255, 255, 255, 0.8);
+  --text-size:        15px;
+  --hover-color:      white;
+  --bkgd-color:       #0F2E3D;
+}
+
+/*-- Additional custom styles --*/
+/* Add any additional CSS rules below                      */
+</style>
+<style type="text/css">
+/* base variables */
+
+/* Edit the CSS properties in this file to create a custom
+   Distill theme. Only edit values in the right column
+   for each row; values shown are the CSS defaults.
+   To return any property to the default,
+   you may set its value to: unset
+   All rows must end with a semi-colon.                      */
+
+/* Optional: embed custom fonts here with `@import`          */
+/* This must remain at the top of this file.                 */
+
+@import url('https://fonts.googleapis.com/css2?family=Newslab');
+
+html {
+  /*-- Main font sizes --*/
+  --title-size:      28px;
+  --body-size:       1.06rem;
+  --code-size:       14px;
+  --aside-size:      12px;
+  --fig-cap-size:    13px;
+  /*-- Main font colors --*/
+  --title-color:     #D44420;
+  --header-color:    #D44420;
+  --body-color:      rgba(0, 0, 0, 0.8);
+  --aside-color:     rgba(0, 0, 0, 0.6);
+  --fig-cap-color:   rgba(0, 0, 0, 0.6);
+  /*-- Specify custom fonts ~~~ must be imported above   --*/
+  --heading-font:    'Newslab', sans-serif;
+  --mono-font:       monospace;
+  --body-font:       sans-serif;
+  --navbar-font:     'Newslab', sans-serif;  /* websites + blogs only */
+}
+
+/*-- ARTICLE METADATA --*/
+d-byline {
+  --heading-size:    0.6rem;
+  --heading-color:   rgba(0, 0, 0, 0.5);
+  --body-size:       0.8rem;
+  --body-color:      rgba(0, 0, 0, 0.8);
+}
+
+/*-- ARTICLE TABLE OF CONTENTS --*/
+.d-contents {
+  --heading-size:    18px;
+  --contents-size:   13px;
+}
+
+/*-- ARTICLE APPENDIX --*/
+d-appendix {
+  --heading-size:    15px;
+  --heading-color:   rgba(0, 0, 0, 0.65);
+  --text-size:       0.8em;
+  --text-color:      rgba(0, 0, 0, 0.5);
+}
+
+/*-- WEBSITE HEADER + FOOTER --*/
+/* These properties only apply to Distill sites and blogs  */
+
+.distill-site-header {
+  --title-size:       32px;
+  --text-color:       rgba(255, 255, 255, 0.8);
+  --text-size:        15px;
+  --hover-color:      white;
+  --bkgd-color:       #01426A;
+}
+
+.distill-site-footer {
+  --text-color:       rgba(255, 255, 255, 0.8);
+  --text-size:        15px;
+  --hover-color:      white;
+  --bkgd-color:       #0F2E3D;
+}
+
+/*-- Additional custom styles --*/
+/* Add any additional CSS rules below                      */
+</style>
+<style type="text/css">
+/* base style */
+
+/* FONT FAMILIES */
+
+:root {
+  --heading-default: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  --mono-default: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  --body-default: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+}
+
+body,
+.posts-list .post-preview p,
+.posts-list .description p {
+  font-family: var(--body-font), var(--body-default);
+}
+
+h1, h2, h3, h4, h5, h6,
+.posts-list .post-preview h2,
+.posts-list .description h2 {
+  font-family: var(--heading-font), var(--heading-default);
+}
+
+d-article div.sourceCode code,
+d-article pre code {
+	font-family: var(--mono-font), var(--mono-default);
+}
+
+
+/*-- TITLE --*/
+d-title h1,
+.posts-list > h1 {
+  color: var(--title-color, black);
+}
+
+d-title h1 {
+  font-size: var(--title-size, 50px);
+}
+
+/*-- HEADERS --*/
+d-article h1,
+d-article h2,
+d-article h3,
+d-article h4,
+d-article h5,
+d-article h6 {
+  color: var(--header-color, rgba(0, 0, 0, 0.8));
+}
+
+/*-- BODY --*/
+/* only text inside of <p> tags */
+d-article > p {
+  color: var(--body-color, rgba(0, 0, 0, 0.8));
+  font-size: var(--body-size, 1.06rem);
+}
+
+/*-- CODE --*/
+d-article div.sourceCode code,
+d-article pre code {
+	font-size: var(--code-size, 14px);
+}
+
+/*-- ASIDE --*/
+d-article aside {
+	font-size: var(--aside-size, 12px);
+	color: var(--aside-color, rgba(0, 0, 0, 0.6));
+}
+
+/*-- FIGURE CAPTIONS --*/
+figure .caption,
+figure figcaption,
+.figure .caption {
+	font-size: var(--fig-cap-size, 13px);
+	color: var(--fig-cap-color, rgba(0, 0, 0, 0.6));
+}
+
+/*-- METADATA --*/
+d-byline h3 {
+	font-size: var(--heading-size, 0.6rem);
+	color: var(--heading-color, rgba(0, 0, 0, 0.5));
+}
+
+d-byline {
+	font-size: var(--body-size, 0.8rem);
+	color: var(--body-color, rgba(0, 0, 0, 0.8));
+}
+
+d-byline a,
+d-article d-byline a {
+	color: var(--body-color, rgba(0, 0, 0, 0.8));
+}
+
+/*-- TABLE OF CONTENTS --*/
+.d-contents nav h3 {
+	font-size: var(--heading-size, 18px);
+}
+
+.d-contents nav a {
+	font-size: var(--contents-size, 13px);
+}
+
+/*-- APPENDIX --*/
+d-appendix h3 {
+  font-size: var(--heading-size, 15px);
+	color: var(--heading-color, rgba(0, 0, 0, 0.65));
+}
+
+d-appendix {
+  font-size: var(--text-size, 0.8em);
+	color: var(--text-color, rgba(0, 0, 0, 0.5));
+}
+
+d-appendix d-footnote-list a.footnote-backlink {
+	color: var(--text-color, rgba(0, 0, 0, 0.5));
+}
+
+/*-- WEBSITE HEADER + FOOTER --*/
+.distill-site-header .title {
+	font-size: var(--title-size, 18px);
+	font-family: var(--navbar-font), var(--heading-default);
+}
+
+.distill-site-header a,
+.nav-dropdown .nav-dropbtn {
+  font-family: var(--navbar-font), var(--heading-default);
+}
+
+.distill-site-header a:hover {
+	color: var(--hover-color, white);
+}
+
+.distill-site-header {
+	font-size: var(--text-size, 15px);
+	color: var(--text-color, rgba(255, 255, 255, 0.8));
+	background-color: var(--bkgd-color, #0F2E3D);
+}
+
+.distill-site-footer {
+	font-size: var(--text-size, 15px);
+	color: var(--text-color, rgba(255, 255, 255, 0.8));
+	background-color: var(--bkgd-color, #0F2E3D);
+}
+
+.distill-site-footer a:hover {
+	color: var(--hover-color, white);
+}</style>
+<!--/radix_placeholder_distill-->
+  <script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="../../site_libs/anchor-4.2.2/anchor.min.js"></script>
+  <script src="../../site_libs/bowser-1.9.3/bowser.min.js"></script>
+  <script src="../../site_libs/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="../../site_libs/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+<!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Machine Learning review with an intro to `tidymodels`","authors":[],"publishedDate":"2021-03-11T00:00:00.000+00:00"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<header class="header header--fixed" role="banner">
+<nav class="distill-site-nav distill-site-header">
+<div class="nav-left">
+<a href="../../index.html" class="title">Advanced Data Science in R</a>
+<input id="distill-search" class="nav-search hidden" type="text" placeholder="Search..."/>
+</div>
+<div class="nav-right">
+<a href="../../index.html">Home</a>
+<a href="../../course.html">Course Materials</a>
+<a href="../../assign.html">Assignments</a>
+<a href="../../resources.html">Resources</a>
+<a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
+</div>
+</nav>
+</header>
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Machine Learning review with an intro to tidymodels</h1>
+<!--radix_placeholder_categories-->
+<!--/radix_placeholder_categories-->
+
+</div>
+
+
+<div class="d-article">
+<div class="d-contents d-contents-float">
+<nav class="l-text toc figcaption" id="TOC">
+<h3>Contents</h3>
+<ul>
+<li><a href="#resources">Resources</a></li>
+<li><a href="#review">Review</a></li>
+<li><a href="#using-tidymodels-for-the-process">Using <code>tidymodels</code> for the process</a><ul>
+<li><a href="#quick-exploration">1. Quick exploration</a></li>
+<li><a href="#data-splitting">2. Data splitting</a></li>
+<li><a href="#data-pre-processing">3. Data pre-processing</a></li>
+<li><a href="#fitting-models">4. Fitting model(s)</a></li>
+<li><a href="#evaluate-compare-models">6. Evaluate &amp; compare models</a></li>
+<li><a href="#apply-model-to-testing-data">7. Apply model to testing data</a></li>
+<li><a href="#question-the-data-and-model">9. Question the data and model</a></li>
+<li><a href="#use-the-model">8. Use the model</a></li>
+<li><a href="#tuning-model-parameters">5. Tuning model parameters</a></li>
+</ul></li>
+</ul>
+</nav>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<h2 id="resources">Resources</h2>
+<p>Here are some great resources. I will reference some of them throughout.</p>
+<ul>
+<li><p><a href="https://bradleyboehmke.github.io/HOML/">Hands on Machine Learning with R</a> (HOML, for short) by Bradley Boehmke and Brandon Greenwell is the textbook I used in the Machine Learning course I taught in spring of 2020. It is a great place to go to review some of the model algorthims and concepts.</p></li>
+<li><p><a href="https://www.statlearning.com/">ISLR</a> by James, Witten, Hastie, and Tibshirani goes deeper into the math of the algorithms. You can download their book at this site.</p></li>
+<li><p>Tidymodels</p>
+<ul>
+<li><a href="https://youtu.be/tVZO-aoXStE">Lisa’s tidymodels noRth presentation</a> gives an example of using <code>tidymodels</code>. I will go through it below.</li>
+<li><a href="https://www.tidymodels.org/">tidymodels.org</a>, specifically the <a href="https://www.tidymodels.org/start/case-study/">case study</a>, walks through examples of using the <code>tidymodels</code> suite</li>
+<li><a href="https://www.tmwr.org/">Tidy Models with R textbook</a> by Julia Silge and Max Kuhn provides more in-depth explanations of the <code>tidymodels</code> functions with extended examples.</li>
+<li><a href="https://juliasilge.com/">Julia Silge’s blog</a> with even more examples!</li>
+</ul></li>
+</ul>
+<h2 id="review">Review</h2>
+<p>Most of you probably learned about machine learning algorithms using the <code>caret</code> R package. Before jumping into the new <code>tidymodels</code> package, let’s remember some of the key machine learning concepts.</p>
+<p>Let’s start with an overview of the process. You covered many of these in your machine learning course. If you need more of a refresher than what I provide, see the <a href="https://bradleyboehmke.github.io/HOML/process.html"><em>Modeling Process</em></a> chapter of HOML.</p>
+<div class="centered">
+<figure>
+<img src="modeling_process.png" alt="" /><figcaption>Machine Learning process</figcaption>
+</figure>
+</div>
+<p>And let’s review what we do during each of these steps.</p>
+<ol type="1">
+<li><strong>Quick exploration</strong>: Read in the data, check variable types, find which values each variable takes and how often, check distributions of quantitative variables, explore missing values. DO NOT do any modeling or transforming of data in this step.<br />
+</li>
+<li><strong>Data splitting</strong>: Split the data into training and testing sets. The testing dataset will not be used again until the very end.</li>
+<li><strong>Data pre-processing</strong>: More in-depth data exploration, feature engineering, variable transformations. This step is usually pretty time-consuming.<br />
+</li>
+<li><strong>Fitting model(s)</strong>: Fit the models of interest on the training data.<br />
+</li>
+<li><strong>Tuning parameters</strong>: If the model in the previous step involved tuning parameters, use cross-validation (or similar method) to find the best parameter.<br />
+</li>
+<li><strong>Evaluate &amp; compare models</strong>: Use cross-validation to evaluate the model. If you have a large number of models you are evaluating, you will probably limit the set of models to your best/favorite few during this step. The image below is to help you remember that process, which I have also written about below.</li>
+</ol>
+<p><img src="cv_HOML.png" alt="Figure from https://bradleyboehmke.github.io/HOML/process.html#resampling" />{width = 60% .external}</p>
+<ul>
+<li>In <span class="math inline">\(k\)</span>-fold cross-validation, we divide the data randomly into <span class="math inline">\(k\)</span> approximately equal groups or <em>folds</em>. The schematic here shows 5-fold cross-validation.<br />
+</li>
+<li>The model is fit on <span class="math inline">\(k-1\)</span> of the folds and the remaining fold is used to evaluate the model. Let’s look at the first row in the schematic. Here the model is fit on the data that are in folds 2, 3, 4, and 5. The model is evaluated on the data in fold 1.<br />
+</li>
+<li>RMSE is a common performance metric for models with a quantitative response. It is computed by taking the difference between the predicted and actual response for each observation, squaring it, and taking the square root of the average over all observations. Or, as a formula:</li>
+</ul>
+<p><span class="math display">\[
+RMSE = \sqrt{\frac{1}{n}\sum_{i=1}^n(y_i - \hat{y}_i)^2},
+\]</span></p>
+<ul>
+<li>So, again looking at the first row in the schematic, the model is fit to folds 2, 3, 4, and 5 and we would use that model to compute the RMSE for fold 1. In the second row, the model is fit to the data in folds 1, 3, 4, and 5 and that model is used to compute the RMSE for the data in the 2nd fold.<br />
+</li>
+<li>After this is done for all 5 folds, we take the average RMSE, to obtain the overall performance. This overall error is sometimes called the CV error. Averaging the performance over <span class="math inline">\(k\)</span> folds gives a better estimate of the true error than using one hold-out set. It also allows us to estimate its variability.</li>
+<li>For models with a categorical response, a common performance metric to evaluate a model is accuracy: out of all cases, fraction of correct (true positives and true negatives) classifications. A cross-validated accuracy would be computed in a similar way to the cross-validated RMSE described above.</li>
+</ul>
+<ol start="7" type="1">
+<li><p><strong>Apply final few models to testing data</strong>: After we limit the number of models to the top few, we will want to to apply it to the testing data, the data that hasn’t been used at all during the modeling process. This will give us a measure of the model’s performance and may help us make a final decision about which model to use.</p></li>
+<li><p><strong>Use the model!</strong>: This step may be simple, like applying the model to a single set of data, or it could be a lot more complex, requiring the model to be “put into production” so it can be applied to new data in real-time.</p></li>
+<li><p><strong>Question the data and model</strong>: This isn’t really a single step but something that we should be doing through the modeling process. We should be working closely with people who know the data well so we assure that we are interpreting and using it correctly. And we should evaluate how the model might be used in new contexts, especially keeping in mind how the model could be used to do harm.</p></li>
+</ol>
+<h2 id="using-tidymodels-for-the-process">Using <code>tidymodels</code> for the process</h2>
+<p>In this section, I will show how we can use the <code>tidymodels</code> framework to execute the modeling process. I’ve updated the diagram from above to include some of the libraries and functions we’ll use throughout the process.</p>
+<div class="centered">
+<figure>
+<img src="modeling_process_tidymodels.png" alt="" /><figcaption>tidymodels machine learning process</figcaption>
+</figure>
+</div>
+<p>First, let’s load some of the libraries we will use:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span>         <span class='co'># for reading in data, graphing, and cleaning</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidymodels.tidymodels.org'>tidymodels</a></span><span class='op'>)</span>        <span class='co'># for modeling ... tidily</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://glmnet.stanford.edu'>glmnet</a></span><span class='op'>)</span>            <span class='co'># for regularized regression, including LASSO</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/njtierney/naniar'>naniar</a></span><span class='op'>)</span>            <span class='co'># for examining missing values (NAs)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://lubridate.tidyverse.org'>lubridate</a></span><span class='op'>)</span>         <span class='co'># for date manipulation</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/moderndive/moderndive/issues'>moderndive</a></span><span class='op'>)</span>        <span class='co'># for King County housing data</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/koalaverse/vip/'>vip</a></span><span class='op'>)</span>               <span class='co'># for variable importance plots</span>
+<span class='fu'>theme_set</span><span class='op'>(</span><span class='fu'>theme_minimal</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='co'># my favorite ggplot2 theme :)</span>
+</code></pre>
+</div>
+</div>
+<p>Read in the King County Housing data and take a look at the first 5 rows.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"house_prices"</span><span class='op'>)</span>
+
+<span class='va'>house_prices</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>slice</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 5 x 21
+  id         date        price bedrooms bathrooms sqft_living sqft_lot
+  &lt;chr&gt;      &lt;date&gt;      &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;       &lt;int&gt;    &lt;int&gt;
+1 7129300520 2014-10-13 221900        3      1           1180     5650
+2 6414100192 2014-12-09 538000        3      2.25        2570     7242
+3 5631500400 2015-02-25 180000        2      1            770    10000
+4 2487200875 2014-12-09 604000        4      3           1960     5000
+5 1954400510 2015-02-18 510000        3      2           1680     8080
+# … with 14 more variables: floors &lt;dbl&gt;, waterfront &lt;lgl&gt;,
+#   view &lt;int&gt;, condition &lt;fct&gt;, grade &lt;fct&gt;, sqft_above &lt;int&gt;,
+#   sqft_basement &lt;int&gt;, yr_built &lt;int&gt;, yr_renovated &lt;int&gt;,
+#   zipcode &lt;fct&gt;, lat &lt;dbl&gt;, long &lt;dbl&gt;, sqft_living15 &lt;int&gt;,
+#   sqft_lot15 &lt;int&gt;</code></pre>
+</div>
+<p>Now, we will dig into each of the modeling steps listed above.</p>
+<h3 id="quick-exploration">1. Quick exploration</h3>
+<p>Take a quick look at distributions of all the variables to check for anything irregular.</p>
+<p>Quantitative variables:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>house_prices</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>select</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/naniar/man/where.html'>where</a></span><span class='op'>(</span><span class='va'>is.numeric</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>pivot_longer</span><span class='op'>(</span>cols <span class='op'>=</span> <span class='fu'>everything</span><span class='op'>(</span><span class='op'>)</span>,
+               names_to <span class='op'>=</span> <span class='st'>"variable"</span>, 
+               values_to <span class='op'>=</span> <span class='st'>"value"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>value</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_histogram</span><span class='op'>(</span>bins <span class='op'>=</span> <span class='fl'>30</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>facet_wrap</span><span class='op'>(</span><span class='fu'>vars</span><span class='op'>(</span><span class='va'>variable</span><span class='op'>)</span>, 
+             scales <span class='op'>=</span> <span class='st'>"free"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="ml-review_files/figure-html5/expl_quant-1.png" width="576" /></p>
+</div>
+<p>Things I noticed and pre-processing thoughts: * Right-skewness in <code>price</code> and all variables regarding square footage –&gt; log transform if using linear regression. * Many 0’s in <code>sqft_basement</code>, <code>view</code>, and <code>yr_renovated</code> –&gt; create indicator variables of having that feature vs. not, ie. a variable called <code>basement</code> where a 0 indicates no basement (<code>sqft_basement</code> = 0) and a <code>indicates a basement (</code>sqft_basement<code>&gt; 0).   * Age of home may be a better, more interpretable variable than year built --&gt;</code>age_at_sale = year(date) - yr_built`.</p>
+<p>Categorical variables:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>house_prices</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>select</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/naniar/man/where.html'>where</a></span><span class='op'>(</span><span class='va'>is.factor</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>pivot_longer</span><span class='op'>(</span>cols <span class='op'>=</span> <span class='fu'>everything</span><span class='op'>(</span><span class='op'>)</span>,
+               names_to <span class='op'>=</span> <span class='st'>"variable"</span>, 
+               values_to <span class='op'>=</span> <span class='st'>"value"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>value</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_bar</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>facet_wrap</span><span class='op'>(</span><span class='fu'>vars</span><span class='op'>(</span><span class='va'>variable</span><span class='op'>)</span>, 
+             scales <span class='op'>=</span> <span class='st'>"free"</span>, 
+             nrow <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="ml-review_files/figure-html5/expl_cat-1.png" width="624" /></p>
+</div>
+<p>Things I noticed and pre-processing thoughts:</p>
+<ul>
+<li><code>condition</code> and <code>grade</code> both have levels with low counts –&gt; make fewer categories.<br />
+</li>
+<li><code>zipcode</code> has many unique levels –&gt; don’t use that variable for now.<br />
+</li>
+<li>We might consider using the month the house was sold as a variable:</li>
+</ul>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>house_prices</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>count</span><span class='op'>(</span>month <span class='op'>=</span> <span class='fu'><a href='http://lubridate.tidyverse.org/reference/month.html'>month</a></span><span class='op'>(</span><span class='va'>date</span>, label <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_col</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>month</span>, y <span class='op'>=</span> <span class='va'>n</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="ml-review_files/figure-html5/unnamed-chunk-2-1.png" width="624" /></p>
+</div>
+<ul>
+<li>And, we quickly look at the counts for the <code>waterfront</code> variable. Not many houses are waterfront properties.</li>
+</ul>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>house_prices</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>count</span><span class='op'>(</span><span class='va'>waterfront</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 2 x 2
+  waterfront     n
+* &lt;lgl&gt;      &lt;int&gt;
+1 FALSE      21450
+2 TRUE         163</code></pre>
+</div>
+<ul>
+<li><p>The only other variable is <code>id</code> which isn’t used in modeling.</p></li>
+<li><p>Before moving on, let’s use the <code>add_n_miss()</code> function from the <code>naniar</code> library to see if we have any missing values. And it appears that there aren’t any missing values - lucky us!</p></li>
+</ul>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>house_prices</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://rdrr.io/pkg/naniar/man/add_n_miss.html'>add_n_miss</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>count</span><span class='op'>(</span><span class='va'>n_miss_all</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 1 x 2
+  n_miss_all     n
+*      &lt;int&gt; &lt;int&gt;
+1          0 21613</code></pre>
+</div>
+<h3 id="data-splitting">2. Data splitting</h3>
+<p><strong>NOTE</strong>: I start by doing some manipulating of the dataset to use <code>log_price</code> as the response variable rather than <code>price</code>. I originally did this using a <code>step_log()</code> function after a <code>recipe()</code> function (see the next section), but read in this <a href="https://community.rstudio.com/t/fit-resamples-prep-and-outcome-transform-behavior/83891/2">RStudio Community post</a>, in the comment by Max Kuhn, that it’s better to transform the outcome before doing the modeling. There is also a discussion of this in the <a href="https://www.tmwr.org/recipes.html#skip-equals-true">Skipping steps for new data</a> section of the Kuhn &amp; Silge <em>Tidy Modeling with R</em> book.</p>
+<p>Then, we split the data into training and testing datasets. We use the training data to fit different types of models and to tune parameters of those models, if needed. The testing dataset is saved for the very end to compare a small subset of models. The <code>initial_split()</code> function from the <code>rsample</code> library (part of <code>tidymodels</code>) is used to create this split. We just do random splitting with this dataset, but there are other arguments that allow you to do stratified sampling. Then we use <code>training()</code> and <code>testing()</code> to extract the two datasets, <code>house_training</code> and <code>house_testing</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>327</span><span class='op'>)</span> <span class='co'>#for reproducibility</span>
+
+<span class='va'>house_prices</span> <span class='op'>&lt;-</span> <span class='va'>house_prices</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>mutate</span><span class='op'>(</span>log_price <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>price</span>, base <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>select</span><span class='op'>(</span><span class='op'>-</span><span class='va'>price</span><span class='op'>)</span>
+
+<span class='co'># Randomly assigns 75% of the data to training.</span>
+<span class='va'>house_split</span> <span class='op'>&lt;-</span> <span class='fu'>initial_split</span><span class='op'>(</span><span class='va'>house_prices</span>, 
+                             prop <span class='op'>=</span> <span class='fl'>.75</span><span class='op'>)</span>
+<span class='va'>house_split</span>
+</code></pre>
+</div>
+<pre><code>&lt;Analysis/Assess/Total&gt;
+&lt;16210/5403/21613&gt;</code></pre>
+<div class="sourceCode">
+<pre><code><span class='co'>#&lt;training/testing/total&gt;</span>
+
+<span class='va'>house_training</span> <span class='op'>&lt;-</span> <span class='fu'>training</span><span class='op'>(</span><span class='va'>house_split</span><span class='op'>)</span>
+<span class='va'>house_testing</span> <span class='op'>&lt;-</span> <span class='fu'>testing</span><span class='op'>(</span><span class='va'>house_split</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<h3 id="data-pre-processing">3. Data pre-processing</h3>
+<p>This step may not seem very time consuming in this example, but you will often come back to this step and spend a lot of time trying different variable transformations. You should make sure to work closely with the people who use and create the data during this step. They are a crucial part of the process.</p>
+<ul>
+<li><p>We use the <code>recipe()</code> function to define the response/outcome variable and the predictor variables.</p></li>
+<li><p>A variety of <code>step_xxx()</code> functions can be used to do any data pre-processing/transforming. Find them all <a href="https://www.tidymodels.org/find/recipes/">here</a>. I used a few, with brief descriptions in the code. I also used some selector functions, like <code>all_predictors()</code> and <code>all_nominal()</code> to help me select the right variables.</p></li>
+<li><p>We also use <code>update_roles()</code> to change the roles of some variables. For us, these are variables we may want to include for evaluation purposes but will not be used in building the model. I chose the role of <code>evaluative</code> but you could name that role anything you want, eg. <code>id</code>, <code>extra</code>, <code>junk</code> (maybe a bad idea?).</p></li>
+</ul>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>house_recipe</span> <span class='op'>&lt;-</span> <span class='fu'>recipe</span><span class='op'>(</span><span class='va'>log_price</span> <span class='op'>~</span> <span class='va'>.</span>, <span class='co'>#short-cut, . = all other vars</span>
+                       data <span class='op'>=</span> <span class='va'>house_training</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='co'># Pre-processing:</span>
+  <span class='co'># Remove, redundant to sqft_living and sqft_lot</span>
+  <span class='fu'>step_rm</span><span class='op'>(</span><span class='va'>sqft_living15</span>, <span class='va'>sqft_lot15</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='co'># log sqft variables (without price)</span>
+  <span class='fu'>step_log</span><span class='op'>(</span><span class='fu'>starts_with</span><span class='op'>(</span><span class='st'>"sqft"</span><span class='op'>)</span>,
+           <span class='op'>-</span><span class='va'>sqft_basement</span>, 
+           base <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='co'># I originally had the step_log() function below</span>
+  <span class='co'># but instead did the transformation before</span>
+  <span class='co'># the recipe because this will mess up the </span>
+  <span class='co'># predict() function</span>
+  <span class='co'># step_log(price, base = 10) %&gt;% </span>
+  
+  <span class='co'># new grade variable combines low grades &amp; high grades</span>
+  <span class='co'># indicator variables for basement, renovate, and view </span>
+  <span class='co'># waterfront to numeric</span>
+  <span class='co'># age of house</span>
+  <span class='fu'>step_mutate</span><span class='op'>(</span>grade <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span><span class='op'>(</span><span class='va'>grade</span><span class='op'>)</span>,
+              grade <span class='op'>=</span> <span class='fu'>fct_relevel</span><span class='op'>(</span>
+                        <span class='fu'>case_when</span><span class='op'>(</span>
+                          <span class='va'>grade</span> <span class='op'>%in%</span> <span class='st'>"1"</span><span class='op'>:</span><span class='st'>"6"</span>   <span class='op'>~</span> <span class='st'>"below_average"</span>,
+                          <span class='va'>grade</span> <span class='op'>%in%</span> <span class='st'>"10"</span><span class='op'>:</span><span class='st'>"13"</span> <span class='op'>~</span> <span class='st'>"high"</span>,
+                          <span class='cn'>TRUE</span> <span class='op'>~</span> <span class='va'>grade</span>
+                        <span class='op'>)</span>,
+                        <span class='st'>"below_average"</span>,<span class='st'>"7"</span>,<span class='st'>"8"</span>,<span class='st'>"9"</span>,<span class='st'>"high"</span><span class='op'>)</span>,
+              basement <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>sqft_basement</span> <span class='op'>==</span> <span class='fl'>0</span><span class='op'>)</span>,
+              renovated <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>yr_renovated</span> <span class='op'>==</span> <span class='fl'>0</span><span class='op'>)</span>,
+              view <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>view</span> <span class='op'>==</span> <span class='fl'>0</span><span class='op'>)</span>,
+              waterfront <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>waterfront</span><span class='op'>)</span>,
+              age_at_sale <span class='op'>=</span> <span class='fu'><a href='http://lubridate.tidyverse.org/reference/year.html'>year</a></span><span class='op'>(</span><span class='va'>date</span><span class='op'>)</span> <span class='op'>-</span> <span class='va'>yr_built</span><span class='op'>)</span><span class='op'>%&gt;%</span> 
+  <span class='co'># Remove sqft_basement, yr_renovated, and yr_built</span>
+  <span class='fu'>step_rm</span><span class='op'>(</span><span class='va'>sqft_basement</span>, 
+          <span class='va'>yr_renovated</span>, 
+          <span class='va'>yr_built</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='co'># Create a month variable</span>
+  <span class='fu'>step_date</span><span class='op'>(</span><span class='va'>date</span>, 
+            features <span class='op'>=</span> <span class='st'>"month"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='co'># Make these evaluative variables, not included in modeling</span>
+  <span class='fu'>update_role</span><span class='op'>(</span><span class='fu'>all_of</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"id"</span>,
+                       <span class='st'>"date"</span>,
+                       <span class='st'>"zipcode"</span>, 
+                       <span class='st'>"lat"</span>, 
+                       <span class='st'>"long"</span><span class='op'>)</span><span class='op'>)</span>,
+              new_role <span class='op'>=</span> <span class='st'>"evaluative"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='co'># Create indicator variables for factors/character/nominal</span>
+  <span class='fu'>step_dummy</span><span class='op'>(</span><span class='fu'>all_nominal</span><span class='op'>(</span><span class='op'>)</span>, 
+             <span class='fu'>all_predictors</span><span class='op'>(</span><span class='op'>)</span>, 
+             <span class='op'>-</span><span class='fu'>has_role</span><span class='op'>(</span>match <span class='op'>=</span> <span class='st'>"evaluative"</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>Apply to training dataset, just to see what happens. This is not a necessary step, but I often like to check to see that everything is as expected. For example, notice the names of the variables are the same as before but they have been transformed, eg. <code>sqft_living</code> is actually log base 10 of square feet of living. This confused me the first time, so I was glad I ran this extra step. Better to be confused now than later in the process 😀.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>house_recipe</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>prep</span><span class='op'>(</span><span class='va'>house_training</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='co'># using bake(new_data = NULL) gives same result as juice()</span>
+  <span class='co'># bake(new_data = NULL)</span>
+  <span class='fu'>juice</span><span class='op'>(</span><span class='op'>)</span> 
+</code></pre>
+</div>
+<pre><code># A tibble: 16,210 x 36
+   id        date       bedrooms bathrooms sqft_living sqft_lot floors
+   &lt;fct&gt;     &lt;date&gt;        &lt;int&gt;     &lt;dbl&gt;       &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;
+ 1 71293005… 2014-10-13        3      1           3.07     3.75      1
+ 2 64141001… 2014-12-09        3      2.25        3.41     3.86      2
+ 3 56315004… 2015-02-25        2      1           2.89     4         1
+ 4 24872008… 2014-12-09        4      3           3.29     3.70      1
+ 5 19544005… 2015-02-18        3      2           3.23     3.91      1
+ 6 72375503… 2014-05-12        4      4.5         3.73     5.01      1
+ 7 13214000… 2014-06-27        3      2.25        3.23     3.83      2
+ 8 20080002… 2015-01-15        3      1.5         3.03     3.99      1
+ 9 24146001… 2015-04-15        3      1           3.25     3.87      1
+10 37935001… 2015-03-12        3      2.5         3.28     3.82      2
+# … with 16,200 more rows, and 29 more variables: waterfront &lt;dbl&gt;,
+#   view &lt;dbl&gt;, sqft_above &lt;dbl&gt;, zipcode &lt;fct&gt;, lat &lt;dbl&gt;,
+#   long &lt;dbl&gt;, log_price &lt;dbl&gt;, basement &lt;dbl&gt;, renovated &lt;dbl&gt;,
+#   age_at_sale &lt;dbl&gt;, condition_X2 &lt;dbl&gt;, condition_X3 &lt;dbl&gt;,
+#   condition_X4 &lt;dbl&gt;, condition_X5 &lt;dbl&gt;, grade_X7 &lt;dbl&gt;,
+#   grade_X8 &lt;dbl&gt;, grade_X9 &lt;dbl&gt;, grade_high &lt;dbl&gt;,
+#   date_month_Feb &lt;dbl&gt;, date_month_Mar &lt;dbl&gt;, date_month_Apr &lt;dbl&gt;,
+#   date_month_May &lt;dbl&gt;, date_month_Jun &lt;dbl&gt;, date_month_Jul &lt;dbl&gt;,
+#   date_month_Aug &lt;dbl&gt;, date_month_Sep &lt;dbl&gt;, date_month_Oct &lt;dbl&gt;,
+#   date_month_Nov &lt;dbl&gt;, date_month_Dec &lt;dbl&gt;</code></pre>
+</div>
+<h3 id="fitting-models">4. Fitting model(s)</h3>
+<p>Now that we have split and pre-processed the data, we are ready to model! First, we will model <code>price</code> (which is actually now <em>log(price)</em>) using simple linear regression.</p>
+<p>We will do this using some modeling functions from the <code>parsnip</code> package. Find all available functions <a href="https://www.tidymodels.org/find/parsnip/">here</a>. <a href="https://parsnip.tidymodels.org/reference/linear_reg.html">Here</a> is the detail for linear regression.</p>
+<p>In order to define our model, we need to do these steps:</p>
+<ul>
+<li>Define the model type, which is the general type of model you want to fit.<br />
+</li>
+<li>Set the engine, which defines the package/function that will be used to fit the model.<br />
+</li>
+<li>Set the mode, which is either “regression” for continuous response variables or “classification” for binary/categorical response variables. (Note that for linear regression, it can only be “regression”, so we don’t NEED this step in this case.)<br />
+</li>
+<li>(OPTIONAL) Set arguments to tune. We’ll see an example of this later.</li>
+</ul>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>house_linear_mod</span> <span class='op'>&lt;-</span> 
+  <span class='co'># Define a linear regression model</span>
+  <span class='fu'>linear_reg</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='co'># Set the engine to "lm" (lm() function is used to fit model)</span>
+  <span class='fu'>set_engine</span><span class='op'>(</span><span class='st'>"lm"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='co'># Not necessary here, but good to remember for other models</span>
+  <span class='fu'>set_mode</span><span class='op'>(</span><span class='st'>"regression"</span><span class='op'>)</span>
+
+<span class='va'>house_linear_mod</span>
+</code></pre>
+</div>
+<pre><code>Linear Regression Model Specification (regression)
+
+Computational engine: lm </code></pre>
+</div>
+<p>This is just setting up the process. We haven’t fit the model to data yet, and there’s still one more step before we do - creating a workflow! This combines the preprocessing and model definition steps.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>house_lm_wf</span> <span class='op'>&lt;-</span> 
+  <span class='co'># Set up the workflow</span>
+  <span class='fu'>workflow</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='co'># Add the recipe</span>
+  <span class='fu'>add_recipe</span><span class='op'>(</span><span class='va'>house_recipe</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='co'># Add the modeling</span>
+  <span class='fu'>add_model</span><span class='op'>(</span><span class='va'>house_linear_mod</span><span class='op'>)</span>
+
+<span class='va'>house_lm_wf</span>
+</code></pre>
+</div>
+<pre><code>══ Workflow ══════════════════════════════════════════════════════════
+Preprocessor: Recipe
+Model: linear_reg()
+
+── Preprocessor ──────────────────────────────────────────────────────
+6 Recipe Steps
+
+● step_rm()
+● step_log()
+● step_mutate()
+● step_rm()
+● step_date()
+● step_dummy()
+
+── Model ─────────────────────────────────────────────────────────────
+Linear Regression Model Specification (regression)
+
+Computational engine: lm </code></pre>
+</div>
+<p>Now we are finally ready to fit the model! After all that work, this part seems easy. We first use the <code>fit()</code> function to fit the model, telling it which data set we want to fit the model to. Then we use some other functions to display the results nicely.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>house_lm_fit</span> <span class='op'>&lt;-</span> 
+  <span class='co'># Tell it the workflow</span>
+  <span class='va'>house_lm_wf</span> <span class='op'>%&gt;%</span> 
+  <span class='co'># Fit the model to the training data</span>
+  <span class='fu'>fit</span><span class='op'>(</span><span class='va'>house_training</span><span class='op'>)</span>
+
+<span class='co'># Display the results nicely</span>
+<span class='va'>house_lm_fit</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>pull_workflow_fit</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>tidy</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>mutate</span><span class='op'>(</span><span class='fu'>across</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/naniar/man/where.html'>where</a></span><span class='op'>(</span><span class='va'>is.numeric</span><span class='op'>)</span>, <span class='op'>~</span><span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='va'>.x</span>,<span class='fl'>3</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 31 x 5
+   term        estimate std.error statistic p.value
+   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+ 1 (Intercept)    4.01      0.048     83.4        0
+ 2 bedrooms      -0.018     0.002    -11.2        0
+ 3 bathrooms      0.036     0.003     14.3        0
+ 4 sqft_living    0.294     0.025     11.7        0
+ 5 sqft_lot      -0.038     0.003    -11.0        0
+ 6 floors         0.021     0.003      6.87       0
+ 7 waterfront     0.194     0.013     15.0        0
+ 8 view          -0.061     0.004    -15.6        0
+ 9 sqft_above     0.149     0.025      5.99       0
+10 basement      -0.042     0.005     -9.14       0
+# … with 21 more rows</code></pre>
+</div>
+<h3 id="evaluate-compare-models">6. Evaluate &amp; compare models</h3>
+<p>(I realize we skipped #5. Don’t worry, we’ll get to it.)</p>
+<p>To evaluate the model, we will use cross-validation (CV), specifically 5-fold CV. First, we set up the five folds of the training data using the <code>vfold_cv()</code> function.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1211</span><span class='op'>)</span> <span class='co'># for reproducibility</span>
+<span class='va'>house_cv</span> <span class='op'>&lt;-</span> <span class='fu'>vfold_cv</span><span class='op'>(</span><span class='va'>house_training</span>, v <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>Then, we fit the model using the 5-fold dataset we just created (I am guessing we don’t have to do both the previous step of fitting a model on the training data AND this step, but I couldn’t figure out how to extract the final model from the CV data … so this was my solution for now … and it turns out you DO need to do both as noted by Julia Silge in this <a href="https://community.rstudio.com/t/tidymodels-fastest-way-to-extract-a-model-object-from-fit-resamples-results/73301">RStudio Community post</a>).</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>456</span><span class='op'>)</span> <span class='co'># For reproducibility - not needed for this algorithm</span>
+
+<span class='va'>house_lm_fit_cv</span> <span class='op'>&lt;-</span>
+  <span class='co'># Tell it the workflow</span>
+  <span class='va'>house_lm_wf</span> <span class='op'>%&gt;%</span> 
+  <span class='co'># Fit the model (using the workflow) to the cv data</span>
+  <span class='fu'>fit_resamples</span><span class='op'>(</span><span class='va'>house_cv</span><span class='op'>)</span>
+
+<span class='co'># The evaluation metrics for each fold:</span>
+<span class='va'>house_lm_fit_cv</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>select</span><span class='op'>(</span><span class='va'>id</span>, <span class='va'>.metrics</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>unnest</span><span class='op'>(</span><span class='va'>.metrics</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 10 x 5
+   id    .metric .estimator .estimate .config             
+   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;               
+ 1 Fold1 rmse    standard       0.135 Preprocessor1_Model1
+ 2 Fold1 rsq     standard       0.662 Preprocessor1_Model1
+ 3 Fold2 rmse    standard       0.137 Preprocessor1_Model1
+ 4 Fold2 rsq     standard       0.644 Preprocessor1_Model1
+ 5 Fold3 rmse    standard       0.137 Preprocessor1_Model1
+ 6 Fold3 rsq     standard       0.638 Preprocessor1_Model1
+ 7 Fold4 rmse    standard       0.133 Preprocessor1_Model1
+ 8 Fold4 rsq     standard       0.655 Preprocessor1_Model1
+ 9 Fold5 rmse    standard       0.135 Preprocessor1_Model1
+10 Fold5 rsq     standard       0.642 Preprocessor1_Model1</code></pre>
+<div class="sourceCode">
+<pre><code><span class='co'># Evaluation metrics averaged over all folds:</span>
+<span class='fu'>collect_metrics</span><span class='op'>(</span><span class='va'>house_lm_fit_cv</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 2 x 6
+  .metric .estimator  mean     n  std_err .config             
+  &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;chr&gt;               
+1 rmse    standard   0.135     5 0.000668 Preprocessor1_Model1
+2 rsq     standard   0.648     5 0.00437  Preprocessor1_Model1</code></pre>
+<div class="sourceCode">
+<pre><code><span class='co'># Just to show you where the averages come from:</span>
+<span class='va'>house_lm_fit_cv</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>select</span><span class='op'>(</span><span class='va'>id</span>, <span class='va'>.metrics</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>unnest</span><span class='op'>(</span><span class='va'>.metrics</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>.metric</span>, <span class='va'>.estimator</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>summarize</span><span class='op'>(</span>mean <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>.estimate</span><span class='op'>)</span>,
+            n <span class='op'>=</span> <span class='fu'>n</span><span class='op'>(</span><span class='op'>)</span>,
+            std_err <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/sd.html'>sd</a></span><span class='op'>(</span><span class='va'>.estimate</span><span class='op'>)</span><span class='op'>/</span><span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span><span class='op'>(</span><span class='va'>n</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 2 x 5
+# Groups:   .metric [2]
+  .metric .estimator  mean     n  std_err
+  &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt;
+1 rmse    standard   0.135     5 0.000668
+2 rsq     standard   0.648     5 0.00437 </code></pre>
+</div>
+<h3 id="apply-model-to-testing-data">7. Apply model to testing data</h3>
+<p>In this simple scenario, we may be interested in seeing how the model performs on the testing data that was left out. The code below will fit the model to the training data and apply it to the testing data. There are other ways we could have done this, but the way we do it here will be useful when we start using more complex models where we need to tune model parameters.</p>
+<p>After the model is fit and applied, we collect the performance metrics and display them and show the predictions from the testing data.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>house_lm_test</span> <span class='op'>&lt;-</span> 
+  <span class='co'># The modeling work flow</span>
+  <span class='va'>house_lm_wf</span> <span class='op'>%&gt;%</span> 
+  <span class='co'># Use training data to fit the model and apply it to testing data</span>
+  <span class='fu'>last_fit</span><span class='op'>(</span><span class='va'>house_split</span><span class='op'>)</span>
+
+<span class='co'># performance metrics from testing data</span>
+<span class='fu'>collect_metrics</span><span class='op'>(</span><span class='va'>house_lm_test</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 2 x 4
+  .metric .estimator .estimate .config             
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;               
+1 rmse    standard       0.135 Preprocessor1_Model1
+2 rsq     standard       0.655 Preprocessor1_Model1</code></pre>
+<div class="sourceCode">
+<pre><code><span class='co'># predictions from testing data</span>
+<span class='fu'>collect_predictions</span><span class='op'>(</span><span class='va'>house_lm_test</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 5,403 x 5
+   id               .pred  .row log_price .config             
+   &lt;chr&gt;            &lt;dbl&gt; &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;               
+ 1 train/test split  5.58    12      5.67 Preprocessor1_Model1
+ 2 train/test split  5.53    17      5.60 Preprocessor1_Model1
+ 3 train/test split  5.90    27      5.97 Preprocessor1_Model1
+ 4 train/test split  5.58    29      5.64 Preprocessor1_Model1
+ 5 train/test split  5.67    31      5.76 Preprocessor1_Model1
+ 6 train/test split  5.88    38      5.81 Preprocessor1_Model1
+ 7 train/test split  5.69    40      5.78 Preprocessor1_Model1
+ 8 train/test split  5.79    41      5.80 Preprocessor1_Model1
+ 9 train/test split  5.77    42      5.89 Preprocessor1_Model1
+10 train/test split  5.66    44      5.84 Preprocessor1_Model1
+# … with 5,393 more rows</code></pre>
+</div>
+<p>The code below creates a simple plot to examine predicted vs. actual price (log base 10) from the house data.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='fu'>collect_predictions</span><span class='op'>(</span><span class='va'>house_lm_test</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>log_price</span>, 
+             y <span class='op'>=</span> <span class='va'>.pred</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_point</span><span class='op'>(</span>alpha <span class='op'>=</span> <span class='fl'>.5</span>, 
+             size <span class='op'>=</span> <span class='fl'>.5</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_smooth</span><span class='op'>(</span>se <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_abline</span><span class='op'>(</span>slope <span class='op'>=</span> <span class='fl'>1</span>, 
+              intercept <span class='op'>=</span> <span class='fl'>0</span>, 
+              color <span class='op'>=</span> <span class='st'>"darkred"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>labs</span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"Actual log(price)"</span>, 
+       y <span class='op'>=</span> <span class='st'>"Predicted log(price)"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="ml-review_files/figure-html5/act_pred_plot-1.png" width="624" /></p>
+</div>
+<p>Here is the same plot using the regular price scale.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='fu'>collect_predictions</span><span class='op'>(</span><span class='va'>house_lm_test</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='fl'>10</span><span class='op'>^</span><span class='va'>log_price</span>, 
+             y <span class='op'>=</span> <span class='fl'>10</span><span class='op'>^</span><span class='va'>.pred</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_point</span><span class='op'>(</span>alpha <span class='op'>=</span> <span class='fl'>.5</span>, 
+             size <span class='op'>=</span> <span class='fl'>.5</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_smooth</span><span class='op'>(</span>se <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_abline</span><span class='op'>(</span>slope <span class='op'>=</span> <span class='fl'>1</span>, 
+              intercept <span class='op'>=</span> <span class='fl'>0</span>, 
+              color <span class='op'>=</span> <span class='st'>"darkred"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>labs</span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"Actual price"</span>, 
+       y <span class='op'>=</span> <span class='st'>"Predicted price"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_x_continuous</span><span class='op'>(</span>labels <span class='op'>=</span> <span class='fu'>scales</span><span class='fu'>::</span><span class='fu'><a href='https://scales.r-lib.org//reference/label_dollar.html'>dollar_format</a></span><span class='op'>(</span>scale <span class='op'>=</span> <span class='fl'>.000001</span>, 
+                                                    suffix <span class='op'>=</span> <span class='st'>"M"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_y_continuous</span><span class='op'>(</span>labels <span class='op'>=</span> <span class='fu'>scales</span><span class='fu'>::</span><span class='fu'><a href='https://scales.r-lib.org//reference/label_dollar.html'>dollar_format</a></span><span class='op'>(</span>scale <span class='op'>=</span> <span class='fl'>.000001</span>, 
+                                                    suffix <span class='op'>=</span> <span class='st'>"M"</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="ml-review_files/figure-html5/price_pred_plot-1.png" width="624" /></p>
+</div>
+<h3 id="question-the-data-and-model">9. Question the data and model</h3>
+<p>(We’ll go back to step #8 in a moment)</p>
+<p>When we use create models, it is important to think about how the model will be used and specifically how the model could do harm. One thing to notice in the graphs above is that the price of lower priced homes are, on average, overestimated whereas the price of higher priced homes are, on average, underestimated.</p>
+<p>What if this model was used to determine the price of homes for property tax purposes? Then lower priced homes would be overtaxed while higher priced homes would be undertaxed.</p>
+<p>There are many different ways we might continue to examine this model (eg. are there differences by zipcode) but for now, we’ll move on.</p>
+<h3 id="use-the-model">8. Use the model</h3>
+<p>How might use this model? One simple way is to predict new values. We saw that we could add the predicted values to the test data using the <code>collect_predictions()</code> function. Below, I predict the value for one new observation using the <code>predict()</code> function. We put the values of each variable in a dataset, in this case a <code>tibble()</code>. We need to have values for all the variables that were originally in the dataset passed to the <code>recipe()</code>, even the evaluation ones that don’t get used in the model. We can have extra variables in there, though, like the one I have called <code>garbage</code>. I show a predicted value (for a linear model, <code>type = "numeric"</code>) and a confidence interval (<code>type = "conf_int"</code>).</p>
+<p><strong>NOTE</strong>: This is a bit of an aside, but an important one. If I would have used the <code>step_log()</code> function to transform the response variable <code>price</code> in the pre-processing step, rather than transforming it before that, we would see an error message in the <code>predict()</code> below because it would try to run that transformation step, but there wouldn’t be a <code>price</code> variable. In real life, it would usually be the case that you don’t have a value for the variable you are trying to predict. I originally tried to solve this problem by adding <code>skip = TRUE</code> to the <code>step_log()</code> function, but then the evaluation metrics in <code>collect_metrics()</code> compared the predicted log price to the actual price - yikes! This is discussed in a few places online - <a href="https://github.com/tidymodels/workflows/issues/47">here</a>’s one. The solution is to transform the response variable before doing any of the modeling steps, as I mentioned in the Data splitting section.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span>
+  <span class='va'>house_lm_fit</span>,
+  new_data <span class='op'>=</span> <span class='fu'>tibble</span><span class='op'>(</span>id <span class='op'>=</span> <span class='st'>"0705700390"</span>,
+                    date <span class='op'>=</span> <span class='fu'><a href='http://lubridate.tidyverse.org/reference/ymd.html'>ymd</a></span><span class='op'>(</span><span class='st'>"2014-09-03"</span><span class='op'>)</span>,
+                    bedrooms <span class='op'>=</span> <span class='fl'>3</span>,
+                    bathrooms <span class='op'>=</span> <span class='fl'>2.25</span>,
+                    sqft_living <span class='op'>=</span> <span class='fl'>2020</span>,
+                    sqft_lot <span class='op'>=</span> <span class='fl'>8379</span>,
+                    floors <span class='op'>=</span> <span class='fl'>2</span>,
+                    waterfront <span class='op'>=</span> <span class='cn'>FALSE</span>,
+                    view <span class='op'>=</span> <span class='fl'>0</span>,
+                    condition <span class='op'>=</span> <span class='st'>"3"</span>,
+                    grade <span class='op'>=</span> <span class='st'>"7"</span>,
+                    sqft_above <span class='op'>=</span> <span class='fl'>2020</span>,
+                    sqft_basement <span class='op'>=</span> <span class='fl'>0</span>,
+                    yr_built <span class='op'>=</span> <span class='fl'>1994</span>,
+                    yr_renovated <span class='op'>=</span> <span class='fl'>0</span>,
+                    zipcode <span class='op'>=</span> <span class='st'>"98038"</span>,
+                    lat <span class='op'>=</span> <span class='fl'>47.3828</span>,
+                    long <span class='op'>=</span> <span class='op'>-</span><span class='fl'>122.023</span>,
+                    sqft_living15 <span class='op'>=</span> <span class='fl'>2020</span>,
+                    sqft_lot15 <span class='op'>=</span> <span class='fl'>8031</span>,
+                    garbage <span class='op'>=</span> <span class='st'>"look, it's garbage"</span><span class='op'>)</span>,
+  type <span class='op'>=</span> <span class='st'>"numeric"</span>,
+  level <span class='op'>=</span> <span class='fl'>0.95</span>
+<span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 1 x 1
+  .pred
+  &lt;dbl&gt;
+1  5.55</code></pre>
+<div class="sourceCode">
+<pre><code><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span>
+  <span class='va'>house_lm_fit</span>,
+  new_data <span class='op'>=</span> <span class='fu'>tibble</span><span class='op'>(</span>id <span class='op'>=</span> <span class='st'>"0705700390"</span>,
+                    date <span class='op'>=</span> <span class='fu'><a href='http://lubridate.tidyverse.org/reference/ymd.html'>ymd</a></span><span class='op'>(</span><span class='st'>"2014-09-03"</span><span class='op'>)</span>,
+                    bedrooms <span class='op'>=</span> <span class='fl'>3</span>,
+                    bathrooms <span class='op'>=</span> <span class='fl'>2.25</span>,
+                    sqft_living <span class='op'>=</span> <span class='fl'>2020</span>,
+                    sqft_lot <span class='op'>=</span> <span class='fl'>8379</span>,
+                    floors <span class='op'>=</span> <span class='fl'>2</span>,
+                    waterfront <span class='op'>=</span> <span class='cn'>FALSE</span>,
+                    view <span class='op'>=</span> <span class='fl'>0</span>,
+                    condition <span class='op'>=</span> <span class='st'>"3"</span>,
+                    grade <span class='op'>=</span> <span class='st'>"7"</span>,
+                    sqft_above <span class='op'>=</span> <span class='fl'>2020</span>,
+                    sqft_basement <span class='op'>=</span> <span class='fl'>0</span>,
+                    yr_built <span class='op'>=</span> <span class='fl'>1994</span>,
+                    yr_renovated <span class='op'>=</span> <span class='fl'>0</span>,
+                    zipcode <span class='op'>=</span> <span class='st'>"98038"</span>,
+                    lat <span class='op'>=</span> <span class='fl'>47.3828</span>,
+                    long <span class='op'>=</span> <span class='op'>-</span><span class='fl'>122.023</span>,
+                    sqft_living15 <span class='op'>=</span> <span class='fl'>2020</span>,
+                    sqft_lot15 <span class='op'>=</span> <span class='fl'>8031</span>,
+                    garbage <span class='op'>=</span> <span class='st'>"look, it's garbage"</span><span class='op'>)</span>,
+  type <span class='op'>=</span> <span class='st'>"conf_int"</span>,
+  level <span class='op'>=</span> <span class='fl'>0.95</span>
+<span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 1 x 2
+  .pred_lower .pred_upper
+        &lt;dbl&gt;       &lt;dbl&gt;
+1        5.54        5.56</code></pre>
+</div>
+<p>We could also give it an entire dataset. Here, I just take a sample from the original dataset, add an extra variable, and predict with it.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>327</span><span class='op'>)</span>
+
+<span class='va'>fake_new_data</span> <span class='op'>&lt;-</span> <span class='va'>house_prices</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>sample_n</span><span class='op'>(</span><span class='fl'>20</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>mutate</span><span class='op'>(</span>extra_var <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>20</span><span class='op'>)</span>
+
+<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>house_lm_fit</span>, 
+        <span class='va'>fake_new_data</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 20 x 1
+   .pred
+   &lt;dbl&gt;
+ 1  5.55
+ 2  5.50
+ 3  5.61
+ 4  5.36
+ 5  5.54
+ 6  5.59
+ 7  5.56
+ 8  5.65
+ 9  5.34
+10  6.42
+11  5.68
+12  5.80
+13  5.98
+14  5.56
+15  5.50
+16  5.60
+17  5.73
+18  5.40
+19  5.96
+20  5.62</code></pre>
+</div>
+<p>Since the <code>predict()</code> function will always return the same number of rows and in the same order as the dataset we put in, we can easily append the prediction to the dataset.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>fake_new_data</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>bind_cols</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>house_lm_fit</span>,
+                    <span class='va'>fake_new_data</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 20 x 23
+   id        date       bedrooms bathrooms sqft_living sqft_lot floors
+   &lt;chr&gt;     &lt;date&gt;        &lt;int&gt;     &lt;dbl&gt;       &lt;int&gt;    &lt;int&gt;  &lt;dbl&gt;
+ 1 72023306… 2014-07-21        3      2.5         2020     5613    2  
+ 2 66790010… 2014-12-18        3      2.5         1660     7388    2  
+ 3 76822003… 2014-07-28        3      2.25        1960     8875    1  
+ 4 61502004… 2014-05-13        2      0.75         650     5360    1  
+ 5 86455113… 2014-12-01        3      1.75        1810    21138    1  
+ 6 93210101… 2015-03-12        3      1.75        1390     8980    1  
+ 7 78532708… 2014-08-05        3      2.5         2230     7934    2  
+ 8 05100029… 2015-04-07        4      1           1640     4200    1.5
+ 9 19016000… 2014-06-26        2      1            720     8040    1  
+10 12250690… 2014-05-05        7      8          13540   307752    3  
+11 11050007… 2015-01-23        3      1.5         1570    10824    2  
+12 36297601… 2014-08-21        3      2.5         2490     4904    2  
+13 75010000… 2014-11-21        4      3.5         3020    12750    2  
+14 86455400… 2014-07-25        3      2           1790     8228    1  
+15 21720002… 2015-03-23        2      1           1150    11250    1  
+16 79670002… 2014-11-21        3      2.5         1930     4000    2  
+17 40778002… 2014-06-10        3      1.5         2010     9480    1  
+18 04250000… 2014-10-21        2      1           1150     5695    1  
+19 95418001… 2014-10-10        5      2.5         3490    18850    1  
+20 43182004… 2014-05-22        3      2.25        1470     1578    2  
+# … with 16 more variables: waterfront &lt;lgl&gt;, view &lt;int&gt;,
+#   condition &lt;fct&gt;, grade &lt;fct&gt;, sqft_above &lt;int&gt;,
+#   sqft_basement &lt;int&gt;, yr_built &lt;int&gt;, yr_renovated &lt;int&gt;,
+#   zipcode &lt;fct&gt;, lat &lt;dbl&gt;, long &lt;dbl&gt;, sqft_living15 &lt;int&gt;,
+#   sqft_lot15 &lt;int&gt;, log_price &lt;dbl&gt;, extra_var &lt;int&gt;, .pred &lt;dbl&gt;</code></pre>
+</div>
+<p>We could also add a confidence interval and use the <code>relocate()</code> function to move around some variables.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>fake_new_data</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>bind_cols</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>house_lm_fit</span>,
+                    <span class='va'>fake_new_data</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>bind_cols</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>house_lm_fit</span>,
+                    <span class='va'>fake_new_data</span>, 
+                    type <span class='op'>=</span> <span class='st'>"conf_int"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>relocate</span><span class='op'>(</span><span class='va'>log_price</span>, <span class='fu'>starts_with</span><span class='op'>(</span><span class='st'>".pred"</span><span class='op'>)</span>, 
+           .after <span class='op'>=</span> <span class='va'>id</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 20 x 25
+   id      log_price .pred .pred_lower .pred_upper date       bedrooms
+   &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt; &lt;date&gt;        &lt;int&gt;
+ 1 720233…      5.72  5.55        5.54        5.56 2014-07-21        3
+ 2 667900…      5.45  5.50        5.49        5.51 2014-12-18        3
+ 3 768220…      5.26  5.61        5.61        5.62 2014-07-28        3
+ 4 615020…      5.36  5.36        5.35        5.37 2014-05-13        2
+ 5 864551…      5.48  5.54        5.53        5.55 2014-12-01        3
+ 6 932101…      5.44  5.59        5.58        5.60 2015-03-12        3
+ 7 785327…      5.65  5.56        5.55        5.57 2014-08-05        3
+ 8 051000…      5.92  5.65        5.64        5.66 2015-04-07        4
+ 9 190160…      5.32  5.34        5.33        5.35 2014-06-26        2
+10 122506…      6.36  6.42        6.40        6.44 2014-05-05        7
+11 110500…      5.36  5.68        5.67        5.69 2015-01-23        3
+12 362976…      5.80  5.80        5.79        5.81 2014-08-21        3
+13 750100…      5.93  5.98        5.97        5.99 2014-11-21        4
+14 864554…      5.50  5.56        5.56        5.57 2014-07-25        3
+15 217200…      5.41  5.50        5.49        5.51 2015-03-23        2
+16 796700…      5.54  5.60        5.59        5.61 2014-11-21        3
+17 407780…      5.63  5.73        5.72        5.74 2014-06-10        3
+18 042500…      5.26  5.40        5.39        5.41 2014-10-21        2
+19 954180…      5.96  5.96        5.95        5.97 2014-10-10        5
+20 431820…      5.64  5.62        5.61        5.63 2014-05-22        3
+# … with 18 more variables: bathrooms &lt;dbl&gt;, sqft_living &lt;int&gt;,
+#   sqft_lot &lt;int&gt;, floors &lt;dbl&gt;, waterfront &lt;lgl&gt;, view &lt;int&gt;,
+#   condition &lt;fct&gt;, grade &lt;fct&gt;, sqft_above &lt;int&gt;,
+#   sqft_basement &lt;int&gt;, yr_built &lt;int&gt;, yr_renovated &lt;int&gt;,
+#   zipcode &lt;fct&gt;, lat &lt;dbl&gt;, long &lt;dbl&gt;, sqft_living15 &lt;int&gt;,
+#   sqft_lot15 &lt;int&gt;, extra_var &lt;int&gt;</code></pre>
+</div>
+<p>What if we don’t want to use the model in this R session? That would be quite a common occurrence. After building a model, we would often want to save the model and use it at a later time to apply to new data. We’ll get into some more complex ways of doing this eventually, but for now, let’s do the following:</p>
+<ol type="1">
+<li>Save the model using <code>saveRDS()</code>. This model is saved to the current project folder (assuming you’re using a project right now), but you could save it anywhere you’d like.</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>saveRDS</a></span><span class='op'>(</span><span class='va'>house_lm_fit</span>, <span class='st'>"house_lm_fit.rds"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<ol start="2" type="1">
+<li>Read the model back in using <code>readRDS()</code>. Go look at <code>house_lm_read</code> in the environment, and you’ll see that, indeed, it is the workflow we saved! 🤗</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>house_lm_read</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='st'>"house_lm_fit.rds"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<ol start="3" type="1">
+<li>Use the model we read back in to predict new data. Just like we did before, we can use the <code>predict()</code> function to predict new values. I use the same <code>fake_new_data</code> I used before.</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>fake_new_data</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>bind_cols</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>house_lm_read</span>,
+                    <span class='va'>fake_new_data</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>bind_cols</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>house_lm_read</span>,
+                    <span class='va'>fake_new_data</span>, 
+                    type <span class='op'>=</span> <span class='st'>"conf_int"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>relocate</span><span class='op'>(</span><span class='va'>log_price</span>, <span class='fu'>starts_with</span><span class='op'>(</span><span class='st'>".pred"</span><span class='op'>)</span>, 
+           .after <span class='op'>=</span> <span class='va'>id</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 20 x 25
+   id      log_price .pred .pred_lower .pred_upper date       bedrooms
+   &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt; &lt;date&gt;        &lt;int&gt;
+ 1 720233…      5.72  5.55        5.54        5.56 2014-07-21        3
+ 2 667900…      5.45  5.50        5.49        5.51 2014-12-18        3
+ 3 768220…      5.26  5.61        5.61        5.62 2014-07-28        3
+ 4 615020…      5.36  5.36        5.35        5.37 2014-05-13        2
+ 5 864551…      5.48  5.54        5.53        5.55 2014-12-01        3
+ 6 932101…      5.44  5.59        5.58        5.60 2015-03-12        3
+ 7 785327…      5.65  5.56        5.55        5.57 2014-08-05        3
+ 8 051000…      5.92  5.65        5.64        5.66 2015-04-07        4
+ 9 190160…      5.32  5.34        5.33        5.35 2014-06-26        2
+10 122506…      6.36  6.42        6.40        6.44 2014-05-05        7
+11 110500…      5.36  5.68        5.67        5.69 2015-01-23        3
+12 362976…      5.80  5.80        5.79        5.81 2014-08-21        3
+13 750100…      5.93  5.98        5.97        5.99 2014-11-21        4
+14 864554…      5.50  5.56        5.56        5.57 2014-07-25        3
+15 217200…      5.41  5.50        5.49        5.51 2015-03-23        2
+16 796700…      5.54  5.60        5.59        5.61 2014-11-21        3
+17 407780…      5.63  5.73        5.72        5.74 2014-06-10        3
+18 042500…      5.26  5.40        5.39        5.41 2014-10-21        2
+19 954180…      5.96  5.96        5.95        5.97 2014-10-10        5
+20 431820…      5.64  5.62        5.61        5.63 2014-05-22        3
+# … with 18 more variables: bathrooms &lt;dbl&gt;, sqft_living &lt;int&gt;,
+#   sqft_lot &lt;int&gt;, floors &lt;dbl&gt;, waterfront &lt;lgl&gt;, view &lt;int&gt;,
+#   condition &lt;fct&gt;, grade &lt;fct&gt;, sqft_above &lt;int&gt;,
+#   sqft_basement &lt;int&gt;, yr_built &lt;int&gt;, yr_renovated &lt;int&gt;,
+#   zipcode &lt;fct&gt;, lat &lt;dbl&gt;, long &lt;dbl&gt;, sqft_living15 &lt;int&gt;,
+#   sqft_lot15 &lt;int&gt;, extra_var &lt;int&gt;</code></pre>
+</div>
+<h3 id="tuning-model-parameters">5. Tuning model parameters</h3>
+<p>With the first model, there weren’t any parameters to tune. Let’s go back to step #5 and look at how the workflow changes when we have to do this extra step.</p>
+<p>Now we are going to try using <a href="https://bradleyboehmke.github.io/HOML/regularized-regression.html#why">Least Absolute Shrinkage and Selection Operator (LASSO)</a> regression. This method shrinks some coefficients to 0 based on a penalty term. We will use cross-validation to help us find the best penalty term.</p>
+<p>We will set up the model similar to how we set up the linear model, but add a <code>set_args()</code> function. The <code>tune()</code> argument to the <code>penalty</code> term is a placeholder. We are telling it that we are going to tune the penalty parameter later.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>house_lasso_mod</span> <span class='op'>&lt;-</span> 
+  <span class='co'># Define a lasso model </span>
+  <span class='co'># I believe default is mixture = 1 so probably don't need </span>
+  <span class='fu'>linear_reg</span><span class='op'>(</span>mixture <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='co'># Set the engine to "glmnet" </span>
+  <span class='fu'>set_engine</span><span class='op'>(</span><span class='st'>"glmnet"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='co'># The parameters we will tune.</span>
+  <span class='fu'>set_args</span><span class='op'>(</span>penalty <span class='op'>=</span> <span class='fu'>tune</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='co'># Use "regression"</span>
+  <span class='fu'>set_mode</span><span class='op'>(</span><span class='st'>"regression"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>To see the arguments available for tuning, go to the <a href="https://www.tidymodels.org/find/parsnip/">Explore Model Arguments</a> section of the <code>parsnip</code> documentation and search the model type and engine you are interested in. Below I printed the arguments we can tune for <code>linear_reg</code> using <code>glmnet</code> (LASSO). We could have also tuned the <code>mixture</code> parameter, but I set it to 1 to explicitly use LASSO.</p>
+<center>
+<img src="model_args_parsnip.png" alt="Example from https://www.tidymodels.org/find/parsnip/" />{width = 60% .external}
+</center>
+<p>And then we create a LASSO workflow. Notice that we’re using the same recipe step that we used in the regular linear model.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>house_lasso_wf</span> <span class='op'>&lt;-</span> 
+  <span class='co'># Set up the workflow</span>
+  <span class='fu'>workflow</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='co'># Add the recipe</span>
+  <span class='fu'>add_recipe</span><span class='op'>(</span><span class='va'>house_recipe</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='co'># Add the modeling</span>
+  <span class='fu'>add_model</span><span class='op'>(</span><span class='va'>house_lasso_mod</span><span class='op'>)</span>
+
+<span class='va'>house_lasso_wf</span>
+</code></pre>
+</div>
+<pre><code>══ Workflow ══════════════════════════════════════════════════════════
+Preprocessor: Recipe
+Model: linear_reg()
+
+── Preprocessor ──────────────────────────────────────────────────────
+6 Recipe Steps
+
+● step_rm()
+● step_log()
+● step_mutate()
+● step_rm()
+● step_date()
+● step_dummy()
+
+── Model ─────────────────────────────────────────────────────────────
+Linear Regression Model Specification (regression)
+
+Main Arguments:
+  penalty = tune()
+  mixture = 1
+
+Computational engine: glmnet </code></pre>
+</div>
+<p>👀 Here’s where some of the new steps come in. We use the <code>grid_regular()</code> function from the <code>dials</code> library to choose some values of the <code>penalty</code> parameter for us. Alternatively, we could give it a vector of values we want to try.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>penalty_grid</span> <span class='op'>&lt;-</span> <span class='fu'>grid_regular</span><span class='op'>(</span><span class='fu'>penalty</span><span class='op'>(</span><span class='op'>)</span>,
+                             levels <span class='op'>=</span> <span class='fl'>20</span><span class='op'>)</span>
+<span class='va'>penalty_grid</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 20 x 1
+    penalty
+      &lt;dbl&gt;
+ 1 1.00e-10
+ 2 3.36e-10
+ 3 1.13e- 9
+ 4 3.79e- 9
+ 5 1.27e- 8
+ 6 4.28e- 8
+ 7 1.44e- 7
+ 8 4.83e- 7
+ 9 1.62e- 6
+10 5.46e- 6
+11 1.83e- 5
+12 6.16e- 5
+13 2.07e- 4
+14 6.95e- 4
+15 2.34e- 3
+16 7.85e- 3
+17 2.64e- 2
+18 8.86e- 2
+19 2.98e- 1
+20 1.00e+ 0</code></pre>
+</div>
+<p>Then, use the <code>tune_grid()</code> function to fit the model using cross-validation for all <code>penalty_grid</code> values and evaluate on all the folds.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>house_lasso_tune</span> <span class='op'>&lt;-</span> 
+  <span class='va'>house_lasso_wf</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>tune_grid</span><span class='op'>(</span>
+    resamples <span class='op'>=</span> <span class='va'>house_cv</span>,
+    grid <span class='op'>=</span> <span class='va'>penalty_grid</span>
+    <span class='op'>)</span>
+
+<span class='va'>house_lasso_tune</span>
+</code></pre>
+</div>
+<pre><code># Tuning results
+# 5-fold cross-validation 
+# A tibble: 5 x 4
+  splits               id    .metrics          .notes          
+  &lt;list&gt;               &lt;chr&gt; &lt;list&gt;            &lt;list&gt;          
+1 &lt;split [12968/3242]&gt; Fold1 &lt;tibble [40 × 5]&gt; &lt;tibble [2 × 1]&gt;
+2 &lt;split [12968/3242]&gt; Fold2 &lt;tibble [40 × 5]&gt; &lt;tibble [2 × 1]&gt;
+3 &lt;split [12968/3242]&gt; Fold3 &lt;tibble [40 × 5]&gt; &lt;tibble [2 × 1]&gt;
+4 &lt;split [12968/3242]&gt; Fold4 &lt;tibble [40 × 5]&gt; &lt;tibble [2 × 1]&gt;
+5 &lt;split [12968/3242]&gt; Fold5 &lt;tibble [40 × 5]&gt; &lt;tibble [2 × 1]&gt;</code></pre>
+</div>
+<p>Then look at the cross-validated results in a table.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='co'># The rmse for each fold:</span>
+<span class='va'>house_lasso_tune</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>select</span><span class='op'>(</span><span class='va'>id</span>, <span class='va'>.metrics</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>unnest</span><span class='op'>(</span><span class='va'>.metrics</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>.metric</span> <span class='op'>==</span> <span class='st'>"rmse"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 100 x 6
+   id     penalty .metric .estimator .estimate .config              
+   &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;                
+ 1 Fold1 1.00e-10 rmse    standard       0.135 Preprocessor1_Model01
+ 2 Fold1 3.36e-10 rmse    standard       0.135 Preprocessor1_Model02
+ 3 Fold1 1.13e- 9 rmse    standard       0.135 Preprocessor1_Model03
+ 4 Fold1 3.79e- 9 rmse    standard       0.135 Preprocessor1_Model04
+ 5 Fold1 1.27e- 8 rmse    standard       0.135 Preprocessor1_Model05
+ 6 Fold1 4.28e- 8 rmse    standard       0.135 Preprocessor1_Model06
+ 7 Fold1 1.44e- 7 rmse    standard       0.135 Preprocessor1_Model07
+ 8 Fold1 4.83e- 7 rmse    standard       0.135 Preprocessor1_Model08
+ 9 Fold1 1.62e- 6 rmse    standard       0.135 Preprocessor1_Model09
+10 Fold1 5.46e- 6 rmse    standard       0.135 Preprocessor1_Model10
+# … with 90 more rows</code></pre>
+<div class="sourceCode">
+<pre><code><span class='co'># rmse averaged over all folds:</span>
+<span class='va'>house_lasso_tune</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>collect_metrics</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>.metric</span> <span class='op'>==</span> <span class='st'>"rmse"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 20 x 7
+    penalty .metric .estimator  mean     n  std_err .config           
+      &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;chr&gt;             
+ 1 1.00e-10 rmse    standard   0.135     5 0.000644 Preprocessor1_Mod…
+ 2 3.36e-10 rmse    standard   0.135     5 0.000644 Preprocessor1_Mod…
+ 3 1.13e- 9 rmse    standard   0.135     5 0.000644 Preprocessor1_Mod…
+ 4 3.79e- 9 rmse    standard   0.135     5 0.000644 Preprocessor1_Mod…
+ 5 1.27e- 8 rmse    standard   0.135     5 0.000644 Preprocessor1_Mod…
+ 6 4.28e- 8 rmse    standard   0.135     5 0.000644 Preprocessor1_Mod…
+ 7 1.44e- 7 rmse    standard   0.135     5 0.000644 Preprocessor1_Mod…
+ 8 4.83e- 7 rmse    standard   0.135     5 0.000644 Preprocessor1_Mod…
+ 9 1.62e- 6 rmse    standard   0.135     5 0.000644 Preprocessor1_Mod…
+10 5.46e- 6 rmse    standard   0.135     5 0.000644 Preprocessor1_Mod…
+11 1.83e- 5 rmse    standard   0.135     5 0.000644 Preprocessor1_Mod…
+12 6.16e- 5 rmse    standard   0.135     5 0.000640 Preprocessor1_Mod…
+13 2.07e- 4 rmse    standard   0.135     5 0.000623 Preprocessor1_Mod…
+14 6.95e- 4 rmse    standard   0.135     5 0.000591 Preprocessor1_Mod…
+15 2.34e- 3 rmse    standard   0.136     5 0.000522 Preprocessor1_Mod…
+16 7.85e- 3 rmse    standard   0.142     5 0.000513 Preprocessor1_Mod…
+17 2.64e- 2 rmse    standard   0.161     5 0.000515 Preprocessor1_Mod…
+18 8.86e- 2 rmse    standard   0.191     5 0.000896 Preprocessor1_Mod…
+19 2.98e- 1 rmse    standard   0.228     5 0.000960 Preprocessor1_Mod…
+20 1.00e+ 0 rmse    standard   0.228     5 0.000960 Preprocessor1_Mod…</code></pre>
+</div>
+<p>And, even better, we can visualize the results. We can see that the RMSE stays fairly consistently low until just before <span class="math inline">\(10^{-3}\)</span></p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='co'># Visualize rmse vs. penalty</span>
+<span class='va'>house_lasso_tune</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>collect_metrics</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>.metric</span> <span class='op'>==</span> <span class='st'>"rmse"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>penalty</span>, y <span class='op'>=</span> <span class='va'>mean</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_point</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_line</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_x_log10</span><span class='op'>(</span>
+   breaks <span class='op'>=</span> <span class='fu'>scales</span><span class='fu'>::</span><span class='fu'><a href='https://scales.r-lib.org//reference/trans_breaks.html'>trans_breaks</a></span><span class='op'>(</span><span class='st'>"log10"</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fl'>10</span><span class='op'>^</span><span class='va'>x</span><span class='op'>)</span>,
+   labels <span class='op'>=</span> <span class='fu'>scales</span><span class='fu'>::</span><span class='fu'><a href='https://scales.r-lib.org//reference/trans_format.html'>trans_format</a></span><span class='op'>(</span><span class='st'>"log10"</span>,<span class='fu'>scales</span><span class='fu'>::</span><span class='fu'><a href='https://scales.r-lib.org//reference/label_parse.html'>math_format</a></span><span class='op'>(</span><span class='fl'>10</span><span class='op'>^</span><span class='va'>.x</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>labs</span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"penalty"</span>, y <span class='op'>=</span> <span class='st'>"rmse"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="ml-review_files/figure-html5/tune-viz-1.png" width="624" /></p>
+</div>
+<p>We choose the best penalty parameter as the one with the smallest cross-validated RMSE. The <code>select_best()</code> function does this.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>house_lasso_tune</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>show_best</span><span class='op'>(</span>metric <span class='op'>=</span> <span class='st'>"rmse"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 5 x 7
+   penalty .metric .estimator  mean     n  std_err .config            
+     &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;chr&gt;              
+1 2.07e- 4 rmse    standard   0.135     5 0.000623 Preprocessor1_Mode…
+2 6.16e- 5 rmse    standard   0.135     5 0.000640 Preprocessor1_Mode…
+3 1.00e-10 rmse    standard   0.135     5 0.000644 Preprocessor1_Mode…
+4 3.36e-10 rmse    standard   0.135     5 0.000644 Preprocessor1_Mode…
+5 1.13e- 9 rmse    standard   0.135     5 0.000644 Preprocessor1_Mode…</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='co'># Best tuning parameter by smallest rmse</span>
+<span class='va'>best_param</span> <span class='op'>&lt;-</span> <span class='va'>house_lasso_tune</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>select_best</span><span class='op'>(</span>metric <span class='op'>=</span> <span class='st'>"rmse"</span><span class='op'>)</span>
+<span class='va'>best_param</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 1 x 2
+   penalty .config              
+     &lt;dbl&gt; &lt;chr&gt;                
+1 0.000207 Preprocessor1_Model13</code></pre>
+</div>
+<p>There are other ways you can select parameters, like <code>select_by_one_std_err()</code> which “selects the most simple model that is within one standard error of the numerically optimal results”. To use this, we need at least one more argument: the parameter to sort the model from most simple to most complex. So, if using glmnet’s penalty parameter, since a bigger penalty will be a simpler model, I should put <code>desc(penalty)</code> in as the argument.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='co'># Best tuning parameter by smallest rmse</span>
+<span class='va'>one_se_param</span> <span class='op'>&lt;-</span> <span class='va'>house_lasso_tune</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>select_by_one_std_err</span><span class='op'>(</span>metric <span class='op'>=</span> <span class='st'>"rmse"</span>, <span class='fu'>desc</span><span class='op'>(</span><span class='va'>penalty</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>one_se_param</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 1 x 9
+   penalty .metric .estimator  mean     n std_err .config .best .bound
+     &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;
+1 0.000695 rmse    standard   0.135     5 5.91e-4 Prepro… 0.135  0.136</code></pre>
+</div>
+<p>Because a larger penalty parameter will fit a simpler model (more terms will likely go to zero). I’ll go with the <code>one_se_param</code>, especially since the RMSE is so close to the “best” model’s RMSE.</p>
+<p>Once we choose the parameter we want, we adjust the workflow to include the best tuning parameter using the <code>finalize_workflow()</code> function.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>house_lasso_final_wf</span> <span class='op'>&lt;-</span> <span class='va'>house_lasso_wf</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>finalize_workflow</span><span class='op'>(</span><span class='va'>one_se_param</span><span class='op'>)</span>
+<span class='va'>house_lasso_final_wf</span>
+</code></pre>
+</div>
+<pre><code>══ Workflow ══════════════════════════════════════════════════════════
+Preprocessor: Recipe
+Model: linear_reg()
+
+── Preprocessor ──────────────────────────────────────────────────────
+6 Recipe Steps
+
+● step_rm()
+● step_log()
+● step_mutate()
+● step_rm()
+● step_date()
+● step_dummy()
+
+── Model ─────────────────────────────────────────────────────────────
+Linear Regression Model Specification (regression)
+
+Main Arguments:
+  penalty = 0.00069519279617756
+  mixture = 1
+
+Computational engine: glmnet </code></pre>
+</div>
+<p>Now we could fit this to the training data and look at the resulting model. We can see a few of the terms have coefficients of 0 (although not as many as I would have expected).</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>house_lasso_final_mod</span> <span class='op'>&lt;-</span> <span class='va'>house_lasso_final_wf</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>fit</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>house_training</span><span class='op'>)</span>
+
+<span class='va'>house_lasso_final_mod</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>pull_workflow_fit</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>tidy</span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 31 x 3
+   term        estimate  penalty
+   &lt;chr&gt;          &lt;dbl&gt;    &lt;dbl&gt;
+ 1 (Intercept)   4.12   0.000695
+ 2 bedrooms     -0.0160 0.000695
+ 3 bathrooms     0.0348 0.000695
+ 4 sqft_living   0.326  0.000695
+ 5 sqft_lot     -0.0366 0.000695
+ 6 floors        0.0209 0.000695
+ 7 waterfront    0.186  0.000695
+ 8 view         -0.0617 0.000695
+ 9 sqft_above    0.124  0.000695
+10 basement     -0.0379 0.000695
+# … with 21 more rows</code></pre>
+</div>
+<p>We can also visualize variable importance.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='co'># Visualize variable importance</span>
+<span class='va'>house_lasso_final_mod</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>pull_workflow_fit</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://rdrr.io/pkg/vip/man/vip.html'>vip</a></span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="ml-review_files/figure-html5/vip-1.png" width="624" /></p>
+</div>
+<p>Lastly, we apply the model to the test data and examine some final metrics. We also show the metrics from the regular linear model. It looks like performance for the LASSO model is ever so slightly better, but just barely. It’s also a good sign that these RMSE’s are similar to the cross-validated RMSE’s.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='co'># Fit model with best tuning parameter(s) to training data and apply to test data</span>
+<span class='va'>house_lasso_test</span> <span class='op'>&lt;-</span> <span class='va'>house_lasso_final_wf</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>last_fit</span><span class='op'>(</span><span class='va'>house_split</span><span class='op'>)</span>
+
+<span class='co'># Metrics for model applied to test data</span>
+<span class='va'>house_lasso_test</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>collect_metrics</span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 2 x 4
+  .metric .estimator .estimate .config             
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;               
+1 rmse    standard       0.135 Preprocessor1_Model1
+2 rsq     standard       0.655 Preprocessor1_Model1</code></pre>
+<div class="sourceCode">
+<pre><code><span class='co'># Compare to regular linear regression results</span>
+<span class='fu'>collect_metrics</span><span class='op'>(</span><span class='va'>house_lm_test</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 2 x 4
+  .metric .estimator .estimate .config             
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;               
+1 rmse    standard       0.135 Preprocessor1_Model1
+2 rsq     standard       0.655 Preprocessor1_Model1</code></pre>
+</div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom"></div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>
