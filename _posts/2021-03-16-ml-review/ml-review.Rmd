@@ -129,8 +129,11 @@ house_prices %>%
 ```
 
 Things I noticed and pre-processing thoughts:
+
 * Right-skewness in `price` and all variables regarding square footage --> log transform if using linear regression.
+
 * Many 0's in `sqft_basement`, `view`, and `yr_renovated` --> create indicator variables of having that feature vs. not, ie. a variable called `basement` where a 0 indicates no basement (`sqft_basement` = 0) and a ` indicates a basement (`sqft_basement` > 0).  
+
 * Age of home may be a better, more interpretable variable than year built --> `age_at_sale = year(date) - yr_built`.
 
 Categorical variables:
@@ -587,7 +590,7 @@ To see the arguments available for tuning, go to the [Explore Model Arguments](h
 
 <center>
 
-![Example from https://www.tidymodels.org/find/parsnip/](model_args_parsnip.png){width = 60% .external}
+![Example from https://www.tidymodels.org/find/parsnip/](model_args_parsnip.png){width=60% .external}
 </center>
 
 And then we create a LASSO workflow. Notice that we're using the same recipe step that we used in the regular linear model.

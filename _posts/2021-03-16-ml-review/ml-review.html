@@ -1576,7 +1576,12 @@ RMSE = \sqrt{\frac{1}{n}\sum_{i=1}^n(y_i - \hat{y}_i)^2},
 </div>
 <p><img src="ml-review_files/figure-html5/expl_quant-1.png" width="576" /></p>
 </div>
-<p>Things I noticed and pre-processing thoughts: * Right-skewness in <code>price</code> and all variables regarding square footage –&gt; log transform if using linear regression. * Many 0’s in <code>sqft_basement</code>, <code>view</code>, and <code>yr_renovated</code> –&gt; create indicator variables of having that feature vs. not, ie. a variable called <code>basement</code> where a 0 indicates no basement (<code>sqft_basement</code> = 0) and a <code>indicates a basement (</code>sqft_basement<code>&gt; 0).   * Age of home may be a better, more interpretable variable than year built --&gt;</code>age_at_sale = year(date) - yr_built`.</p>
+<p>Things I noticed and pre-processing thoughts:</p>
+<ul>
+<li><p>Right-skewness in <code>price</code> and all variables regarding square footage –&gt; log transform if using linear regression.</p></li>
+<li><p>Many 0’s in <code>sqft_basement</code>, <code>view</code>, and <code>yr_renovated</code> –&gt; create indicator variables of having that feature vs. not, ie. a variable called <code>basement</code> where a 0 indicates no basement (<code>sqft_basement</code> = 0) and a <code>indicates a basement (</code>sqft_basement` &gt; 0).</p></li>
+<li><p>Age of home may be a better, more interpretable variable than year built –&gt; <code>age_at_sale = year(date) - yr_built</code>.</p></li>
+</ul>
 <p>Categorical variables:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -2286,7 +2291,7 @@ Computational engine: lm </code></pre>
 </div>
 <p>To see the arguments available for tuning, go to the <a href="https://www.tidymodels.org/find/parsnip/">Explore Model Arguments</a> section of the <code>parsnip</code> documentation and search the model type and engine you are interested in. Below I printed the arguments we can tune for <code>linear_reg</code> using <code>glmnet</code> (LASSO). We could have also tuned the <code>mixture</code> parameter, but I set it to 1 to explicitly use LASSO.</p>
 <center>
-<img src="model_args_parsnip.png" alt="Example from https://www.tidymodels.org/find/parsnip/" />{width = 60% .external}
+<img src="model_args_parsnip.png" title="fig:" class="external" style="width:60.0%" alt="Example from https://www.tidymodels.org/find/parsnip/" />
 </center>
 <p>And then we create a LASSO workflow. Notice that we’re using the same recipe step that we used in the regular linear model.</p>
 <div class="layout-chunk" data-layout="l-body">
