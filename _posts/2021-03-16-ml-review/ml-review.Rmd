@@ -1,5 +1,6 @@
 ---
 title: "Machine Learning review with an intro to `tidymodels`"
+preview: modeling_process_tidymodels.png
 output:
   distill::distill_article:
     toc: true
@@ -20,15 +21,16 @@ library(emo)          # for emojis!
 library(downloadthis) # for including download buttons for files
 ```
 
-```{r paged-table, echo=FALSE, eval=FALSE}
+```{r paged-table, echo=FALSE}
 # define a method for objects of the class data.frame
-# clearly something wrong here
-# see https://cran.r-project.org/web/packages/knitr/vignettes/knit_print.html
-# or https://rdrr.io/github/ahmohamed/lipidr/f/vignettes/examples/mw_integration.Rmd, which seems to be trying to do the same thing I'm doing
-knit_print.data.frame = function(x, ...) {
-  rmarkdown:::print.paged_df(rmarkdown::paged_table(x))
+# see https://github.com/rstudio/distill/issues/310#issuecomment-797541459
+library(knitr)
+knit_print.data.frame <- function(x, ...) {
+  asis_output(
+    rmarkdown:::paged_table_html(x, options = attr(x, "options")),
+    meta = list(dependencies = rmarkdown:::html_dependency_pagedtable())
+  )
 }
-# register the method
 registerS3method("knit_print", "data.frame", knit_print.data.frame)
 ```
 
@@ -131,8 +133,7 @@ Read in the King County Housing data and take a look at the first 5 rows.
 data("house_prices")
 
 house_prices %>% 
-  slice(1:5) %>% 
-  paged_table()
+  slice(1:5)
 ```
 
 Now, we will dig into each of the modeling steps listed above.
@@ -302,8 +303,7 @@ house_recipe %>%
   prep(house_training) %>%
   # using bake(new_data = NULL) gives same result as juice()
   # bake(new_data = NULL)
-  juice() %>% 
-  paged_table()
+  juice() 
 ```
   
 ### 4. Fitting model(s)
@@ -358,8 +358,7 @@ house_lm_fit <-
 house_lm_fit %>% 
   pull_workflow_fit() %>% 
   tidy() %>% 
-  mutate(across(where(is.numeric), ~round(.x,3))) %>% 
-  paged_table()
+  mutate(across(where(is.numeric), ~round(.x,3))) 
 ```
 
 
@@ -388,8 +387,7 @@ house_lm_fit_cv <-
 # The evaluation metrics for each fold:
 house_lm_fit_cv %>% 
   select(id, .metrics) %>% 
-  unnest(.metrics) %>% 
-  paged_table()
+  unnest(.metrics) 
 
 # Evaluation metrics averaged over all folds:
 collect_metrics(house_lm_fit_cv)
@@ -418,12 +416,10 @@ house_lm_test <-
   last_fit(house_split)
 
 # performance metrics from testing data
-collect_metrics(house_lm_test) %>% 
-  paged_table()
+collect_metrics(house_lm_test)
 
 # predictions from testing data
-collect_predictions(house_lm_test) %>% 
-  paged_table()
+collect_predictions(house_lm_test) 
 ```
 
 The code below creates a simple plot to examine predicted vs. actual price (log base 10) from the house data. 
@@ -553,8 +549,7 @@ Since the `predict()` function will always return the same number of rows and in
 ```{r pred-bind}
 fake_new_data %>% 
   bind_cols(predict(house_lm_fit,
-                    fake_new_data)) %>% 
-  paged_table()
+                    fake_new_data)) 
 ```
 
 We could also add a confidence interval and use the `relocate()` function to move around some variables.
@@ -567,8 +562,7 @@ fake_new_data %>%
                     fake_new_data, 
                     type = "conf_int")) %>% 
   relocate(log_price, starts_with(".pred"), 
-           .after = id)b %>% 
-  paged_table()
+           .after = id)
 ```
 
 What if we don't want to use the model in this R session? That would be quite a common occurrence. After building a model, we would often want to save the model and use it at a later time to apply to new data. We'll get into some more complex ways of doing this eventually, but for now, let's do the following:
@@ -595,8 +589,7 @@ fake_new_data %>%
                     fake_new_data, 
                     type = "conf_int")) %>% 
   relocate(log_price, starts_with(".pred"), 
-           .after = id) %>% 
-  paged_table()
+           .after = id)
 ```
 
 
@@ -647,8 +640,7 @@ house_lasso_wf
 ```{r tune_grid}
 penalty_grid <- grid_regular(penalty(),
                              levels = 20)
-penalty_grid %>% 
-  paged_table()
+penalty_grid 
 ```
 
 Then, use the `tune_grid()` function to fit the model using cross-validation for all `penalty_grid` values and evaluate on all the folds. 
@@ -676,8 +668,7 @@ house_lasso_tune %>%
 # rmse averaged over all folds:
 house_lasso_tune %>% 
   collect_metrics() %>% 
-  filter(.metric == "rmse") %>% 
-  paged_table()
+  filter(.metric == "rmse") 
 ```
 
 And, even better, we can visualize the results. We can see that the RMSE stays fairly consistently low until just before $10^{-3}$
@@ -700,8 +691,7 @@ We choose the best penalty parameter as the one with the smallest cross-validate
 
 ```{r}
 house_lasso_tune %>% 
-  show_best(metric = "rmse") %>% 
-  paged_table()
+  show_best(metric = "rmse")
 ```
 
 
@@ -739,8 +729,7 @@ house_lasso_final_mod <- house_lasso_final_wf %>%
 
 house_lasso_final_mod %>% 
   pull_workflow_fit() %>% 
-  tidy() %>% 
-  paged_table()
+  tidy() 
 ```
 
 We can also visualize variable importance.

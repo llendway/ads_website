@@ -6,6 +6,10 @@ description: |
 * Review material
   - [Lisa's Intro DS coourse](https://ds112-lendway.netlify.app/) 
   - [Hands on Machine Learning with R](https://bradleyboehmke.github.io/HOML/) by Bradley Boehmke and Brandon Greenwell
+  
+* Getting help/advise  
+  - [Create a reprex!](https://www.tidyverse.org/help/) (**repr**oducible **ex**ample)  
+  - [Build a Career in Data Science podcast](https://podcasts.apple.com/us/podcast/build-a-career-in-data-science/id1528899704) by Jacqueline Nolis and Emily Robinson
 
 * git/GitHub in R  
   - [Lisa's GitHub for colaboration](https://github.com/llendway/github_for_collaboration/blob/master/github_for_collaboration.md)  
@@ -27,6 +31,7 @@ description: |
   - [R Packages](https://r-pkgs.org/) book by Wickham and Bryan
   
 * Custom `ggplot2` themes  
+  - [`theme()` documentation](https://ggplot2.tidyverse.org/reference/theme.html) (if you're like me, you might as well keep this tab open at all times on your computer)
   - [Joey Stanley's blog post](https://joeystanley.com/blog/custom-themes-in-ggplot2)  
   - [Maddie Pickens' tutorial](https://rpubs.com/mclaire19/ggplot2-custom-themes)
   
@@ -70,10 +75,13 @@ description: |
   
 * Putting R into production
   - [Put R in prod](https://putrinprod.com/)
-  - [Simple model example](https://raybuhr.github.io/blog/posts/making-predictions-over-http/) on Ray Buhr's blog
+  - [Simple model example](https://raybuhr.github.io/blog/posts/making-predictions-over-http/) on Ray Buhr's blog  
+  - [Simple `plumber` example](https://solutions.rstudio.com/examples/rest-apis/plumber-ml/) on R Studio's site (thanks for the link, Thomas Mock)
   
 * Gradient boosted machines (GBM) and H20
-  - [Hands on Machine Learning](https://bradleyboehmke.github.io/HOML/gbm.html)
+  - [Hands on Machine Learning](https://bradleyboehmke.github.io/HOML/gbm.html)  
+  - [xgboost](https://xgboost.readthedocs.io/en/latest/R-package/xgboostPresentation.html) R package documentation  
+  - [xgboost with tidymodels](https://juliasilge.com/blog/xgboost-tune-volleyball/) example by Julia Silge.  
   - [H20 documentation](https://docs.h2o.ai/h2o/latest-stable/h2o-docs/welcome.html)
   - [H20 booklet](https://www.h2o.ai/wp-content/uploads/2018/01/RBooklet.pdf)
   
