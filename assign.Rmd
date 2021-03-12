@@ -6,3 +6,19 @@ description: |
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
+
+As you go, you may develop your own R Markdown style you like. I encourage you to download and use the template below at first.
+
+```{r}
+library(downloadthis)
+
+download_file(
+  path = "assignments/template.Rmd",
+  button_label = "Download template.Rmd file",
+  button_type = "warning",
+  has_icon = TRUE,
+  icon = "fa fa-save",
+  self_contained = FALSE
+)
+```
+
