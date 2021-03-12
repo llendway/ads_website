@@ -2,10 +2,8 @@
 title: "Machine Learning review with an intro to `tidymodels`"
 output:
   distill::distill_article:
-    df_print: paged
     toc: true
     toc_float: true
-    code_download: true
     self_contained: false
 draft: false
 ---
@@ -18,9 +16,36 @@ knitr::opts_chunk$set(echo = TRUE,
 ```
 
 ```{r echo=FALSE}
-library(emo)
+library(emo)          # for emojis!   
+library(downloadthis) # for including download buttons for files
 ```
 
+```{r paged-table, echo=FALSE, eval=FALSE}
+# define a method for objects of the class data.frame
+# clearly something wrong here
+# see https://cran.r-project.org/web/packages/knitr/vignettes/knit_print.html
+# or https://rdrr.io/github/ahmohamed/lipidr/f/vignettes/examples/mw_integration.Rmd, which seems to be trying to do the same thing I'm doing
+knit_print.data.frame = function(x, ...) {
+  rmarkdown:::print.paged_df(rmarkdown::paged_table(x))
+}
+# register the method
+registerS3method("knit_print", "data.frame", knit_print.data.frame)
+```
+
+## Follow along
+
+You can download this .Rmd file below if you'd like to follow along. I do have a few hidden notes you can disregard. This document is a distill_article, so you may want to change to a html_document to knit. You will also need to delete any image references to properly knit, since you won't have those images.
+
+```{r, echo=FALSE}
+download_file(
+  path = "ml-review.Rmd",
+  button_label = "Download .Rmd file",
+  button_type = "info",
+  has_icon = TRUE,
+  icon = "fa fa-save",
+  self_contained = FALSE
+)
+```
 
 ## Resources
 
@@ -96,6 +121,7 @@ library(naniar)            # for examining missing values (NAs)
 library(lubridate)         # for date manipulation
 library(moderndive)        # for King County housing data
 library(vip)               # for variable importance plots
+library(rmarkdown)         # for paged tables
 theme_set(theme_minimal()) # my favorite ggplot2 theme :)
 ```
 
@@ -105,7 +131,8 @@ Read in the King County Housing data and take a look at the first 5 rows.
 data("house_prices")
 
 house_prices %>% 
-  slice(1:5)
+  slice(1:5) %>% 
+  paged_table()
 ```
 
 Now, we will dig into each of the modeling steps listed above.
@@ -275,7 +302,8 @@ house_recipe %>%
   prep(house_training) %>%
   # using bake(new_data = NULL) gives same result as juice()
   # bake(new_data = NULL)
-  juice() 
+  juice() %>% 
+  paged_table()
 ```
   
 ### 4. Fitting model(s)
@@ -330,7 +358,8 @@ house_lm_fit <-
 house_lm_fit %>% 
   pull_workflow_fit() %>% 
   tidy() %>% 
-  mutate(across(where(is.numeric), ~round(.x,3)))
+  mutate(across(where(is.numeric), ~round(.x,3))) %>% 
+  paged_table()
 ```
 
 
@@ -359,7 +388,8 @@ house_lm_fit_cv <-
 # The evaluation metrics for each fold:
 house_lm_fit_cv %>% 
   select(id, .metrics) %>% 
-  unnest(.metrics)
+  unnest(.metrics) %>% 
+  paged_table()
 
 # Evaluation metrics averaged over all folds:
 collect_metrics(house_lm_fit_cv)
@@ -388,10 +418,12 @@ house_lm_test <-
   last_fit(house_split)
 
 # performance metrics from testing data
-collect_metrics(house_lm_test)
+collect_metrics(house_lm_test) %>% 
+  paged_table()
 
 # predictions from testing data
-collect_predictions(house_lm_test)
+collect_predictions(house_lm_test) %>% 
+  paged_table()
 ```
 
 The code below creates a simple plot to examine predicted vs. actual price (log base 10) from the house data. 
@@ -521,7 +553,8 @@ Since the `predict()` function will always return the same number of rows and in
 ```{r pred-bind}
 fake_new_data %>% 
   bind_cols(predict(house_lm_fit,
-                    fake_new_data))
+                    fake_new_data)) %>% 
+  paged_table()
 ```
 
 We could also add a confidence interval and use the `relocate()` function to move around some variables.
@@ -534,7 +567,8 @@ fake_new_data %>%
                     fake_new_data, 
                     type = "conf_int")) %>% 
   relocate(log_price, starts_with(".pred"), 
-           .after = id)
+           .after = id)b %>% 
+  paged_table()
 ```
 
 What if we don't want to use the model in this R session? That would be quite a common occurrence. After building a model, we would often want to save the model and use it at a later time to apply to new data. We'll get into some more complex ways of doing this eventually, but for now, let's do the following:
@@ -561,7 +595,8 @@ fake_new_data %>%
                     fake_new_data, 
                     type = "conf_int")) %>% 
   relocate(log_price, starts_with(".pred"), 
-           .after = id)
+           .after = id) %>% 
+  paged_table()
 ```
 
 
@@ -590,7 +625,7 @@ To see the arguments available for tuning, go to the [Explore Model Arguments](h
 
 <center>
 
-![Example from https://www.tidymodels.org/find/parsnip/](model_args_parsnip.png){width=60% .external}
+![Example from https://www.tidymodels.org/find/parsnip/](model_args_parsnip.png){width=80% .external}
 </center>
 
 And then we create a LASSO workflow. Notice that we're using the same recipe step that we used in the regular linear model.
@@ -612,7 +647,8 @@ house_lasso_wf
 ```{r tune_grid}
 penalty_grid <- grid_regular(penalty(),
                              levels = 20)
-penalty_grid
+penalty_grid %>% 
+  paged_table()
 ```
 
 Then, use the `tune_grid()` function to fit the model using cross-validation for all `penalty_grid` values and evaluate on all the folds. 
@@ -640,7 +676,8 @@ house_lasso_tune %>%
 # rmse averaged over all folds:
 house_lasso_tune %>% 
   collect_metrics() %>% 
-  filter(.metric == "rmse")
+  filter(.metric == "rmse") %>% 
+  paged_table()
 ```
 
 And, even better, we can visualize the results. We can see that the RMSE stays fairly consistently low until just before $10^{-3}$
@@ -663,7 +700,8 @@ We choose the best penalty parameter as the one with the smallest cross-validate
 
 ```{r}
 house_lasso_tune %>% 
-  show_best(metric = "rmse")
+  show_best(metric = "rmse") %>% 
+  paged_table()
 ```
 
 
@@ -701,7 +739,8 @@ house_lasso_final_mod <- house_lasso_final_wf %>%
 
 house_lasso_final_mod %>% 
   pull_workflow_fit() %>% 
-  tidy()
+  tidy() %>% 
+  paged_table()
 ```
 
 We can also visualize variable importance.
