@@ -5,28 +5,28 @@
       "title": "Assignments",
       "author": [],
       "contents": "\nAs you go, you may develop your own R Markdown style you like. I encourage you to download and use the template below at first.\n\n\n Download template.Rmd file\n\n\n\n\n\n",
-      "last_modified": "2021-03-13T09:15:29-06:00"
+      "last_modified": "2021-03-13T09:21:45-06:00"
     },
     {
       "path": "course.html",
       "title": "Topics",
       "author": [],
       "contents": "\n\n\n\n",
-      "last_modified": "2021-03-13T09:15:30-06:00"
+      "last_modified": "2021-03-13T09:21:45-06:00"
     },
     {
       "path": "index.html",
       "title": "Welcome!",
       "author": [],
-      "contents": "\n\n\n\n\nWelcome to the Advanced Data Science in R course being taught by me, Lisa Lendway. The syllabus and calendar for the course can be found on the course Moodle page, which is where you will also submit assignments. Materials for each topic we cover can be found on the Course Materials page of this website. I also included a page with all the resources I will use and a page with the assignments.\n\n\n\n",
-      "last_modified": "2021-03-13T09:15:32-06:00"
+      "contents": "\n\n\n\n\nWelcome to the Advanced Data Science in R course being taught by me, Lisa Lendway. The calendar for the course can be found on the course Moodle page, which is where you will also submit assignments. Materials for each topic we cover can be found on the Course Materials page of this website. I also included a page with all the resources I will use and a page with the assignments.\n\n\n Download syllabus\n\n\n\n\n\n",
+      "last_modified": "2021-03-13T09:21:48-06:00"
     },
     {
       "path": "resources.html",
       "title": "Resources",
       "author": [],
       "contents": "\nReview material\nLisa’s Intro DS coourse\nHands on Machine Learning with R by Bradley Boehmke and Brandon Greenwell\n\nGetting help/advise\nCreate a reprex! (reproducible example)\nBuild a Career in Data Science podcast by Jacqueline Nolis and Emily Robinson\n\ngit/GitHub in R\nLisa’s GitHub for colaboration\nLisa’s more in-depth post and video that goes more in-depth on how to collaborate\nHappy git with R by Jenny Bryan\nR Packages - making a PR from the R Packages boook by Hadley Wickham and Jenny Bryan\n\nBuilding a website\nSharing on Short Notice with Alison Hill and Desirée De Leon from R Studio\nLisa’s Building a distill website blog post\nTom Mock’s distill post\nEmily Zabor’s tutorial\nblogdown book site by Yihui Xie, Amber Thomas, and Alison Hill and check out recent updates here\n\nBuilding an R package\nLisa’s example of building a data package\nYour first R package in 1 hour blog post by Shannon Pileggi\nTom Westlake’s Writing an R Package From Scratch\nR Packages book by Wickham and Bryan\n\nCustom ggplot2 themes\ntheme() documentation (if you’re like me, you might as well keep this tab open at all times on your computer)\nJoey Stanley’s blog post\nMaddie Pickens’ tutorial\n\nShiny\nLisa’s intro to building a shiny app\nR Studio tutorials by Garret Grolemund\na gRadual intRoduction to Shiny by Ted Laderas\nStyling Shiny and R markdown with Carson Sievert from R Studio\nUsing CSS to style your shiny app by Sharla Gelfand\n\nTidymodels\ntidymodels.org main page\nTidy Models with R textbook by Julia Silge and Max Kuhn\nLisa’s tidymodels noRth presentation\nJulia Silge’s blog with great examples\n\nModel stacking / ensembles\nstacks R package documentation by Simon Couch and Max Kuhn\nHands on Machine Learning by Bradley Boehmke & Brandon Greenwell\n\nModel interpretation\nDALExtra R package by Szymon Maksymiuk, Przemyslaw Biecek\nlime R package tutorial by Bradley Boemke\nInterpretable Machine Learning by Christoph Molnar\nExplanatory Model Analysis by Przemyslaw Biecek and Tomasz Burzykowski\nHands on Machine Learning\n\nData ethics / justice\nfast.ai ethics course by Rachel Thomas\nData Justice intro by Linnet Taylor\nPrediction-Based Decisions and Fairness by Shira Mitchell, Eric Potash, Solon Barocas, Alexander D’Amour, Kristian Lum\nteachdatascience blog\nData Science Ethics chapter of Modern Data Science with R by Baumer, Kaplan, and Horton\nCalling Bullshit course materials by Bergstrom and West.\n\nUsing databases with R / SQL\nVebash Naidoo’s blog posts\nDr. Simona Picardi’s course material from WILD 6900: Tools for Reproducible Science, Spring 2021, Utah State University\nSQL chapter of Modern Data Science with R by Baumer, Kaplan, and Horton\nJacqueline Nolis blog post: Pretending to have a SQL database with RStudio\nDatabases use R from RStudio\n\nPutting R into production\nPut R in prod\nSimple model example on Ray Buhr’s blog\nSimple plumber example on R Studio’s site (thanks for the link, Thomas Mock)\n\nGradient boosted machines (GBM) and H20\nHands on Machine Learning\nxgboost R package documentation\nxgboost with tidymodels example by Julia Silge.\nH20 documentation\nH20 booklet\n\nDeep Learning\nDeep Learning with R\nHands on Machine Learning\n\n\n\n\n",
-      "last_modified": "2021-03-13T09:15:33-06:00"
+      "last_modified": "2021-03-13T09:21:48-06:00"
     }
   ],
   "collections": ["posts/posts.json"]
