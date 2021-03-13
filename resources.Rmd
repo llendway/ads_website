@@ -39,7 +39,8 @@ description: |
   - [Lisa's intro to building a shiny app](https://animation-and-interactivity-in-r.netlify.app/#creating-an-app-with-shiny)  
   - [R Studio tutorials](https://shiny.rstudio.com/tutorial/) by Garret Grolemund  
   - [a gRadual intRoduction to Shiny](https://laderast.github.io/gradual_shiny/) by Ted Laderas
-  - [Styling Shiny and R markdown](https://youtu.be/4OxokLdZQgQ) with Carson Sievert from R Studio
+  - [Styling Shiny and R markdown](https://youtu.be/4OxokLdZQgQ) with Carson Sievert from R Studio  
+  - [Using CSS to style your shiny app](https://sharla.party/post/2021-03-12-big-bud-press/) by Sharla Gelfand
   
 * Tidymodels
   - [tidymodels.org main page](https://www.tidymodels.org/)
