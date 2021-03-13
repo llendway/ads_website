@@ -1,5 +1,5 @@
 ---
-title: "Machine Learning review with an intro to `tidymodels`"
+title: "Machine Learning review with an intro to the tidymodels package"
 preview: modeling_process_tidymodels.png
 output:
   distill::distill_article:
@@ -36,7 +36,7 @@ registerS3method("knit_print", "data.frame", knit_print.data.frame)
 
 ## Follow along
 
-You can download this .Rmd file below if you'd like to follow along. I do have a few hidden notes you can disregard. This document is a distill_article, so you may want to change to a html_document to knit. You will also need to delete any image references to properly knit, since you won't have those images.
+You can download this .Rmd file below if you'd like to follow along. I do have a few hidden notes you can disregard. This document is a distill_article, so you may want to change to an html_document to knit. You will also need to delete any image references to properly knit, since you won't have those images.
 
 ```{r, echo=FALSE}
 download_file(
@@ -53,13 +53,13 @@ download_file(
 
 Here are some great resources. I will reference some of them throughout.
 
-* [Hands on Machine Learning with R](https://bradleyboehmke.github.io/HOML/) (HOML, for short) by Bradley Boehmke and Brandon Greenwell is the textbook I used in the Machine Learning course I taught in spring of 2020. It is a great place to go to review some of the model algorthims and concepts.  
+* [Hands on Machine Learning with R](https://bradleyboehmke.github.io/HOML/) (HOML, for short) by Bradley Boehmke and Brandon Greenwell is the textbook I used in the Machine Learning course I taught in spring of 2020. It is a great place to go to review some of the model algorithms and concepts.  
 
 * [ISLR](https://www.statlearning.com/) by James, Witten, Hastie, and Tibshirani goes deeper into the math of the algorithms. You can download their book at this site.
 
 * Tidymodels
-  - [Lisa's tidymodels noRth presentation](https://youtu.be/tVZO-aoXStE) gives an example of using `tidymodels`. I will go through it below.
-  - [tidymodels.org](https://www.tidymodels.org/), specifically the [case study](https://www.tidymodels.org/start/case-study/), walks through examples of using the `tidymodels` suite
+  - [Lisa's tidymodels noRth presentation](https://youtu.be/tVZO-aoXStE) gives an example of using `tidymodels`. I will go through the same example below, with a few added parts. The code has changed slightly in some places, too.
+  - [tidymodels.org](https://www.tidymodels.org/), specifically the [case study](https://www.tidymodels.org/start/case-study/), walks through examples of using the `tidymodels` suite.  
   - [Tidy Models with R textbook](https://www.tmwr.org/) by Julia Silge and Max Kuhn provides more in-depth explanations of the `tidymodels` functions with extended examples.
   - [Julia Silge's blog](https://juliasilge.com/) with even more examples!
 
@@ -83,7 +83,7 @@ And let's review what we do during each of these steps.
 5. **Tuning parameters**: If the model in the previous step involved tuning parameters, use cross-validation (or similar method) to find the best parameter.  
 6. **Evaluate & compare models**: Use cross-validation to evaluate the model. If you have a large number of models you are evaluating, you will probably limit the set of models to your best/favorite few during this step. The image below is to help you remember that process, which I have also written about below.
 
-![Figure from https://bradleyboehmke.github.io/HOML/process.html#resampling](cv_HOML.png){width = 60% .external}
+![Figure from https://bradleyboehmke.github.io/HOML/process.html#resampling](cv_HOML.png){width=80% .external}
 
   - In $k$-fold cross-validation, we divide the data randomly into $k$ approximately equal groups or *folds*. The schematic here shows 5-fold cross-validation.  
   - The model is fit on $k-1$ of the folds and the remaining fold is used to evaluate the model. Let's look at the first row in the schematic. Here the model is fit on the data that are in folds 2, 3, 4, and 5. The model is evaluated on the data in fold 1.  
@@ -95,7 +95,7 @@ $$
 
   - So, again looking at the first row in the schematic, the model is fit to folds 2, 3, 4, and 5 and we would use that model to compute the RMSE for fold 1. In the second row, the model is fit to the data in folds 1, 3, 4, and 5 and that model is used to compute the RMSE for the data in the 2nd fold.  
  - After this is done for all 5 folds, we take the average RMSE, to obtain the overall performance. This overall error is sometimes called the CV error. Averaging the performance over $k$ folds gives a better estimate of the true error than using one hold-out set. It also allows us to estimate its variability.
- - For models with a categorical response, a common performance metric to evaluate a model is accuracy: out of all cases, fraction of correct (true positives and true negatives) classifications. A cross-validated accuracy would be computed in a similar way to the cross-validated RMSE described above.
+ - For models with a categorical response, a common performance metric to evaluate a model is accuracy: out of all cases, the fraction of correct (true positives and true negatives) classifications. A cross-validated accuracy would be computed in a similar way to the cross-validated RMSE described above.
 
 7. **Apply final few models to testing data**: After we limit the number of models to the top few, we will want to to apply it to the testing data, the data that hasn't been used at all during the modeling process. This will give us a measure of the model's performance and may help us make a final decision about which model to use. 
 
@@ -107,11 +107,11 @@ $$
 
 In this section, I will show how we can use the `tidymodels` framework to execute the modeling process. I've updated the diagram from above to include some of the libraries and functions we'll use throughout the process. 
 
-<div class="centered">
+<center>
 
-![tidymodels machine learning process](modeling_process_tidymodels.png)
+![`tidymodels` machine learning process](modeling_process_tidymodels.png)
 
-</div>
+</center>
 
 First, let's load some of the libraries we will use:
 
@@ -140,7 +140,7 @@ Now, we will dig into each of the modeling steps listed above.
 
 ### 1. Quick exploration
 
-Take a quick look at distributions of all the variables to check for anything irregular.
+Take a quick look at distributions of all the variables to check for anything irregular. 
 
 Quantitative variables:
 
@@ -160,7 +160,7 @@ Things I noticed and pre-processing thoughts:
 
 * Right-skewness in `price` and all variables regarding square footage --> log transform if using linear regression.
 
-* Many 0's in `sqft_basement`, `view`, and `yr_renovated` --> create indicator variables of having that feature vs. not, ie. a variable called `basement` where a 0 indicates no basement (`sqft_basement` = 0) and a ` indicates a basement (`sqft_basement` > 0).  
+* Many 0's in `sqft_basement`, `view`, and `yr_renovated` --> create indicator variables of having that feature vs. not, ie. a variable called `basement` where a `0` indicates no basement (`sqft_basement` = 0) and a `1` indicates a basement (`sqft_basement` > 0).  
 
 * Age of home may be a better, more interpretable variable than year built --> `age_at_sale = year(date) - yr_built`.
 
@@ -214,7 +214,7 @@ house_prices %>%
 
 **NOTE**: I start by doing some manipulating of the dataset to use `log_price` as the response variable rather than `price`. I originally did this using a `step_log()` function after a `recipe()` function (see the next section), but read in this [RStudio Community post](https://community.rstudio.com/t/fit-resamples-prep-and-outcome-transform-behavior/83891/2), in the comment by Max Kuhn, that it's better to transform the outcome before doing the modeling. There is also a discussion of this in the [Skipping steps for new data](https://www.tmwr.org/recipes.html#skip-equals-true) section of the Kuhn & Silge *Tidy Modeling with R* book.
 
-Then, we split the data into  training and testing datasets. We use the training data to fit different types of models and to tune parameters of those models, if needed. The testing dataset is saved for the very end to compare a small subset of models. The `initial_split()` function from the `rsample` library (part of `tidymodels`) is used to create this split. We just do random splitting with this dataset, but there are other arguments that allow you to do stratified sampling. Then we use `training()` and `testing()` to extract the two datasets, `house_training` and `house_testing`. 
+Then, we split the data into  training and testing datasets. We use the training data to fit different types of models and to tune parameters of those models if needed, and to help us choose our best models (or maybe best few). The testing dataset is saved for the very end to compare a small subset of models and to give an estimate of the performance on data the model hasn't seen. The `initial_split()` function from the `rsample` library (part of `tidymodels`) is used to create this split. We just do random splitting with this dataset, but there are other arguments that allow you to do stratified sampling. Then we use `training()` and `testing()` to extract the two datasets, `house_training` and `house_testing`. 
 
 ```{r init_split}
 set.seed(327) #for reproducibility
@@ -241,7 +241,7 @@ This step may  not seem very time consuming in this example, but you will often 
 
 * A variety of `step_xxx()` functions can be used to do any data pre-processing/transforming. Find them all [here](https://www.tidymodels.org/find/recipes/). I used a few, with brief descriptions in the code. I also used some selector functions, like `all_predictors()` and `all_nominal()` to help me select the right variables.
 
-* We also use `update_roles()` to change the roles of some variables. For us, these are variables we may want to include for evaluation purposes but will not be used in building the model. I chose the role of `evaluative` but you could name that role anything you want, eg. `id`, `extra`, `junk` (maybe a bad idea?).
+* The `update_roles()` function is used to change the roles of some variables. For us, these are variables we may want to include for evaluation purposes but will not be used in building the model. I chose the role of `evaluative` but you could name that role anything you want, eg. `id`, `extra`, `junk` (maybe a bad idea?).
 
 ```{r recipe}
 house_recipe <- recipe(log_price ~ ., #short-cut, . = all other vars
@@ -308,7 +308,7 @@ house_recipe %>%
   
 ### 4. Fitting model(s)
 
-Now that we have split and pre-processed the data, we are ready to model! First, we will model `price` (which is actually now *log(price)*) using simple linear regression.
+Now that we have split and pre-processed the data, we are ready to model! First, we will model `log_price` using simple linear regression.
 
 We will do this using some modeling functions from the `parsnip` package. Find all available functions [here](https://www.tidymodels.org/find/parsnip/). [Here](https://parsnip.tidymodels.org/reference/linear_reg.html) is the detail for linear regression.
 
@@ -373,7 +373,7 @@ set.seed(1211) # for reproducibility
 house_cv <- vfold_cv(house_training, v = 5)
 ```
 
-Then, we fit the model using the 5-fold dataset we just created (I am guessing we don't have to do both the previous step of fitting a model on the training data AND this step, but I couldn't figure out how to extract the final model from the CV data ... so this was my solution for now ... and it turns out you DO need to do both as noted by Julia Silge in this [RStudio Community post](https://community.rstudio.com/t/tidymodels-fastest-way-to-extract-a-model-object-from-fit-resamples-results/73301)).
+Then, we fit the model using the 5-fold dataset we just created (When I first did this, I thought I wouldn't have to do both the previous step of fitting a model on the training data AND this step, but I couldn't figure out how to extract the final model from the CV data ... so this was my solution at the time ... and it turns out you DO need to do both as noted by Julia Silge in this [RStudio Community post](https://community.rstudio.com/t/tidymodels-fastest-way-to-extract-a-model-object-from-fit-resamples-results/73301)).
 
 ```{r fit_model_cv}
 set.seed(456) # For reproducibility - not needed for this algorithm
@@ -406,7 +406,7 @@ house_lm_fit_cv %>%
 
 In this simple scenario, we may be interested in seeing how the model performs on the testing data that was left out. The code below will fit the model to the training data and apply it to the testing data. There are other ways we could have done this, but the way we do it here will be useful when we start using more complex models where we need to tune model parameters.
 
-After the model is fit and applied, we collect the performance metrics and display them and show the predictions from the testing data.
+After the model is fit and applied, we collect the performance metrics and display them and show the predictions from the testing data. Notice the the RMSE here is very similar to the cross-validated RMSE we computed in the previous step. 
 
 ```{r fit_test}
 house_lm_test <- 
@@ -531,7 +531,7 @@ predict(
 )
 ```
 
-We could also give it an entire dataset. Here, I just take a sample from the original dataset, add an extra variable, and predict with it.
+We could also give it an entire dataset. Here, I just take a sample from the original dataset, add an extra variable (just to show you that you can have more than what you need), and predict with it.
 
 ```{r pred-set}
 set.seed(327)
