@@ -23,7 +23,7 @@ At first, I want you to get used to using GitHub regularly for your own files. Y
 
 ## Using Git and GitHub for collaboration   
 
-There are some beginning instructions in the [github for collaboration](https://github.com/llendway/github_for_collaboration/blob/master/github_for_collaboration.md) documentation starting at the **Adding collaborators** section. For a slightly more in-depth coverage, including creating branches, read my [blog post](file:///Users/llendway/GoogleDriveMacalester/lisalendway_distill/_site/posts/2021-02-24-gitinrstudio/index.html) that covers that.
+There are some beginning instructions in the [github for collaboration](https://github.com/llendway/github_for_collaboration/blob/master/github_for_collaboration.md) documentation starting at the **Adding collaborators** section. For a slightly more in-depth coverage, including creating branches, read my [blog post](https://lisalendway.netlify.app/posts/2021-02-24-gitinrstudio/) that covers that.
 
 It is VERY important to remember that communication is a key component to using GitHub successfully for collaboration. Don't forget that part!
 
