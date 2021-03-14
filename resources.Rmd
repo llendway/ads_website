@@ -9,7 +9,7 @@ description: |
   
 * Getting help/advise  
   - [Create a reprex!](https://www.tidyverse.org/help/) (**repr**oducible **ex**ample)  
-  - [Build a Career in Data Science podcast](https://podcasts.apple.com/us/podcast/build-a-career-in-data-science/id1528899704) by Jacqueline Nolis and Emily Robinson
+  - [Build a Career in Data Science podcast](https://podcast.bestbook.cool/) by Jacqueline Nolis and Emily Robinson
 
 * git/GitHub in R  
   - [Lisa's GitHub for colaboration](https://github.com/llendway/github_for_collaboration/blob/master/github_for_collaboration.md)  
