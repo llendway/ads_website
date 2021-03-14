@@ -22,3 +22,15 @@ download_file(
 )
 ```
 
+
+## Assignment #1
+
+Goals:
+
+* Set up and use git and GitHub with RStudio.  
+* Create a personal website and be motivated to do it.  
+* Create a small package (optional).  
+* Refresh your machine learning skills.  
+* Use the `tidymodels` packages to build models.  
+* Create a simple Shiny app.  
+* Read about and reflect on bias and fairness in data science.

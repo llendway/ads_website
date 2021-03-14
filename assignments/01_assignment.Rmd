@@ -1,0 +1,58 @@
+---
+title: 'Exercise #1'
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    df_print: paged
+    code_download: true
+---
+
+```{r setup, include=FALSE}
+#knitr::opts_chunk$set(echo = TRUE, message=FALSE, warning=FALSE)
+```
+
+```{r libraries}
+library(tidyverse)         # for graphing and data cleaning
+library(tidymodels)        # for modeling
+```
+
+```{r data}
+hotels <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-02-11/hotels.csv')
+```
+
+
+## Setting up Git and GitHub in RStudio
+
+Read the [Quick Intro](https://advanced-ds-in-r.netlify.app/posts/2021-01-28-gitgithub/#quick-intro) section of the Using git and GitHub in R Studio set of Course Materials. Set up Git and GitHub and create a GitHub repo and associated R Project (done for you when you clone the repo) for this homework assignment. Put this file into the project. You should always open the R Project (.Rproj) file when you work with any of the files in the project. 
+
+**Task**: Below, post a link to your GitHub repository.
+
+
+## Creating a website
+
+You'll be using RStudio to create a personal website to showcase your work from this class! Start by watching the [Sharing on Short Notice](https://rstudio.com/resources/webinars/sharing-on-short-notice-how-to-get-your-materials-online-with-r-markdown/) webinar by Alison Hill and Desirée De Leon of RStudio. This should help you choose the type of website you'd like to create. 
+
+Once you've chosen that, you might want to look through some of the other *Building a website* resources I posted on the [resources page](https://advanced-ds-in-r.netlify.app/resources.html) of our course website. I highly recommend making a nice landing page where you give a brief introduction of yourself. 
+
+
+**Tasks**:
+
+* Include a link to your website below. (If anyone does not want to post a website publicly, please talk to me and we will find a different solution).  
+
+* Listen to at least the first 20 minutes of "Building a Career in Data Science, Chapter 4: Building a Portfolio". Go to the main [podcast website](https://podcast.bestbook.cool/) and navigate to a podcast provider that works for you to find that specific episode. Write 2-3 sentences reflecting on what they discussed and why creating a website might be helpful for you.  
+
+* (Optional) Create an R package with your own customized `gpplot2` theme! Write a post on your website about why you made the choices you did for the theme. See the *Building an R package* and *Custom `ggplot2` themes* [resources](https://advanced-ds-in-r.netlify.app/resources.html). 
+
+## Machine Learning review and intro to `tidymodels`
+
+Read through and follow along with the [Machine Learning review with an intro to the `tidymodels` package](https://advanced-ds-in-r.netlify.app/posts/2021-03-16-ml-review/) posted on the Course Materials page. 
+
+**Tasks**:
+
+
+## Bias and Fairness
+
+Listen to Rachel Thomas's  [Bias and Fairness lecture](https://ethics.fast.ai/videos/?lesson=2). Write a brief paragraph reflecting on ...
+
+
