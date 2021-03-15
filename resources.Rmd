@@ -49,7 +49,7 @@ description: |
   - [Julia Silge's blog](https://juliasilge.com/) with great examples
   
 * Model stacking / ensembles  
-  - [stacks R package documentation](https://stacks.tidymodels.org/articles/basics.html) by Simon Couch and Max Kuhn
+  - [stacks R package documentation](https://stacks.tidymodels.org/articles/basics.html) by Simon Couch and Max Kuhn and Simon's [lightnight talk](https://youtu.be/E7uygsmx3-Y).
   - [Hands on Machine Learning](https://bradleyboehmke.github.io/HOML/stacking.html) by Bradley Boehmke & Brandon Greenwell
   
 * Model interpretation
