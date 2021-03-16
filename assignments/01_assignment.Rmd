@@ -22,6 +22,8 @@ hotels <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tid
 ```
 
 
+When you finish the assignment, remove the `#` from the options chunk at the top, so that messages and warnings aren't printed. If you are getting errors in your code, add `error = TRUE` so that the file knits. I would recommend not removing the `#` until you are completely finished.
+
 ## Setting up Git and GitHub in RStudio
 
 Read the [Quick Intro](https://advanced-ds-in-r.netlify.app/posts/2021-01-28-gitgithub/#quick-intro) section of the Using git and GitHub in R Studio set of Course Materials. Set up Git and GitHub and create a GitHub repo and associated R Project (done for you when you clone the repo) for this homework assignment. Put this file into the project. You should always open the R Project (.Rproj) file when you work with any of the files in the project. 
@@ -50,9 +52,38 @@ Read through and follow along with the [Machine Learning review with an intro to
 
 **Tasks**:
 
+1. Read about the hotel booking data, `hotels`, on the [Tidy Tuesday page](https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-02-11/readme.md) it came from. There is also a link to an article from the original authors. The outcome we will be predicting is called `is_canceled`. 
+  - Without doing any analysis, what are some variables you think might be predictive and why?  
+  _ What are some problems that might exist with the data? You might think about how it was collected and who did the collecting.  
+  - If we construct a model, what type of conclusions will be able to draw from it?  
+  
+2. Create some exploratory plots or table summaries of the data, concentrating most on relationships with the response variable. Keep in mind the response variable is numeric, 0 or 1. You may want to make it categorical (you also may not). Be sure to also examine missing values or other interesting values.  
+
+3. Remove missing values (not NULLs but true missing values) from the data and remove the year variable. Split the data into a training and test set, stratifying on the outcome variable, `is_canceled`. You can filter the data right in the `initial_split()` function and be sure to drop the `n_miss_all` variable that is created. Since we have a lot of data, we're going to split the data 50/50 between training and test.I have already `set.seed()` for you.
+
+
+```{r}
+set.seed(494)
+```
+
+4. In this next step, we are going to do the pre-processing. Usually, I won't tell you exactly what to do here, but for your first exercise, I'll tell you the steps. 
+
+* Set up the recipe with `is_canceled` as the outcome and all other variables as predictors (HINT: `~.`).  
+* Use a `step_XXX()` function or functions (I think there are other ways to do this, but I found `step_mutate_at()` easiest) to create some indicator variables for the fol`lowing variables: `children`, `babies`, and `previous_cancellations`. So, the new variable should be a 1 if the original is more than 0 and 0 otherwise. Make sure you do this in a way that accounts for values that may be larger than any we see in the dataset.  
+* For the `agent` and `company` variables, make new indicator variables that are 1 if they have a value of `NULL` and 0 otherwise. 
+* Use `fct_lump_n()` to lump together countries that aren't in the top 5 most occurring. 
+* If you used new names for some of the new variables you created, then remove any variables that are no longer needed.   
+* Create dummy variables for all factors/categorical predictor variables.  
+* Use the `prep()` and `juice()` functions to apply the steps to the training data just to check that everything went as planned.
+
+
 
 ## Bias and Fairness
 
-Listen to Rachel Thomas's  [Bias and Fairness lecture](https://ethics.fast.ai/videos/?lesson=2). Write a brief paragraph reflecting on ...
+Listen to Dr. Rachel Thomas's  [Bias and Fairness lecture](https://ethics.fast.ai/videos/?lesson=2). Write a brief paragraph reflecting on it. You might also be interested in reading the [ProPublica article](https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing) Dr. Thomas references about using a tool called COMPAS to predict recidivism. Some questions/ideas you might keep in mind:
+
+* Did you hear anything that surprised you?  
+* Why is it important that we pay attention to bias and fairness when studying data science?  
+* Is there a type of bias Dr. Thomas discussed that was new to you? Can you think about places you have seen these types of biases?
 
 
