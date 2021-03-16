@@ -4,8 +4,9 @@ description: |
 ---
 
 * Review material
-  - [Lisa's Intro DS coourse](https://ds112-lendway.netlify.app/) 
-  - [Hands on Machine Learning with R](https://bradleyboehmke.github.io/HOML/) by Bradley Boehmke and Brandon Greenwell
+  - [Lisa's Intro DS course](https://ds112-lendway.netlify.app/)  
+  - [Hands on Machine Learning with R](https://bradleyboehmke.github.io/HOML/) by Bradley Boehmke and Brandon Greenwell  
+  - [Johns Hopkins SPH ADS course site](http://jtleek.com/ads2020/index.html) by Jeff Leek and Roger Peng (Has both review and new material)
   
 * Getting help/advise  
   - [Create a reprex!](https://www.tidyverse.org/help/) (**repr**oducible **ex**ample)  
