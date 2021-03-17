@@ -239,7 +239,7 @@ This step may  not seem very time consuming in this example, but you will often 
 
 * We use the `recipe()` function to define the response/outcome variable and the predictor variables. 
 
-* A variety of `step_xxx()` functions can be used to do any data pre-processing/transforming. Find them all [here](https://www.tidymodels.org/find/recipes/). I used a few, with brief descriptions in the code. I also used some selector functions, like `all_predictors()` and `all_nominal()` to help me select the right variables.
+* A variety of `step_xxx()` functions can be used to do any data pre-processing/transforming. Find them all [here](https://www.tidymodels.org/find/recipes/). I used a few, with brief descriptions in the code. I also used some selector functions, like `all_predictors()` and `all_nominal()` to help me select the right variables. One thing that is different here from what you might be used to is that we explicitly make dummy variables with the `step_dummy()` function. We don't need to always do that - it depends on the model we use. The [recommended preprocessing](https://www.tmwr.org/pre-proc-table.html) appendix of the *Tidy Modeling with R* book is a good place to look for reference.
 
 * The `update_roles()` function is used to change the roles of some variables. For us, these are variables we may want to include for evaluation purposes but will not be used in building the model. I chose the role of `evaluative` but you could name that role anything you want, eg. `id`, `extra`, `junk` (maybe a bad idea?).
 
@@ -291,8 +291,10 @@ house_recipe <- recipe(log_price ~ ., #short-cut, . = all other vars
                        "long")),
               new_role = "evaluative") %>% 
   # Create indicator variables for factors/character/nominal
+  # explicitly remove outcome, even though outcome isn't nominal
+  # this is important in cases when we have a nominal output (eg. logistic)
   step_dummy(all_nominal(), 
-             all_predictors(), 
+             -all_outcomes(), 
              -has_role(match = "evaluative"))
 ```
 
