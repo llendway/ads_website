@@ -32,5 +32,17 @@ Goals:
 * Create a small package (optional).  
 * Refresh your machine learning skills.  
 * Use the `tidymodels` packages to build models.  
-* Create a simple Shiny app.  
 * Read about and reflect on bias and fairness in data science.
+
+```{r}
+library(downloadthis)
+
+download_file(
+  path = "assignments/01_assignment.html",
+  button_label = "Download Assignment #1!",
+  button_type = "warning",
+  has_icon = TRUE,
+  icon = "fa fa-save",
+  self_contained = FALSE
+)
+```
