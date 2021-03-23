@@ -1,11 +1,12 @@
 ---
 title: "Model Stacking"
+preview: stacks_hex.png
 output:
   distill::distill_article:
     toc: true
     toc_float: true
     self_contained: false
-draft: true
+draft: false
 ---
 
 
@@ -36,6 +37,24 @@ registerS3method("knit_print", "data.frame", knit_print.data.frame)
 
 ## Follow along
 
+You can download this .Rmd file below if you'd like to follow along. I do have a few hidden notes you can disregard. This document is a distill_article, so you may want to change to an html_document to knit. You will also need to delete any image references to properly knit, since you won't have those images.
+
+```{r, echo=FALSE}
+download_file(
+  path = "stacking.Rmd",
+  button_label = "Download .Rmd file",
+  button_type = "info",
+  has_icon = TRUE,
+  icon = "fa fa-save",
+  self_contained = FALSE
+)
+```
+
+## Resources
+
+* [stacks R package documentation](https://stacks.tidymodels.org/articles/basics.html) by Simon Couch and Max Kuhn and Simon's [lightnight talk](https://youtu.be/E7uygsmx3-Y). I highly recommend watching the lightning talk first for a quick, entertaining overview.  
+* [Hands on Machine Learning](https://bradleyboehmke.github.io/HOML/stacking.html) chapter on stacking by Bradley Boehmke & Brandon Greenwell. This does not discuss the `stacks` package but gives a good overview of the stacking process.  
+
 ## Set up
 
 Here, we load libraries we will use and load the King County house price data.
@@ -60,22 +79,21 @@ house_prices %>%
   slice(1:5)
 ```
 
-## Resources
-
-* [stacks R package documentation](https://stacks.tidymodels.org/articles/basics.html) by Simon Couch and Max Kuhn and Simon's [lightnight talk](https://youtu.be/E7uygsmx3-Y). I highly recommend watching the lightning talk first for a quick, entertaining overview.  
-* [Hands on Machine Learning](https://bradleyboehmke.github.io/HOML/stacking.html) chapter on stacking by Bradley Boehmke & Brandon Greenwell. This does not discuss the `stacks` package but gives a good overview of the stacking process.  
-
 ## This isn't so new    
 
-The general idea of stacking is to combine predictions from many different models (called candidate models, candidate ensemble members, base learners, and probably other names I don't know  yet) into one "super" predictor. For example, we could fit a regression model, a decision tree, and a KNN model to the King County house price data and then average the predicted values from each of those models for a final prediction. That's a simplified version of what we'll do, but if you understand that, you'll understand stacking.  
+The general idea of stacking is to combine predictions from many different models (called candidate models, candidate ensemble members, base learners, and probably other names I don't know  yet) into one "super" predictor. For example, we could fit a regression model, a decision tree, and a KNN model to the King County house price data and then average the predicted values from each of those models for a final prediction. That's a simplified version of what we'll do, but if you understand that, you'll understand stacking. We will use the `stacks` package to help us out. I think it has one of the greatest hex stickers!
 
-We have seen something similar to this before: bagging and random forest models. Let's remember what a random forest model is:
+<center>
 
-1. Take a bootstrap sample of the data.  
+![`stacks` hex sticker from: https://stacks.tidymodels.org/index.html ](stacks_hex.png){width=50%}
+</center>
+
+We have seen something similar to this before: bagging and random forest models. Let's do a little review and remember what a random forest model is:
+
+1. Take a bootstrap sample of the data (sample of the same size as the original sample, *with replacement*).  
 2. Build a modified decision tree. At each split, only consider a random sample of the $p$ predictors, $m$. A common choice in regression models is $m = \frac{p}{3}$ and in classification models is $m = \sqrt{p}$ ($m$ can also be treated as a tuning parameter). This will limit how often a dominant predictor can be used and will make the trees less correlated.  
 3. Repeat steps 1 and 2 many times (at least 50). Call the number of trees B.  
 4. New observations will have a predicted value of the average predicted value from the B trees (or could also be the most common category for classification).    
-
 Bagging is a form of random forest with $m=p$.  
 
 To review, let's use our new `tidymodels` functions to fit a random forest model to the King County house price data.
@@ -99,7 +117,7 @@ house_training <- training(house_split)
 house_testing <- testing(house_split)
 ```
 
-First, create the recipe. With decision trees and therefore random forests, we don't have to do as much prepping of the data.
+First, create the recipe. With decision trees (and therefore random forests), we don't have to do as much prepping of the data.
 
 ```{r recipe}
 ranger_recipe <- 
@@ -113,7 +131,9 @@ ranger_recipe <-
               new_role = "evaluative")
 ```
 
-Now, define the model. We could tune the `mtry` (this is $m$, the number of randomly sampled predictors considered at each split), `min_n`, and `trees`  parameters, but we'll just choose them for now. We'll use `mtry = 6`, which is about 1/3 of the number of predictor variables, a commonly chosen value of `mtry`; `min_n` = 10 (the minimum number of data points in a node that are required for the node to be split further, ie. anything smaller and it won't be split more); and `trees = 200`, which is the number of decision trees that will be used in the ensemble.
+Now, define the model. We could tune the `mtry` (this is $m$, the number of randomly sampled predictors considered at each split), `min_n`, and `trees`  parameters, but to simplify, we'll just set them to specific values. 
+
+We'll use `mtry = 6`, which is about 1/3 of the number of predictor variables, a commonly chosen value of `mtry`; `min_n` = 10 (the minimum number of data points in a node that are required for the node to be split further, ie. anything smaller and it won't be split more); and `trees = 200`, which is the number of decision trees that will be used in the ensemble.
 
 ```{r model-def}
 ranger_spec <- 
@@ -131,9 +151,7 @@ ranger_workflow <-
   workflow() %>% 
   add_recipe(ranger_recipe) %>% 
   add_model(ranger_spec) 
-
 ```
-
 
 And then we fit the model (be sure to have the `ranger` library installed first, although it doesn't need to be loaded):
 
@@ -144,7 +162,7 @@ ranger_fit <- ranger_workflow %>%
 ranger_fit
 ```
 
-With random forests, we can estimate the prediction error, using the "out-of-bag" error (OOB error). Remember, with bootstrap samples, we sample with replacement so some observations are in the sample multiple times while others aren't in it at all. The OOB observations are those that are not in the bootstrap sample. Find predicted values for OOB observations by averaging their predicted value for the trees where they were OOB. The MSE is part of the `fit()` output and we can take the square root to get the RMSE. 
+With random forests, we can estimate the prediction error using the "out-of-bag" error (OOB error). Remember, with bootstrap samples, we sample with replacement so some observations are in the sample multiple times while others aren't in it at all. The OOB observations are those that are not in the bootstrap sample. Find predicted values for OOB observations by averaging their predicted value for the trees where they were OOB. The OOB MSE is part of the `fit()` output and we can take the square root to get the RMSE. 
 
 ```{r model-oob}
 # OOB error (MSE) ... yeah, it took me a while to find that.
@@ -154,7 +172,7 @@ ranger_fit$fit$fit$fit$prediction.error
 sqrt(ranger_fit$fit$fit$fit$prediction.error)
 ```
 
-We will also evaluate this using cross-validation because we'll need that later when we stack models. I'm using the same seed I used in the previous tutorial when we fit a linear regression because I want the same folds. 
+We will also evaluate this using cross-validation because we'll need that later when we stack models. I'm using the same seed I used in the [previous tutorial](https://advanced-ds-in-r.netlify.app/posts/2021-03-16-ml-review/) when we fit a linear regression because I want the same folds. 
 
 We also define a couple things that will be used in stacking. The `metric` tells it we are using `RMSE`. We also use the `control_stack_resamples()` function to make assure the assessment set predictions and and workflow used to fit the resamples is stored. 
 
@@ -174,7 +192,7 @@ ranger_cv <- ranger_workflow %>%
 collect_metrics(ranger_cv)
 ```
 
-Notice that the cross-validated RMSE is about the same as the OOB RMSE, but this one takes longer to compute. This is also a lot smaller than the RMSE obtained from the regular [linear regression model](https://advanced-ds-in-r.netlify.app/posts/2021-03-16-ml-review/#evaluate-compare-models) or the [lasso model](https://advanced-ds-in-r.netlify.app/posts/2021-03-16-ml-review/#tuning-model-parameters).
+Notice that the cross-validated RMSE is about the same as the OOB RMSE, but cross-validated version takes longer to run (it is fitting 200 X 5 decision trees!). This is also a lot smaller than the RMSE obtained from the regular [linear regression model](https://advanced-ds-in-r.netlify.app/posts/2021-03-16-ml-review/#evaluate-compare-models) or the [lasso model](https://advanced-ds-in-r.netlify.app/posts/2021-03-16-ml-review/#tuning-model-parameters).
 
 Just for fun, before stacking, let's also apply this model to the test data and plot the predicted vs. actual log price. Compared to this [same graph from the linear regression model](https://advanced-ds-in-r.netlify.app/posts/2021-03-16-ml-review/#apply-model-to-testing-data), this looks much better! There are still some issues with really small and really large values, but not nearly as bad.
 
@@ -195,10 +213,9 @@ ranger_workflow %>%
 ```
 
 
-## Stacking example
+## Creating more candidate models
 
 In order to create a stacked model, we first have to create the individual models. We have the random forest we just created, `ranger_cv`. Let's also recreate the lasso model from the [previous tutorial](https://advanced-ds-in-r.netlify.app/posts/2021-03-16-ml-review/#tuning-model-parameters), but add a couple missing pieces. I do that below. We will end up with 10 models that will flow into the stacked model, since we tune 10 penalty parameters.
-
 
 ```{r lasso-mod}
 # lasso recipe and transformation steps
@@ -268,10 +285,9 @@ house_lasso_tune <-
     metrics = metric,
     control = ctrl_grid
     )
-
 ```
 
-We will create one use one more model type - K-nearest neighbors. We can use the same recipes and step as in the lasso model. So, we define the model, leaving the number of neighbors (k) to be tuned; create the workflow; and tune the model (install `kknn` package first - don't need to load):
+We will create one more model type - K-nearest neighbors. We can use the same recipes and step as in the lasso model. So, we define the model, leaving the number of neighbors (k) to be tuned; create the workflow; and tune the model (install `kknn` package first - don't need to load):
 
 ```{r knn}
 # create a model definition
@@ -289,7 +305,7 @@ knn_wf <-
   add_recipe(house_recipe)
 
 # tune it using 4 tuning parameters
-knn_res <- 
+knn_tune <- 
   knn_wf %>% 
   tune_grid(
     house_cv,
@@ -299,5 +315,92 @@ knn_res <-
   )
 ```
 
+## Stacking
 
-##
+Now that we have our set of candidate models (1 random forest, 10 lasso, and 4 knn), we're ready to stack! We're going to follow the process laid out on the [`stacks` webpage](https://stacks.tidymodels.org/articles/basics.html#putting-together-a-stack). 
+
+First, create the stack. Notice in the message, it has removed some of the candidate models, likely since they were too similar to other lasso models. 
+
+```{r stack, message=TRUE}
+house_stack <- 
+  stacks() %>% 
+  add_candidates(ranger_cv) %>% 
+  add_candidates(house_lasso_tune) %>% 
+  add_candidates(knn_tune)
+```
+
+We can look at the predictions from the candidate models in a tibble. The first column is the actual outcome, `log_price` and the other columns are the predictions from the various models. They are given names that make sense - how nice! Note that with classification models, there will be a column for each model for each level of the outcome variable. So, for a binary response there would be two prediction columns for each model.
+
+```{r stack-tibble}
+as_tibble(house_stack)
+```
+
+Now, as mentioned at the beginning, we want to blend the predictions from each model together to form an even better overall prediction. LASSO will be used to do this via the `blend_predictions()` function. 
+
+From the documentation, `blend_predictions()` 
+"evaluates a data stack by fitting a regularized model on the assessment predictions from each candidate member to predict the true outcome. This process determines the "stacking coefficients" of the model stack. The stacking coefficients are used to weight the predictions from each candidate (represented by a unique column in the data stack), and are given by the betas of a LASSO model fitting the true outcome with the predictions given in the remaining columns of the data stack."
+
+Doing this with our models, we see only two models have non-zero coefficients:
+
+```{r}
+house_blend <- 
+  house_stack %>% 
+  blend_predictions()
+
+house_blend
+```
+
+We can see the rmse for the various penalty parameters:
+
+```{r}
+house_blend$metrics %>% 
+  filter(.metric == "rmse")
+```
+
+We can examine some plots to see if we need to adjust the penalty parameter at all. First, a set of three plots with penalty on the x axis. We seem to have captured the smallest RMSE so I won't adjust the penalty at all. You can change the penalty as an argument in the `blend_predictions()` function.
+
+```{r}
+autoplot(house_blend)
+```
+
+We can also examine the plot with average number of members on the x-axis. You might wonder where the average comes from - it is because we are using cross-validation. So, we get different results for each penalty depending on the fold being left out. This plot can be a little hard to read since the rmse and rsq share the same y-axis even though they could be on very different scales. 
+
+```{r}
+autoplot(house_blend, type = "members")
+```
+
+The last plot we might examine shows the blending weights for the top ensemble members.
+
+```{r}
+autoplot(house_blend, type = "weights")
+```
+
+The last thing we need to do is fit the candidate models with non-zero stacking coefficients to the full training data. We use `fit_members()` to do that.
+
+```{r}
+house_final_stack <- house_blend %>% 
+  fit_members()
+
+house_final_stack
+
+collect_metrics()
+```
+
+Now we can use this just as we would use a single model. For example, we can predict with it on new data and create the same predicted vs. actual plot we made above.
+
+```{r}
+house_final_stack %>% 
+  predict(new_data = house_testing) %>% 
+  bind_cols(house_testing) %>% 
+  ggplot(aes(x = log_price, 
+             y = .pred)) +
+  geom_point(alpha = .5, 
+             size = .5) +
+  geom_smooth(se = FALSE) +
+  geom_abline(slope = 1, 
+              intercept = 0, 
+              color = "darkred") +
+  labs(x = "Actual log(price)", 
+       y = "Predicted log(price)")
+```
+
