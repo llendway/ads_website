@@ -1,0 +1,181 @@
+---
+title: "Interpretable Machine Learning"
+description: |
+  This tutorial focuses on global interpretation.
+output:
+  distill::distill_article:
+    toc: true
+    toc_float: true
+    self_contained: false
+draft: true
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      message = FALSE,
+                      warning = FALSE,
+                      error = TRUE)
+```
+
+```{r echo=FALSE}
+library(emo)          # for emojis!   
+library(downloadthis) # for including download buttons for files
+```
+
+```{r paged-table, echo=FALSE}
+# define a method for objects of the class data.frame
+# see https://github.com/rstudio/distill/issues/310#issuecomment-797541459
+library(knitr)
+knit_print.data.frame <- function(x, ...) {
+  asis_output(
+    rmarkdown:::paged_table_html(x, options = attr(x, "options")),
+    meta = list(dependencies = rmarkdown:::html_dependency_pagedtable())
+  )
+}
+registerS3method("knit_print", "data.frame", knit_print.data.frame)
+```
+
+## Follow along
+
+You can download this .Rmd file below if you'd like to follow along. I do have a few hidden notes you can disregard. This document is a distill_article, so you may want to change to an html_document to knit. You will also need to delete any image references to properly knit, since you won't have those images.
+
+```{r, echo=FALSE}
+download_file(
+  path = "unkglobal.Rmd",
+  button_label = "Download .Rmd file",
+  button_type = "info",
+  has_icon = TRUE,
+  icon = "fa fa-save",
+  self_contained = FALSE
+)
+```
+
+## Resources
+
+* [Interpretable Machine Learning](https://bradleyboehmke.github.io/HOML/iml.html) chapter of HOML by by Bradley Boehmke & Brandon Greenwell. 
+
+* [Explanatory Model Analysis](https://ema.drwhy.ai/modelLevelExploration.html) by Przemyslaw Biecek and Tomasz Burzykowski, section III: Dataset Level chapters.
+
+## Set up
+
+First, we load the libraries we will use. There will be some new ones you'll need to install.
+
+```{r libraries}
+library(tidyverse)         # for reading in data, graphing, and cleaning
+library(tidymodels)        # for modeling ... tidily
+library(stacks)            # for stacking models
+library(moderndive)        # for King County housing data
+library(vip)               # for variable importance plots
+library(DALEX)             # moDel Agnostic Language for Exploration and eXplanation (for model interpretation)  
+library(DALEXtra)          # for extension of DALEX
+library(patchwork)         # for combining plots nicely
+library(rmarkdown)         # for paged tables
+theme_set(theme_minimal()) # my favorite ggplot2 theme :)
+```
+
+Then we load the data we will use throughout this tutorial.
+```{r}
+# SEE modeldata package for new datasets
+data("house_prices")
+```
+
+
+## Intro
+
+In your machine learning course, you probably spent some time discussing pros and cons of the different types of model or algorithms. If you think way back to Intro to Statistical Modeling, you probably remember spending A LOT of time interpreting linear and logistic regression models. That is one huge advantage to those models: we can easily state the relationship between the predictors and the response variables just using the coefficients of the model. Even when we have somewhat complex models that include things like interaction terms, there is often a fairly easy interpretation. 
+
+As we use more complex algorithms like random forests, gradient boosted machines, and deep learning, explaining the model becomes quite tricky. But it is important to try to understand. This is especially true in cases where the model is being applied to or affecting people. 
+
+We will learn ways of interpreting our models globally and locally. This tutorial focuses on global model interpretations, where we try to understand the overall relationships between the predictor variables and the response. Next week, we'll learn about local model interpretations where we try to understand the impact of variables on individual observations. 
+
+## King County house data, random forest model
+
+Let's use the King County house price data again. I'm going to use the same random forest model I created in the [stacking tutorial](https://advanced-ds-in-r.netlify.app/posts/2021-03-22-stacking/#this-isnt-so-new). We wouldn't have to use `log_price`, but I'm going to keep it that way so I can reference some of the output from that model. 
+
+ADD ANOTHER MODEL!
+
+Recreate the model:
+
+```{r rf-model}
+set.seed(327) #for reproducibility
+
+house_prices <- house_prices %>% 
+  mutate(log_price = log(price, base = 10)) %>% 
+  select(-price)
+
+# Randomly assigns 75% of the data to training.
+house_split <- initial_split(house_prices, 
+                             prop = .75)
+house_training <- training(house_split)
+house_testing <- testing(house_split)
+
+# set up recipe and transformation steps and roles
+ranger_recipe <- 
+  recipe(formula = log_price ~ ., 
+         data = house_training) %>% 
+  step_date(date, 
+            features = "month") %>% 
+  # Make these evaluative variables, not included in modeling
+  update_role(all_of(c("id",
+                       "date")),
+              new_role = "evaluative")
+
+#define model
+ranger_spec <- 
+  rand_forest(mtry = 6, 
+              min_n = 10, 
+              trees = 200) %>% 
+  set_mode("regression") %>% 
+  set_engine("ranger")
+
+#create workflow
+ranger_workflow <- 
+  workflow() %>% 
+  add_recipe(ranger_recipe) %>% 
+  add_model(ranger_spec) 
+
+#fit the model
+ranger_fit <- ranger_workflow %>% 
+  fit(house_training)
+
+# compute the training rmse - we'll compare to this later
+house_training %>% 
+  select(log_price) %>% 
+  bind_cols(predict(ranger_fit, new_data = house_training)) %>%
+  summarize(training_rmse = sqrt(mean((log_price - .pred)^2)))
+```
+
+## Global Model Interpretation
+
+
+Create "explainer"
+```{r}
+rf_explain <- 
+  explain_tidymodels(
+    model = ranger_fit,
+    data = house_training %>% select(-log_price), 
+    y = house_training %>%  pull(log_price)
+  )
+```
+
+See `?plot.model_performance` for info on the different `geom` options.
+
+```{r}
+rf_mod_perf <-  model_performance(
+  rf_explain
+)
+
+rf_mod_perf #notice the rmse is the same as the training rmse I calculated "by hand" above
+
+hist_plot <- 
+  plot(rf_mod_perf, 
+       geom = "histogram")
+box_plot <-
+  plot(rf_mod_perf, 
+       geom = "boxplot")
+
+hist_plot + box_plot
+```
+
+
