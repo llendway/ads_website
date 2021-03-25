@@ -74,10 +74,16 @@ library(rmarkdown)         # for paged tables
 theme_set(theme_minimal()) # my favorite ggplot2 theme :)
 ```
 
-Then we load the data we will use throughout this tutorial.
+Then we load the data we will use throughout this tutorial and do some modifications.
 ```{r}
 # SEE modeldata package for new datasets
 data("house_prices")
+
+# Create log_price and drop price variable
+house_prices <- house_prices %>% 
+  mutate(log_price = log(price, base = 10)) %>% 
+  select(-price)
+
 ```
 
 
@@ -87,22 +93,16 @@ In your machine learning course, you probably spent some time discussing pros an
 
 As we use more complex algorithms like random forests, gradient boosted machines, and deep learning, explaining the model becomes quite tricky. But it is important to try to understand. This is especially true in cases where the model is being applied to or affecting people. 
 
-We will learn ways of interpreting our models globally and locally. This tutorial focuses on global model interpretations, where we try to understand the overall relationships between the predictor variables and the response. Next week, we'll learn about local model interpretations where we try to understand the impact of variables on individual observations. 
+We will learn ways of interpreting our models globally and locally. This tutorial focuses on global model interpretations, where we try to understand the overall relationships between the predictor variables and the response. Next week, we'll learn about local model interpretations where we try to understand the impact variables have on individual observations. 
 
-## King County house data, random forest model
+## Build some models
 
-Let's use the King County house price data again. I'm going to use the same random forest model I created in the [stacking tutorial](https://advanced-ds-in-r.netlify.app/posts/2021-03-22-stacking/#this-isnt-so-new). We wouldn't have to use `log_price`, but I'm going to keep it that way so I can reference some of the output from that model. 
+Let's use the King County house price data again. We will build a lasso model, like in the [Intro to tidymodels tutorial](https://advanced-ds-in-r.netlify.app/posts/2021-03-16-ml-review/#using-tidymodels-for-the-process) and the random forest model from the [stacking tutorial](https://advanced-ds-in-r.netlify.app/posts/2021-03-22-stacking/#this-isnt-so-new). We wouldn't have to use `log_price`, but I'm going to keep it that way so I can reference some of the output from that model. 
 
-ADD ANOTHER MODEL!
+Recreate the lasso model (I used `select_best()` rather than `select_one_std_err()` like I did originally): 
 
-Recreate the model:
-
-```{r rf-model}
+```{r lasso-mod, cache=TRUE}
 set.seed(327) #for reproducibility
-
-house_prices <- house_prices %>% 
-  mutate(log_price = log(price, base = 10)) %>% 
-  select(-price)
 
 # Randomly assigns 75% of the data to training.
 house_split <- initial_split(house_prices, 
@@ -110,6 +110,100 @@ house_split <- initial_split(house_prices,
 house_training <- training(house_split)
 house_testing <- testing(house_split)
 
+# lasso recipe and transformation steps
+house_recipe <- recipe(log_price ~ ., 
+                       data = house_training) %>% 
+  step_rm(sqft_living15, sqft_lot15) %>%
+  step_log(starts_with("sqft"),
+           -sqft_basement, 
+           base = 10) %>% 
+  step_mutate(grade = as.character(grade),
+              grade = fct_relevel(
+                        case_when(
+                          grade %in% "1":"6"   ~ "below_average",
+                          grade %in% "10":"13" ~ "high",
+                          TRUE ~ grade
+                        ),
+                        "below_average","7","8","9","high"),
+              basement = as.numeric(sqft_basement == 0),
+              renovated = as.numeric(yr_renovated == 0),
+              view = as.numeric(view == 0),
+              waterfront = as.numeric(waterfront),
+              age_at_sale = year(date) - yr_built)%>% 
+  step_rm(sqft_basement, 
+          yr_renovated, 
+          yr_built) %>% 
+  step_date(date, 
+            features = "month") %>% 
+  update_role(all_of(c("id",
+                       "date",
+                       "zipcode", 
+                       "lat", 
+                       "long")),
+              new_role = "evaluative") %>% 
+  step_dummy(all_nominal(), 
+             -all_outcomes(), 
+             -has_role(match = "evaluative")) %>% 
+  step_normalize(all_predictors(), 
+                 -all_nominal())
+
+#define lasso model
+house_lasso_mod <- 
+  linear_reg(mixture = 1) %>% 
+  set_engine("glmnet") %>% 
+  set_args(penalty = tune()) %>% 
+  set_mode("regression")
+
+# create workflow
+house_lasso_wf <- 
+  workflow() %>% 
+  add_recipe(house_recipe) %>% 
+  add_model(house_lasso_mod)
+
+# create cv samples
+set.seed(1211) # for reproducibility
+house_cv <- vfold_cv(house_training, v = 5)
+
+
+# penalty grid - changed to 10 levels
+penalty_grid <- grid_regular(penalty(),
+                             levels = 10)
+
+# tune the model 
+house_lasso_tune <- 
+  house_lasso_wf %>% 
+  tune_grid(
+    resamples = house_cv,
+    grid = penalty_grid
+    )
+
+# choose the best penalty
+best_param <- house_lasso_tune %>% 
+  select_best(metric = "rmse")
+
+# finalize workflow
+house_lasso_final_wf <- house_lasso_wf %>% 
+  finalize_workflow(best_param)
+
+# fit final model
+house_lasso_final_mod <- house_lasso_final_wf %>% 
+  fit(data = house_training)
+
+# compute the training rmse - we'll compare to this later
+house_training %>% 
+  select(log_price) %>% 
+  bind_cols(
+    predict(house_lasso_final_mod, 
+            new_data = house_training)
+    ) %>%
+  summarize(
+    training_rmse = sqrt(mean((log_price - .pred)^2))
+    )
+```
+
+Recreate the random forest model:
+
+```{r rf-model, cache=TRUE}
 # set up recipe and transformation steps and roles
 ranger_recipe <- 
   recipe(formula = log_price ~ ., 
@@ -136,6 +230,7 @@ ranger_workflow <-
   add_model(ranger_spec) 
 
 #fit the model
+set.seed(712) # for reproducibility - random sampling in random forest choosing number of variables
 ranger_fit <- ranger_workflow %>% 
   fit(house_training)
 
@@ -148,34 +243,95 @@ house_training %>%
 
 ## Global Model Interpretation
 
+We will be using some functions from the `DALEX` and `DALEXtra` packages for model explanation. The first step is to create an "explainer". According the [documentation](https://ema.drwhy.ai/dataSetsIntro.html#ExplainersTitanicRCode), this is "an object that provides a uniform interface for different models." There is a generic `explain()` function, but we will use the `explain_tidymodels()` function which is set up to work well with models built with the `tidymodels` framework. We need to provide the `model`; `data`, which is the dataset we will be using for interpretation WITHOUT the outcome variable; and `y` which is a vector of the outcome variable that corresponds to the same observations from the `data` argument. We will also provide a `label`, an optional argument to identify our models.
 
-Create "explainer"
+(NOTE: I used the training data. I'm not positive which data should be used, to be honest, but most of the examples I saw used the training data, so that's what I went with. Christoph Molnar discusses this in-depth regarding [Variable Importance](https://christophm.github.io/interpretable-ml-book/feature-importance.html#feature-importance-data).)
+
+Create explainer for the lasso model:
+
+```{r}
+lasso_explain <- 
+  explain_tidymodels(
+    model = house_lasso_final_mod,
+    data = house_training %>% select(-log_price), 
+    y = house_training %>%  pull(log_price),
+    label = "lasso"
+  )
+```
+
+Create explainer for the random forest model:
+
 ```{r}
 rf_explain <- 
   explain_tidymodels(
     model = ranger_fit,
     data = house_training %>% select(-log_price), 
-    y = house_training %>%  pull(log_price)
+    y = house_training %>%  pull(log_price),
+    label = "rf"
   )
 ```
 
-See `?plot.model_performance` for info on the different `geom` options.
+### Model performance
+
+One way to explain a model is through its performance, using statistics like RMSE for models involving a quantitative response variable or accuracy or AUC for models with a binary response variable. We already know how to look at these statistics, but we'll see how to use some functions from `DALEX` and `DALEXtra` to do it. 
+
+The `model_performance()` function gives some overall model evaluation metrics. We are using the training data right now, so these metrics will be different from the cross-validated or test data results. They do match the training rmse I computed in the previous section. 
 
 ```{r}
-rf_mod_perf <-  model_performance(
-  rf_explain
-)
+lasso_mod_perf <- model_performance(lasso_explain)
+rf_mod_perf <-  model_performance(rf_explain)
 
-rf_mod_perf #notice the rmse is the same as the training rmse I calculated "by hand" above
+# lasso model performance
+lasso_mod_perf
 
+# random forest model performance
+rf_mod_perf
+```
+
+We can plot the results using the `plot()` function. See `?plot.model_performance` for info on the different `geom` options (you may need to adjust the `fig.width` and `fig.height` in the R code chunk options to make this look nice). For example, with binary outcome models, you may be more interested in an ROC curve (`geom = "roc"`). 
+
+Below we plot both histograms of residuals and boxplots of the absolute residuals. Note that the histogram labels are reversed, but the colors match the boxplots correctly. I have filed an [issue](https://github.com/ModelOriented/DALEX/issues/400). 
+
+```{r, fig.width=7, fig.height=4}
 hist_plot <- 
-  plot(rf_mod_perf, 
+  plot(lasso_mod_perf,
+       rf_mod_perf, 
        geom = "histogram")
 box_plot <-
-  plot(rf_mod_perf, 
+  plot(lasso_mod_perf,
+       rf_mod_perf, 
        geom = "boxplot")
 
 hist_plot + box_plot
 ```
 
+### Variable importance
+
+You have already seen at least one variable importance plot, but let's dig in a bit more into how they are constructed. Boehmke and Greenwell give an excellent, simple explanation in [section 16.3.1](https://bradleyboehmke.github.io/HOML/iml.html#concept) of their Hands on Machine Learning in R textbook. I will give a slightly modified version below.
+
+1. Compute the performance metric for the model (RMSE, accuracy, etc.).  
+2. For each variable in the model, do the following:
+  * Permute the values. This means you randomly mix up the values for that variable across observations. For example, if we have ten observations of a variable with the values (2,3,4,3,2,5,6,7,8,5), a possible permutation would be (5,2,8,3,4,6,2,3,5,7). 
+  * Fit the model again with this new permuted variable in place of the original variable.  
+  * Compute the performance metric of interest (RMSE, accuracy, etc.).  
+  * Find the variable's importance by comparing the new performance metric to the original model's performance metric (difference or ratio, usually scaled)  
+3. Sort variables by descending importance
+
+This procedure could be repeated multiple times to obtain an estimate of the variability of importance.
+
+Let's consider a model with a quantitative response. If permuting variable `x` greatly increases the RMSE relative to permuting other variables, then variable `x` would be important. With a binary response, permuted variables that greatly decrease the accuracy relative to other variables would be important. Variable importance is a nice, easy interpretation. It tells us how much the model error would increase if that variable weren't in the model. 
+
+Now, let's use some functions from `DALEX` to help us compute and graph variable importance. First, we use the `model_parts()` function. The only argument we need to provide is an explainer. By default, it will use RMSE for regression and 1-AUC for classification for the `loss_function` - it is possible to write your own.  The `type` argument tells it whether to use the raw loss (default), difference (`type = difference`) between permuted and original, or ratio (`type = ratio`) between the permuted and original. The `N` argument tells it how many observations to sample to do the computation. The default is 1000. 
+
+Create a variable (aka feature) importance plot for the lasso model: 
+
+```{r vip, fig.width=5, fig.height=3}
+set.seed(10) #since we are sampling & permuting, we set a seed so we can replicate the results
+lasso_var_imp <- 
+  model_parts(
+    lasso_explain
+    )
+
+plot(lasso_var_imp, show_boxplots = TRUE)
+```
 
