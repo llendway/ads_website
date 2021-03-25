@@ -1,0 +1,1833 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ad0000; } /* Alert */
+code span.an { color: #5e5e5e; } /* Annotation */
+code span.at { color: #20794d; } /* Attribute */
+code span.bn { color: #ad0000; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007ba5; } /* ControlFlow */
+code span.ch { color: #20794d; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #5e5e5e; } /* Comment */
+code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+code span.dt { color: #ad0000; } /* DataType */
+code span.dv { color: #ad0000; } /* DecVal */
+code span.er { color: #ad0000; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #ad0000; } /* Float */
+code span.fu { color: #4758ab; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #5e5e5e; } /* Information */
+code span.kw { color: #007ba5; } /* Keyword */
+code span.op { color: #5e5e5e; } /* Operator */
+code span.ot { color: #007ba5; } /* Other */
+code span.pp { color: #ad0000; } /* Preprocessor */
+code span.sc { color: #20794d; } /* SpecialChar */
+code span.ss { color: #20794d; } /* SpecialString */
+code span.st { color: #20794d; } /* String */
+code span.va { color: #111111; } /* Variable */
+code span.vs { color: #20794d; } /* VerbatimString */
+code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+</style>
+
+  <!--radix_placeholder_meta_tags-->
+  <title>Interpretable Machine Learning</title>
+  
+  <meta property="description" itemprop="description" content="This tutorial focuses on global interpretation."/>
+  
+  
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2021-03-25"/>
+  <meta property="article:created" itemprop="dateCreated" content="2021-03-25"/>
+  
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="Interpretable Machine Learning"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:description" content="This tutorial focuses on global interpretation."/>
+  <meta property="og:locale" content="en_US"/>
+  
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content="Interpretable Machine Learning"/>
+  <meta property="twitter:description" content="This tutorial focuses on global interpretation."/>
+  
+  <!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","output","draft","date"]}},"value":[{"type":"character","attributes":{},"value":["Interpretable Machine Learning"]},{"type":"character","attributes":{},"value":["This tutorial focuses on global interpretation.\n"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_float","self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["03-25-2021"]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["imlglobal_files/anchor-4.2.2/anchor.min.js","imlglobal_files/bowser-1.9.3/bowser.min.js","imlglobal_files/distill-2.2.21/template.v2.js","imlglobal_files/jquery-1.11.3/jquery.min.js","imlglobal_files/pagedtable-1.1/css/pagedtable.css","imlglobal_files/pagedtable-1.1/js/pagedtable.js","imlglobal_files/webcomponents-2.0.0/webcomponents.js"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+  
+  <style type="text/css">
+  
+  body {
+    background-color: white;
+  }
+  
+  .pandoc-table {
+    width: 100%;
+  }
+  
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+  
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+  
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+  
+  d-byline .byline {
+    grid-template-columns: 2fr 2fr;
+  }
+  
+  d-byline .byline h3 {
+    margin-block-start: 1.5em;
+  }
+  
+  d-byline .byline .authors-affiliations h3 {
+    margin-block-start: 0.5em;
+  }
+  
+  .authors-affiliations .orcid-id {
+    width: 16px;
+    height:16px;
+    margin-left: 4px;
+    margin-right: 4px;
+    vertical-align: middle;
+    padding-bottom: 2px;
+  }
+  
+  d-title .dt-tags {
+    margin-top: 1em;
+    grid-column: text;
+  }
+  
+  .dt-tags .dt-tag {
+    text-decoration: none;
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0em 0.4em;
+    margin-right: 0.5em;
+    margin-bottom: 0.4em;
+    font-size: 70%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  
+  d-article table.gt_table td,
+  d-article table.gt_table th {
+    border-bottom: none;
+  }
+  
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+  
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+  
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+  
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .shaded-content {
+    background: white;
+  }
+  
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+  
+  .hidden {
+    display: none !important;
+  }
+  
+  d-article {
+    padding-top: 2.5rem;
+    padding-bottom: 30px;
+  }
+  
+  d-appendix {
+    padding-top: 30px;
+  }
+  
+  d-article>p>img {
+    width: 100%;
+  }
+  
+  d-article h2 {
+    margin: 1rem 0 1.5rem 0;
+  }
+  
+  d-article h3 {
+    margin-top: 1.5rem;
+  }
+  
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+  
+  /* Tweak code blocks */
+  
+  d-article div.sourceCode code,
+  d-article pre code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  }
+  
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: auto;
+  }
+  
+  d-article div.sourceCode {
+    background-color: white;
+  }
+  
+  d-article div.sourceCode pre {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+  
+  d-article pre {
+    font-size: 12px;
+    color: black;
+    background: none;
+    margin-top: 0;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  d-article pre a {
+    border-bottom: none;
+  }
+  
+  d-article pre a:hover {
+    border-bottom: none;
+    text-decoration: underline;
+  }
+  
+  @media(min-width: 768px) {
+  
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: visible !important;
+  }
+  
+  d-article div.sourceCode pre {
+    padding-left: 18px;
+    font-size: 14px;
+  }
+  
+  d-article pre {
+    font-size: 14px;
+  }
+  
+  }
+  
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  /* CSS for d-contents */
+  
+  .d-contents {
+    grid-column: text;
+    color: rgba(0,0,0,0.8);
+    font-size: 0.9em;
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
+    padding-left: 0.25em;
+    justify-self: start;
+  }
+  
+  @media(min-width: 1000px) {
+    .d-contents.d-contents-float {
+      height: 0;
+      grid-column-start: 1;
+      grid-column-end: 4;
+      justify-self: center;
+      padding-right: 3em;
+      padding-left: 2em;
+    }
+  }
+  
+  .d-contents nav h3 {
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 1em;
+  }
+  
+  .d-contents li {
+    list-style-type: none
+  }
+  
+  .d-contents nav > ul {
+    padding-left: 0;
+  }
+  
+  .d-contents ul {
+    padding-left: 1em
+  }
+  
+  .d-contents nav ul li {
+    margin-top: 0.6em;
+    margin-bottom: 0.2em;
+  }
+  
+  .d-contents nav a {
+    font-size: 13px;
+    border-bottom: none;
+    text-decoration: none
+    color: rgba(0, 0, 0, 0.8);
+  }
+  
+  .d-contents nav a:hover {
+    text-decoration: underline solid rgba(0, 0, 0, 0.6)
+  }
+  
+  .d-contents nav > ul > li > a {
+    font-weight: 600;
+  }
+  
+  .d-contents nav > ul > li > ul {
+    font-weight: inherit;
+  }
+  
+  .d-contents nav > ul > li > ul > li {
+    margin-top: 0.2em;
+  }
+  
+  
+  .d-contents nav ul {
+    margin-top: 0;
+    margin-bottom: 0.25em;
+  }
+  
+  .d-article-with-toc h2:nth-child(2) {
+    margin-top: 0;
+  }
+  
+  
+  /* Figure */
+  
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+  
+  .figure img {
+    width: 100%;
+  }
+  
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+  
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+  
+  /* Citations */
+  
+  d-article .citation {
+    color: inherit;
+    cursor: inherit;
+  }
+  
+  div.hanging-indent{
+    margin-left: 1em; text-indent: -1em;
+  }
+  
+  
+  /* Tweak 1000px media break to show more text */
+  
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+  
+    .grid {
+      grid-column-gap: 16px;
+    }
+  
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+  
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+  
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+  
+  
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+  
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  
+  /* Include appendix styles here so they can be overridden */
+  
+  d-appendix {
+    contain: layout style;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-top: 60px;
+    margin-bottom: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    color: rgba(0,0,0,0.5);
+    padding-top: 60px;
+    padding-bottom: 48px;
+  }
+  
+  d-appendix h3 {
+    grid-column: page-start / text-start;
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 1em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.65);
+  }
+  
+  d-appendix h3 + * {
+    margin-top: 1em;
+  }
+  
+  d-appendix ol {
+    padding: 0 0 0 15px;
+  }
+  
+  @media (min-width: 768px) {
+    d-appendix ol {
+      padding: 0 0 0 30px;
+      margin-left: -30px;
+    }
+  }
+  
+  d-appendix li {
+    margin-bottom: 1em;
+  }
+  
+  d-appendix a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  d-appendix > * {
+    grid-column: text;
+  }
+  
+  d-appendix > d-footnote-list,
+  d-appendix > d-citation-list,
+  d-appendix > distill-appendix {
+    grid-column: screen;
+  }
+  
+  /* Include footnote styles here so they can be overridden */
+  
+  d-footnote-list {
+    contain: layout style;
+  }
+  
+  d-footnote-list > * {
+    grid-column: text;
+  }
+  
+  d-footnote-list a.footnote-backlink {
+    color: rgba(0,0,0,0.3);
+    padding-left: 0.5em;
+  }
+  
+  
+  
+  /* Anchor.js */
+  
+  .anchorjs-link {
+    /*transition: all .25s linear; */
+    text-decoration: none;
+    border-bottom: none;
+  }
+  *:hover > .anchorjs-link {
+    margin-left: -1.125em !important;
+    text-decoration: none;
+    border-bottom: none;
+  }
+  
+  /* Social footer */
+  
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+  
+  .disqus-comments {
+    margin-right: 30px;
+  }
+  
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+  
+  #disqus_thread {
+    margin-top: 30px;
+  }
+  
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+  
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+  
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+  
+  
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+  
+  
+  .sidebar-section.custom {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .custom p {
+    margin-bottom: 0.5em;
+  }
+  
+  /* Styles for listing layout (hide title) */
+  .layout-listing d-title, .layout-listing .d-title {
+    display: none;
+  }
+  
+  /* Styles for posts lists (not auto-injected) */
+  
+  
+  .posts-with-sidebar {
+    padding-left: 45px;
+    padding-right: 45px;
+  }
+  
+  .posts-list .description h2,
+  .posts-list .description p {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  }
+  
+  .posts-list .description h2 {
+    font-weight: 700;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  
+  .posts-list h2.post-tag {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding-bottom: 12px;
+  }
+  .posts-list {
+    margin-top: 60px;
+    margin-bottom: 24px;
+  }
+  
+  .posts-list .post-preview {
+    text-decoration: none;
+    overflow: hidden;
+    display: block;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 24px 0;
+  }
+  
+  .post-preview-last {
+    border-bottom: none !important;
+  }
+  
+  .posts-list .posts-list-caption {
+    grid-column: screen;
+    font-weight: 400;
+  }
+  
+  .posts-list .post-preview h2 {
+    margin: 0 0 6px 0;
+    line-height: 1.2em;
+    font-style: normal;
+    font-size: 24px;
+  }
+  
+  .posts-list .post-preview p {
+    margin: 0 0 12px 0;
+    line-height: 1.4em;
+    font-size: 16px;
+  }
+  
+  .posts-list .post-preview .thumbnail {
+    box-sizing: border-box;
+    margin-bottom: 24px;
+    position: relative;
+    max-width: 500px;
+  }
+  .posts-list .post-preview img {
+    width: 100%;
+    display: block;
+  }
+  
+  .posts-list .metadata {
+    font-size: 12px;
+    line-height: 1.4em;
+    margin-bottom: 18px;
+  }
+  
+  .posts-list .metadata > * {
+    display: inline-block;
+  }
+  
+  .posts-list .metadata .publishedDate {
+    margin-right: 2em;
+  }
+  
+  .posts-list .metadata .dt-authors {
+    display: block;
+    margin-top: 0.3em;
+    margin-right: 2em;
+  }
+  
+  .posts-list .dt-tags {
+    display: block;
+    line-height: 1em;
+  }
+  
+  .posts-list .dt-tags .dt-tag {
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0.3em 0.4em;
+    margin-right: 0.2em;
+    margin-bottom: 0.4em;
+    font-size: 60%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  
+  .posts-list img {
+    opacity: 1;
+  }
+  
+  .posts-list img[data-src] {
+    opacity: 0;
+  }
+  
+  .posts-more {
+    clear: both;
+  }
+  
+  
+  .posts-sidebar {
+    font-size: 16px;
+  }
+  
+  .posts-sidebar h3 {
+    font-size: 16px;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+  
+  .sidebar-section {
+    margin-bottom: 30px;
+  }
+  
+  .categories ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .categories li {
+    color: rgba(0, 0, 0, 0.8);
+    margin-bottom: 0;
+  }
+  
+  .categories li>a {
+    border-bottom: none;
+  }
+  
+  .categories li>a:hover {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  }
+  
+  .categories .active {
+    font-weight: 600;
+  }
+  
+  .categories .category-count {
+    color: rgba(0, 0, 0, 0.4);
+  }
+  
+  
+  @media(min-width: 768px) {
+    .posts-list .post-preview h2 {
+      font-size: 26px;
+    }
+    .posts-list .post-preview .thumbnail {
+      float: right;
+      width: 30%;
+      margin-bottom: 0;
+    }
+    .posts-list .post-preview .description {
+      float: left;
+      width: 45%;
+    }
+    .posts-list .post-preview .metadata {
+      float: left;
+      width: 20%;
+      margin-top: 8px;
+    }
+    .posts-list .post-preview p {
+      margin: 0 0 12px 0;
+      line-height: 1.5em;
+      font-size: 16px;
+    }
+    .posts-with-sidebar .posts-list {
+      float: left;
+      width: 75%;
+    }
+    .posts-with-sidebar .posts-sidebar {
+      float: right;
+      width: 20%;
+      margin-top: 60px;
+      padding-top: 24px;
+      padding-bottom: 24px;
+    }
+  }
+  
+  
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+  
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+  
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+  
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+  
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+  
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+  
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+  
+  
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+  
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+  
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+  
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+  
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  .downlevel .posts-list .post-preview {
+    color: inherit;
+  }
+  
+  
+  
+  </style>
+  
+  <script type="application/javascript">
+  
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+  
+  // show body when load is complete
+  function on_load_complete() {
+  
+    // add anchors
+    if (window.anchors) {
+      window.anchors.options.placement = 'left';
+      window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
+    }
+  
+  
+    // set body to visible
+    document.body.style.visibility = 'visible';
+  
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+  
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+  
+  function init_distill() {
+  
+    init_common();
+  
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+  
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+  
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+  
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+  
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+  
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+  
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+  
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+  
+    // move refs into #references-listing
+    $('#references-listing').replaceWith($('#refs'));
+  
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-contents a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+  
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+  
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+  
+      // capture layout
+      var layout = $(this).attr('data-layout');
+  
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('div.sourceCode, pre, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+  
+  
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+  
+    // remove code block used to force  highlighting css
+    $('.distill-force-highlighting-css').parent().remove();
+  
+    // remove empty line numbers inserted by pandoc when using a
+    // custom syntax highlighting theme
+    $('code.sourceCode a:empty').remove();
+  
+    // load distill framework
+    load_distill_framework();
+  
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+  
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+  
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+  
+      // article with toc class
+      $('.d-contents').parent().addClass('d-article-with-toc');
+  
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+  
+      // add orcid ids
+      $('.authors-affiliations').find('.author').each(function(i, el) {
+        var orcid_id = front_matter.authors[i].orcidID;
+        if (orcid_id) {
+          var a = $('<a></a>');
+          a.attr('href', 'https://orcid.org/' + orcid_id);
+          var img = $('<img></img>');
+          img.addClass('orcid-id');
+          img.attr('alt', 'ORCID ID');
+          img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
+          a.append(img);
+          $(this).append(a);
+        }
+      });
+  
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+  
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+  
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+  
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+  
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+  
+      // remove d-appendix and d-footnote-list local styles
+      $('d-appendix > style:first-child').remove();
+      $('d-footnote-list > style:first-child').remove();
+  
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+  
+      // clear polling timer
+      clearInterval(tid);
+  
+      // show body now that everything is ready
+      on_load_complete();
+    }
+  
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+  
+  }
+  
+  function init_downlevel() {
+  
+    init_common();
+  
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+  
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+  
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+  
+    // remove toc
+    $('.d-contents').remove();
+  
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+  
+  
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+  
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+  
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+  
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+  
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+  
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+  
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+  
+    $('body').addClass('downlevel');
+  
+    on_load_complete();
+  }
+  
+  
+  function init_common() {
+  
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+  
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+  
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+  
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+  
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+  
+      }
+    });
+  
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+  
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+      });
+    }
+  
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+  
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+  
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+  
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+  
+  </script>
+  
+  <!--/radix_placeholder_distill-->
+  <script src="imlglobal_files/font-awesome-5.13.0/js/script.js"></script>
+  <link href="imlglobal_files/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+  <script src="imlglobal_files/pagedtable-1.1/js/pagedtable.js"></script>
+  <script src="imlglobal_files/jquery-1.11.3/jquery.min.js"></script>
+  <script src="imlglobal_files/anchor-4.2.2/anchor.min.js"></script>
+  <script src="imlglobal_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="imlglobal_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="imlglobal_files/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Interpretable Machine Learning","description":"This tutorial focuses on global interpretation.","authors":[],"publishedDate":"2021-03-25T00:00:00.000+00:00"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Interpretable Machine Learning</h1>
+<!--radix_placeholder_categories-->
+<!--/radix_placeholder_categories-->
+<p><p>This tutorial focuses on global interpretation.</p></p>
+</div>
+
+
+<div class="d-article">
+<div class="d-contents d-contents-float">
+<nav class="l-text toc figcaption" id="TOC">
+<h3>Contents</h3>
+<ul>
+<li><a href="#follow-along">Follow along</a></li>
+<li><a href="#resources">Resources</a></li>
+<li><a href="#set-up">Set up</a></li>
+<li><a href="#intro">Intro</a></li>
+<li><a href="#build-some-models">Build some models</a></li>
+<li><a href="#global-model-interpretation">Global Model Interpretation</a><ul>
+<li><a href="#model-performance">Model performance</a></li>
+<li><a href="#variable-importance">Variable importance</a></li>
+</ul></li>
+</ul>
+</nav>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<h2 id="follow-along">Follow along</h2>
+<p>You can download this .Rmd file below if you’d like to follow along. I do have a few hidden notes you can disregard. This document is a distill_article, so you may want to change to an html_document to knit. You will also need to delete any image references to properly knit, since you won’t have those images.</p>
+<div class="layout-chunk" data-layout="l-body">
+<a href="data:text/x-markdown;base64,LS0tCnRpdGxlOiAiSW50ZXJwcmV0YWJsZSBNYWNoaW5lIExlYXJuaW5nIgpkZXNjcmlwdGlvbjogfAogIFRoaXMgdHV0b3JpYWwgZm9jdXNlcyBvbiBnbG9iYWwgaW50ZXJwcmV0YXRpb24uCm91dHB1dDoKICBkaXN0aWxsOjpkaXN0aWxsX2FydGljbGU6CiAgICB0b2M6IHRydWUKICAgIHRvY19mbG9hdDogdHJ1ZQogICAgc2VsZl9jb250YWluZWQ6IGZhbHNlCmRyYWZ0OiB0cnVlCi0tLQoKCmBgYHtyIHNldHVwLCBpbmNsdWRlPUZBTFNFfQprbml0cjo6b3B0c19jaHVuayRzZXQoZWNobyA9IFRSVUUsCiAgICAgICAgICAgICAgICAgICAgICBtZXNzYWdlID0gRkFMU0UsCiAgICAgICAgICAgICAgICAgICAgICB3YXJuaW5nID0gRkFMU0UsCiAgICAgICAgICAgICAgICAgICAgICBlcnJvciA9IFRSVUUpCmBgYAoKYGBge3IgZWNobz1GQUxTRX0KbGlicmFyeShlbW8pICAgICAgICAgICMgZm9yIGVtb2ppcyEgICAKbGlicmFyeShkb3dubG9hZHRoaXMpICMgZm9yIGluY2x1ZGluZyBkb3dubG9hZCBidXR0b25zIGZvciBmaWxlcwpgYGAKCmBgYHtyIHBhZ2VkLXRhYmxlLCBlY2hvPUZBTFNFfQojIGRlZmluZSBhIG1ldGhvZCBmb3Igb2JqZWN0cyBvZiB0aGUgY2xhc3MgZGF0YS5mcmFtZQojIHNlZSBodHRwczovL2dpdGh1Yi5jb20vcnN0dWRpby9kaXN0aWxsL2lzc3Vlcy8zMTAjaXNzdWVjb21tZW50LTc5NzU0MTQ1OQpsaWJyYXJ5KGtuaXRyKQprbml0X3ByaW50LmRhdGEuZnJhbWUgPC0gZnVuY3Rpb24oeCwgLi4uKSB7CiAgYXNpc19vdXRwdXQoCiAgICBybWFya2Rvd246OjpwYWdlZF90YWJsZV9odG1sKHgsIG9wdGlvbnMgPSBhdHRyKHgsICJvcHRpb25zIikpLAogICAgbWV0YSA9IGxpc3QoZGVwZW5kZW5jaWVzID0gcm1hcmtkb3duOjo6aHRtbF9kZXBlbmRlbmN5X3BhZ2VkdGFibGUoKSkKICApCn0KcmVnaXN0ZXJTM21ldGhvZCgia25pdF9wcmludCIsICJkYXRhLmZyYW1lIiwga25pdF9wcmludC5kYXRhLmZyYW1lKQpgYGAKCiMjIEZvbGxvdyBhbG9uZwoKWW91IGNhbiBkb3dubG9hZCB0aGlzIC5SbWQgZmlsZSBiZWxvdyBpZiB5b3UnZCBsaWtlIHRvIGZvbGxvdyBhbG9uZy4gSSBkbyBoYXZlIGEgZmV3IGhpZGRlbiBub3RlcyB5b3UgY2FuIGRpc3JlZ2FyZC4gVGhpcyBkb2N1bWVudCBpcyBhIGRpc3RpbGxfYXJ0aWNsZSwgc28geW91IG1heSB3YW50IHRvIGNoYW5nZSB0byBhbiBodG1sX2RvY3VtZW50IHRvIGtuaXQuIFlvdSB3aWxsIGFsc28gbmVlZCB0byBkZWxldGUgYW55IGltYWdlIHJlZmVyZW5jZXMgdG8gcHJvcGVybHkga25pdCwgc2luY2UgeW91IHdvbid0IGhhdmUgdGhvc2UgaW1hZ2VzLgoKYGBge3IsIGVjaG89RkFMU0V9CmRvd25sb2FkX2ZpbGUoCiAgcGF0aCA9ICJpbWxnbG9iYWwuUm1kIiwKICBidXR0b25fbGFiZWwgPSAiRG93bmxvYWQgLlJtZCBmaWxlIiwKICBidXR0b25fdHlwZSA9ICJpbmZvIiwKICBoYXNfaWNvbiA9IFRSVUUsCiAgaWNvbiA9ICJmYSBmYS1zYXZlIiwKICBzZWxmX2NvbnRhaW5lZCA9IEZBTFNFCikKYGBgCgojIyBSZXNvdXJjZXMKCiogW0ludGVycHJldGFibGUgTWFjaGluZSBMZWFybmluZ10oaHR0cHM6Ly9icmFkbGV5Ym9laG1rZS5naXRodWIuaW8vSE9NTC9pbWwuaHRtbCkgY2hhcHRlciBvZiBIT01MIGJ5IGJ5IEJyYWRsZXkgQm9laG1rZSAmIEJyYW5kb24gR3JlZW53ZWxsLiAKCiogW0V4cGxhbmF0b3J5IE1vZGVsIEFuYWx5c2lzXShodHRwczovL2VtYS5kcndoeS5haS9tb2RlbExldmVsRXhwbG9yYXRpb24uaHRtbCkgYnkgUHJ6ZW15c2xhdyBCaWVjZWsgYW5kIFRvbWFzeiBCdXJ6eWtvd3NraSwgc2VjdGlvbiBJSUk6IERhdGFzZXQgTGV2ZWwgY2hhcHRlcnMuCgojIyBTZXQgdXAKCkZpcnN0LCB3ZSBsb2FkIHRoZSBsaWJyYXJpZXMgd2Ugd2lsbCB1c2UuIFRoZXJlIHdpbGwgYmUgc29tZSBuZXcgb25lcyB5b3UnbGwgbmVlZCB0byBpbnN0YWxsLgoKYGBge3IgbGlicmFyaWVzfQpsaWJyYXJ5KHRpZHl2ZXJzZSkgICAgICAgICAjIGZvciByZWFkaW5nIGluIGRhdGEsIGdyYXBoaW5nLCBhbmQgY2xlYW5pbmcKbGlicmFyeSh0aWR5bW9kZWxzKSAgICAgICAgIyBmb3IgbW9kZWxpbmcgLi4uIHRpZGlseQpsaWJyYXJ5KHN0YWNrcykgICAgICAgICAgICAjIGZvciBzdGFja2luZyBtb2RlbHMKbGlicmFyeShtb2Rlcm5kaXZlKSAgICAgICAgIyBmb3IgS2luZyBDb3VudHkgaG91c2luZyBkYXRhCmxpYnJhcnkodmlwKSAgICAgICAgICAgICAgICMgZm9yIHZhcmlhYmxlIGltcG9ydGFuY2UgcGxvdHMKbGlicmFyeShEQUxFWCkgICAgICAgICAgICAgIyBtb0RlbCBBZ25vc3RpYyBMYW5ndWFnZSBmb3IgRXhwbG9yYXRpb24gYW5kIGVYcGxhbmF0aW9uIChmb3IgbW9kZWwgaW50ZXJwcmV0YXRpb24pICAKbGlicmFyeShEQUxFWHRyYSkgICAgICAgICAgIyBmb3IgZXh0ZW5zaW9uIG9mIERBTEVYCmxpYnJhcnkocGF0Y2h3b3JrKSAgICAgICAgICMgZm9yIGNvbWJpbmluZyBwbG90cyBuaWNlbHkKbGlicmFyeShybWFya2Rvd24pICAgICAgICAgIyBmb3IgcGFnZWQgdGFibGVzCnRoZW1lX3NldCh0aGVtZV9taW5pbWFsKCkpICMgbXkgZmF2b3JpdGUgZ2dwbG90MiB0aGVtZSA6KQpgYGAKClRoZW4gd2UgbG9hZCB0aGUgZGF0YSB3ZSB3aWxsIHVzZSB0aHJvdWdob3V0IHRoaXMgdHV0b3JpYWwgYW5kIGRvIHNvbWUgbW9kaWZpY2F0aW9ucy4KYGBge3J9CiMgU0VFIG1vZGVsZGF0YSBwYWNrYWdlIGZvciBuZXcgZGF0YXNldHMKZGF0YSgiaG91c2VfcHJpY2VzIikKCiMgQ3JlYXRlIGxvZ19wcmljZSBhbmQgZHJvcCBwcmljZSB2YXJpYWJsZQpob3VzZV9wcmljZXMgPC0gaG91c2VfcHJpY2VzICU+JSAKICBtdXRhdGUobG9nX3ByaWNlID0gbG9nKHByaWNlLCBiYXNlID0gMTApKSAlPiUgCiAgc2VsZWN0KC1wcmljZSkKCmBgYAoKCiMjIEludHJvCgpJbiB5b3VyIG1hY2hpbmUgbGVhcm5pbmcgY291cnNlLCB5b3UgcHJvYmFibHkgc3BlbnQgc29tZSB0aW1lIGRpc2N1c3NpbmcgcHJvcyBhbmQgY29ucyBvZiB0aGUgZGlmZmVyZW50IHR5cGVzIG9mIG1vZGVsIG9yIGFsZ29yaXRobXMuIElmIHlvdSB0aGluayB3YXkgYmFjayB0byBJbnRybyB0byBTdGF0aXN0aWNhbCBNb2RlbGluZywgeW91IHByb2JhYmx5IHJlbWVtYmVyIHNwZW5kaW5nIEEgTE9UIG9mIHRpbWUgaW50ZXJwcmV0aW5nIGxpbmVhciBhbmQgbG9naXN0aWMgcmVncmVzc2lvbiBtb2RlbHMuIFRoYXQgaXMgb25lIGh1Z2UgYWR2YW50YWdlIHRvIHRob3NlIG1vZGVsczogd2UgY2FuIGVhc2lseSBzdGF0ZSB0aGUgcmVsYXRpb25zaGlwIGJldHdlZW4gdGhlIHByZWRpY3RvcnMgYW5kIHRoZSByZXNwb25zZSB2YXJpYWJsZXMganVzdCB1c2luZyB0aGUgY29lZmZpY2llbnRzIG9mIHRoZSBtb2RlbC4gRXZlbiB3aGVuIHdlIGhhdmUgc29tZXdoYXQgY29tcGxleCBtb2RlbHMgdGhhdCBpbmNsdWRlIHRoaW5ncyBsaWtlIGludGVyYWN0aW9uIHRlcm1zLCB0aGVyZSBpcyBvZnRlbiBhIGZhaXJseSBlYXN5IGludGVycHJldGF0aW9uLiAKCkFzIHdlIHVzZSBtb3JlIGNvbXBsZXggYWxnb3JpdGhtcyBsaWtlIHJhbmRvbSBmb3Jlc3RzLCBncmFkaWVudCBib29zdGVkIG1hY2hpbmVzLCBhbmQgZGVlcCBsZWFybmluZywgZXhwbGFpbmluZyB0aGUgbW9kZWwgYmVjb21lcyBxdWl0ZSB0cmlja3kuIEJ1dCBpdCBpcyBpbXBvcnRhbnQgdG8gdHJ5IHRvIHVuZGVyc3RhbmQuIFRoaXMgaXMgZXNwZWNpYWxseSB0cnVlIGluIGNhc2VzIHdoZXJlIHRoZSBtb2RlbCBpcyBiZWluZyBhcHBsaWVkIHRvIG9yIGFmZmVjdGluZyBwZW9wbGUuIAoKV2Ugd2lsbCBsZWFybiB3YXlzIG9mIGludGVycHJldGluZyBvdXIgbW9kZWxzIGdsb2JhbGx5IGFuZCBsb2NhbGx5LiBUaGlzIHR1dG9yaWFsIGZvY3VzZXMgb24gZ2xvYmFsIG1vZGVsIGludGVycHJldGF0aW9ucywgd2hlcmUgd2UgdHJ5IHRvIHVuZGVyc3RhbmQgdGhlIG92ZXJhbGwgcmVsYXRpb25zaGlwcyBiZXR3ZWVuIHRoZSBwcmVkaWN0b3IgdmFyaWFibGVzIGFuZCB0aGUgcmVzcG9uc2UuIE5leHQgd2Vlaywgd2UnbGwgbGVhcm4gYWJvdXQgbG9jYWwgbW9kZWwgaW50ZXJwcmV0YXRpb25zIHdoZXJlIHdlIHRyeSB0byB1bmRlcnN0YW5kIHRoZSBpbXBhY3QgdmFyaWFibGVzIGhhdmUgb24gaW5kaXZpZHVhbCBvYnNlcnZhdGlvbnMuIAoKIyMgQnVpbGQgc29tZSBtb2RlbHMKCkxldCdzIHVzZSB0aGUgS2luZyBDb3VudHkgaG91c2UgcHJpY2UgZGF0YSBhZ2Fpbi4gV2Ugd2lsbCBidWlsZCBhIGxhc3NvIG1vZGVsLCBsaWtlIGluIHRoZSBbSW50cm8gdG8gdGlkeW1vZGVscyB0dXRvcmlhbF0oaHR0cHM6Ly9hZHZhbmNlZC1kcy1pbi1yLm5ldGxpZnkuYXBwL3Bvc3RzLzIwMjEtMDMtMTYtbWwtcmV2aWV3LyN1c2luZy10aWR5bW9kZWxzLWZvci10aGUtcHJvY2VzcykgYW5kIHRoZSByYW5kb20gZm9yZXN0IG1vZGVsIGZyb20gdGhlIFtzdGFja2luZyB0dXRvcmlhbF0oaHR0cHM6Ly9hZHZhbmNlZC1kcy1pbi1yLm5ldGxpZnkuYXBwL3Bvc3RzLzIwMjEtMDMtMjItc3RhY2tpbmcvI3RoaXMtaXNudC1zby1uZXcpLiBXZSB3b3VsZG4ndCBoYXZlIHRvIHVzZSBgbG9nX3ByaWNlYCwgYnV0IEknbSBnb2luZyB0byBrZWVwIGl0IHRoYXQgd2F5IHNvIEkgY2FuIHJlZmVyZW5jZSBzb21lIG9mIHRoZSBvdXRwdXQgZnJvbSB0aGF0IG1vZGVsLiAKClJlY3JlYXRlIHRoZSBsYXNzbyBtb2RlbCAoSSB1c2VkIGBzZWxlY3RfYmVzdCgpYCByYXRoZXIgdGhhbiBgc2VsZWN0X29uZV9zdGRfZXJyKClgIGxpa2UgSSBkaWQgb3JpZ2luYWxseSk6IAoKYGBge3IgbGFzc28tbW9kfQpzZXQuc2VlZCgzMjcpICNmb3IgcmVwcm9kdWNpYmlsaXR5CgojIFJhbmRvbWx5IGFzc2lnbnMgNzUlIG9mIHRoZSBkYXRhIHRvIHRyYWluaW5nLgpob3VzZV9zcGxpdCA8LSBpbml0aWFsX3NwbGl0KGhvdXNlX3ByaWNlcywgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgcHJvcCA9IC43NSkKaG91c2VfdHJhaW5pbmcgPC0gdHJhaW5pbmcoaG91c2Vfc3BsaXQpCmhvdXNlX3Rlc3RpbmcgPC0gdGVzdGluZyhob3VzZV9zcGxpdCkKCiMgbGFzc28gcmVjaXBlIGFuZCB0cmFuc2Zvcm1hdGlvbiBzdGVwcwpob3VzZV9yZWNpcGUgPC0gcmVjaXBlKGxvZ19wcmljZSB+IC4sIAogICAgICAgICAgICAgICAgICAgICAgIGRhdGEgPSBob3VzZV90cmFpbmluZykgJT4lIAogIHN0ZXBfcm0oc3FmdF9saXZpbmcxNSwgc3FmdF9sb3QxNSkgJT4lCiAgc3RlcF9sb2coc3RhcnRzX3dpdGgoInNxZnQiKSwKICAgICAgICAgICAtc3FmdF9iYXNlbWVudCwgCiAgICAgICAgICAgYmFzZSA9IDEwKSAlPiUgCiAgc3RlcF9tdXRhdGUoZ3JhZGUgPSBhcy5jaGFyYWN0ZXIoZ3JhZGUpLAogICAgICAgICAgICAgIGdyYWRlID0gZmN0X3JlbGV2ZWwoCiAgICAgICAgICAgICAgICAgICAgICAgIGNhc2Vfd2hlbigKICAgICAgICAgICAgICAgICAgICAgICAgICBncmFkZSAlaW4lICIxIjoiNiIgICB+ICJiZWxvd19hdmVyYWdlIiwKICAgICAgICAgICAgICAgICAgICAgICAgICBncmFkZSAlaW4lICIxMCI6IjEzIiB+ICJoaWdoIiwKICAgICAgICAgICAgICAgICAgICAgICAgICBUUlVFIH4gZ3JhZGUKICAgICAgICAgICAgICAgICAgICAgICAgKSwKICAgICAgICAgICAgICAgICAgICAgICAgImJlbG93X2F2ZXJhZ2UiLCI3IiwiOCIsIjkiLCJoaWdoIiksCiAgICAgICAgICAgICAgYmFzZW1lbnQgPSBhcy5udW1lcmljKHNxZnRfYmFzZW1lbnQgPT0gMCksCiAgICAgICAgICAgICAgcmVub3ZhdGVkID0gYXMubnVtZXJpYyh5cl9yZW5vdmF0ZWQgPT0gMCksCiAgICAgICAgICAgICAgdmlldyA9IGFzLm51bWVyaWModmlldyA9PSAwKSwKICAgICAgICAgICAgICB3YXRlcmZyb250ID0gYXMubnVtZXJpYyh3YXRlcmZyb250KSwKICAgICAgICAgICAgICBhZ2VfYXRfc2FsZSA9IHllYXIoZGF0ZSkgLSB5cl9idWlsdCklPiUgCiAgc3RlcF9ybShzcWZ0X2Jhc2VtZW50LCAKICAgICAgICAgIHlyX3Jlbm92YXRlZCwgCiAgICAgICAgICB5cl9idWlsdCkgJT4lIAogIHN0ZXBfZGF0ZShkYXRlLCAKICAgICAgICAgICAgZmVhdHVyZXMgPSAibW9udGgiKSAlPiUgCiAgdXBkYXRlX3JvbGUoYWxsX29mKGMoImlkIiwKICAgICAgICAgICAgICAgICAgICAgICAiZGF0ZSIsCiAgICAgICAgICAgICAgICAgICAgICAgInppcGNvZGUiLCAKICAgICAgICAgICAgICAgICAgICAgICAibGF0IiwgCiAgICAgICAgICAgICAgICAgICAgICAgImxvbmciKSksCiAgICAgICAgICAgICAgbmV3X3JvbGUgPSAiZXZhbHVhdGl2ZSIpICU+JSAKICBzdGVwX2R1bW15KGFsbF9ub21pbmFsKCksIAogICAgICAgICAgICAgLWFsbF9vdXRjb21lcygpLCAKICAgICAgICAgICAgIC1oYXNfcm9sZShtYXRjaCA9ICJldmFsdWF0aXZlIikpICU+JSAKICBzdGVwX25vcm1hbGl6ZShhbGxfcHJlZGljdG9ycygpLCAKICAgICAgICAgICAgICAgICAtYWxsX25vbWluYWwoKSkKCiNkZWZpbmUgbGFzc28gbW9kZWwKaG91c2VfbGFzc29fbW9kIDwtIAogIGxpbmVhcl9yZWcobWl4dHVyZSA9IDEpICU+JSAKICBzZXRfZW5naW5lKCJnbG1uZXQiKSAlPiUgCiAgc2V0X2FyZ3MocGVuYWx0eSA9IHR1bmUoKSkgJT4lIAogIHNldF9tb2RlKCJyZWdyZXNzaW9uIikKCiMgY3JlYXRlIHdvcmtmbG93CmhvdXNlX2xhc3NvX3dmIDwtIAogIHdvcmtmbG93KCkgJT4lIAogIGFkZF9yZWNpcGUoaG91c2VfcmVjaXBlKSAlPiUgCiAgYWRkX21vZGVsKGhvdXNlX2xhc3NvX21vZCkKCiMgY3JlYXRlIGN2IHNhbXBsZXMKc2V0LnNlZWQoMTIxMSkgIyBmb3IgcmVwcm9kdWNpYmlsaXR5CmhvdXNlX2N2IDwtIHZmb2xkX2N2KGhvdXNlX3RyYWluaW5nLCB2ID0gNSkKCgojIHBlbmFsdHkgZ3JpZCAtIGNoYW5nZWQgdG8gMTAgbGV2ZWxzCnBlbmFsdHlfZ3JpZCA8LSBncmlkX3JlZ3VsYXIocGVuYWx0eSgpLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgIGxldmVscyA9IDEwKQoKIyB0dW5lIHRoZSBtb2RlbCAKaG91c2VfbGFzc29fdHVuZSA8LSAKICBob3VzZV9sYXNzb193ZiAlPiUgCiAgdHVuZV9ncmlkKAogICAgcmVzYW1wbGVzID0gaG91c2VfY3YsCiAgICBncmlkID0gcGVuYWx0eV9ncmlkCiAgICApCgojIGNob29zZSB0aGUgYmVzdCBwZW5hbHR5CmJlc3RfcGFyYW0gPC0gaG91c2VfbGFzc29fdHVuZSAlPiUgCiAgc2VsZWN0X2Jlc3QobWV0cmljID0gInJtc2UiKQoKIyBmaW5hbGl6ZSB3b3JrZmxvdwpob3VzZV9sYXNzb19maW5hbF93ZiA8LSBob3VzZV9sYXNzb193ZiAlPiUgCiAgZmluYWxpemVfd29ya2Zsb3coYmVzdF9wYXJhbSkKCiMgZml0IGZpbmFsIG1vZGVsCmhvdXNlX2xhc3NvX2ZpbmFsX21vZCA8LSBob3VzZV9sYXNzb19maW5hbF93ZiAlPiUgCiAgZml0KGRhdGEgPSBob3VzZV90cmFpbmluZykKCiMgY29tcHV0ZSB0aGUgdHJhaW5pbmcgcm1zZSAtIHdlJ2xsIGNvbXBhcmUgdG8gdGhpcyBsYXRlcgpob3VzZV90cmFpbmluZyAlPiUgCiAgc2VsZWN0KGxvZ19wcmljZSkgJT4lIAogIGJpbmRfY29scygKICAgIHByZWRpY3QoaG91c2VfbGFzc29fZmluYWxfbW9kLCAKICAgICAgICAgICAgbmV3X2RhdGEgPSBob3VzZV90cmFpbmluZykKICAgICkgJT4lCiAgc3VtbWFyaXplKAogICAgdHJhaW5pbmdfcm1zZSA9IHNxcnQobWVhbigobG9nX3ByaWNlIC0gLnByZWQpXjIpKQogICAgKQpgYGAKClJlY3JlYXRlIHRoZSByYW5kb20gZm9yZXN0IG1vZGVsOgoKYGBge3IgcmYtbW9kZWx9CiMgc2V0IHVwIHJlY2lwZSBhbmQgdHJhbnNmb3JtYXRpb24gc3RlcHMgYW5kIHJvbGVzCnJhbmdlcl9yZWNpcGUgPC0gCiAgcmVjaXBlKGZvcm11bGEgPSBsb2dfcHJpY2UgfiAuLCAKICAgICAgICAgZGF0YSA9IGhvdXNlX3RyYWluaW5nKSAlPiUgCiAgc3RlcF9kYXRlKGRhdGUsIAogICAgICAgICAgICBmZWF0dXJlcyA9ICJtb250aCIpICU+JSAKICAjIE1ha2UgdGhlc2UgZXZhbHVhdGl2ZSB2YXJpYWJsZXMsIG5vdCBpbmNsdWRlZCBpbiBtb2RlbGluZwogIHVwZGF0ZV9yb2xlKGFsbF9vZihjKCJpZCIsCiAgICAgICAgICAgICAgICAgICAgICAgImRhdGUiKSksCiAgICAgICAgICAgICAgbmV3X3JvbGUgPSAiZXZhbHVhdGl2ZSIpCgojZGVmaW5lIG1vZGVsCnJhbmdlcl9zcGVjIDwtIAogIHJhbmRfZm9yZXN0KG10cnkgPSA2LCAKICAgICAgICAgICAgICBtaW5fbiA9IDEwLCAKICAgICAgICAgICAgICB0cmVlcyA9IDIwMCkgJT4lIAogIHNldF9tb2RlKCJyZWdyZXNzaW9uIikgJT4lIAogIHNldF9lbmdpbmUoInJhbmdlciIpCgojY3JlYXRlIHdvcmtmbG93CnJhbmdlcl93b3JrZmxvdyA8LSAKICB3b3JrZmxvdygpICU+JSAKICBhZGRfcmVjaXBlKHJhbmdlcl9yZWNpcGUpICU+JSAKICBhZGRfbW9kZWwocmFuZ2VyX3NwZWMpIAoKI2ZpdCB0aGUgbW9kZWwKc2V0LnNlZWQoNzEyKSAjIGZvciByZXByb2R1Y2liaWxpdHkgLSByYW5kb20gc2FtcGxpbmcgaW4gcmFuZG9tIGZvcmVzdCBjaG9vc2luZyBudW1iZXIgb2YgdmFyaWFibGVzCnJhbmdlcl9maXQgPC0gcmFuZ2VyX3dvcmtmbG93ICU+JSAKICBmaXQoaG91c2VfdHJhaW5pbmcpCgojIGNvbXB1dGUgdGhlIHRyYWluaW5nIHJtc2UgLSB3ZSdsbCBjb21wYXJlIHRvIHRoaXMgbGF0ZXIKaG91c2VfdHJhaW5pbmcgJT4lIAogIHNlbGVjdChsb2dfcHJpY2UpICU+JSAKICBiaW5kX2NvbHMocHJlZGljdChyYW5nZXJfZml0LCBuZXdfZGF0YSA9IGhvdXNlX3RyYWluaW5nKSkgJT4lCiAgc3VtbWFyaXplKHRyYWluaW5nX3Jtc2UgPSBzcXJ0KG1lYW4oKGxvZ19wcmljZSAtIC5wcmVkKV4yKSkpCmBgYAoKIyMgR2xvYmFsIE1vZGVsIEludGVycHJldGF0aW9uCgpXZSB3aWxsIGJlIHVzaW5nIHNvbWUgZnVuY3Rpb25zIGZyb20gdGhlIGBEQUxFWGAgYW5kIGBEQUxFWHRyYWAgcGFja2FnZXMgZm9yIG1vZGVsIGV4cGxhbmF0aW9uLiBUaGUgZmlyc3Qgc3RlcCBpcyB0byBjcmVhdGUgYW4gImV4cGxhaW5lciIuIEFjY29yZGluZyB0aGUgW2RvY3VtZW50YXRpb25dKGh0dHBzOi8vZW1hLmRyd2h5LmFpL2RhdGFTZXRzSW50cm8uaHRtbCNFeHBsYWluZXJzVGl0YW5pY1JDb2RlKSwgdGhpcyBpcyAiYW4gb2JqZWN0IHRoYXQgcHJvdmlkZXMgYSB1bmlmb3JtIGludGVyZmFjZSBmb3IgZGlmZmVyZW50IG1vZGVscy4iIFRoZXJlIGlzIGEgZ2VuZXJpYyBgZXhwbGFpbigpYCBmdW5jdGlvbiwgYnV0IHdlIHdpbGwgdXNlIHRoZSBgZXhwbGFpbl90aWR5bW9kZWxzKClgIGZ1bmN0aW9uIHdoaWNoIGlzIHNldCB1cCB0byB3b3JrIHdlbGwgd2l0aCBtb2RlbHMgYnVpbHQgd2l0aCB0aGUgYHRpZHltb2RlbHNgIGZyYW1ld29yay4gV2UgbmVlZCB0byBwcm92aWRlIHRoZSBgbW9kZWxgOyBgZGF0YWAsIHdoaWNoIGlzIHRoZSBkYXRhc2V0IHdlIHdpbGwgYmUgdXNpbmcgZm9yIGludGVycHJldGF0aW9uIFdJVEhPVVQgdGhlIG91dGNvbWUgdmFyaWFibGU7IGFuZCBgeWAgd2hpY2ggaXMgYSB2ZWN0b3Igb2YgdGhlIG91dGNvbWUgdmFyaWFibGUgdGhhdCBjb3JyZXNwb25kcyB0byB0aGUgc2FtZSBvYnNlcnZhdGlvbnMgZnJvbSB0aGUgYGRhdGFgIGFyZ3VtZW50LiBXZSB3aWxsIGFsc28gcHJvdmlkZSBhIGBsYWJlbGAsIGFuIG9wdGlvbmFsIGFyZ3VtZW50IHRvIGlkZW50aWZ5IG91ciBtb2RlbHMuCgooTk9URTogSSB1c2VkIHRoZSB0cmFpbmluZyBkYXRhLiBJJ20gbm90IHBvc2l0aXZlIHdoaWNoIGRhdGEgc2hvdWxkIGJlIHVzZWQsIHRvIGJlIGhvbmVzdCwgYnV0IG1vc3Qgb2YgdGhlIGV4YW1wbGVzIEkgc2F3IHVzZWQgdGhlIHRyYWluaW5nIGRhdGEsIHNvIHRoYXQncyB3aGF0IEkgd2VudCB3aXRoLiBDaHJpc3RvcGggTW9sbmFyIGRpc2N1c3NlcyB0aGlzIGluLWRlcHRoIHJlZ2FyZGluZyBbVmFyaWFibGUgSW1wb3J0YW5jZV0oaHR0cHM6Ly9jaHJpc3RvcGhtLmdpdGh1Yi5pby9pbnRlcnByZXRhYmxlLW1sLWJvb2svZmVhdHVyZS1pbXBvcnRhbmNlLmh0bWwjZmVhdHVyZS1pbXBvcnRhbmNlLWRhdGEpLikKCkNyZWF0ZSBleHBsYWluZXIgZm9yIHRoZSBsYXNzbyBtb2RlbDoKCmBgYHtyfQpsYXNzb19leHBsYWluIDwtIAogIGV4cGxhaW5fdGlkeW1vZGVscygKICAgIG1vZGVsID0gaG91c2VfbGFzc29fZmluYWxfbW9kLAogICAgZGF0YSA9IGhvdXNlX3RyYWluaW5nICU+JSBzZWxlY3QoLWxvZ19wcmljZSksIAogICAgeSA9IGhvdXNlX3RyYWluaW5nICU+JSAgcHVsbChsb2dfcHJpY2UpLAogICAgbGFiZWwgPSAibGFzc28iCiAgKQpgYGAKCkNyZWF0ZSBleHBsYWluZXIgZm9yIHRoZSByYW5kb20gZm9yZXN0IG1vZGVsOgoKYGBge3J9CnJmX2V4cGxhaW4gPC0gCiAgZXhwbGFpbl90aWR5bW9kZWxzKAogICAgbW9kZWwgPSByYW5nZXJfZml0LAogICAgZGF0YSA9IGhvdXNlX3RyYWluaW5nICU+JSBzZWxlY3QoLWxvZ19wcmljZSksIAogICAgeSA9IGhvdXNlX3RyYWluaW5nICU+JSAgcHVsbChsb2dfcHJpY2UpLAogICAgbGFiZWwgPSAicmYiCiAgKQpgYGAKCiMjIyBNb2RlbCBwZXJmb3JtYW5jZQoKT25lIHdheSB0byBleHBsYWluIGEgbW9kZWwgaXMgdGhyb3VnaCBpdHMgcGVyZm9ybWFuY2UsIHVzaW5nIHN0YXRpc3RpY3MgbGlrZSBSTVNFIGZvciBtb2RlbHMgaW52b2x2aW5nIGEgcXVhbnRpdGF0aXZlIHJlc3BvbnNlIHZhcmlhYmxlIG9yIGFjY3VyYWN5IG9yIEFVQyBmb3IgbW9kZWxzIHdpdGggYSBiaW5hcnkgcmVzcG9uc2UgdmFyaWFibGUuIFdlIGFscmVhZHkga25vdyBob3cgdG8gbG9vayBhdCB0aGVzZSBzdGF0aXN0aWNzLCBidXQgd2UnbGwgc2VlIGhvdyB0byB1c2Ugc29tZSBmdW5jdGlvbnMgZnJvbSBgREFMRVhgIGFuZCBgREFMRVh0cmFgIHRvIGRvIGl0LiAKClRoZSBgbW9kZWxfcGVyZm9ybWFuY2UoKWAgZnVuY3Rpb24gZ2l2ZXMgc29tZSBvdmVyYWxsIG1vZGVsIGV2YWx1YXRpb24gbWV0cmljcy4gV2UgYXJlIHVzaW5nIHRoZSB0cmFpbmluZyBkYXRhIHJpZ2h0IG5vdywgc28gdGhlc2UgbWV0cmljcyB3aWxsIGJlIGRpZmZlcmVudCBmcm9tIHRoZSBjcm9zcy12YWxpZGF0ZWQgb3IgdGVzdCBkYXRhIHJlc3VsdHMuIFRoZXkgZG8gbWF0Y2ggdGhlIHRyYWluaW5nIHJtc2UgSSBjb21wdXRlZCBpbiB0aGUgcHJldmlvdXMgc2VjdGlvbi4gCgpgYGB7cn0KbGFzc29fbW9kX3BlcmYgPC0gbW9kZWxfcGVyZm9ybWFuY2UobGFzc29fZXhwbGFpbikKcmZfbW9kX3BlcmYgPC0gIG1vZGVsX3BlcmZvcm1hbmNlKHJmX2V4cGxhaW4pCgojIGxhc3NvIG1vZGVsIHBlcmZvcm1hbmNlCmxhc3NvX21vZF9wZXJmCgojIHJhbmRvbSBmb3Jlc3QgbW9kZWwgcGVyZm9ybWFuY2UKcmZfbW9kX3BlcmYKYGBgCgpXZSBjYW4gcGxvdCB0aGUgcmVzdWx0cyB1c2luZyB0aGUgYHBsb3QoKWAgZnVuY3Rpb24uIFNlZSBgP3Bsb3QubW9kZWxfcGVyZm9ybWFuY2VgIGZvciBpbmZvIG9uIHRoZSBkaWZmZXJlbnQgYGdlb21gIG9wdGlvbnMgKHlvdSBtYXkgbmVlZCB0byBhZGp1c3QgdGhlIGBmaWcud2lkdGhgIGFuZCBgZmlnLmhlaWdodGAgaW4gdGhlIFIgY29kZSBjaHVuayBvcHRpb25zIHRvIG1ha2UgdGhpcyBsb29rIG5pY2UpLiBGb3IgZXhhbXBsZSwgd2l0aCBiaW5hcnkgb3V0Y29tZSBtb2RlbHMsIHlvdSBtYXkgYmUgbW9yZSBpbnRlcmVzdGVkIGluIGFuIFJPQyBjdXJ2ZSAoYGdlb20gPSAicm9jImApLiAKCkJlbG93IHdlIHBsb3QgYm90aCBoaXN0b2dyYW1zIG9mIHJlc2lkdWFscyBhbmQgYm94cGxvdHMgb2YgdGhlIGFic29sdXRlIHJlc2lkdWFscy4gTm90ZSB0aGF0IHRoZSBoaXN0b2dyYW0gbGFiZWxzIGFyZSByZXZlcnNlZCwgYnV0IHRoZSBjb2xvcnMgbWF0Y2ggdGhlIGJveHBsb3RzIGNvcnJlY3RseS4gSSBoYXZlIGZpbGVkIGFuIFtpc3N1ZV0oaHR0cHM6Ly9naXRodWIuY29tL01vZGVsT3JpZW50ZWQvREFMRVgvaXNzdWVzLzQwMCkuIAoKYGBge3IsIGZpZy53aWR0aD03LCBmaWcuaGVpZ2h0PTR9Cmhpc3RfcGxvdCA8LSAKICBwbG90KGxhc3NvX21vZF9wZXJmLAogICAgICAgcmZfbW9kX3BlcmYsIAogICAgICAgZ2VvbSA9ICJoaXN0b2dyYW0iKQpib3hfcGxvdCA8LQogIHBsb3QobGFzc29fbW9kX3BlcmYsCiAgICAgICByZl9tb2RfcGVyZiwgCiAgICAgICBnZW9tID0gImJveHBsb3QiKQoKaGlzdF9wbG90ICsgYm94X3Bsb3QKYGBgCgojIyMgVmFyaWFibGUgaW1wb3J0YW5jZQoKWW91IGhhdmUgYWxyZWFkeSBzZWVuIGF0IGxlYXN0IG9uZSB2YXJpYWJsZSBpbXBvcnRhbmNlIHBsb3QsIGJ1dCBsZXQncyBkaWcgaW4gYSBiaXQgbW9yZSBpbnRvIGhvdyB0aGV5IGFyZSBjb25zdHJ1Y3RlZC4gQm9laG1rZSBhbmQgR3JlZW53ZWxsIGdpdmUgYW4gZXhjZWxsZW50LCBzaW1wbGUgZXhwbGFuYXRpb24gaW4gW3NlY3Rpb24gMTYuMy4xXShodHRwczovL2JyYWRsZXlib2VobWtlLmdpdGh1Yi5pby9IT01ML2ltbC5odG1sI2NvbmNlcHQpIG9mIHRoZWlyIEhhbmRzIG9uIE1hY2hpbmUgTGVhcm5pbmcgaW4gUiB0ZXh0Ym9vay4gSSB3aWxsIGdpdmUgYSBzbGlnaHRseSBtb2RpZmllZCB2ZXJzaW9uIGJlbG93LgoKMS4gQ29tcHV0ZSB0aGUgcGVyZm9ybWFuY2UgbWV0cmljIGZvciB0aGUgbW9kZWwgKFJNU0UsIGFjY3VyYWN5LCBldGMuKS4gIAoyLiBGb3IgZWFjaCB2YXJpYWJsZSBpbiB0aGUgbW9kZWwsIGRvIHRoZSBmb2xsb3dpbmc6CiAgKiBQZXJtdXRlIHRoZSB2YWx1ZXMuIFRoaXMgbWVhbnMgeW91IHJhbmRvbWx5IG1peCB1cCB0aGUgdmFsdWVzIGZvciB0aGF0IHZhcmlhYmxlIGFjcm9zcyBvYnNlcnZhdGlvbnMuIEZvciBleGFtcGxlLCBpZiB3ZSBoYXZlIHRlbiBvYnNlcnZhdGlvbnMgb2YgYSB2YXJpYWJsZSB3aXRoIHRoZSB2YWx1ZXMgKDIsMyw0LDMsMiw1LDYsNyw4LDUpLCBhIHBvc3NpYmxlIHBlcm11dGF0aW9uIHdvdWxkIGJlICg1LDIsOCwzLDQsNiwyLDMsNSw3KS4gCiAgKiBGaXQgdGhlIG1vZGVsIGFnYWluIHdpdGggdGhpcyBuZXcgcGVybXV0ZWQgdmFyaWFibGUgaW4gcGxhY2Ugb2YgdGhlIG9yaWdpbmFsIHZhcmlhYmxlLiAgCiAgKiBDb21wdXRlIHRoZSBwZXJmb3JtYW5jZSBtZXRyaWMgb2YgaW50ZXJlc3QgKFJNU0UsIGFjY3VyYWN5LCBldGMuKS4gIAogICogRmluZCB0aGUgdmFyaWFibGUncyBpbXBvcnRhbmNlIGJ5IGNvbXBhcmluZyB0aGUgbmV3IHBlcmZvcm1hbmNlIG1ldHJpYyB0byB0aGUgb3JpZ2luYWwgbW9kZWwncyBwZXJmb3JtYW5jZSBtZXRyaWMgKGRpZmZlcmVuY2Ugb3IgcmF0aW8sIHVzdWFsbHkgc2NhbGVkKSAgCjMuIFNvcnQgdmFyaWFibGVzIGJ5IGRlc2NlbmRpbmcgaW1wb3J0YW5jZQoKVGhpcyBwcm9jZWR1cmUgY291bGQgYmUgcmVwZWF0ZWQgbXVsdGlwbGUgdGltZXMgdG8gb2J0YWluIGFuIGVzdGltYXRlIG9mIHRoZSB2YXJpYWJpbGl0eSBvZiBpbXBvcnRhbmNlLgoKTGV0J3MgY29uc2lkZXIgYSBtb2RlbCB3aXRoIGEgcXVhbnRpdGF0aXZlIHJlc3BvbnNlLiBJZiBwZXJtdXRpbmcgdmFyaWFibGUgYHhgIGdyZWF0bHkgaW5jcmVhc2VzIHRoZSBSTVNFIHJlbGF0aXZlIHRvIHBlcm11dGluZyBvdGhlciB2YXJpYWJsZXMsIHRoZW4gdmFyaWFibGUgYHhgIHdvdWxkIGJlIGltcG9ydGFudC4gV2l0aCBhIGJpbmFyeSByZXNwb25zZSwgcGVybXV0ZWQgdmFyaWFibGVzIHRoYXQgZ3JlYXRseSBkZWNyZWFzZSB0aGUgYWNjdXJhY3kgcmVsYXRpdmUgdG8gb3RoZXIgdmFyaWFibGVzIHdvdWxkIGJlIGltcG9ydGFudC4gVmFyaWFibGUgaW1wb3J0YW5jZSBpcyBhIG5pY2UsIGVhc3kgaW50ZXJwcmV0YXRpb24uIEl0IHRlbGxzIHVzIGhvdyBtdWNoIHRoZSBtb2RlbCBlcnJvciB3b3VsZCBpbmNyZWFzZSBpZiB0aGF0IHZhcmlhYmxlIHdlcmVuJ3QgaW4gdGhlIG1vZGVsLiAKCk5vdywgbGV0J3MgdXNlIHNvbWUgZnVuY3Rpb25zIGZyb20gYERBTEVYYCB0byBoZWxwIHVzIGNvbXB1dGUgYW5kIGdyYXBoIHZhcmlhYmxlIGltcG9ydGFuY2UuIEZpcnN0LCB3ZSB1c2UgdGhlIGBtb2RlbF9wYXJ0cygpYCBmdW5jdGlvbi4gVGhlIG9ubHkgYXJndW1lbnQgd2UgbmVlZCB0byBwcm92aWRlIGlzIGFuIGV4cGxhaW5lci4gQnkgZGVmYXVsdCwgaXQgd2lsbCB1c2UgUk1TRSBmb3IgcmVncmVzc2lvbiBhbmQgMS1BVUMgZm9yIGNsYXNzaWZpY2F0aW9uIGZvciB0aGUgYGxvc3NfZnVuY3Rpb25gIC0gaXQgaXMgcG9zc2libGUgdG8gd3JpdGUgeW91ciBvd24uICBUaGUgYHR5cGVgIGFyZ3VtZW50IHRlbGxzIGl0IHdoZXRoZXIgdG8gdXNlIHRoZSByYXcgbG9zcyAoZGVmYXVsdCksIGRpZmZlcmVuY2UgKGB0eXBlID0gZGlmZmVyZW5jZWApIGJldHdlZW4gcGVybXV0ZWQgYW5kIG9yaWdpbmFsLCBvciByYXRpbyAoYHR5cGUgPSByYXRpb2ApIGJldHdlZW4gdGhlIHBlcm11dGVkIGFuZCBvcmlnaW5hbC4gVGhlIGBOYCBhcmd1bWVudCB0ZWxscyBpdCBob3cgbWFueSBvYnNlcnZhdGlvbnMgdG8gc2FtcGxlIHRvIGRvIHRoZSBjb21wdXRhdGlvbi4gVGhlIGRlZmF1bHQgaXMgMTAwMC4gCgpDcmVhdGUgYSB2YXJpYWJsZSAoYWthIGZlYXR1cmUpIGltcG9ydGFuY2UgcGxvdCBmb3IgdGhlIGxhc3NvIG1vZGVsOiAKCmBgYHtyIHZpcCwgZmlnLndpZHRoPTUsIGZpZy5oZWlnaHQ9M30Kc2V0LnNlZWQoMTApICNzaW5jZSB3ZSBhcmUgc2FtcGxpbmcgJiBwZXJtdXRpbmcsIHdlIHNldCBhIHNlZWQgc28gd2UgY2FuIHJlcGxpY2F0ZSB0aGUgcmVzdWx0cwpsYXNzb192YXJfaW1wIDwtIAogIG1vZGVsX3BhcnRzKAogICAgbGFzc29fZXhwbGFpbgogICAgKQoKcGxvdChsYXNzb192YXJfaW1wLCBzaG93X2JveHBsb3RzID0gVFJVRSkKYGBgCgo=" download="imlglobal.Rmd">
+<button class="btn btn-info"><i class="fa fa-save"></i> Download .Rmd file</button>
+</a>
+</div>
+<h2 id="resources">Resources</h2>
+<ul>
+<li><p><a href="https://bradleyboehmke.github.io/HOML/iml.html">Interpretable Machine Learning</a> chapter of HOML by by Bradley Boehmke &amp; Brandon Greenwell.</p></li>
+<li><p><a href="https://ema.drwhy.ai/modelLevelExploration.html">Explanatory Model Analysis</a> by Przemyslaw Biecek and Tomasz Burzykowski, section III: Dataset Level chapters.</p></li>
+</ul>
+<h2 id="set-up">Set up</h2>
+<p>First, we load the libraries we will use. There will be some new ones you’ll need to install.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span>         <span class='co'># for reading in data, graphing, and cleaning</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidymodels.tidymodels.org'>tidymodels</a></span><span class='op'>)</span>        <span class='co'># for modeling ... tidily</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>stacks</span><span class='op'>)</span>            <span class='co'># for stacking models</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/moderndive/moderndive/issues'>moderndive</a></span><span class='op'>)</span>        <span class='co'># for King County housing data</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/koalaverse/vip/'>vip</a></span><span class='op'>)</span>               <span class='co'># for variable importance plots</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dalex.drwhy.ai'>DALEX</a></span><span class='op'>)</span>             <span class='co'># moDel Agnostic Language for Exploration and eXplanation (for model interpretation)  </span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ModelOriented.github.io/DALEXtra/'>DALEXtra</a></span><span class='op'>)</span>          <span class='co'># for extension of DALEX</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://patchwork.data-imaginist.com'>patchwork</a></span><span class='op'>)</span>         <span class='co'># for combining plots nicely</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/rstudio/rmarkdown'>rmarkdown</a></span><span class='op'>)</span>         <span class='co'># for paged tables</span>
+<span class='fu'>theme_set</span><span class='op'>(</span><span class='fu'>theme_minimal</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='co'># my favorite ggplot2 theme :)</span>
+</code></pre>
+</div>
+</div>
+Then we load the data we will use throughout this tutorial and do some modifications.
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='co'># SEE modeldata package for new datasets</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"house_prices"</span><span class='op'>)</span>
+
+<span class='co'># Create log_price and drop price variable</span>
+<span class='va'>house_prices</span> <span class='op'>&lt;-</span> <span class='va'>house_prices</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>mutate</span><span class='op'>(</span>log_price <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>price</span>, base <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>select</span><span class='op'>(</span><span class='op'>-</span><span class='va'>price</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<h2 id="intro">Intro</h2>
+<p>In your machine learning course, you probably spent some time discussing pros and cons of the different types of model or algorithms. If you think way back to Intro to Statistical Modeling, you probably remember spending A LOT of time interpreting linear and logistic regression models. That is one huge advantage to those models: we can easily state the relationship between the predictors and the response variables just using the coefficients of the model. Even when we have somewhat complex models that include things like interaction terms, there is often a fairly easy interpretation.</p>
+<p>As we use more complex algorithms like random forests, gradient boosted machines, and deep learning, explaining the model becomes quite tricky. But it is important to try to understand. This is especially true in cases where the model is being applied to or affecting people.</p>
+<p>We will learn ways of interpreting our models globally and locally. This tutorial focuses on global model interpretations, where we try to understand the overall relationships between the predictor variables and the response. Next week, we’ll learn about local model interpretations where we try to understand the impact variables have on individual observations.</p>
+<h2 id="build-some-models">Build some models</h2>
+<p>Let’s use the King County house price data again. We will build a lasso model, like in the <a href="https://advanced-ds-in-r.netlify.app/posts/2021-03-16-ml-review/#using-tidymodels-for-the-process">Intro to tidymodels tutorial</a> and the random forest model from the <a href="https://advanced-ds-in-r.netlify.app/posts/2021-03-22-stacking/#this-isnt-so-new">stacking tutorial</a>. We wouldn’t have to use <code>log_price</code>, but I’m going to keep it that way so I can reference some of the output from that model.</p>
+<p>Recreate the lasso model (I used <code>select_best()</code> rather than <code>select_one_std_err()</code> like I did originally):</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>327</span><span class='op'>)</span> <span class='co'>#for reproducibility</span>
+
+<span class='co'># Randomly assigns 75% of the data to training.</span>
+<span class='va'>house_split</span> <span class='op'>&lt;-</span> <span class='fu'>initial_split</span><span class='op'>(</span><span class='va'>house_prices</span>, 
+                             prop <span class='op'>=</span> <span class='fl'>.75</span><span class='op'>)</span>
+<span class='va'>house_training</span> <span class='op'>&lt;-</span> <span class='fu'>training</span><span class='op'>(</span><span class='va'>house_split</span><span class='op'>)</span>
+<span class='va'>house_testing</span> <span class='op'>&lt;-</span> <span class='fu'>testing</span><span class='op'>(</span><span class='va'>house_split</span><span class='op'>)</span>
+
+<span class='co'># lasso recipe and transformation steps</span>
+<span class='va'>house_recipe</span> <span class='op'>&lt;-</span> <span class='fu'>recipe</span><span class='op'>(</span><span class='va'>log_price</span> <span class='op'>~</span> <span class='va'>.</span>, 
+                       data <span class='op'>=</span> <span class='va'>house_training</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>step_rm</span><span class='op'>(</span><span class='va'>sqft_living15</span>, <span class='va'>sqft_lot15</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>step_log</span><span class='op'>(</span><span class='fu'>starts_with</span><span class='op'>(</span><span class='st'>"sqft"</span><span class='op'>)</span>,
+           <span class='op'>-</span><span class='va'>sqft_basement</span>, 
+           base <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>step_mutate</span><span class='op'>(</span>grade <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span><span class='op'>(</span><span class='va'>grade</span><span class='op'>)</span>,
+              grade <span class='op'>=</span> <span class='fu'>fct_relevel</span><span class='op'>(</span>
+                        <span class='fu'>case_when</span><span class='op'>(</span>
+                          <span class='va'>grade</span> <span class='op'>%in%</span> <span class='st'>"1"</span><span class='op'>:</span><span class='st'>"6"</span>   <span class='op'>~</span> <span class='st'>"below_average"</span>,
+                          <span class='va'>grade</span> <span class='op'>%in%</span> <span class='st'>"10"</span><span class='op'>:</span><span class='st'>"13"</span> <span class='op'>~</span> <span class='st'>"high"</span>,
+                          <span class='cn'>TRUE</span> <span class='op'>~</span> <span class='va'>grade</span>
+                        <span class='op'>)</span>,
+                        <span class='st'>"below_average"</span>,<span class='st'>"7"</span>,<span class='st'>"8"</span>,<span class='st'>"9"</span>,<span class='st'>"high"</span><span class='op'>)</span>,
+              basement <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>sqft_basement</span> <span class='op'>==</span> <span class='fl'>0</span><span class='op'>)</span>,
+              renovated <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>yr_renovated</span> <span class='op'>==</span> <span class='fl'>0</span><span class='op'>)</span>,
+              view <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>view</span> <span class='op'>==</span> <span class='fl'>0</span><span class='op'>)</span>,
+              waterfront <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>waterfront</span><span class='op'>)</span>,
+              age_at_sale <span class='op'>=</span> <span class='fu'>year</span><span class='op'>(</span><span class='va'>date</span><span class='op'>)</span> <span class='op'>-</span> <span class='va'>yr_built</span><span class='op'>)</span><span class='op'>%&gt;%</span> 
+  <span class='fu'>step_rm</span><span class='op'>(</span><span class='va'>sqft_basement</span>, 
+          <span class='va'>yr_renovated</span>, 
+          <span class='va'>yr_built</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>step_date</span><span class='op'>(</span><span class='va'>date</span>, 
+            features <span class='op'>=</span> <span class='st'>"month"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>update_role</span><span class='op'>(</span><span class='fu'>all_of</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"id"</span>,
+                       <span class='st'>"date"</span>,
+                       <span class='st'>"zipcode"</span>, 
+                       <span class='st'>"lat"</span>, 
+                       <span class='st'>"long"</span><span class='op'>)</span><span class='op'>)</span>,
+              new_role <span class='op'>=</span> <span class='st'>"evaluative"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>step_dummy</span><span class='op'>(</span><span class='fu'>all_nominal</span><span class='op'>(</span><span class='op'>)</span>, 
+             <span class='op'>-</span><span class='fu'>all_outcomes</span><span class='op'>(</span><span class='op'>)</span>, 
+             <span class='op'>-</span><span class='fu'>has_role</span><span class='op'>(</span>match <span class='op'>=</span> <span class='st'>"evaluative"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>step_normalize</span><span class='op'>(</span><span class='fu'>all_predictors</span><span class='op'>(</span><span class='op'>)</span>, 
+                 <span class='op'>-</span><span class='fu'>all_nominal</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='co'>#define lasso model</span>
+<span class='va'>house_lasso_mod</span> <span class='op'>&lt;-</span> 
+  <span class='fu'>linear_reg</span><span class='op'>(</span>mixture <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>set_engine</span><span class='op'>(</span><span class='st'>"glmnet"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>set_args</span><span class='op'>(</span>penalty <span class='op'>=</span> <span class='fu'>tune</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>set_mode</span><span class='op'>(</span><span class='st'>"regression"</span><span class='op'>)</span>
+
+<span class='co'># create workflow</span>
+<span class='va'>house_lasso_wf</span> <span class='op'>&lt;-</span> 
+  <span class='fu'>workflow</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>add_recipe</span><span class='op'>(</span><span class='va'>house_recipe</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>add_model</span><span class='op'>(</span><span class='va'>house_lasso_mod</span><span class='op'>)</span>
+
+<span class='co'># create cv samples</span>
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1211</span><span class='op'>)</span> <span class='co'># for reproducibility</span>
+<span class='va'>house_cv</span> <span class='op'>&lt;-</span> <span class='fu'>vfold_cv</span><span class='op'>(</span><span class='va'>house_training</span>, v <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
+
+
+<span class='co'># penalty grid - changed to 10 levels</span>
+<span class='va'>penalty_grid</span> <span class='op'>&lt;-</span> <span class='fu'>grid_regular</span><span class='op'>(</span><span class='fu'>penalty</span><span class='op'>(</span><span class='op'>)</span>,
+                             levels <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>
+
+<span class='co'># tune the model </span>
+<span class='va'>house_lasso_tune</span> <span class='op'>&lt;-</span> 
+  <span class='va'>house_lasso_wf</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>tune_grid</span><span class='op'>(</span>
+    resamples <span class='op'>=</span> <span class='va'>house_cv</span>,
+    grid <span class='op'>=</span> <span class='va'>penalty_grid</span>
+    <span class='op'>)</span>
+
+<span class='co'># choose the best penalty</span>
+<span class='va'>best_param</span> <span class='op'>&lt;-</span> <span class='va'>house_lasso_tune</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>select_best</span><span class='op'>(</span>metric <span class='op'>=</span> <span class='st'>"rmse"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>Error: All of the models failed. See the .notes column.</code></pre>
+<div class="sourceCode">
+<pre><code><span class='co'># finalize workflow</span>
+<span class='va'>house_lasso_final_wf</span> <span class='op'>&lt;-</span> <span class='va'>house_lasso_wf</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>finalize_workflow</span><span class='op'>(</span><span class='va'>best_param</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>Error in check_final_param(parameters): object &#39;best_param&#39; not found</code></pre>
+<div class="sourceCode">
+<pre><code><span class='co'># fit final model</span>
+<span class='va'>house_lasso_final_mod</span> <span class='op'>&lt;-</span> <span class='va'>house_lasso_final_wf</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>fit</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>house_training</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>Error in fit(., data = house_training): object &#39;house_lasso_final_wf&#39; not found</code></pre>
+<div class="sourceCode">
+<pre><code><span class='co'># compute the training rmse - we'll compare to this later</span>
+<span class='va'>house_training</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>select</span><span class='op'>(</span><span class='va'>log_price</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>bind_cols</span><span class='op'>(</span>
+    <span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>house_lasso_final_mod</span>, 
+            new_data <span class='op'>=</span> <span class='va'>house_training</span><span class='op'>)</span>
+    <span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>summarize</span><span class='op'>(</span>
+    training_rmse <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='op'>(</span><span class='va'>log_price</span> <span class='op'>-</span> <span class='va'>.pred</span><span class='op'>)</span><span class='op'>^</span><span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
+    <span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>Error in predict(house_lasso_final_mod, new_data = house_training): object &#39;house_lasso_final_mod&#39; not found</code></pre>
+</div>
+<p>Recreate the random forest model:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='co'># set up recipe and transformation steps and roles</span>
+<span class='va'>ranger_recipe</span> <span class='op'>&lt;-</span> 
+  <span class='fu'>recipe</span><span class='op'>(</span>formula <span class='op'>=</span> <span class='va'>log_price</span> <span class='op'>~</span> <span class='va'>.</span>, 
+         data <span class='op'>=</span> <span class='va'>house_training</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>step_date</span><span class='op'>(</span><span class='va'>date</span>, 
+            features <span class='op'>=</span> <span class='st'>"month"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='co'># Make these evaluative variables, not included in modeling</span>
+  <span class='fu'>update_role</span><span class='op'>(</span><span class='fu'>all_of</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"id"</span>,
+                       <span class='st'>"date"</span><span class='op'>)</span><span class='op'>)</span>,
+              new_role <span class='op'>=</span> <span class='st'>"evaluative"</span><span class='op'>)</span>
+
+<span class='co'>#define model</span>
+<span class='va'>ranger_spec</span> <span class='op'>&lt;-</span> 
+  <span class='fu'>rand_forest</span><span class='op'>(</span>mtry <span class='op'>=</span> <span class='fl'>6</span>, 
+              min_n <span class='op'>=</span> <span class='fl'>10</span>, 
+              trees <span class='op'>=</span> <span class='fl'>200</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>set_mode</span><span class='op'>(</span><span class='st'>"regression"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>set_engine</span><span class='op'>(</span><span class='st'>"ranger"</span><span class='op'>)</span>
+
+<span class='co'>#create workflow</span>
+<span class='va'>ranger_workflow</span> <span class='op'>&lt;-</span> 
+  <span class='fu'>workflow</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>add_recipe</span><span class='op'>(</span><span class='va'>ranger_recipe</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>add_model</span><span class='op'>(</span><span class='va'>ranger_spec</span><span class='op'>)</span> 
+
+<span class='co'>#fit the model</span>
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>712</span><span class='op'>)</span> <span class='co'># for reproducibility - random sampling in random forest choosing number of variables</span>
+<span class='va'>ranger_fit</span> <span class='op'>&lt;-</span> <span class='va'>ranger_workflow</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>fit</span><span class='op'>(</span><span class='va'>house_training</span><span class='op'>)</span>
+
+<span class='co'># compute the training rmse - we'll compare to this later</span>
+<span class='va'>house_training</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>select</span><span class='op'>(</span><span class='va'>log_price</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>bind_cols</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>ranger_fit</span>, new_data <span class='op'>=</span> <span class='va'>house_training</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>summarize</span><span class='op'>(</span>training_rmse <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='op'>(</span><span class='va'>log_price</span> <span class='op'>-</span> <span class='va'>.pred</span><span class='op'>)</span><span class='op'>^</span><span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["training_rmse"],"name":[1],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.04003945"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<h2 id="global-model-interpretation">Global Model Interpretation</h2>
+<p>We will be using some functions from the <code>DALEX</code> and <code>DALEXtra</code> packages for model explanation. The first step is to create an “explainer”. According the <a href="https://ema.drwhy.ai/dataSetsIntro.html#ExplainersTitanicRCode">documentation</a>, this is “an object that provides a uniform interface for different models.” There is a generic <code>explain()</code> function, but we will use the <code>explain_tidymodels()</code> function which is set up to work well with models built with the <code>tidymodels</code> framework. We need to provide the <code>model</code>; <code>data</code>, which is the dataset we will be using for interpretation WITHOUT the outcome variable; and <code>y</code> which is a vector of the outcome variable that corresponds to the same observations from the <code>data</code> argument. We will also provide a <code>label</code>, an optional argument to identify our models.</p>
+<p>(NOTE: I used the training data. I’m not positive which data should be used, to be honest, but most of the examples I saw used the training data, so that’s what I went with. Christoph Molnar discusses this in-depth regarding <a href="https://christophm.github.io/interpretable-ml-book/feature-importance.html#feature-importance-data">Variable Importance</a>.)</p>
+<p>Create explainer for the lasso model:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>lasso_explain</span> <span class='op'>&lt;-</span> 
+  <span class='fu'><a href='https://ModelOriented.github.io/DALEXtra/reference/explain_tidymodels.html'>explain_tidymodels</a></span><span class='op'>(</span>
+    model <span class='op'>=</span> <span class='va'>house_lasso_final_mod</span>,
+    data <span class='op'>=</span> <span class='va'>house_training</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span><span class='op'>(</span><span class='op'>-</span><span class='va'>log_price</span><span class='op'>)</span>, 
+    y <span class='op'>=</span> <span class='va'>house_training</span> <span class='op'>%&gt;%</span>  <span class='fu'>pull</span><span class='op'>(</span><span class='va'>log_price</span><span class='op'>)</span>,
+    label <span class='op'>=</span> <span class='st'>"lasso"</span>
+  <span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>Error in explain_tidymodels(model = house_lasso_final_mod, data = house_training %&gt;% : object &#39;house_lasso_final_mod&#39; not found</code></pre>
+</div>
+<p>Create explainer for the random forest model:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>rf_explain</span> <span class='op'>&lt;-</span> 
+  <span class='fu'><a href='https://ModelOriented.github.io/DALEXtra/reference/explain_tidymodels.html'>explain_tidymodels</a></span><span class='op'>(</span>
+    model <span class='op'>=</span> <span class='va'>ranger_fit</span>,
+    data <span class='op'>=</span> <span class='va'>house_training</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span><span class='op'>(</span><span class='op'>-</span><span class='va'>log_price</span><span class='op'>)</span>, 
+    y <span class='op'>=</span> <span class='va'>house_training</span> <span class='op'>%&gt;%</span>  <span class='fu'>pull</span><span class='op'>(</span><span class='va'>log_price</span><span class='op'>)</span>,
+    label <span class='op'>=</span> <span class='st'>"rf"</span>
+  <span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>Preparation of a new explainer is initiated
+  -&gt; model label       :  rf 
+  -&gt; data              :  16210  rows  20  cols 
+  -&gt; data              :  tibble converted into a data.frame 
+  -&gt; target variable   :  16210  values 
+  -&gt; predict function  :  yhat.workflow  will be used ( [33m default [39m )
+  -&gt; predicted values  :  No value for predict function target column. ( [33m default [39m )
+  -&gt; model_info        :  package tidymodels , ver. 0.1.2 , task regression ( [33m default [39m ) 
+  -&gt; predicted values  :  numerical, min =  5.067779 , mean =  5.665052 , max =  6.73216  
+  -&gt; residual function :  difference between y and yhat ( [33m default [39m )
+  -&gt; residuals         :  numerical, min =  -0.3414938 , mean =  0.0004474744 , max =  0.2219833  
+ [32m A new explainer has been created! [39m </code></pre>
+</div>
+<h3 id="model-performance">Model performance</h3>
+<p>One way to explain a model is through its performance, using statistics like RMSE for models involving a quantitative response variable or accuracy or AUC for models with a binary response variable. We already know how to look at these statistics, but we’ll see how to use some functions from <code>DALEX</code> and <code>DALEXtra</code> to do it.</p>
+<p>The <code>model_performance()</code> function gives some overall model evaluation metrics. We are using the training data right now, so these metrics will be different from the cross-validated or test data results. They do match the training rmse I computed in the previous section.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>lasso_mod_perf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dalex.drwhy.ai/reference/model_performance.html'>model_performance</a></span><span class='op'>(</span><span class='va'>lasso_explain</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>Error in &quot;explainer&quot; %in% class(explainer): object &#39;lasso_explain&#39; not found</code></pre>
+<div class="sourceCode">
+<pre><code><span class='va'>rf_mod_perf</span> <span class='op'>&lt;-</span>  <span class='fu'><a href='https://dalex.drwhy.ai/reference/model_performance.html'>model_performance</a></span><span class='op'>(</span><span class='va'>rf_explain</span><span class='op'>)</span>
+
+<span class='co'># lasso model performance</span>
+<span class='va'>lasso_mod_perf</span>
+</code></pre>
+</div>
+<pre><code>Error in eval(expr, envir, enclos): object &#39;lasso_mod_perf&#39; not found</code></pre>
+<div class="sourceCode">
+<pre><code><span class='co'># random forest model performance</span>
+<span class='va'>rf_mod_perf</span>
+</code></pre>
+</div>
+<pre><code>Measures for:  regression
+mse        : 0.001603157 
+rmse       : 0.04003945 
+r2         : 0.9692441 
+mad        : 0.01963993
+
+Residuals:
+          0%          10%          20%          30%          40% 
+-0.341493833 -0.043095632 -0.024148524 -0.013461484 -0.005729177 
+         50%          60%          70%          80%          90% 
+ 0.001151266  0.008297409  0.016216758  0.025878055  0.043217953 
+        100% 
+ 0.221983270 </code></pre>
+</div>
+<p>We can plot the results using the <code>plot()</code> function. See <code>?plot.model_performance</code> for info on the different <code>geom</code> options (you may need to adjust the <code>fig.width</code> and <code>fig.height</code> in the R code chunk options to make this look nice). For example, with binary outcome models, you may be more interested in an ROC curve (<code>geom = "roc"</code>).</p>
+<p>Below we plot both histograms of residuals and boxplots of the absolute residuals. Note that the histogram labels are reversed, but the colors match the boxplots correctly. I have filed an <a href="https://github.com/ModelOriented/DALEX/issues/400">issue</a>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>hist_plot</span> <span class='op'>&lt;-</span> 
+  <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>lasso_mod_perf</span>,
+       <span class='va'>rf_mod_perf</span>, 
+       geom <span class='op'>=</span> <span class='st'>"histogram"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>Error in plot(lasso_mod_perf, rf_mod_perf, geom = &quot;histogram&quot;): object &#39;lasso_mod_perf&#39; not found</code></pre>
+<div class="sourceCode">
+<pre><code><span class='va'>box_plot</span> <span class='op'>&lt;-</span>
+  <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>lasso_mod_perf</span>,
+       <span class='va'>rf_mod_perf</span>, 
+       geom <span class='op'>=</span> <span class='st'>"boxplot"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>Error in plot(lasso_mod_perf, rf_mod_perf, geom = &quot;boxplot&quot;): object &#39;lasso_mod_perf&#39; not found</code></pre>
+<div class="sourceCode">
+<pre><code><span class='va'>hist_plot</span> <span class='op'>+</span> <span class='va'>box_plot</span>
+</code></pre>
+</div>
+<pre><code>Error in eval(expr, envir, enclos): object &#39;hist_plot&#39; not found</code></pre>
+</div>
+<h3 id="variable-importance">Variable importance</h3>
+<p>You have already seen at least one variable importance plot, but let’s dig in a bit more into how they are constructed. Boehmke and Greenwell give an excellent, simple explanation in <a href="https://bradleyboehmke.github.io/HOML/iml.html#concept">section 16.3.1</a> of their Hands on Machine Learning in R textbook. I will give a slightly modified version below.</p>
+<ol type="1">
+<li>Compute the performance metric for the model (RMSE, accuracy, etc.).<br />
+</li>
+<li>For each variable in the model, do the following:</li>
+</ol>
+<ul>
+<li>Permute the values. This means you randomly mix up the values for that variable across observations. For example, if we have ten observations of a variable with the values (2,3,4,3,2,5,6,7,8,5), a possible permutation would be (5,2,8,3,4,6,2,3,5,7).</li>
+<li>Fit the model again with this new permuted variable in place of the original variable.<br />
+</li>
+<li>Compute the performance metric of interest (RMSE, accuracy, etc.).<br />
+</li>
+<li>Find the variable’s importance by comparing the new performance metric to the original model’s performance metric (difference or ratio, usually scaled)<br />
+</li>
+</ul>
+<ol start="3" type="1">
+<li>Sort variables by descending importance</li>
+</ol>
+<p>This procedure could be repeated multiple times to obtain an estimate of the variability of importance.</p>
+<p>Let’s consider a model with a quantitative response. If permuting variable <code>x</code> greatly increases the RMSE relative to permuting other variables, then variable <code>x</code> would be important. With a binary response, permuted variables that greatly decrease the accuracy relative to other variables would be important. Variable importance is a nice, easy interpretation. It tells us how much the model error would increase if that variable weren’t in the model.</p>
+<p>Now, let’s use some functions from <code>DALEX</code> to help us compute and graph variable importance. First, we use the <code>model_parts()</code> function. The only argument we need to provide is an explainer. By default, it will use RMSE for regression and 1-AUC for classification for the <code>loss_function</code> - it is possible to write your own. The <code>type</code> argument tells it whether to use the raw loss (default), difference (<code>type = difference</code>) between permuted and original, or ratio (<code>type = ratio</code>) between the permuted and original. The <code>N</code> argument tells it how many observations to sample to do the computation. The default is 1000.</p>
+<p>Create a variable (aka feature) importance plot for the lasso model:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>10</span><span class='op'>)</span> <span class='co'>#since we are sampling &amp; permuting, we set a seed so we can replicate the results</span>
+<span class='va'>lasso_var_imp</span> <span class='op'>&lt;-</span> 
+  <span class='fu'><a href='https://dalex.drwhy.ai/reference/model_parts.html'>model_parts</a></span><span class='op'>(</span>
+    <span class='va'>lasso_explain</span>
+    <span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>Error in &quot;explainer&quot; %in% class(explainer): object &#39;lasso_explain&#39; not found</code></pre>
+<div class="sourceCode">
+<pre><code><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>lasso_var_imp</span>, show_boxplots <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>Error in plot(lasso_var_imp, show_boxplots = TRUE): object &#39;lasso_var_imp&#39; not found</code></pre>
+</div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom"></div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>

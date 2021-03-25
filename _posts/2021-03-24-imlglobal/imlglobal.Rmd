@@ -42,7 +42,7 @@ You can download this .Rmd file below if you'd like to follow along. I do have a
 
 ```{r, echo=FALSE}
 download_file(
-  path = "unkglobal.Rmd",
+  path = "imlglobal.Rmd",
   button_label = "Download .Rmd file",
   button_type = "info",
   has_icon = TRUE,
@@ -83,7 +83,6 @@ data("house_prices")
 house_prices <- house_prices %>% 
   mutate(log_price = log(price, base = 10)) %>% 
   select(-price)
-
 ```
 
 
@@ -101,7 +100,7 @@ Let's use the King County house price data again. We will build a lasso model, l
 
 Recreate the lasso model (I used `select_best()` rather than `select_one_std_err()` like I did originally): 
 
-```{r lasso-mod, cache=TRUE}
+```{r lasso-mod}
 set.seed(327) #for reproducibility
 
 # Randomly assigns 75% of the data to training.
@@ -203,7 +202,7 @@ house_training %>%
 
 Recreate the random forest model:
 
-```{r rf-model, cache=TRUE}
+```{r rf-model}
 # set up recipe and transformation steps and roles
 ranger_recipe <- 
   recipe(formula = log_price ~ ., 
