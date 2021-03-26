@@ -7,7 +7,7 @@ output:
     toc: true
     toc_float: true
     self_contained: false
-draft: true
+draft: false
 ---
 
 
@@ -53,9 +53,12 @@ download_file(
 
 ## Resources
 
+* [Explanatory Model Analysis](https://ema.drwhy.ai/modelLevelExploration.html) by Przemyslaw Biecek and Tomasz Burzykowski, section III: Dataset Level chapters and chapter 10: Ceteris-paribus Profiles.
+
 * [Interpretable Machine Learning](https://bradleyboehmke.github.io/HOML/iml.html) chapter of HOML by by Bradley Boehmke & Brandon Greenwell. 
 
-* [Explanatory Model Analysis](https://ema.drwhy.ai/modelLevelExploration.html) by Przemyslaw Biecek and Tomasz Burzykowski, section III: Dataset Level chapters.
+* [Interpretable Machine Learning](https://christophm.github.io/interpretable-ml-book/agnostic.html) book by Christoph Molnar, specifically chapter 5.
+
 
 ## Set up
 
@@ -64,6 +67,7 @@ First, we load the libraries we will use. There will be some new ones you'll nee
 ```{r libraries}
 library(tidyverse)         # for reading in data, graphing, and cleaning
 library(tidymodels)        # for modeling ... tidily
+library(lubridate)         # for dates
 library(stacks)            # for stacking models
 library(moderndive)        # for King County housing data
 library(vip)               # for variable importance plots
@@ -82,6 +86,8 @@ data("house_prices")
 # Create log_price and drop price variable
 house_prices <- house_prices %>% 
   mutate(log_price = log(price, base = 10)) %>% 
+  # make all integers numeric ... fixes prediction problem
+  mutate(across(where(is.integer), as.numeric)) %>% 
   select(-price)
 ```
 
@@ -242,7 +248,7 @@ house_training %>%
 
 ## Global Model Interpretation
 
-We will be using some functions from the `DALEX` and `DALEXtra` packages for model explanation. The first step is to create an "explainer". According the [documentation](https://ema.drwhy.ai/dataSetsIntro.html#ExplainersTitanicRCode), this is "an object that provides a uniform interface for different models." There is a generic `explain()` function, but we will use the `explain_tidymodels()` function which is set up to work well with models built with the `tidymodels` framework. We need to provide the `model`; `data`, which is the dataset we will be using for interpretation WITHOUT the outcome variable; and `y` which is a vector of the outcome variable that corresponds to the same observations from the `data` argument. We will also provide a `label`, an optional argument to identify our models.
+We will be using some functions from the `DALEX` and `DALEXtra` [packages](https://cran.r-project.org/web/packages/DALEX/index.html) for model explanation. The first step is to create an "explainer". According the [documentation](https://ema.drwhy.ai/dataSetsIntro.html#ExplainersTitanicRCode), this is "an object that provides a uniform interface for different models." There is a generic `explain()` function, but we will use the `explain_tidymodels()` function which is set up to work well with models built with the `tidymodels` framework. We need to provide the `model`; `data`, which is the dataset we will be using for interpretation WITHOUT the outcome variable; and `y` which is a vector of the outcome variable that corresponds to the same observations from the `data` argument. We will also provide a `label`, an optional argument to identify our models.
 
 (NOTE: I used the training data. I'm not positive which data should be used, to be honest, but most of the examples I saw used the training data, so that's what I went with. Christoph Molnar discusses this in-depth regarding [Variable Importance](https://christophm.github.io/interpretable-ml-book/feature-importance.html#feature-importance-data).)
 
@@ -304,6 +310,8 @@ box_plot <-
 hist_plot + box_plot
 ```
 
+What can we learn from these plots? Unlike a metric like RMSE, which is just one number, this gives us a good idea of the distribution of the residuals. So, we have a sense of the center, spread, and shape of the distribution. We can also note any odd or interesting values.
+
 ### Variable importance
 
 You have already seen at least one variable importance plot, but let's dig in a bit more into how they are constructed. Boehmke and Greenwell give an excellent, simple explanation in [section 16.3.1](https://bradleyboehmke.github.io/HOML/iml.html#concept) of their Hands on Machine Learning in R textbook. I will give a slightly modified version below.
@@ -324,7 +332,7 @@ Now, let's use some functions from `DALEX` to help us compute and graph variable
 
 Create a variable (aka feature) importance plot for the lasso model: 
 
-```{r vip, fig.width=5, fig.height=3}
+```{r vip-lasso, fig.width=5, fig.height=3}
 set.seed(10) #since we are sampling & permuting, we set a seed so we can replicate the results
 lasso_var_imp <- 
   model_parts(
@@ -333,4 +341,201 @@ lasso_var_imp <-
 
 plot(lasso_var_imp, show_boxplots = TRUE)
 ```
+
+Let's compare this to the variable importance plot we've seen before:
+
+```{r}
+house_lasso_final_mod %>% 
+  pull_workflow_fit() %>% 
+  vip()
+```
+
+The are definitely some differences. I think the most important one is that this plot treats the dummy variables separately whereas they are treated as a group in the first plot made with the `DALEX` package. Treating them as a group seems more reasonable to me.
+
+And create a variable importance plot for the random forest model: 
+
+```{r vip-rf, fig.width=5, fig.height=3}
+set.seed(10) #since we are sampling & permuting, we set a seed so we can replicate the results
+rf_var_imp <- 
+  model_parts(
+    rf_explain
+    )
+
+plot(rf_var_imp, show_boxplots = TRUE)
+```
+
+What do these plots tell us? Each set of bar plots starts at the original model RMSE. The length of the bar indicates how much the RMSE increases when that variable is permuted. So, in the random forest model, the RMSE increases the most when `lat`, the latitude, is permuted. And it looks like that increase is significantly more than any other variable. For the lasso model, permuting grade increases RMSE the most. We should note that latitude and longitude were not included as potential predictor variables in the lasso model.
+
+### Ceteris-paribus profiles 
+
+These plots are actually a local model interpretation tool, but they will be used in Partila Dependence Plots, a global model interpretation tool. See a more in-depth discussion of ceteris-paribus profiles in [Biecek and Burzykowski](https://ema.drwhy.ai/ceterisParibus.html). The phrase "ceteris parabus" is Latin for all else unchanged, and ceteris parabus profiles, or CP profiles, show how one variable affects the outcome, holding all other variables fixed, for one observation. 
+
+Let's look at an example.  The code below extracts the 4th observation from the `house_training` dataset.
+
+```{r}
+obs4 <- house_training %>% 
+  slice(4)
+obs4
+```
+
+Let's examine how changing `sqft_living` for this observation would affect the predicted house price (on the log base ten scale). I am going to use 50 values of `sqft_living` that fall between the minimum and maximum.
+
+```{r}
+min_sqft <- min(house_training$sqft_living)
+max_sqft <- max(house_training$sqft_living)
+
+obs4_many <- obs4 %>% 
+  #there is probably a better way to do this
+  sample_n(size = 50, replace = TRUE) %>% 
+  select(-sqft_living) %>% 
+  mutate(sqft_living = seq(min_sqft, max_sqft, length.out = 50)) %>% 
+  relocate(sqft_living, .after = id)
+
+obs4_many
+```
+
+Now, let's predict using the lasso model and plot the results.
+
+```{r}
+obs4_many %>% 
+  select(sqft_living) %>% 
+  bind_cols(
+    predict(house_lasso_final_mod,
+            new_data = obs4_many)
+  ) %>% 
+  ggplot(aes(x = sqft_living,
+             y = .pred)) +
+  geom_line() +
+  labs(y = "Predicted Price (log 10)")
+```
+
+Let's add one more observation:
+
+```{r}
+# different sqft_living values for obs 873
+obs873_many <- house_training %>% 
+  slice(873) %>% 
+  sample_n(size = 50, replace = TRUE) %>% 
+  select(-sqft_living) %>% 
+  mutate(sqft_living = seq(min_sqft, max_sqft, length.out = 50)) %>% 
+  relocate(sqft_living, .after = id)
+
+# add to obs 4 and predict 
+# new_data = . uses the data feeding into it
+
+obs4_many %>% 
+  bind_rows(obs873_many) %>% 
+  bind_cols(
+    predict(house_lasso_final_mod,
+            new_data = .)
+  ) %>% 
+  ggplot(aes(x = sqft_living,
+             y = .pred, 
+             color = id)) +
+  geom_line() +
+  scale_color_discrete(labels = c("Obs 4", "Obs 873")) +
+  labs(y = "Predicted Price (log 10)",
+       color = "")
+```
+
+Notice these lines are parellel curves because the lasso model is additive. Because we did a log transformation of `sqft_living` before fitting the lasso model, it isn't linear. A variable like `bedrooms` would show a linear relationship since lasso is just a special kind of linear model.
+
+Now, let's see what happens when we do this with the random forest model.
+
+```{r}
+obs4_many %>% 
+  bind_rows(obs873_many) %>% 
+  bind_cols(
+    predict(ranger_fit,
+            new_data = .)
+  ) %>% 
+  ggplot(aes(x = sqft_living,
+             y = .pred, 
+             color = id)) +
+  geom_line() +
+  scale_color_discrete(labels = c("Obs 4", "Obs 873")) +
+  labs(y = "Predicted Price (log 10)",
+       color = "")
+```
+
+Here we notice that the patterns for each observation are not parallel and are more wiggly than they were in the lasso model. They lines even cross. 
+
+The `DALEX` library provides some functions for us so we don't have to do this by hand. Sadly, it seems that not all the functionality is quite ready yet, so we still have to do a little bit of work by hand. First, we create the `predict_profile()` which is like what we did by hand above when we generated 50 values of `sqft_living` that fall between the minimum and maximum and then see how changes those values of `sqft_living` affect predicted house price, holding all other variables constant. Only this function does that for EACH of the variables. The variables that are moving are identified in the `_vname_` column
+
+```{r}
+rf_cpp <- predict_profile(explainer = rf_explain, 
+                          new_observation = obs4) 
+
+rf_cpp
+
+# sadly, this throws an error :( ... I will further investigate
+# plot(rf_cpp)
+```
+
+Since the default `plot()` function doesn't work, we have to write a little extra code to examine the plots. 
+
+```{r}
+rf_cpp %>% 
+  filter(`_vname_` %in% c("sqft_living")) %>% 
+  ggplot(aes(x = sqft_living,
+             y = `_yhat_`)) +
+  geom_line() 
+
+rf_cpp %>% 
+  filter(`_vname_` %in% c("lat")) %>% 
+  ggplot(aes(x = lat,
+             y = `_yhat_`)) +
+  geom_line() 
+```
+
+What if we want to examine a categorical variable? I chose to do this with `geom_point()`. You could also use `geom_col()`. In this case, since `grade` has an order to it, we could have also used `geom_line()`, but that wouldn't be a good idea for an unordered categorical variable.
+
+```{r}
+rf_cpp %>% 
+  filter(`_vname_` %in% c("grade")) %>% 
+  ggplot(aes(x = grade,
+             y = `_yhat_`)) +
+  geom_point() 
+```
+
+### Partial dependence plots
+
+As mentioned earlier, looking at CP profiles is really a local interpretation, not a global one. But they play a crucial role in partial dependence plots, which are a global model interpretation tool. A partial dependence plot is created by averaging the CP profiles for a sample of observations (for a formula-driven explanation, see [Biecek and Burzykowski](https://ema.drwhy.ai/partialDependenceProfiles.html#PDPMethod). 
+
+Let's first create a plot. The gray lines are individual CP profiles. The blue line in the partial dependence plot. I think it is useful to look at them together. 
+
+```{r}
+set.seed(494) # since we take a sample of 100 obs
+# This takes a while to run. 
+# If we only want to examine a few variables, add variables argument to model_profile.
+rf_pdp <- model_profile(explainer = rf_explain)
+
+plot(rf_pdp, 
+     variables = "sqft_living",
+     geom = "profiles")
+```
+
+We could also look at the PDP alone.
+
+```{r}
+plot(rf_pdp, 
+     variables = "sqft_living")
+```
+
+Let's see how this differs for the lasso model. We see the parallel curves, again do to lasso being additive.
+
+```{r}
+set.seed(494) # since we take a sample of 100 obs
+lasso_pdp <- model_profile(explainer = lasso_explain)
+
+plot(lasso_pdp, 
+     variables = "sqft_living",
+     geom = "profiles")
+```
+
+NOTE: PDPs are only available for numeric variables. 
+
+## What's next?
+
+The next tutorial will cover local model interpretation. We've already seen one way of doing that with CP profiles. If you want to start reading ahead of time, check out the [Instance Level](http://ema.drwhy.ai/InstanceLevelExploration.html) chapters of Explanatory Model Analysis. 
 
