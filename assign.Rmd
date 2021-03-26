@@ -44,3 +44,18 @@ download_file(
   self_contained = FALSE
 )
 ```
+
+## Assignment #2
+
+Goals:
+
+```{r}
+download_file(
+  path = "assignments/02_assignment.html",
+  button_label = "Download Assignment #2!",
+  button_type = "warning",
+  has_icon = TRUE,
+  icon = "fa fa-save",
+  self_contained = FALSE
+)
+```
