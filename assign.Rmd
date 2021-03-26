@@ -49,6 +49,15 @@ download_file(
 
 Goals:
 
+* Continue using and become more comfortable with Git and GitHub.  
+* Build more machine learning models using `tidymodels`.  
+* Build and use a stacked model.  
+* Use some global model interpretation tools.  
+* Create a shiny app that allows you to interact with a model.  
+* Add some customized theming to a shiny app.  
+* Continue learning about bias and fairness in data science.  
+
+
 ```{r}
 download_file(
   path = "assignments/02_assignment.html",
