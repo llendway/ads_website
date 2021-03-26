@@ -35,8 +35,6 @@ Goals:
 * Read about and reflect on bias and fairness in data science.
 
 ```{r}
-library(downloadthis)
-
 download_file(
   path = "assignments/01_assignment.html",
   button_label = "Download Assignment #1!",
