@@ -80,7 +80,6 @@ theme_set(theme_minimal()) # my favorite ggplot2 theme :)
 
 Then we load the data we will use throughout this tutorial and do some modifications.
 ```{r}
-# SEE modeldata package for new datasets
 data("house_prices")
 
 # Create log_price and drop price variable
