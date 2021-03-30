@@ -13,7 +13,7 @@ description: |
   - [Build a Career in Data Science podcast](https://podcast.bestbook.cool/) by Jacqueline Nolis and Emily Robinson
 
 * git/GitHub in R  
-  - [Lisa's GitHub for colaboration](https://github.com/llendway/github_for_collaboration/blob/master/github_for_collaboration.md)  
+  - [Lisa's GitHub for collaboration](https://github.com/llendway/github_for_collaboration/blob/master/github_for_collaboration.md)  
   - [Lisa's more in-depth post and video](https://lisalendway.netlify.app/posts/2021-02-24-gitinrstudio/) that goes more in-depth on how to collaborate
   - [Happy git with R](https://happygitwithr.com/) by Jenny Bryan
   - [R Packages - making a PR](https://r-pkgs.org/git.html#git-pullreq) from the *R Packages* boook by Hadley Wickham and Jenny Bryan
@@ -73,7 +73,7 @@ description: |
   - [Dr. Simona Picardi's course material](https://ecorepsci.github.io/reproducible-science/rsqlite.html) from  WILD 6900: Tools for Reproducible Science, Spring 2021, Utah State University  
   - [SQL chapter](https://mdsr-book.github.io/mdsr2e/ch-sql.html#sec:dplyr-sql) of *Modern Data Science with R* by Baumer, Kaplan, and Horton  
   - [Jacqueline Nolis blog post](https://jnolis.com/blog/sql_database_rstudio/): Pretending to have a SQL database with RStudio  
-  - [Databases use R](https://db.rstudio.com/) from RStudio
+  - [Databases using R](https://db.rstudio.com/) from RStudio
   
 * Putting R into production
   - [Put R in prod](https://putrinprod.com/)
