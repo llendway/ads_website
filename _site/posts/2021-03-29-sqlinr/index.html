@@ -1,0 +1,3670 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ad0000; } /* Alert */
+code span.an { color: #5e5e5e; } /* Annotation */
+code span.at { color: #20794d; } /* Attribute */
+code span.bn { color: #ad0000; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007ba5; } /* ControlFlow */
+code span.ch { color: #20794d; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #5e5e5e; } /* Comment */
+code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+code span.dt { color: #ad0000; } /* DataType */
+code span.dv { color: #ad0000; } /* DecVal */
+code span.er { color: #ad0000; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #ad0000; } /* Float */
+code span.fu { color: #4758ab; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #5e5e5e; } /* Information */
+code span.kw { color: #007ba5; } /* Keyword */
+code span.op { color: #5e5e5e; } /* Operator */
+code span.ot { color: #007ba5; } /* Other */
+code span.pp { color: #ad0000; } /* Preprocessor */
+code span.sc { color: #20794d; } /* SpecialChar */
+code span.ss { color: #20794d; } /* SpecialString */
+code span.st { color: #20794d; } /* String */
+code span.va { color: #111111; } /* Variable */
+code span.vs { color: #20794d; } /* VerbatimString */
+code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+</style>
+
+  <!--radix_placeholder_meta_tags-->
+<title>Advanced Data Science in R: Using SQL in R</title>
+
+<meta property="description" itemprop="description" content="A short intro to SQL and learning how to &quot;cheat&quot; with `dbplyr`."/>
+
+
+<!--  https://schema.org/Article -->
+<meta property="article:published" itemprop="datePublished" content="2021-03-30"/>
+<meta property="article:created" itemprop="dateCreated" content="2021-03-30"/>
+
+<!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+<meta property="og:title" content="Advanced Data Science in R: Using SQL in R"/>
+<meta property="og:type" content="article"/>
+<meta property="og:description" content="A short intro to SQL and learning how to &quot;cheat&quot; with `dbplyr`."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:site_name" content="Advanced Data Science in R"/>
+
+<!--  https://dev.twitter.com/cards/types/summary -->
+<meta property="twitter:card" content="summary"/>
+<meta property="twitter:title" content="Advanced Data Science in R: Using SQL in R"/>
+<meta property="twitter:description" content="A short intro to SQL and learning how to &quot;cheat&quot; with `dbplyr`."/>
+
+<!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+
+<script type="text/json" id="radix-rmarkdown-metadata">
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","output","draft","date"]}},"value":[{"type":"character","attributes":{},"value":["Using SQL in R"]},{"type":"character","attributes":{},"value":["A short intro to SQL and learning how to \"cheat\" with `dbplyr`."]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_float","self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["03-30-2021"]}]}
+</script>
+<!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["insert_sql.mp4","sqlinr_files/anchor-4.2.2/anchor.min.js","sqlinr_files/bowser-1.9.3/bowser.min.js","sqlinr_files/distill-2.2.21/template.v2.js","sqlinr_files/figure-html5/unnamed-chunk-27-1.png","sqlinr_files/figure-html5/unnamed-chunk-32-1.png","sqlinr_files/font-awesome-5.13.0/css/all.min.css","sqlinr_files/font-awesome-5.13.0/css/v4-shims.min.css","sqlinr_files/font-awesome-5.13.0/js/script.js","sqlinr_files/font-awesome-5.13.0/webfonts/fa-brands-400.eot","sqlinr_files/font-awesome-5.13.0/webfonts/fa-brands-400.svg","sqlinr_files/font-awesome-5.13.0/webfonts/fa-brands-400.ttf","sqlinr_files/font-awesome-5.13.0/webfonts/fa-brands-400.woff","sqlinr_files/font-awesome-5.13.0/webfonts/fa-brands-400.woff2","sqlinr_files/font-awesome-5.13.0/webfonts/fa-regular-400.eot","sqlinr_files/font-awesome-5.13.0/webfonts/fa-regular-400.svg","sqlinr_files/font-awesome-5.13.0/webfonts/fa-regular-400.ttf","sqlinr_files/font-awesome-5.13.0/webfonts/fa-regular-400.woff","sqlinr_files/font-awesome-5.13.0/webfonts/fa-regular-400.woff2","sqlinr_files/font-awesome-5.13.0/webfonts/fa-solid-900.eot","sqlinr_files/font-awesome-5.13.0/webfonts/fa-solid-900.svg","sqlinr_files/font-awesome-5.13.0/webfonts/fa-solid-900.ttf","sqlinr_files/font-awesome-5.13.0/webfonts/fa-solid-900.woff","sqlinr_files/font-awesome-5.13.0/webfonts/fa-solid-900.woff2","sqlinr_files/jquery-1.11.3/jquery.min.js","sqlinr_files/pagedtable-1.1/css/pagedtable.css","sqlinr_files/pagedtable-1.1/js/pagedtable.js","sqlinr_files/webcomponents-2.0.0/webcomponents.js"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+<meta name="distill:offset" content="../.."/>
+
+<script type="application/javascript">
+
+  window.headroom_prevent_pin = false;
+
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+
+    // initialize headroom for banner
+    var header = $('header').get(0);
+    var headerHeight = header.offsetHeight;
+    var headroom = new Headroom(header, {
+      tolerance: 5,
+      onPin : function() {
+        if (window.headroom_prevent_pin) {
+          window.headroom_prevent_pin = false;
+          headroom.unpin();
+        }
+      }
+    });
+    headroom.init();
+    if(window.location.hash)
+      headroom.unpin();
+    $(header).addClass('headroom--transition');
+
+    // offset scroll location for banner on hash change
+    // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
+    window.addEventListener("hashchange", function(event) {
+      window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
+    });
+
+    // responsive menu
+    $('.distill-site-header').each(function(i, val) {
+      var topnav = $(this);
+      var toggle = topnav.find('.nav-toggle');
+      toggle.on('click', function() {
+        topnav.toggleClass('responsive');
+      });
+    });
+
+    // nav dropdowns
+    $('.nav-dropbtn').click(function(e) {
+      $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
+      $(this).parent().siblings('.nav-dropdown')
+         .children('.nav-dropdown-content').removeClass('nav-dropdown-active');
+    });
+    $("body").click(function(e){
+      $('.nav-dropdown-content').removeClass('nav-dropdown-active');
+    });
+    $(".nav-dropdown").click(function(e){
+      e.stopPropagation();
+    });
+  });
+</script>
+
+<style type="text/css">
+
+/* Theme (user-documented overrideables for nav appearance) */
+
+.distill-site-nav {
+  color: rgba(255, 255, 255, 0.8);
+  background-color: #0F2E3D;
+  font-size: 15px;
+  font-weight: 300;
+}
+
+.distill-site-nav a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.distill-site-nav a:hover {
+  color: white;
+}
+
+@media print {
+  .distill-site-nav {
+    display: none;
+  }
+}
+
+.distill-site-header {
+
+}
+
+.distill-site-footer {
+
+}
+
+
+/* Site Header */
+
+.distill-site-header {
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 3;
+}
+
+.distill-site-header .nav-left {
+  display: inline-block;
+  margin-left: 8px;
+}
+
+@media screen and (max-width: 768px) {
+  .distill-site-header .nav-left {
+    margin-left: 0;
+  }
+}
+
+
+.distill-site-header .nav-right {
+  float: right;
+  margin-right: 8px;
+}
+
+.distill-site-header a,
+.distill-site-header .title {
+  display: inline-block;
+  text-align: center;
+  padding: 14px 10px 14px 10px;
+}
+
+.distill-site-header .title {
+  font-size: 18px;
+  min-width: 150px;
+}
+
+.distill-site-header .logo {
+  padding: 0;
+}
+
+.distill-site-header .logo img {
+  display: none;
+  max-height: 20px;
+  width: auto;
+  margin-bottom: -4px;
+}
+
+.distill-site-header .nav-image img {
+  max-height: 18px;
+  width: auto;
+  display: inline-block;
+  margin-bottom: -3px;
+}
+
+
+
+@media screen and (min-width: 1000px) {
+  .distill-site-header .logo img {
+    display: inline-block;
+  }
+  .distill-site-header .nav-left {
+    margin-left: 20px;
+  }
+  .distill-site-header .nav-right {
+    margin-right: 20px;
+  }
+  .distill-site-header .title {
+    padding-left: 12px;
+  }
+}
+
+
+.distill-site-header .nav-toggle {
+  display: none;
+}
+
+.nav-dropdown {
+  display: inline-block;
+  position: relative;
+}
+
+.nav-dropdown .nav-dropbtn {
+  border: none;
+  outline: none;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 16px 10px;
+  background-color: transparent;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  margin: 0;
+  margin-top: 1px;
+  z-index: 2;
+}
+
+.nav-dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 200px;
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 4px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+  z-index: 1;
+  margin-top: 2px;
+  white-space: nowrap;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.nav-dropdown-content hr {
+  margin-top: 4px;
+  margin-bottom: 4px;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.nav-dropdown-active {
+  display: block;
+}
+
+.nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
+  color: black;
+  padding: 6px 24px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.nav-dropdown-content .nav-dropdown-header {
+  display: block;
+  padding: 5px 24px;
+  padding-bottom: 0;
+  text-transform: uppercase;
+  font-size: 14px;
+  color: #999999;
+  white-space: nowrap;
+}
+
+.nav-dropdown:hover .nav-dropbtn {
+  color: white;
+}
+
+.nav-dropdown-content a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.nav-right .nav-dropdown-content {
+  margin-left: -45%;
+  right: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
+  .distill-site-header a.nav-toggle {
+    float: right;
+    display: block;
+  }
+  .distill-site-header .title {
+    margin-left: 0;
+  }
+  .distill-site-header .nav-right {
+    margin-right: 0;
+  }
+  .distill-site-header {
+    overflow: hidden;
+  }
+  .nav-right .nav-dropdown-content {
+    margin-left: 0;
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+  .distill-site-header.responsive {position: relative; min-height: 500px; }
+  .distill-site-header.responsive a.nav-toggle {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .distill-site-header.responsive a,
+  .distill-site-header.responsive .nav-dropdown {
+    display: block;
+    text-align: left;
+  }
+  .distill-site-header.responsive .nav-left,
+  .distill-site-header.responsive .nav-right {
+    width: 100%;
+  }
+  .distill-site-header.responsive .nav-dropdown {float: none;}
+  .distill-site-header.responsive .nav-dropdown-content {position: relative;}
+  .distill-site-header.responsive .nav-dropdown .nav-dropbtn {
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+}
+
+/* Site Footer */
+
+.distill-site-footer {
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  z-index: 3;
+  margin-top: 30px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  text-align: center;
+}
+
+/* Headroom */
+
+d-title {
+  padding-top: 6rem;
+}
+
+@media print {
+  d-title {
+    padding-top: 4rem;
+  }
+}
+
+.headroom {
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.headroom--transition {
+  transition: all .4s ease-in-out;
+}
+
+.headroom--unpinned {
+  top: -100px;
+}
+
+.headroom--pinned {
+  top: 0;
+}
+
+</style>
+
+<link href="../../site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
+<link href="../../site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
+<script src="../../site_libs/headroom-0.9.4/headroom.min.js"></script>
+<script src="../../site_libs/autocomplete-0.37.1/autocomplete.min.js"></script>
+<script src="../../site_libs/fuse-6.4.1/fuse.min.js"></script>
+
+<script type="application/javascript">
+
+function getMeta(metaName) {
+  var metas = document.getElementsByTagName('meta');
+  for (let i = 0; i < metas.length; i++) {
+    if (metas[i].getAttribute('name') === metaName) {
+      return metas[i].getAttribute('content');
+    }
+  }
+  return '';
+}
+
+function offsetURL(url) {
+  var offset = getMeta('distill:offset');
+  return offset ? offset + '/' + url : url;
+}
+
+function createFuseIndex() {
+
+  // create fuse index
+  var options = {
+    keys: [
+      { name: 'title', weight: 20 },
+      { name: 'categories', weight: 15 },
+      { name: 'description', weight: 10 },
+      { name: 'contents', weight: 5 },
+    ],
+    ignoreLocation: true,
+    threshold: 0
+  };
+  var fuse = new window.Fuse([], options);
+
+  // fetch the main search.json
+  return fetch(offsetURL('search.json'))
+    .then(function(response) {
+      if (response.status == 200) {
+        return response.json().then(function(json) {
+          // index main articles
+          json.articles.forEach(function(article) {
+            fuse.add(article);
+          });
+          // download collections and index their articles
+          return Promise.all(json.collections.map(function(collection) {
+            return fetch(offsetURL(collection)).then(function(response) {
+              if (response.status === 200) {
+                return response.json().then(function(articles) {
+                  articles.forEach(function(article) {
+                    fuse.add(article);
+                  });
+                })
+              } else {
+                return Promise.reject(
+                  new Error('Unexpected status from search index request: ' +
+                            response.status)
+                );
+              }
+            });
+          })).then(function() {
+            return fuse;
+          });
+        });
+
+      } else {
+        return Promise.reject(
+          new Error('Unexpected status from search index request: ' +
+                      response.status)
+        );
+      }
+    });
+}
+
+window.document.addEventListener("DOMContentLoaded", function (event) {
+
+  // get search element (bail if we don't have one)
+  var searchEl = window.document.getElementById('distill-search');
+  if (!searchEl)
+    return;
+
+  createFuseIndex()
+    .then(function(fuse) {
+
+      // make search box visible
+      searchEl.classList.remove('hidden');
+
+      // initialize autocomplete
+      var options = {
+        autoselect: true,
+        hint: false,
+        minLength: 2,
+      };
+      window.autocomplete(searchEl, options, [{
+        source: function(query, callback) {
+          const searchOptions = {
+            isCaseSensitive: false,
+            shouldSort: true,
+            minMatchCharLength: 2,
+            limit: 10,
+          };
+          var results = fuse.search(query, searchOptions);
+          callback(results
+            .map(function(result) { return result.item; })
+            .filter(function(item) { return !!item.description; })
+          );
+        },
+        templates: {
+          suggestion: function(suggestion) {
+            var html = `
+              <div class="search-item">
+                <h3>${suggestion.title}</h3>
+                <div class="search-item-description">
+                  ${suggestion.description}
+                </div>
+                <div class="search-item-preview">
+                  <img src="${suggestion.preview ? offsetURL(suggestion.preview) : ''}"</img>
+                </div>
+              </div>
+            `;
+            return html;
+          }
+        }
+      }]).on('autocomplete:selected', function(event, suggestion) {
+        window.location.href = offsetURL(suggestion.path);
+      });
+      // remove inline display style on autocompleter (we want to
+      // manage responsive display via css)
+      $('.algolia-autocomplete').css("display", "");
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+
+});
+
+</script>
+
+<style type="text/css">
+
+/* Algolioa Autocomplete */
+
+.algolia-autocomplete {
+  display: inline-block;
+  margin-left: 10px;
+  vertical-align: sub;
+  background-color: white;
+  color: black;
+  padding: 6px;
+  padding-top: 8px;
+  padding-bottom: 0;
+  border-radius: 6px;
+  border: 1px #0F2E3D solid;
+  width: 180px;
+}
+
+
+@media screen and (max-width: 768px) {
+  .distill-site-nav .algolia-autocomplete {
+    display: none;
+    visibility: hidden;
+  }
+  .distill-site-nav.responsive .algolia-autocomplete {
+    display: inline-block;
+    visibility: visible;
+  }
+  .distill-site-nav.responsive .algolia-autocomplete .aa-dropdown-menu {
+    margin-left: 0;
+    width: 400px;
+    max-height: 400px;
+  }
+}
+
+.algolia-autocomplete .aa-input, .algolia-autocomplete .aa-hint {
+  width: 90%;
+  outline: none;
+  border: none;
+}
+
+.algolia-autocomplete .aa-hint {
+  color: #999;
+}
+.algolia-autocomplete .aa-dropdown-menu {
+  width: 550px;
+  max-height: 70vh;
+  overflow-x: visible;
+  overflow-y: scroll;
+  padding: 5px;
+  margin-top: 3px;
+  margin-left: -150px;
+  background-color: #fff;
+  border-radius: 5px;
+  border: 1px solid #999;
+  border-top: none;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion {
+  cursor: pointer;
+  padding: 5px 4px;
+  border-bottom: 1px solid #eee;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion:last-of-type {
+  border-bottom: none;
+  margin-bottom: 2px;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item {
+  overflow: hidden;
+  font-size: 0.8em;
+  line-height: 1.4em;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item h3 {
+  margin-block-start: 0;
+  margin-block-end: 5px;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-description {
+  display: inline-block;
+  overflow: hidden;
+  height: 2.8em;
+  width: 80%;
+  margin-right: 4%;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview {
+  display: inline-block;
+  width: 15%;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img {
+  height: 3em;
+  width: auto;
+  display: none;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img[src] {
+  display: initial;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor {
+  background-color: #eee;
+}
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion em {
+  font-weight: bold;
+  font-style: normal;
+}
+
+</style>
+
+
+<!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+
+<style type="text/css">
+
+body {
+  background-color: white;
+}
+
+.pandoc-table {
+  width: 100%;
+}
+
+.pandoc-table>caption {
+  margin-bottom: 10px;
+}
+
+.pandoc-table th:not([align]) {
+  text-align: left;
+}
+
+.pagedtable-footer {
+  font-size: 15px;
+}
+
+d-byline .byline {
+  grid-template-columns: 2fr 2fr;
+}
+
+d-byline .byline h3 {
+  margin-block-start: 1.5em;
+}
+
+d-byline .byline .authors-affiliations h3 {
+  margin-block-start: 0.5em;
+}
+
+.authors-affiliations .orcid-id {
+  width: 16px;
+  height:16px;
+  margin-left: 4px;
+  margin-right: 4px;
+  vertical-align: middle;
+  padding-bottom: 2px;
+}
+
+d-title .dt-tags {
+  margin-top: 1em;
+  grid-column: text;
+}
+
+.dt-tags .dt-tag {
+  text-decoration: none;
+  display: inline-block;
+  color: rgba(0,0,0,0.6);
+  padding: 0em 0.4em;
+  margin-right: 0.5em;
+  margin-bottom: 0.4em;
+  font-size: 70%;
+  border: 1px solid rgba(0,0,0,0.2);
+  border-radius: 3px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+d-article table.gt_table td,
+d-article table.gt_table th {
+  border-bottom: none;
+}
+
+.html-widget {
+  margin-bottom: 2.0em;
+}
+
+.l-screen-inset {
+  padding-right: 16px;
+}
+
+.l-screen .caption {
+  margin-left: 10px;
+}
+
+.shaded {
+  background: rgb(247, 247, 247);
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.shaded .html-widget {
+  margin-bottom: 0;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.shaded .shaded-content {
+  background: white;
+}
+
+.text-output {
+  margin-top: 0;
+  line-height: 1.5em;
+}
+
+.hidden {
+  display: none !important;
+}
+
+d-article {
+  padding-top: 2.5rem;
+  padding-bottom: 30px;
+}
+
+d-appendix {
+  padding-top: 30px;
+}
+
+d-article>p>img {
+  width: 100%;
+}
+
+d-article h2 {
+  margin: 1rem 0 1.5rem 0;
+}
+
+d-article h3 {
+  margin-top: 1.5rem;
+}
+
+d-article iframe {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: 2.0em;
+  width: 100%;
+}
+
+/* Tweak code blocks */
+
+d-article div.sourceCode code,
+d-article pre code {
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+}
+
+d-article pre,
+d-article div.sourceCode,
+d-article div.sourceCode pre {
+  overflow: auto;
+}
+
+d-article div.sourceCode {
+  background-color: white;
+}
+
+d-article div.sourceCode pre {
+  padding-left: 10px;
+  font-size: 12px;
+  border-left: 2px solid rgba(0,0,0,0.1);
+}
+
+d-article pre {
+  font-size: 12px;
+  color: black;
+  background: none;
+  margin-top: 0;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+d-article pre a {
+  border-bottom: none;
+}
+
+d-article pre a:hover {
+  border-bottom: none;
+  text-decoration: underline;
+}
+
+@media(min-width: 768px) {
+
+d-article pre,
+d-article div.sourceCode,
+d-article div.sourceCode pre {
+  overflow: visible !important;
+}
+
+d-article div.sourceCode pre {
+  padding-left: 18px;
+  font-size: 14px;
+}
+
+d-article pre {
+  font-size: 14px;
+}
+
+}
+
+figure img.external {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+/* CSS for d-contents */
+
+.d-contents {
+  grid-column: text;
+  color: rgba(0,0,0,0.8);
+  font-size: 0.9em;
+  padding-bottom: 1em;
+  margin-bottom: 1em;
+  padding-bottom: 0.5em;
+  margin-bottom: 1em;
+  padding-left: 0.25em;
+  justify-self: start;
+}
+
+@media(min-width: 1000px) {
+  .d-contents.d-contents-float {
+    height: 0;
+    grid-column-start: 1;
+    grid-column-end: 4;
+    justify-self: center;
+    padding-right: 3em;
+    padding-left: 2em;
+  }
+}
+
+.d-contents nav h3 {
+  font-size: 18px;
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+.d-contents li {
+  list-style-type: none
+}
+
+.d-contents nav > ul {
+  padding-left: 0;
+}
+
+.d-contents ul {
+  padding-left: 1em
+}
+
+.d-contents nav ul li {
+  margin-top: 0.6em;
+  margin-bottom: 0.2em;
+}
+
+.d-contents nav a {
+  font-size: 13px;
+  border-bottom: none;
+  text-decoration: none
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.d-contents nav a:hover {
+  text-decoration: underline solid rgba(0, 0, 0, 0.6)
+}
+
+.d-contents nav > ul > li > a {
+  font-weight: 600;
+}
+
+.d-contents nav > ul > li > ul {
+  font-weight: inherit;
+}
+
+.d-contents nav > ul > li > ul > li {
+  margin-top: 0.2em;
+}
+
+
+.d-contents nav ul {
+  margin-top: 0;
+  margin-bottom: 0.25em;
+}
+
+.d-article-with-toc h2:nth-child(2) {
+  margin-top: 0;
+}
+
+
+/* Figure */
+
+.figure {
+  position: relative;
+  margin-bottom: 2.5em;
+  margin-top: 1.5em;
+}
+
+.figure img {
+  width: 100%;
+}
+
+.figure .caption {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 12px;
+  line-height: 1.5em;
+}
+
+.figure img.external {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+.figure .caption a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.figure .caption b,
+.figure .caption strong, {
+  font-weight: 600;
+  color: rgba(0, 0, 0, 1.0);
+}
+
+/* Citations */
+
+d-article .citation {
+  color: inherit;
+  cursor: inherit;
+}
+
+div.hanging-indent{
+  margin-left: 1em; text-indent: -1em;
+}
+
+
+/* Tweak 1000px media break to show more text */
+
+@media(min-width: 1000px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 16px;
+  }
+
+  .grid {
+    grid-column-gap: 16px;
+  }
+
+  d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+  }
+  figure .caption, .figure .caption, figure figcaption {
+    font-size: 13px;
+  }
+}
+
+@media(min-width: 1180px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 32px;
+  }
+
+  .grid {
+    grid-column-gap: 32px;
+  }
+}
+
+
+/* Get the citation styles for the appendix (not auto-injected on render since
+   we do our own rendering of the citation appendix) */
+
+d-appendix .citation-appendix,
+.d-appendix .citation-appendix {
+  font-size: 11px;
+  line-height: 15px;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  padding-left: 18px;
+  border: 1px solid rgba(0,0,0,0.1);
+  background: rgba(0, 0, 0, 0.02);
+  padding: 10px 18px;
+  border-radius: 3px;
+  color: rgba(150, 150, 150, 1);
+  overflow: hidden;
+  margin-top: -12px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* Include appendix styles here so they can be overridden */
+
+d-appendix {
+  contain: layout style;
+  font-size: 0.8em;
+  line-height: 1.7em;
+  margin-top: 60px;
+  margin-bottom: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  color: rgba(0,0,0,0.5);
+  padding-top: 60px;
+  padding-bottom: 48px;
+}
+
+d-appendix h3 {
+  grid-column: page-start / text-start;
+  font-size: 15px;
+  font-weight: 500;
+  margin-top: 1em;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.65);
+}
+
+d-appendix h3 + * {
+  margin-top: 1em;
+}
+
+d-appendix ol {
+  padding: 0 0 0 15px;
+}
+
+@media (min-width: 768px) {
+  d-appendix ol {
+    padding: 0 0 0 30px;
+    margin-left: -30px;
+  }
+}
+
+d-appendix li {
+  margin-bottom: 1em;
+}
+
+d-appendix a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+d-appendix > * {
+  grid-column: text;
+}
+
+d-appendix > d-footnote-list,
+d-appendix > d-citation-list,
+d-appendix > distill-appendix {
+  grid-column: screen;
+}
+
+/* Include footnote styles here so they can be overridden */
+
+d-footnote-list {
+  contain: layout style;
+}
+
+d-footnote-list > * {
+  grid-column: text;
+}
+
+d-footnote-list a.footnote-backlink {
+  color: rgba(0,0,0,0.3);
+  padding-left: 0.5em;
+}
+
+
+
+/* Anchor.js */
+
+.anchorjs-link {
+  /*transition: all .25s linear; */
+  text-decoration: none;
+  border-bottom: none;
+}
+*:hover > .anchorjs-link {
+  margin-left: -1.125em !important;
+  text-decoration: none;
+  border-bottom: none;
+}
+
+/* Social footer */
+
+.social_footer {
+  margin-top: 30px;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.67);
+}
+
+.disqus-comments {
+  margin-right: 30px;
+}
+
+.disqus-comment-count {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+
+#disqus_thread {
+  margin-top: 30px;
+}
+
+.article-sharing a {
+  border-bottom: none;
+  margin-right: 8px;
+}
+
+.article-sharing a:hover {
+  border-bottom: none;
+}
+
+.sidebar-section.subscribe {
+  font-size: 12px;
+  line-height: 1.6em;
+}
+
+.subscribe p {
+  margin-bottom: 0.5em;
+}
+
+
+.article-footer .subscribe {
+  font-size: 15px;
+  margin-top: 45px;
+}
+
+
+.sidebar-section.custom {
+  font-size: 12px;
+  line-height: 1.6em;
+}
+
+.custom p {
+  margin-bottom: 0.5em;
+}
+
+/* Styles for listing layout (hide title) */
+.layout-listing d-title, .layout-listing .d-title {
+  display: none;
+}
+
+/* Styles for posts lists (not auto-injected) */
+
+
+.posts-with-sidebar {
+  padding-left: 45px;
+  padding-right: 45px;
+}
+
+.posts-list .description h2,
+.posts-list .description p {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+}
+
+.posts-list .description h2 {
+  font-weight: 700;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.posts-list h2.post-tag {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  padding-bottom: 12px;
+}
+.posts-list {
+  margin-top: 60px;
+  margin-bottom: 24px;
+}
+
+.posts-list .post-preview {
+  text-decoration: none;
+  overflow: hidden;
+  display: block;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 24px 0;
+}
+
+.post-preview-last {
+  border-bottom: none !important;
+}
+
+.posts-list .posts-list-caption {
+  grid-column: screen;
+  font-weight: 400;
+}
+
+.posts-list .post-preview h2 {
+  margin: 0 0 6px 0;
+  line-height: 1.2em;
+  font-style: normal;
+  font-size: 24px;
+}
+
+.posts-list .post-preview p {
+  margin: 0 0 12px 0;
+  line-height: 1.4em;
+  font-size: 16px;
+}
+
+.posts-list .post-preview .thumbnail {
+  box-sizing: border-box;
+  margin-bottom: 24px;
+  position: relative;
+  max-width: 500px;
+}
+.posts-list .post-preview img {
+  width: 100%;
+  display: block;
+}
+
+.posts-list .metadata {
+  font-size: 12px;
+  line-height: 1.4em;
+  margin-bottom: 18px;
+}
+
+.posts-list .metadata > * {
+  display: inline-block;
+}
+
+.posts-list .metadata .publishedDate {
+  margin-right: 2em;
+}
+
+.posts-list .metadata .dt-authors {
+  display: block;
+  margin-top: 0.3em;
+  margin-right: 2em;
+}
+
+.posts-list .dt-tags {
+  display: block;
+  line-height: 1em;
+}
+
+.posts-list .dt-tags .dt-tag {
+  display: inline-block;
+  color: rgba(0,0,0,0.6);
+  padding: 0.3em 0.4em;
+  margin-right: 0.2em;
+  margin-bottom: 0.4em;
+  font-size: 60%;
+  border: 1px solid rgba(0,0,0,0.2);
+  border-radius: 3px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.posts-list img {
+  opacity: 1;
+}
+
+.posts-list img[data-src] {
+  opacity: 0;
+}
+
+.posts-more {
+  clear: both;
+}
+
+
+.posts-sidebar {
+  font-size: 16px;
+}
+
+.posts-sidebar h3 {
+  font-size: 16px;
+  margin-top: 0;
+  margin-bottom: 0.5em;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.sidebar-section {
+  margin-bottom: 30px;
+}
+
+.categories ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.categories li {
+  color: rgba(0, 0, 0, 0.8);
+  margin-bottom: 0;
+}
+
+.categories li>a {
+  border-bottom: none;
+}
+
+.categories li>a:hover {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+.categories .active {
+  font-weight: 600;
+}
+
+.categories .category-count {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+
+@media(min-width: 768px) {
+  .posts-list .post-preview h2 {
+    font-size: 26px;
+  }
+  .posts-list .post-preview .thumbnail {
+    float: right;
+    width: 30%;
+    margin-bottom: 0;
+  }
+  .posts-list .post-preview .description {
+    float: left;
+    width: 45%;
+  }
+  .posts-list .post-preview .metadata {
+    float: left;
+    width: 20%;
+    margin-top: 8px;
+  }
+  .posts-list .post-preview p {
+    margin: 0 0 12px 0;
+    line-height: 1.5em;
+    font-size: 16px;
+  }
+  .posts-with-sidebar .posts-list {
+    float: left;
+    width: 75%;
+  }
+  .posts-with-sidebar .posts-sidebar {
+    float: right;
+    width: 20%;
+    margin-top: 60px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+}
+
+
+/* Improve display for browsers without grid (IE/Edge <= 15) */
+
+.downlevel {
+  line-height: 1.6em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  margin: 0;
+}
+
+.downlevel .d-title {
+  padding-top: 6rem;
+  padding-bottom: 1.5rem;
+}
+
+.downlevel .d-title h1 {
+  font-size: 50px;
+  font-weight: 700;
+  line-height: 1.1em;
+  margin: 0 0 0.5rem;
+}
+
+.downlevel .d-title p {
+  font-weight: 300;
+  font-size: 1.2rem;
+  line-height: 1.55em;
+  margin-top: 0;
+}
+
+.downlevel .d-byline {
+  padding-top: 0.8em;
+  padding-bottom: 0.8em;
+  font-size: 0.8rem;
+  line-height: 1.8em;
+}
+
+.downlevel .section-separator {
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.downlevel .d-article {
+  font-size: 1.06rem;
+  line-height: 1.7em;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+}
+
+
+.downlevel .d-appendix {
+  padding-left: 0;
+  padding-right: 0;
+  max-width: none;
+  font-size: 0.8em;
+  line-height: 1.7em;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.5);
+  padding-top: 40px;
+  padding-bottom: 48px;
+}
+
+.downlevel .footnotes ol {
+  padding-left: 13px;
+}
+
+.downlevel .base-grid,
+.downlevel .distill-header,
+.downlevel .d-title,
+.downlevel .d-abstract,
+.downlevel .d-article,
+.downlevel .d-appendix,
+.downlevel .distill-appendix,
+.downlevel .d-byline,
+.downlevel .d-footnote-list,
+.downlevel .d-citation-list,
+.downlevel .distill-footer,
+.downlevel .appendix-bottom,
+.downlevel .posts-container {
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+@media(min-width: 768px) {
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+  padding-left: 150px;
+  padding-right: 150px;
+  max-width: 900px;
+}
+}
+
+.downlevel pre code {
+  display: block;
+  border-left: 2px solid rgba(0, 0, 0, .1);
+  padding: 0 0 0 20px;
+  font-size: 14px;
+}
+
+.downlevel code, .downlevel pre {
+  color: black;
+  background: none;
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+.downlevel .posts-list .post-preview {
+  color: inherit;
+}
+
+
+
+</style>
+
+<script type="application/javascript">
+
+function is_downlevel_browser() {
+  if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                 window.navigator.userAgent)) {
+    return true;
+  } else {
+    return window.load_distill_framework === undefined;
+  }
+}
+
+// show body when load is complete
+function on_load_complete() {
+
+  // add anchors
+  if (window.anchors) {
+    window.anchors.options.placement = 'left';
+    window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
+  }
+
+
+  // set body to visible
+  document.body.style.visibility = 'visible';
+
+  // force redraw for leaflet widgets
+  if (window.HTMLWidgets) {
+    var maps = window.HTMLWidgets.findAll(".leaflet");
+    $.each(maps, function(i, el) {
+      var map = this.getMap();
+      map.invalidateSize();
+      map.eachLayer(function(layer) {
+        if (layer instanceof L.TileLayer)
+          layer.redraw();
+      });
+    });
+  }
+
+  // trigger 'shown' so htmlwidgets resize
+  $('d-article').trigger('shown');
+}
+
+function init_distill() {
+
+  init_common();
+
+  // create front matter
+  var front_matter = $('<d-front-matter></d-front-matter>');
+  $('#distill-front-matter').wrap(front_matter);
+
+  // create d-title
+  $('.d-title').changeElementType('d-title');
+
+  // create d-byline
+  var byline = $('<d-byline></d-byline>');
+  $('.d-byline').replaceWith(byline);
+
+  // create d-article
+  var article = $('<d-article></d-article>');
+  $('.d-article').wrap(article).children().unwrap();
+
+  // move posts container into article
+  $('.posts-container').appendTo($('d-article'));
+
+  // create d-appendix
+  $('.d-appendix').changeElementType('d-appendix');
+
+  // flag indicating that we have appendix items
+  var appendix = $('.appendix-bottom').children('h3').length > 0;
+
+  // replace footnotes with <d-footnote>
+  $('.footnote-ref').each(function(i, val) {
+    appendix = true;
+    var href = $(this).attr('href');
+    var id = href.replace('#', '');
+    var fn = $('#' + id);
+    var fn_p = $('#' + id + '>p');
+    fn_p.find('.footnote-back').remove();
+    var text = fn_p.html();
+    var dtfn = $('<d-footnote></d-footnote>');
+    dtfn.html(text);
+    $(this).replaceWith(dtfn);
+  });
+  // remove footnotes
+  $('.footnotes').remove();
+
+  // move refs into #references-listing
+  $('#references-listing').replaceWith($('#refs'));
+
+  $('h1.appendix, h2.appendix').each(function(i, val) {
+    $(this).changeElementType('h3');
+  });
+  $('h3.appendix').each(function(i, val) {
+    var id = $(this).attr('id');
+    $('.d-contents a[href="#' + id + '"]').parent().remove();
+    appendix = true;
+    $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+  });
+
+  // show d-appendix if we have appendix content
+  $("d-appendix").css('display', appendix ? 'grid' : 'none');
+
+  // localize layout chunks to just output
+  $('.layout-chunk').each(function(i, val) {
+
+    // capture layout
+    var layout = $(this).attr('data-layout');
+
+    // apply layout to markdown level block elements
+    var elements = $(this).children().not('div.sourceCode, pre, script');
+    elements.each(function(i, el) {
+      var layout_div = $('<div class="' + layout + '"></div>');
+      if (layout_div.hasClass('shaded')) {
+        var shaded_content = $('<div class="shaded-content"></div>');
+        $(this).wrap(shaded_content);
+        $(this).parent().wrap(layout_div);
+      } else {
+        $(this).wrap(layout_div);
+      }
+    });
+
+
+    // unwrap the layout-chunk div
+    $(this).children().unwrap();
+  });
+
+  // remove code block used to force  highlighting css
+  $('.distill-force-highlighting-css').parent().remove();
+
+  // remove empty line numbers inserted by pandoc when using a
+  // custom syntax highlighting theme
+  $('code.sourceCode a:empty').remove();
+
+  // load distill framework
+  load_distill_framework();
+
+  // wait for window.distillRunlevel == 4 to do post processing
+  function distill_post_process() {
+
+    if (!window.distillRunlevel || window.distillRunlevel < 4)
+      return;
+
+    // hide author/affiliations entirely if we have no authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+    if (!have_authors)
+      $('d-byline').addClass('hidden');
+
+    // article with toc class
+    $('.d-contents').parent().addClass('d-article-with-toc');
+
+    // strip links that point to #
+    $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+
+    // add orcid ids
+    $('.authors-affiliations').find('.author').each(function(i, el) {
+      var orcid_id = front_matter.authors[i].orcidID;
+      if (orcid_id) {
+        var a = $('<a></a>');
+        a.attr('href', 'https://orcid.org/' + orcid_id);
+        var img = $('<img></img>');
+        img.addClass('orcid-id');
+        img.attr('alt', 'ORCID ID');
+        img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
+        a.append(img);
+        $(this).append(a);
+      }
+    });
+
+    // hide elements of author/affiliations grid that have no value
+    function hide_byline_column(caption) {
+      $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+    }
+
+    // affiliations
+    var have_affiliations = false;
+    for (var i = 0; i<front_matter.authors.length; ++i) {
+      var author = front_matter.authors[i];
+      if (author.affiliation !== "&nbsp;") {
+        have_affiliations = true;
+        break;
+      }
+    }
+    if (!have_affiliations)
+      $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+
+    // published date
+    if (!front_matter.publishedDate)
+      hide_byline_column("Published");
+
+    // document object identifier
+    var doi = $('d-byline').find('h3:contains("DOI")');
+    var doi_p = doi.next().empty();
+    if (!front_matter.doi) {
+      // if we have a citation and valid citationText then link to that
+      if ($('#citation').length > 0 && front_matter.citationText) {
+        doi.html('Citation');
+        $('<a href="#citation"></a>')
+          .text(front_matter.citationText)
+          .appendTo(doi_p);
+      } else {
+        hide_byline_column("DOI");
+      }
+    } else {
+      $('<a></a>')
+         .attr('href', "https://doi.org/" + front_matter.doi)
+         .html(front_matter.doi)
+         .appendTo(doi_p);
+    }
+
+     // change plural form of authors/affiliations
+    if (front_matter.authors.length === 1) {
+      var grid = $('.authors-affiliations');
+      grid.children('h3:contains("Authors")').text('Author');
+      grid.children('h3:contains("Affiliations")').text('Affiliation');
+    }
+
+    // remove d-appendix and d-footnote-list local styles
+    $('d-appendix > style:first-child').remove();
+    $('d-footnote-list > style:first-child').remove();
+
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+
+    // clear polling timer
+    clearInterval(tid);
+
+    // show body now that everything is ready
+    on_load_complete();
+  }
+
+  var tid = setInterval(distill_post_process, 50);
+  distill_post_process();
+
+}
+
+function init_downlevel() {
+
+  init_common();
+
+   // insert hr after d-title
+  $('.d-title').after($('<hr class="section-separator"/>'));
+
+  // check if we have authors
+  var front_matter = JSON.parse($("#distill-front-matter").html());
+  var have_authors = front_matter.authors && front_matter.authors.length > 0;
+
+  // manage byline/border
+  if (!have_authors)
+    $('.d-byline').remove();
+  $('.d-byline').after($('<hr class="section-separator"/>'));
+  $('.d-byline a').remove();
+
+  // remove toc
+  $('.d-contents').remove();
+
+  // move appendix elements
+  $('h1.appendix, h2.appendix').each(function(i, val) {
+    $(this).changeElementType('h3');
+  });
+  $('h3.appendix').each(function(i, val) {
+    $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+  });
+
+
+  // inject headers into references and footnotes
+  var refs_header = $('<h3></h3>');
+  refs_header.text('References');
+  $('#refs').prepend(refs_header);
+
+  var footnotes_header = $('<h3></h3');
+  footnotes_header.text('Footnotes');
+  $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+
+  // move appendix-bottom entries to the bottom
+  $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+  $('.appendix-bottom').remove();
+
+  // remove appendix if it's empty
+  if ($('.d-appendix').children().length === 0)
+    $('.d-appendix').remove();
+
+  // prepend separator above appendix
+  $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+
+  // trim code
+  $('pre>code').each(function(i, val) {
+    $(this).html($.trim($(this).html()));
+  });
+
+  // move posts-container right before article
+  $('.posts-container').insertBefore($('.d-article'));
+
+  $('body').addClass('downlevel');
+
+  on_load_complete();
+}
+
+
+function init_common() {
+
+  // jquery plugin to change element types
+  (function($) {
+    $.fn.changeElementType = function(newType) {
+      var attrs = {};
+
+      $.each(this[0].attributes, function(idx, attr) {
+        attrs[attr.nodeName] = attr.nodeValue;
+      });
+
+      this.replaceWith(function() {
+        return $("<" + newType + "/>", attrs).append($(this).contents());
+      });
+    };
+  })(jQuery);
+
+  // prevent underline for linked images
+  $('a > img').parent().css({'border-bottom' : 'none'});
+
+  // mark non-body figures created by knitr chunks as 100% width
+  $('.layout-chunk').each(function(i, val) {
+    var figures = $(this).find('img, .html-widget');
+    if ($(this).attr('data-layout') !== "l-body") {
+      figures.css('width', '100%');
+    } else {
+      figures.css('max-width', '100%');
+      figures.filter("[width]").each(function(i, val) {
+        var fig = $(this);
+        fig.css('width', fig.attr('width') + 'px');
+      });
+
+    }
+  });
+
+  // auto-append index.html to post-preview links in file: protocol
+  // and in rstudio ide preview
+  $('.post-preview').each(function(i, val) {
+    if (window.location.protocol === "file:")
+      $(this).attr('href', $(this).attr('href') + "index.html");
+  });
+
+  // get rid of index.html references in header
+  if (window.location.protocol !== "file:") {
+    $('.distill-site-header a[href]').each(function(i,val) {
+      $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+    });
+  }
+
+  // add class to pandoc style tables
+  $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+  $('.kable-table').children('table').addClass('pandoc-table');
+
+  // add figcaption style to table captions
+  $('caption').parent('table').addClass("figcaption");
+
+  // initialize posts list
+  if (window.init_posts_list)
+    window.init_posts_list();
+
+  // implmement disqus comment link
+  $('.disqus-comment-count').click(function() {
+    window.headroom_prevent_pin = true;
+    $('#disqus_thread').toggleClass('hidden');
+    if (!$('#disqus_thread').hasClass('hidden')) {
+      var offset = $(this).offset();
+      $(window).resize();
+      $('html, body').animate({
+        scrollTop: offset.top - 35
+      });
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  if (is_downlevel_browser())
+    init_downlevel();
+  else
+    window.addEventListener('WebComponentsReady', init_distill);
+});
+
+</script>
+
+<style type="text/css">
+/* base variables */
+
+/* Edit the CSS properties in this file to create a custom
+   Distill theme. Only edit values in the right column
+   for each row; values shown are the CSS defaults.
+   To return any property to the default,
+   you may set its value to: unset
+   All rows must end with a semi-colon.                      */
+
+/* Optional: embed custom fonts here with `@import`          */
+/* This must remain at the top of this file.                 */
+
+
+
+html {
+  /*-- Main font sizes --*/
+  --title-size:      50px;
+  --body-size:       1.06rem;
+  --code-size:       14px;
+  --aside-size:      12px;
+  --fig-cap-size:    13px;
+  /*-- Main font colors --*/
+  --title-color:     #000000;
+  --header-color:    rgba(0, 0, 0, 0.8);
+  --body-color:      rgba(0, 0, 0, 0.8);
+  --aside-color:     rgba(0, 0, 0, 0.6);
+  --fig-cap-color:   rgba(0, 0, 0, 0.6);
+  /*-- Specify custom fonts ~~~ must be imported above   --*/
+  --heading-font:    sans-serif;
+  --mono-font:       monospace;
+  --body-font:       sans-serif;
+  --navbar-font:     sans-serif;  /* websites + blogs only */
+}
+
+/*-- ARTICLE METADATA --*/
+d-byline {
+  --heading-size:    0.6rem;
+  --heading-color:   rgba(0, 0, 0, 0.5);
+  --body-size:       0.8rem;
+  --body-color:      rgba(0, 0, 0, 0.8);
+}
+
+/*-- ARTICLE TABLE OF CONTENTS --*/
+.d-contents {
+  --heading-size:    18px;
+  --contents-size:   13px;
+}
+
+/*-- ARTICLE APPENDIX --*/
+d-appendix {
+  --heading-size:    15px;
+  --heading-color:   rgba(0, 0, 0, 0.65);
+  --text-size:       0.8em;
+  --text-color:      rgba(0, 0, 0, 0.5);
+}
+
+/*-- WEBSITE HEADER + FOOTER --*/
+/* These properties only apply to Distill sites and blogs  */
+
+.distill-site-header {
+  --title-size:       18px;
+  --text-color:       rgba(255, 255, 255, 0.8);
+  --text-size:        15px;
+  --hover-color:      white;
+  --bkgd-color:       #0F2E3D;
+}
+
+.distill-site-footer {
+  --text-color:       rgba(255, 255, 255, 0.8);
+  --text-size:        15px;
+  --hover-color:      white;
+  --bkgd-color:       #0F2E3D;
+}
+
+/*-- Additional custom styles --*/
+/* Add any additional CSS rules below                      */
+</style>
+<style type="text/css">
+/* base variables */
+
+/* Edit the CSS properties in this file to create a custom
+   Distill theme. Only edit values in the right column
+   for each row; values shown are the CSS defaults.
+   To return any property to the default,
+   you may set its value to: unset
+   All rows must end with a semi-colon.                      */
+
+/* Optional: embed custom fonts here with `@import`          */
+/* This must remain at the top of this file.                 */
+
+@import url('https://fonts.googleapis.com/css2?family=Newslab');
+
+html {
+  /*-- Main font sizes --*/
+  --title-size:      28px;
+  --body-size:       1.06rem;
+  --code-size:       14px;
+  --aside-size:      12px;
+  --fig-cap-size:    13px;
+  /*-- Main font colors --*/
+  --title-color:     #D44420;
+  --header-color:    #D44420;
+  --body-color:      rgba(0, 0, 0, 0.8);
+  --aside-color:     rgba(0, 0, 0, 0.6);
+  --fig-cap-color:   rgba(0, 0, 0, 0.6);
+  /*-- Specify custom fonts ~~~ must be imported above   --*/
+  --heading-font:    'Newslab', sans-serif;
+  --mono-font:       monospace;
+  --body-font:       sans-serif;
+  --navbar-font:     'Newslab', sans-serif;  /* websites + blogs only */
+}
+
+/*-- ARTICLE METADATA --*/
+d-byline {
+  --heading-size:    0.6rem;
+  --heading-color:   rgba(0, 0, 0, 0.5);
+  --body-size:       0.8rem;
+  --body-color:      rgba(0, 0, 0, 0.8);
+}
+
+/*-- ARTICLE TABLE OF CONTENTS --*/
+.d-contents {
+  --heading-size:    18px;
+  --contents-size:   13px;
+}
+
+/*-- ARTICLE APPENDIX --*/
+d-appendix {
+  --heading-size:    15px;
+  --heading-color:   rgba(0, 0, 0, 0.65);
+  --text-size:       0.8em;
+  --text-color:      rgba(0, 0, 0, 0.5);
+}
+
+/*-- WEBSITE HEADER + FOOTER --*/
+/* These properties only apply to Distill sites and blogs  */
+
+.distill-site-header {
+  --title-size:       32px;
+  --text-color:       rgba(255, 255, 255, 0.8);
+  --text-size:        15px;
+  --hover-color:      white;
+  --bkgd-color:       #01426A;
+}
+
+.distill-site-footer {
+  --text-color:       rgba(255, 255, 255, 0.8);
+  --text-size:        15px;
+  --hover-color:      white;
+  --bkgd-color:       #0F2E3D;
+}
+
+/*-- Additional custom styles --*/
+/* Add any additional CSS rules below                      */
+</style>
+<style type="text/css">
+/* base style */
+
+/* FONT FAMILIES */
+
+:root {
+  --heading-default: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  --mono-default: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  --body-default: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+}
+
+body,
+.posts-list .post-preview p,
+.posts-list .description p {
+  font-family: var(--body-font), var(--body-default);
+}
+
+h1, h2, h3, h4, h5, h6,
+.posts-list .post-preview h2,
+.posts-list .description h2 {
+  font-family: var(--heading-font), var(--heading-default);
+}
+
+d-article div.sourceCode code,
+d-article pre code {
+	font-family: var(--mono-font), var(--mono-default);
+}
+
+
+/*-- TITLE --*/
+d-title h1,
+.posts-list > h1 {
+  color: var(--title-color, black);
+}
+
+d-title h1 {
+  font-size: var(--title-size, 50px);
+}
+
+/*-- HEADERS --*/
+d-article h1,
+d-article h2,
+d-article h3,
+d-article h4,
+d-article h5,
+d-article h6 {
+  color: var(--header-color, rgba(0, 0, 0, 0.8));
+}
+
+/*-- BODY --*/
+/* only text inside of <p> tags */
+d-article > p {
+  color: var(--body-color, rgba(0, 0, 0, 0.8));
+  font-size: var(--body-size, 1.06rem);
+}
+
+/*-- CODE --*/
+d-article div.sourceCode code,
+d-article pre code {
+	font-size: var(--code-size, 14px);
+}
+
+/*-- ASIDE --*/
+d-article aside {
+	font-size: var(--aside-size, 12px);
+	color: var(--aside-color, rgba(0, 0, 0, 0.6));
+}
+
+/*-- FIGURE CAPTIONS --*/
+figure .caption,
+figure figcaption,
+.figure .caption {
+	font-size: var(--fig-cap-size, 13px);
+	color: var(--fig-cap-color, rgba(0, 0, 0, 0.6));
+}
+
+/*-- METADATA --*/
+d-byline h3 {
+	font-size: var(--heading-size, 0.6rem);
+	color: var(--heading-color, rgba(0, 0, 0, 0.5));
+}
+
+d-byline {
+	font-size: var(--body-size, 0.8rem);
+	color: var(--body-color, rgba(0, 0, 0, 0.8));
+}
+
+d-byline a,
+d-article d-byline a {
+	color: var(--body-color, rgba(0, 0, 0, 0.8));
+}
+
+/*-- TABLE OF CONTENTS --*/
+.d-contents nav h3 {
+	font-size: var(--heading-size, 18px);
+}
+
+.d-contents nav a {
+	font-size: var(--contents-size, 13px);
+}
+
+/*-- APPENDIX --*/
+d-appendix h3 {
+  font-size: var(--heading-size, 15px);
+	color: var(--heading-color, rgba(0, 0, 0, 0.65));
+}
+
+d-appendix {
+  font-size: var(--text-size, 0.8em);
+	color: var(--text-color, rgba(0, 0, 0, 0.5));
+}
+
+d-appendix d-footnote-list a.footnote-backlink {
+	color: var(--text-color, rgba(0, 0, 0, 0.5));
+}
+
+/*-- WEBSITE HEADER + FOOTER --*/
+.distill-site-header .title {
+	font-size: var(--title-size, 18px);
+	font-family: var(--navbar-font), var(--heading-default);
+}
+
+.distill-site-header a,
+.nav-dropdown .nav-dropbtn {
+  font-family: var(--navbar-font), var(--heading-default);
+}
+
+.distill-site-header a:hover {
+	color: var(--hover-color, white);
+}
+
+.distill-site-header {
+	font-size: var(--text-size, 15px);
+	color: var(--text-color, rgba(255, 255, 255, 0.8));
+	background-color: var(--bkgd-color, #0F2E3D);
+}
+
+.distill-site-footer {
+	font-size: var(--text-size, 15px);
+	color: var(--text-color, rgba(255, 255, 255, 0.8));
+	background-color: var(--bkgd-color, #0F2E3D);
+}
+
+.distill-site-footer a:hover {
+	color: var(--hover-color, white);
+}</style>
+<!--/radix_placeholder_distill-->
+  <script src="../../site_libs/font-awesome-5.13.0/js/script.js"></script>
+  <link href="../../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+  <script src="../../site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+  <script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="../../site_libs/anchor-4.2.2/anchor.min.js"></script>
+  <script src="../../site_libs/bowser-1.9.3/bowser.min.js"></script>
+  <script src="../../site_libs/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="../../site_libs/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+<!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Using SQL in R","description":"A short intro to SQL and learning how to \"cheat\" with `dbplyr`.","authors":[],"publishedDate":"2021-03-30T00:00:00.000+00:00"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<header class="header header--fixed" role="banner">
+<nav class="distill-site-nav distill-site-header">
+<div class="nav-left">
+<a href="../../index.html" class="title">Advanced Data Science in R</a>
+<input id="distill-search" class="nav-search hidden" type="text" placeholder="Search..."/>
+</div>
+<div class="nav-right">
+<a href="../../index.html">Home</a>
+<a href="../../course.html">Course Materials</a>
+<a href="../../assign.html">Assignments</a>
+<a href="../../resources.html">Resources</a>
+<a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
+</div>
+</nav>
+</header>
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Using SQL in R</h1>
+<!--radix_placeholder_categories-->
+<!--/radix_placeholder_categories-->
+<p><p>A short intro to SQL and learning how to “cheat” with <code>dbplyr</code>.</p></p>
+</div>
+
+
+<div class="d-article">
+<div class="d-contents d-contents-float">
+<nav class="l-text toc figcaption" id="TOC">
+<h3>Contents</h3>
+<ul>
+<li><a href="#follow-along">Follow along</a></li>
+<li><a href="#resources">Resources</a></li>
+<li><a href="#goals">Goals</a></li>
+<li><a href="#why-sql">Why SQL?</a></li>
+<li><a href="#set-up">Set up</a></li>
+<li><a href="#connecting-to-a-database-and-exploring-it">Connecting to a database and exploring it</a></li>
+<li><a href="#working-with-the-database-sql-queries">Working with the database, SQL queries</a></li>
+<li><a href="#working-with-the-database-dbplyr-cheating">Working with the database, <code>dbplyr</code> “cheating”</a></li>
+</ul>
+</nav>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<h2 id="follow-along">Follow along</h2>
+<p>You can download this .Rmd file below if you’d like to follow along. I do have a few hidden notes you can disregard. This document is a distill_article, so you may want to change to an html_document to knit. You will also need to delete any image references to properly knit, since you won’t have those images.</p>
+<div class="layout-chunk" data-layout="l-body">
+<a href="data:text/x-markdown;base64,LS0tCnRpdGxlOiAiVXNpbmcgU1FMIGluIFIiCmRlc2NyaXB0aW9uOiB8CiAgQSBzaG9ydCBpbnRybyB0byBTUUwgYW5kIGxlYXJuaW5nIGhvdyB0byAiY2hlYXQiIHdpdGggYGRicGx5cmAuCm91dHB1dDoKICBkaXN0aWxsOjpkaXN0aWxsX2FydGljbGU6CiAgICB0b2M6IHRydWUKICAgIHRvY19mbG9hdDogdHJ1ZQogICAgc2VsZl9jb250YWluZWQ6IGZhbHNlCmRyYWZ0OiBmYWxzZQotLS0KCgpgYGB7ciBzZXR1cCwgaW5jbHVkZT1GQUxTRX0Ka25pdHI6Om9wdHNfY2h1bmskc2V0KGVjaG8gPSBUUlVFLAogICAgICAgICAgICAgICAgICAgICAgbWVzc2FnZSA9IEZBTFNFLAogICAgICAgICAgICAgICAgICAgICAgd2FybmluZyA9IEZBTFNFLAogICAgICAgICAgICAgICAgICAgICAgZXJyb3IgPSBUUlVFKQpgYGAKCmBgYHtyIGVjaG89RkFMU0V9CmxpYnJhcnkoZW1vKSAgICAgICAgICAjIGZvciBlbW9qaXMhICAgCmxpYnJhcnkoZG93bmxvYWR0aGlzKSAjIGZvciBpbmNsdWRpbmcgZG93bmxvYWQgYnV0dG9ucyBmb3IgZmlsZXMKYGBgCgpgYGB7ciBwYWdlZC10YWJsZSwgZWNobz1GQUxTRX0KIyBkZWZpbmUgYSBtZXRob2QgZm9yIG9iamVjdHMgb2YgdGhlIGNsYXNzIGRhdGEuZnJhbWUKIyBzZWUgaHR0cHM6Ly9naXRodWIuY29tL3JzdHVkaW8vZGlzdGlsbC9pc3N1ZXMvMzEwI2lzc3VlY29tbWVudC03OTc1NDE0NTkKbGlicmFyeShrbml0cikKa25pdF9wcmludC5kYXRhLmZyYW1lIDwtIGZ1bmN0aW9uKHgsIC4uLikgewogIGFzaXNfb3V0cHV0KAogICAgcm1hcmtkb3duOjo6cGFnZWRfdGFibGVfaHRtbCh4LCBvcHRpb25zID0gYXR0cih4LCAib3B0aW9ucyIpKSwKICAgIG1ldGEgPSBsaXN0KGRlcGVuZGVuY2llcyA9IHJtYXJrZG93bjo6Omh0bWxfZGVwZW5kZW5jeV9wYWdlZHRhYmxlKCkpCiAgKQp9CnJlZ2lzdGVyUzNtZXRob2QoImtuaXRfcHJpbnQiLCAiZGF0YS5mcmFtZSIsIGtuaXRfcHJpbnQuZGF0YS5mcmFtZSkKCmtuaXRfcHJpbnQudGJsX2xhenkgPC0gZnVuY3Rpb24oeCwgLi4uKSB7CiAgYXNpc19vdXRwdXQoCiAgICBybWFya2Rvd246OjpwYWdlZF90YWJsZV9odG1sKHgsIG9wdGlvbnMgPSBhdHRyKHgsICJvcHRpb25zIikpLAogICAgbWV0YSA9IGxpc3QoZGVwZW5kZW5jaWVzID0gcm1hcmtkb3duOjo6aHRtbF9kZXBlbmRlbmN5X3BhZ2VkdGFibGUoKSkKICApCn0KcmVnaXN0ZXJTM21ldGhvZCgia25pdF9wcmludCIsICJ0YmxfbGF6eSIsIGtuaXRfcHJpbnQudGJsX2xhenkpCmBgYAoKIyMgRm9sbG93IGFsb25nCgpZb3UgY2FuIGRvd25sb2FkIHRoaXMgLlJtZCBmaWxlIGJlbG93IGlmIHlvdSdkIGxpa2UgdG8gZm9sbG93IGFsb25nLiBJIGRvIGhhdmUgYSBmZXcgaGlkZGVuIG5vdGVzIHlvdSBjYW4gZGlzcmVnYXJkLiBUaGlzIGRvY3VtZW50IGlzIGEgZGlzdGlsbF9hcnRpY2xlLCBzbyB5b3UgbWF5IHdhbnQgdG8gY2hhbmdlIHRvIGFuIGh0bWxfZG9jdW1lbnQgdG8ga25pdC4gWW91IHdpbGwgYWxzbyBuZWVkIHRvIGRlbGV0ZSBhbnkgaW1hZ2UgcmVmZXJlbmNlcyB0byBwcm9wZXJseSBrbml0LCBzaW5jZSB5b3Ugd29uJ3QgaGF2ZSB0aG9zZSBpbWFnZXMuCgpgYGB7ciwgZWNobz1GQUxTRX0KZG93bmxvYWRfZmlsZSgKICBwYXRoID0gInNxbGluci5SbWQiLAogIGJ1dHRvbl9sYWJlbCA9ICJEb3dubG9hZCAuUm1kIGZpbGUiLAogIGJ1dHRvbl90eXBlID0gImluZm8iLAogIGhhc19pY29uID0gVFJVRSwKICBpY29uID0gImZhIGZhLXNhdmUiLAogIHNlbGZfY29udGFpbmVkID0gRkFMU0UKKQpgYGAKCiMjIFJlc291cmNlcwoKKiBbU1FMIGNoYXB0ZXJdKGh0dHBzOi8vbWRzci1ib29rLmdpdGh1Yi5pby9tZHNyMmUvY2gtc3FsLmh0bWwjc2VjOmRwbHlyLXNxbCkgb2YgKk1vZGVybiBEYXRhIFNjaWVuY2Ugd2l0aCBSKiAoKk1EU1IqIGZvciBzaG9ydCkgYnkgQmF1bWVyLCBLYXBsYW4sIGFuZCBIb3J0b24gIAoqIFtEYXRhYmFzZXNdKGh0dHA6Ly9qdGxlZWsuY29tL2FkczIwMjAvd2Vlay02Lmh0bWwjZGF0YWJhc2VzKSBjaGFwdGVyIG9mIEplZmYgTGVlayBhbmQgUm9nZXIgRC4gUGVuZydzIEFkdmFuY2VkIERhdGEgU2NpZW5jZSAyMDIwIGNvdXJzZS4gIAoqIFtWZWJhc2ggTmFpZG9vJ3MgYmxvZyBwb3N0c10oaHR0cHM6Ly9zY2llbmNpZmljaXR5LWJsb2cubmV0bGlmeS5hcHAvcG9zdHMvMjAyMC0xMi0xMi11c2luZy10aGUtdGlkeXZlcnNlLXdpdGgtZGF0YWJhc2VzLykgIAoqIFtgZGJwbHlyYCBTUUwgdHJhbnNsYXRpb25dKGh0dHBzOi8vZGJwbHlyLnRpZHl2ZXJzZS5vcmcvYXJ0aWNsZXMvc3FsLXRyYW5zbGF0aW9uLmh0bWwpIHZpZ25ldHRlCiogW0RhdGFiYXNlcyB1c2luZyBSXShodHRwczovL2RiLnJzdHVkaW8uY29tLykgZnJvbSBSU3R1ZGlvCgojIyBHb2FscwoKVGhlIGdvYWwgb2YgdGhpcyB0dXRvcmlhbCBpcyBub3QgdG8gdGVhY2ggeW91IGV2ZXJ5dGhpbmcgdGhlcmUgaXMgdG8ga25vdyBhYm91dCBTUUwuIFJhdGhlciwgSSB3aWxsIHNob3cgeW91IHNvbWUgb2YgdGhlIG1haW4gU1FMIGZ1bmN0aW9ucywgaG93IHdlIGNhbiB1c2UgdGhlbSBpbiBSIFN0dWRpbywgaG93IHRoZXkgYXJlIHJlbGF0ZWQgdG8gYGRwbHlyYCBmdW5jdGlvbnMgeW91IGFyZSBmYW1pbGlhciB3aXRoLCBhbmQgaG93IHdlIGNhbiBhY3R1YWxseSB3cml0ZSBgZHBseXJgIGNvZGUgdGhhdCB3aWxsIGJlIHRyYW5zbGF0ZWQgdG8gU1FMIGluIHRoZSBiYWNrZ3JvdW5kIGJ5IHRoZSBgZGJwbHlyYCBwYWNrYWdlIChwYXJ0IG9mIGB0aWR5dmVyc2VgKSAtIG1hZ2ljISBJIHdpbGwgZG8gYSBmZXcgZXhhbXBsZXMuIElmIHlvdSB3YW50IHRvIHNlZSBtb3JlIGV4YW1wbGVzLCBjaGVjayBvdXQgdGhlIHJlc291cmNlcyBJIGhhdmUgbGlua2VkIHRvIGFib3ZlLgoKIyMgV2h5IFNRTD8KCklmIHlvdSBldmVyIHdvcmsgc29tZXdoZXJlIHRoYXQgaGFzIGxhcmdlIHRyb3ZlcyBvZiBkYXRhLCBpdCB3aWxsIGxpa2VseSBiZSBzdG9yZWQgaW4gc29tZSB0eXBlIG9mIGRhdGFiYXNlLiBJbiBtYW55IGNhc2VzLCB0aGUgZGF0YXNldHMgd291bGQgYmUgc28gbGFyZ2UgdGhhdCB5b3Ugd291bGQgbm90IGJlIGFibGUgdG8gcmVhZCB0aGUgZW50aXJlIGRhdGFzZXQgaW50byBSLiBJdCB3b3VsZCBjcmFzaCB5b3VyIGNvbXB1dGVyLiBXZSBjYW4gdXNlIFNRTCBxdWVyaWVzIHRvIHRvIGRvIGFzIG11Y2ggcHJvY2Vzc2luZyBhcyB3ZSBjYW4gaW4gdGhlIGRhdGFiYXNlLiBUaGVuLCB3ZSBjYW4gYnJpbmcgYSBtdWNoIHNtYWxsZXIgZGF0YXNldCBpbnRvIFIuIAoKU1FMIGlzIG9uZSBvZiB0aGUgY29tbW9uIHR5cGVzIG9mIGRhdGFiYXNlcy4gQW5kLCBldmVuIGlmIHlvdSB1c2UgYSBkaWZmZXJlbnQgb25lIGluIHRoZSBmdXR1cmUsIG11Y2ggb2Ygd2hhdCB5b3UgbGVhcm4gaGVyZSB3b3VsZCBiZSBlYXNpbHkgdHJhbnNmZXJhYmxlLiBZb3UgY2FuIHJlYWQgbW9yZSBkZXRhaWwgYWJvdXQgY29ubmVjdGluZyB0byBkYXRhYmFzZXMgZnJvbSBSIGluIHRoZSBSIFN0dWRpbyBbZG9jdW1lbnRhdGlvbl0oaHR0cHM6Ly9kYi5yc3R1ZGlvLmNvbS8pLiAKCkFub3RoZXIgcmVsYXRlZCB0b29sIHdlIHdvbid0IGhhdmUgdGltZSB0byB0YWxrIGFib3V0IGluIGNsYXNzIGlzIFtgc3BhcmtseXJgXShodHRwczovL3NwYXJrLnJzdHVkaW8uY29tL21saWIvKSwgYW4gUiBwYWNrYWdlIHRoYXQgY2FuIGJlIHVzZWQgdG8gcHVzaCBzb21lIG1hY2hpbmUgbGVhcm5pbmcgd29yayBvZmYgb2YgeW91ciBjb21wdXRlci4gCgojIyBTZXQgdXAKCkZpcnN0LCB3ZSBsb2FkIHRoZSBsaWJyYXJpZXMgd2Ugd2lsbCB1c2UuIFRoZXJlIHdpbGwgYmUgc29tZSBuZXcgb25lcyB5b3UnbGwgbmVlZCB0byBpbnN0YWxsLgoKYGBge3J9CmxpYnJhcnkodGlkeXZlcnNlKSAgICMgZm9yIHJlYWRpbmcgaW4gZGF0YSwgZ3JhcGhpbmcsIGFuZCBjbGVhbmluZwpsaWJyYXJ5KGRicGx5cikgICAgICAjIGZvciBTUUwgcXVlcnkgImNoZWF0aW5nIiAtIHBhcnQgb2YgdGlkeXZlcnNlIGJ1dCBuZWVkcyB0byBiZSBsb2FkZWQgc2VwYXJhdGVseQpsaWJyYXJ5KG1kc3IpICAgICAgICAjIGZvciBhY2Nlc3Npbmcgc29tZSBkYXRhYmFzZXMgLSBnb2VzIHdpdGggTW9kZXJuIERhdGEgU2NpZW5jZSB3aXRoIFIgdGV4dGJvb2sKbGlicmFyeShSTXlTUUwpICAgICAgIyBmb3IgYWNjZXNzaW5nIE15U1FMIGRhdGFiYXNlcwpsaWJyYXJ5KFJTUUxpdGUpICAgICAjIGZvciBhY2Nlc3NpbmcgU1FMaXRlIGRhdGFiYXNlcwpgYGAKCiMjIENvbm5lY3RpbmcgdG8gYSBkYXRhYmFzZSBhbmQgZXhwbG9yaW5nIGl0CgpUaHJvdWdob3V0IHRoaXMgdHV0b3JpYWwsIHdlIHdpbGwgdXNlIHRoZSBgYWlybGluZXNgIGRhdGFiYXNlLCB3aGljaCBpcyBhIFNRTCBkYXRhYmFzZSBob3N0ZWQgb24gQVdTIGNyZWF0ZWQgYnkgdGhlIGF1dGhvcnMgb2YgWypNRFNSKl0oaHR0cHM6Ly9tZHNyLWJvb2suZ2l0aHViLmlvL21kc3IyZS9jaC1tZHNyLmh0bWwpLgoKV2UgY2FuIGNvbm5lY3QgdG8gdGhlIGRhdGFiYXNlIHVzaW5nIHRoZSBmb2xsb3dpbmcgY29kZS4gVGhpcyBpcyB3aGF0IGNvZGUgdGhhdCBjb25uZWN0cyB0byBhIGBNeVNRTGAgZGF0YWJhc2Ugd291bGQgbm9ybWFsbHkgbG9vayBsaWtlLgoKYGBge3IsIGV2YWw9RkFMU0V9CmNvbl9haXIgPC0gZGJDb25uZWN0KFJNeVNRTDo6TXlTUUwoKSwgCiAgICAgICAgICAgICAgICAgICAgIGRibmFtZSA9ICJhaXJsaW5lcyIsIAogICAgICAgICAgICAgICAgICAgICBob3N0ID0gIm1kc3IuY2RjN3Rna2txZDBuLnVzLWVhc3QtMS5yZHMuYW1hem9uYXdzLmNvbSIsIAogICAgICAgICAgICAgICAgICAgICB1c2VyID0gIm1kc3JfcHVibGljIiwgCiAgICAgICAgICAgICAgICAgICAgIHBhc3N3b3JkID0gIkltaHNtZmxNRFN3UiIpCmBgYAoKVGhlcmUgaXMgYWxzbyBhIHNob3J0LWN1dCBmdW5jdGlvbiBmcm9tIHRoZSBgbWRzcmAgbGlicmFyeSB0aGF0IGNhbiBiZSB1c2VkOgoKYGBge3J9CmNvbl9haXIgPC0gZGJDb25uZWN0X3NjaWRiKCJhaXJsaW5lcyIpCmBgYAoKTm93IHRoYXQgd2UgYXJlIGNvbm5lY3RlZCB0byB0aGUgZGF0YWJhc2UsIGxldCdzIHNlZSB3aGF0J3MgaW4gaXQuIFdlIGNhbiB3cml0ZSBSIGNvZGUgdG8gbGlzdCB0aGUgdGFibGVzIGluIHRoZSBkYXRhYmFzZS4gVGhpcyBpcyBpbiBhbiBSIGNvZGUgY2h1bmsuCgpgYGB7cn0KZGJMaXN0VGFibGVzKGNvbl9haXIpCmBgYAoKT3Igd2UgY2FuIGluc2VydCBhIFNRTCBjb2RlIGNodW5rIGFuZCB3cml0ZSBTUUwgY29kZSB0byBkbyB0aGUgc2FtZSB0aGluZy4gVG8gaW5zZXJ0IGEgU1FMIGNvZGUgY2h1bmssIGNob29zZSBJbnNlcnQgU1FMIGZyb20gdGhlIGRyb3Bkb3duIGJhciBpbiB0aGUgc2FtZSBhcmVhIGFzIHRoZSBgS25pdGAgYnV0dG9uLiBZb3UgbmVlZCB0byBwdXQgdGhlIGRhdGFiYXNlIG5hbWUgaW4gdGhlIGBjb25uZWN0aW9uYCBhcmd1bWVudCBpbiB0aGUgY29kZSBjaHVuayBvcHRpb24uIEhlcmUgaXMgYSBzaG9ydCB2aWRlbyBjbGlwIHRvIGlsbHVzdHJhdGU6Cgo8Y2VudGVyPgohW10oaW5zZXJ0X3NxbC5tcDQpe3dpZHRoPTgwJX0KPC9jZW50ZXI+CgpgYGB7c3FsIGNvbm5lY3Rpb249Y29uX2Fpcn0KU0hPVyBUQUJMRVM7CmBgYAoKV2UgY2FuIGFsc28gc2VlIHRoZSB2YXJpYWJsZSBuYW1lcyBpbiBhIGRhdGFiYXNlIHVzaW5nIGVpdGhlciBSIGNvZGU6CgpgYGB7cn0KZGJMaXN0RmllbGRzKGNvbl9haXIsICJmbGlnaHRzIikKYGBgCgpPciBTUUwgY29kZSBpbiBhIFNRTCBjb2RlIGNodW5rOgoKYGBge3NxbCBjb25uZWN0aW9uPWNvbl9haXJ9CkRFU0NSSUJFIGZsaWdodHM7CmBgYAoKTk9URTogSWYgeW91IGFyZSBpbmFjdGl2ZSBpbiB0aGUgZGF0YWJhc2UgZm9yIGEgd2hpbGUgKEknbSBub3QgZXhhY3RseSBzdXJlIGhvdyBsb25nKSwgdGhlIGRhdGFiYXNlIHdpbGwgZGlzY29ubmVjdC4gWW91IGNhbiBhbHNvIHRlbGwgaXQgdG8gZGlzY29ubmVjdCB1c2luZyB0aGUgZnVuY3Rpb24gYGRiRGlzY29ubmVjdCgpYCB3aXRoIHRoZSBkYXRhYmFzZSBuYW1lIGFzIGFuIGFyZ3VtZW50LCB3aGljaCBJIHdpbGwgZG8gYXQgdGhlIGVuZCBvZiB0aGlzIHR1dG9yaWFsLgoKIyMgV29ya2luZyB3aXRoIHRoZSBkYXRhYmFzZSwgU1FMIHF1ZXJpZXMKCkFzIHdlIGRlbHZlIGludG8gU1FMIGNvZGUsIEkgdGhpbmsgaXQncyBoZWxwZnVsIHRvIHVzZSB0aGlzIHRhYmxlIHRvIHJlbWVtYmVyIGhvdyBTUUwgcmVsYXRlcyB0byBSIGZ1bmN0aW9ucywgbW9zdGx5IGZyb20gYGRwbHlyYDoKClIgICAgICAgICAgICAgICAgIHwgU1FMCi0tLS0tLS0tLS0tLS0tLS0tLXwtLS0tLS0tCmBzZWxlY3QoKWAgICAgICAgIHwgYFNFTEVDVGAKYHRibCgpYCAgICAgICAgICAgfCBgRlJPTWAKYGZpbHRlcigpYCAgICAgICAgfCBgV0hFUkVgCmBncm91cF9ieSgpYCAgICAgIHwgYEdST1VQIEJZYApgYXJyYW5nZSgpYCAgICAgICB8IGBPUkRFUiBCWWAKYGlubmVyX2pvaW4oKWAgICAgfCBgSU5ORVIgSk9JTmAgb3IgYEpPSU5gCmBoZWFkKHgpYCAgICAgICAgIHwgYExJTUlUIHhgCgoKVGhpcyBpcyBub3QgYW4gZXhoYXVzdGl2ZSBsaXN0LCBidXQgZ2V0cyB1cyBwcmV0dHkgZmFyLiBZb3UgbWF5IG5vdGljZSB0aGF0IGBtdXRhdGUoKWAgYW5kIGBzdW1tYXJpemUoKWAgYXJlIG5vdCBvbiB0aGUgbGlzdCBvZiBgZHBseXJgIGZ1bmN0aW9ucy4gVGhhdCBpcyBiZWNhdXNlIHRob3NlIGNvbXB1dGF0aW9ucyBhcmUgZG9uZSBpbiB0aGUgU1FMIGBTRUxFQ1RgLiBKdXN0IGxpa2UgdGhlcmUgYXJlIG1hbnkgZnVuY3Rpb25zIHdlIGNhbiB1c2Ugd2l0aGluIGBtdXRhdGUoKWAgYW5kIGBzdW1tYXJpemUoKWAgaW4gUiwgdGhlcmUgYXJlIG1hbnkgZnVuY3Rpb25zIHdlIGNhbiB1c2UgaW4gYSBgU0VMRUNUYCBpbiBTUUwuIFlvdSBjYW4gc2VlIGEgbGlzdCBvZiBzb21lIFtoZXJlXShodHRwczovL3d3dy53M3NjaG9vbHMuY29tL3NxbC9zcWxfcmVmX215c3FsLmFzcCkuCgpMZXQncyBnbyB0aHJvdWdoIGEgZmV3IGV4YW1wbGVzIG9mIHNvbWUgU1FMIGNvZGUsIG9yIFNRTCBxdWVyaWVzLiBUaGVzZSBhcmUgYWxsIHdyaXR0ZW4gaW5zaWRlIG9mICpTUUwgY29kZSBjaHVua3MqLCBOT1QgUiBjb2RlIGNodW5rcy4KCjEuIFdlIHN0YXJ0IHdpdGggYSBzaW1wbGUgZXhhbXBsZSB0aGF0IHB1bGxzIGluIHRoZSBmaXJzdCAyMCByb3dzIG9mIHRoZSBgZmxpZ2h0c2AgZGF0YSB0byBwb2ludCBvdXQgYSBjb3VwbGUgdGhpbmdzIGFib3V0IFNRTCBxdWVyaWVzOiBhKSBZb3UgY2FuIHVzZSBgKmAgdG8gbWVhbiBhbGwgdGhlIHZhcmlhYmxlcywgYikgVXNlIGBMSU1JVGAgdG8gcHVsbCBiYWNrIGZld2VyIHJvd3MsIGVzcGVjaWFsbHkgd2l0aCBhIHF1ZXJ5IHlvdSdyZSB1bnN1cmUgYWJvdXQsIGMpIEFsbCBTUUwgcXVlcmllcyBlbmQgd2l0aCBhIHNlbWktY29sb24sIGA7YC4KCmBgYHtzcWwgY29ubmVjdGlvbj1jb25fYWlyfQpTRUxFQ1QgKgpGUk9NIGZsaWdodHMKTElNSVQgMjA7CmBgYAoKICAgSWYgd2Ugd2FudCB0byBzYXZlIHRoZSByZXN1bHRzIG9mIHRoaXMgcXVlcnkgdG8gYSB0YWJsZSBpbiBSLCB3ZSBjb3VsZCBkbyB0aGUgZm9sbG93aW5nIGluIGFuICpSIGNvZGUgY2h1bmsqLiBJIHdpbGwgb2Z0ZW4gd3JpdGUgdGhlIFNRTCBxdWVyeSBpbiBhIFNRTCBjaHVuayBmaXJzdCB0byBtYWtlIHN1cmUgZXZlcnl0aGluZyBnb2VzIGFzIHBsYW5uZWQsIGFuZCB0aGVuIGNvcHkgYW5kIHBhc3RlIGl0IHRvIGFuIFIgY29kZSBjaHVuayBsaWtlIHRoaXMuIE5PVEU6IHRoZXJlIGlzIE5PVCBhIHNlbWljb2xvbiBhdCB0aGUgZW5kIG9mIHRoZSBxdWVyeSB3aGVuIHlvdSBkbyB0aGlzIQoKYGBge3J9CnNtYWxsX3F1ZXJ5IDwtIAogIHRibChjb25fYWlyLAogICAgICBzcWwoIgogICAgICAgICAgU0VMRUNUICogCiAgICAgICAgICBGUk9NIGZsaWdodHMgCiAgICAgICAgICBMSU1JVCAyMAogICAgICAgICAgIikKICAgICAgKQoKc21hbGxfcXVlcnkKYGBgCgogICBBbHNvIG5vdGljZSB0aGF0LCBhbHRob3VnaCB0aGlzICpsb29rcyogbGlrZSBhbiBSIGBkYXRhLmZyYW1lYCBvciBgdGliYmxlYCwgaXQgaXMgYWN0dWFsbHkgYSBzcGVjaWFsIHR5cGUgb2YgdGFibGUuCgpgYGB7cn0KY2xhc3Moc21hbGxfcXVlcnkpCmBgYAoKMi4gSW4gdGhpcyBleGFtcGxlLCB3ZSB3aWxsIGNvbXB1dGUgc29tZSBzdW1tYXJ5IHN0YXRpc3RpY3MgYWJvdXQgdGhlIGBmbGlnaHRzYCBkYXRhc2V0LiBXZSB3aWxsIGZpbmQgdGhlIG1pbmltdW0gYW5kIG1heGltdW0geWVhcnMgaW4gdGhlIGRhdGFzZXQsIHRoZSB0b3RhbCBudW1iZXIgb2YgZmxpZ2h0cywgYW5kIHRoZSBudW1iZXIgb2YgZGlzdGluY3QgY2FycmllcnMuIFdlJ3JlIGJhY2sgdG8gd3JpdGluZyB0aGlzIGluIGEgU1FMIGNodW5rLiBUaGlzIHF1ZXJ5IHRha2VzIHNvbWUgdGltZSB0byBydW4gKH40NSBzZWNvbmRzIG9uIG15IGNvbXB1dGVyKS4gV2l0aCB0aGUgYENPVU5UYCBmdW5jdGlvbiwgc2luY2Ugd2UgYXJlIGludGVyZXN0ZWQgaW4gY291bnRpbmcgYWxsIHRoZSByb3dzIChlYWNoIHJvdyBpcyBhIGZsaWdodCksIHdlIHVzZSBgKmAgaW5zdGVhZCBvZiBhIHNwZWNpZmljIHZhcmlhYmxlLiBXZSBjb3VsZCBhbHNvIHB1dCBhbnkgdmFyaWFibGUgaW4gdGhlcmUgaW5zdGVhZCBvZiBgKmAuIFRoZXJlIGFyZSBuZWFybHkgNDggKm1pbGxpb24qIGZsaWdodHMgaW4gdGhpcyBkYXRhYmFzZSEgKEkgYmVsaWV2ZSBkYXRhIGdldCBhZGRlZCByZWd1bGFybHksIHNvIGl0IG1pZ2h0IGJlIGV2ZW4gYmlnZ2VyIHdoZW4geW91IHJ1biB0aGlzLikKCmBgYHtzcWwgY29ubmVjdGlvbj1jb25fYWlyfQpTRUxFQ1QgCiAgTUlOKGB5ZWFyYCkgQVMgYG1pbl95ZWFyYCwgCiAgTUFYKGB5ZWFyYCkgQVMgYG1heF95ZWFyYCwKICBDT1VOVCgqKSBhcyBgbnVtX2ZsaWdodHNgLAogIENPVU5UKERJU1RJTkNUKGNhcnJpZXIpKSBhcyBudW1fY2FycmllcnMKRlJPTSBgZmxpZ2h0c2AKYGBgCgozLiBOb3csIGxldCdzIGFkZCBzb21lIGNvbXBsZXhpdHkuIFdlIHdpbGwgZmluZCwgZm9yIGVhY2ggY2FycmllciwgdGhlIHByb3BvcnRpb24gb2YgZmxpZ2h0cyB0aGF0IGFyZSBtb3JlIHRoYW4gMjAgbWludXRlcyBsYXRlLiBPcmRlciB0aGUgY2FycmllcnMgZnJvbSBsYXJnZXN0IHRvIHNtYWxsZXN0IHByb3BvcnRpb24uIElmIHlvdSBhcmUgbmV3IHRvIFNRTCwgSSB3b3VsZCByZWNvbW1lbmQgZG9pbmcgdGhpcyBpbiBwaWVjZXMgdG8gbWFrZSBzdXJlIHlvdXIgY29kZSB3b3Jrcy4gCgogICBGaXJzdCwgSSBzZWUgdGhhdCBJIGNhbiB1c2UgbG9naWMgaW4gU1FMLiBJdCByZXR1cm5zIDAncyBhbmQgMSdzIHJhdGhlciB0aGFuIGBUUlVFYHMgYW5kIGBGQUxTRWBzIGxpa2UgaW4gUi4gVGhpcyBpcyBnb29kLCBiZWNhdXNlIEknbSBnb2luZyB0byB3YW50IHRvIGRvIHNvbWUgbWF0aCBvbiB0aGVtLiAKCmBgYHtzcWwgY29ubmVjdGlvbj1jb25fYWlyfQpTRUxFQ1QgCiAgY2FycmllciwgCiAgYXJyX2RlbGF5LCAKICB5ZWFyLAogIChhcnJfZGVsYXkgPiAyMCkgYXMgbGF0ZV9vdmVyMjAKRlJPTSBmbGlnaHRzCkxJTUlUIDIwOwpgYGAKCiAgIElmIEkgZ3JvdXAgdGhlIGRhdGEgYnkgYGNhcnJpZXJgIGFuZCB0YWtlIHRoZSBhdmVyYWdlIG9mIGBsYXRlX292ZXIyMGAsIHRoYXQgd2lsbCBnaXZlIG1lIHRoZSBwcm9wb3J0aW9uIG9mIGZsaWdodHMgdGhhdCBhcmUgbW9yZSB0aGFuIDIwIG1pbnV0ZXMgbGF0ZS4gSSBoYXZlIGxpbWl0ZWQgdGhlIGluaXRpYWwgZGF0YXNldCBoZXJlIGluIHRoZSBtYWluIGBGUk9NYC4gVG8gZ2V0IGFuIGlkZWEgb2YgaG93IGxvbmcgbXkgcXVlcnkgd2lsbCBydW4sIEkgc3RhcnQgd2l0aCBhIHNtYWxsIGxpbWl0IChsaWtlIDEwMCkgYW5kIGNvbnRpbnVlIHRvIGluY3JlYXNlIGl0LCB1c3VhbGx5IGJ5IG11bHRpcGxlcyBvZiB0ZW4uIFdoZW4gSSdtIHN1cmUgaXQgY2FuIGhhbmRsZSB0aGUgZW50aXJlIGRhdGFzZXQsIEkgcmVtb3ZlIHRoYXQgcGFydC4KCmBgYHtzcWwgY29ubmVjdGlvbj1jb25fYWlyfQpTRUxFQ1QgCiAgY2FycmllciwgCiAgQVZHKGFycl9kZWxheSA+IDIwKSBBUyBwcm9wX2xhdGVfb3ZlcjIwCkZST00gKFNFTEVDVCAqIEZST00gZmxpZ2h0cyBMSU1JVCAxMDAwMCkgYGZsYApHUk9VUCBCWSBjYXJyaWVyCk9SREVSIEJZIGBwcm9wX2xhdGVfb3ZlcjIwYCBERVNDOwpgYGAKCiAgIFNvLCBvdXIgZmluYWwgcXVlcnkgaXMgYmVsb3cuIFRoaXMgdGFrZXMgYWJvdXQgYSBtaW51dGUgdG8gcnVuLgoKYGBge3NxbCBjb25uZWN0aW9uPWNvbl9haXJ9ClNFTEVDVCAKICBjYXJyaWVyLCAKICBBVkcoYXJyX2RlbGF5ID4gMjApIEFTIHByb3BfbGF0ZV9vdmVyMjAKRlJPTSBmbGlnaHRzCkdST1VQIEJZIGNhcnJpZXIKT1JERVIgQlkgYHByb3BfbGF0ZV9vdmVyMjBgIERFU0M7CmBgYAoKNC4gV2UnbGwgZG8gb25lIG1vcmUgZXhhbXBsZSB3aXRoIGV2ZW4gbW9yZSBjb21wbGV4aXR5LCBpbmNsdWRpbmcgYSBqb2luLiBGb3IgZWFjaCB5ZWFyIGFuZCBjYXJyaWVyLCBmaW5kIHRoZSBudW1iZXIgb2YgZmxpZ2h0cywgdGhlIGF2ZXJhZ2UgYXJyaXZhbCBkZWxheSwgYW5kIHRoZSBhdmVyYWdlIGRpc3RhbmNlIG9mIHRoZSBmbGlnaHQuIFVzZSBjYXJyaWVyIG5hbWUuIEFycmFuZ2UgdGhlIHJlc3VsdHMgYnkgbG9uZ2VzdCBhdmVyYWdlIGRlbGF5IHdpdGhpbiB5ZWFyLgoKRmlyc3QsIEknbGwgZG8gdGhlIHN1bW1hcml6aW5nIHdpdGhvdXQgam9pbmluZyB0byBgY2FycmllcnNgLiBJIGRvIHRoaXMgb24gYSBzYW1wbGUgb2YgZGF0YS4KCmBgYHtzcWwgY29ubmVjdGlvbj1jb25fYWlyfQpTRUxFQ1QgCiAgeWVhciwKICBjYXJyaWVyLCAKICBDT1VOVCgqKSBBUyBuX2ZsaWdodHMsIAogIEFWRyhhcnJfZGVsYXkpIEFTIGF2Z19hcnJfZGVsYXksIAogIEFWRyhkaXN0YW5jZSkgQVMgYXZnX2Rpc3RhbmNlCkZST00gKFNFTEVDVCAqIEZST00gZmxpZ2h0cyBMSU1JVCAxMDAwKSBmbApHUk9VUCBCWSB5ZWFyLCBjYXJyaWVyOwpgYGAKCiAgTm93LCBJJ2xsIGpvaW4gdGhlIGBjYXJyaWVyc2AgZGF0YSwgd2hpY2ggb25seSBoYXMgdHdvIHZhcmlhYmxlcy4gSSBqb2luIHRvIHRoZSBhbHJlYWR5IHN1bW1hcml6ZWQgZGF0YSwgd2hpY2ggd2lsbCBiZSBsZXNzIHdvcmsgY29tcHV0YXRpb25hbGx5LiAKICAKYGBge3NxbCBjb25uZWN0aW9uPWNvbl9haXJ9ClNFTEVDVCAKICB5ZWFyLAogIG5hbWUsCiAgbl9mbGlnaHRzLAogIGF2Z19hcnJfZGVsYXksCiAgYXZnX2Rpc3RhbmNlCkZST00gKFNFTEVDVCAKICB5ZWFyLAogIGNhcnJpZXIsIAogIENPVU5UKCopIEFTIG5fZmxpZ2h0cywgCiAgQVZHKGFycl9kZWxheSkgQVMgYXZnX2Fycl9kZWxheSwgCiAgQVZHKGRpc3RhbmNlKSBBUyBhdmdfZGlzdGFuY2UKRlJPTSAoU0VMRUNUICogRlJPTSBmbGlnaHRzIExJTUlUIDEwMDApIGZsCkdST1VQIEJZIHllYXIsIGNhcnJpZXIpIHNtcnkKSU5ORVIgSk9JTiBjYXJyaWVycyBBUyBjIAogIE9OIChzbXJ5LmNhcnJpZXIgPSBjLmNhcnJpZXIpCk9SREVSIEJZIHllYXIsIGF2Z19hcnJfZGVsYXkgREVTQzsKYGBgCgogIEkgd2lsbCBza2lwIHJ1bm5pbmcgdGhlIGZ1bGwgcXVlcnkgZm9yIG5vdywgYnV0IHlvdSB3b3VsZCByZXBsYWNlIGAoU0VMRUNUICogRlJPTSBmbGlnaHRzIExJTUlUIDEwMDApYCB3aXRoIGBmbGlnaHRzYCB0byBkbyB0aGF0LiBXZSdsbCBzZWUgdGhlIHJlc3VsdHMgaW4gdGhlIG5leHQgc2VjdGlvbi4KCiMjIFdvcmtpbmcgd2l0aCB0aGUgZGF0YWJhc2UsIGBkYnBseXJgICJjaGVhdGluZyIKCklmIHlvdSdyZSBuZXcgdG8gU1FMIHRoYXQgbGFzdCBzZWN0aW9uIG1pZ2h0IGhhdmUgYmVlbiBhIGJpdCB0cmlja3kgdG8gZG8gb24geW91ciBvd24gKGFsdGhvdWdoIEknbSBjb25maWRlbnQgeW91IGNvdWxkIHJlYWQgdGhlIGNvZGUgSSB3cm90ZSBhbmQgd291bGQgZmlndXJlIGl0IG91dCBvbiB5b3VyIG93biBldmVudHVhbGx5KS4gV2VsbCwgeW91J3JlIGluIGx1Y2shIEFzIHRoZSBzZWN0aW9uIGhlYWRpbmcgaW5kaWNhdGVzLCB3ZSBjYW4gImNoZWF0IiBpbiB3cml0aW5nIG91ciBTUUwgY29kZSBieSB1c2luZyBgZHBseXJgIGZ1bmN0aW9ucy4gVGhlc2Ugd2lsbCBnZXQgdHJhbnNsYXRlZCB0byBTUUwgdXNpbmcgdGhlIGBkYnBseXJgIHBhY2thZ2UuIAoKSWYgeW91IGZlZWwgYSBsaXR0bGUgcnVzdHkgaW4geW91ciBgZHBseXJgIHNraWxscywgeW91IGNhbiByZXZpZXcgdGhlIG1haW4gb25lcyBbaGVyZV0oaHR0cHM6Ly9nZ3Bsb3QtZHBseXItaW50cm8ubmV0bGlmeS5hcHAvI1dyYW5nbGluZ19kYXRhX3dpdGhfZHBseXJfZnVuY3Rpb25zKSAoSSBzdWdnZXN0IGFsc28gZG93bmxvYWRpbmcgdGhlIFtkZW1vIHZpZGVvXShodHRwczovL2dncGxvdC1kcGx5ci1pbnRyby5uZXRsaWZ5LmFwcC8jZGVtby12aWRlbykgZmlsZSkgYW5kIG1vcmUgYWR2YW5jZWQgb25lcywgaW5jbHVkaW5nIGpvaW5zLCBbaGVyZV0oaHR0cHM6Ly8wMy13cmFuZ2xpbmctdHV0b3JpYWwubmV0bGlmeS5hcHAvKS4gTm90IEFMTCBmdW5jdGlvbnMgYXJlIHRyYW5zbGF0YWJsZS4gWW91IGNhbiBjaGVjayB0aGUgbGlzdCBbaGVyZV0oaHR0cHM6Ly9kYnBseXIudGlkeXZlcnNlLm9yZy9hcnRpY2xlcy9zcWwtdHJhbnNsYXRpb24uaHRtbCNrbm93bi1mdW5jdGlvbnMpIG9yIHVzZSB0aGUgYHRyYW5zbGF0ZV9zcWwoKWAgZnVuY3Rpb24gdG8gY2hlY2sgdmVjdG9yIGV4cHJlc3Npb25zIChmdW5jdGlvbnMgYXBwbGllZCB0byB2YXJpYWJsZXMgaW4gdGhlIGRhdGFzZXQpLCBmb3IgZXhhbXBsZToKCmBgYHtyfQp0cmFuc2xhdGVfc3FsKG1lYW4oeCkpCmBgYAoKVGhlIGNvZGUgdGhhdCBpdCBzaG93cyBtYXkgbm90IGJlIHBlcmZlY3Qgb3IgeW91IG1heSB3YW50IHRvIHNpbXBsaWZ5IGl0IGZ1cnRoZXIsIGJ1dCBpdCBzaG91bGQgYXQgbGVhc3QgZ2l2ZSB5b3UgYW4gaWRlYSBpZiB0aGF0IGZ1bmN0aW9uIGlzIGV2ZW4gcG9zc2libGUgdG8gdHJhbnNsYXRlIHRvIFNRTC4KCkkgYW0gZ29pbmcgdG8gaWxsdXN0cmF0ZSB0aGlzIGJ5IHJlcGxpY2F0aW5nIHRoZSBleGFtcGxlcyB3ZSB3ZW50IHRocm91Z2ggYWJvdmUuCgoxLiBQdWxsIGluIHRoZSBmaXJzdCAyMCByb3dzIG9mIHRoZSBgZmxpZ2h0c2AgZGF0YS4gVGhlIG9ubHkgZGlmZmVyZW50IGJldHdlZW4gdGhpcyBjb2RlIGFuZCByZWd1bGFyIGBkcGx5cmAgY29kZSBpcyB0aGUgd2F5IHdlIGFjY2VzcyB0aGUgZGF0YSwgdXNpbmcgYHRibCgpYC4KCmBgYHtyfQp0YmwoY29uX2FpciwgImZsaWdodHMiKSAlPiUgCiAgaGVhZCgyMCkKYGBgCgogICBXZSBjYW4gc2VlIHRoZSBTUUwgcXVlcnkgdGhhdCBpcyBhdXRvbWFnaWNhbGx5IChhY3R1YWxseSwgc29tZW9uZSB3cm90ZSBhIGxvdCBvZiBjb2RlIHRvIGRvIGl0LCBidXQgaXQgc3VyZSBzZWVtcyBsaWtlIG1hZ2ljISkgcnVuIGluIHRoZSBiYWNrZ3JvdW5kLgoKYGBge3J9CmZsaWdodHNfMjAgPC0KICB0YmwoY29uX2FpciwgImZsaWdodHMiKSAlPiUgCiAgaGVhZCgyMCkKCnNob3dfcXVlcnkoZmxpZ2h0c18yMCkKYGBgCgpgYGB7cn0KY2xhc3MoZmxpZ2h0c18yMCkKYGBgCgogICBXZSBjYW4gYWxzbyB3cml0ZSB0aGlzIG91dCB0byBhIGBkYXRhLmZyYW1lYCB1c2luZyB0aGUgYGNvbGxlY3QoKWAgZnVuY3Rpb24uIAoKYGBge3J9CmZsaWdodHNfMjBfZGYgPC0gY29sbGVjdChmbGlnaHRzXzIwKQpmbGlnaHRzXzIwX2RmCmNsYXNzKGZsaWdodHNfMjBfZGYpCmBgYAoKMi4gSW4gdGhpcyBleGFtcGxlLCB3ZSB3aWxsIGNvbXB1dGUgc29tZSBzdW1tYXJ5IHN0YXRpc3RpY3MgYWJvdXQgdGhlIGBmbGlnaHRzYCBkYXRhc2V0LiBXZSB3aWxsIGZpbmQgdGhlIG1pbmltdW0gYW5kIG1heGltdW0geWVhcnMgaW4gdGhlIGRhdGFzZXQsIHRoZSB0b3RhbCBudW1iZXIgb2YgZmxpZ2h0cywgYW5kIHRoZSBudW1iZXIgb2YgZGlzdGluY3QgY2FycmllcnMuIEp1c3QgbGlrZSB3aGVuIHdlIGRpZCB0aGlzIHdpdGggYSBTUUwgcXVlcnksIHRoaXMgZG9lcyB0YWtlIGEgbWludXRlIHRvIHJ1bi4KCmBgYHtyfQpvdmVyYWxsX3NtcnkgPC0KICB0YmwoY29uX2FpciwgImZsaWdodHMiKSAlPiUgCiAgc3VtbWFyaXplKG1pbl95ZWFyID0gbWluKHllYXIpLAogICAgICAgICAgICBtYXhfeWVhciA9IG1heCh5ZWFyKSwKICAgICAgICAgICAgbnVtX2ZsaWdodHMgPSBuKCksCiAgICAgICAgICAgIG51bV9jYXJyaWVycyA9IG5fZGlzdGluY3QoY2FycmllcikpCgpvdmVyYWxsX3NtcnkKYGBgCgogICBXZSBjYW4gYWxzbyBsb29rIGF0IHRoZSBTUUwgY29kZSB0aGF0IHdhcyB3cml0dGVuIGluIHRoZSBiYWNrZ3JvdW5kLiBUaGlzIGxvb2tzIHNpbWlsYXIgdG8gdGhlIGNvZGUgSSB3cm90ZSBhYm92ZSwgYWx0aG91Z2ggSSB0cmllZCB0byBtYWtlIGl0IGEgbGl0dGxlIG1vcmUgcmVhZGFibGUuCgpgYGB7cn0Kb3ZlcmFsbF9zbXJ5ICU+JSAKICBzaG93X3F1ZXJ5KCkKYGBgCgozLiBOZXh0LCB3ZSB3aWxsIGZpbmQsIGZvciBlYWNoIGNhcnJpZXIsIHRoZSBwcm9wb3J0aW9uIG9mIGZsaWdodHMgdGhhdCBhcmUgbW9yZSB0aGFuIDIwIG1pbnV0ZXMgbGF0ZS4gT3JkZXIgdGhlIGNhcnJpZXJzIGZyb20gbGFyZ2VzdCB0byBzbWFsbGVzdCBwcm9wb3J0aW9uLiBXaGVuIEkgZmlyc3QgcmFuIHRoaXMsIEkgcHV0IHRoZSBgaGVhZCgxMDApYCBpbiB0byBtYWtlIHN1cmUgSSBkaWRuJ3QgZ2V0IGFueSB3ZWlyZCByZXN1bHRzLiBJIGFtIGdvaW5nIHRvIHNraXAgb3V0cHV0dGluZyB0aGUgdGFibGUgaGVyZSBiZWNhdXNlIEknbSBnb2luZyB0byBwbG90IHRoZSBkYXRhIGluIGEgbW9tZW50LiBPdXRwdXR0aW5nIHRoZSB0YWJsZSBpcyByZWFsbHkgd2hlcmUgdGhlIGNvZGUgaXMgZXhlY3V0ZWQsIGFuZCBJIHdhbnQgdG8gYXZvaWQgZG9pbmcgdGhhdCB0d2ljZS4KCmBgYHtyfQpmbGlnaHRzX292ZXIyMCA8LSAKICB0YmwoY29uX2FpciwgImZsaWdodHMiKSAlPiUgCiMgIGhlYWQoMTAwKSAlPiUgCiAgZ3JvdXBfYnkoY2FycmllcikgJT4lIAogIHN1bW1hcml6ZShwcm9wX2xhdGVfb3ZlcjIwID0gbWVhbihhcnJfZGVsYXkgPiAyMCkpICU+JSAKICBhcnJhbmdlKGRlc2MocHJvcF9sYXRlX292ZXIyMCkpCmBgYAoKICAgV2UgY291bGQgYCU+JWAgcmlnaHQgaW50byBhIHBsb3QsIHRvbyEgVGhpcyBjb2RlIHRha2VzIGEgd2hpbGUgdG8gcnVuIGJlY2F1c2UgdGhlIHF1ZXJ5IGlzIGV4ZWN1dGVkIGhlcmUuIElmIHdlIHdhbnRlZCB0byB1c2UgdGhlIGRhdGEgZnJvbSB0aGUgU1FMIHF1ZXJ5IG92ZXIgYW5kIG92ZXIgYWdhaW4sIGl0IHdvdWxkIGJlIGEgZ29vZCBpZGVhIHRvIHNhdmUgaXQgdG8gYSBgZGF0YS5mcmFtZWAgdXNpbmcgYGNvbGxlY3QoKWAuCgpgYGB7cn0KZmxpZ2h0c19vdmVyMjAgJT4lIAogIGdncGxvdChhZXMoeCA9IHByb3BfbGF0ZV9vdmVyMjAsCiAgICAgICAgICAgICB5ID0gZmN0X3Jlb3JkZXIoY2FycmllciwgcHJvcF9sYXRlX292ZXIyMCwgbWVkaWFuKSkpICsKICBnZW9tX2NvbChmaWxsID0gImxpZ2h0Ymx1ZSIpICsKICBzY2FsZV94X2NvbnRpbnVvdXMoZXhwYW5kID0gYygwLDApLCAKICAgICAgICAgICAgICAgICAgICAgbGFiZWxzID0gc2NhbGVzOjpwZXJjZW50KSArCiAgbGFicyh4ID0gTlVMTCwKICAgICAgIHkgPSBOVUxMLAogICAgICAgdGl0bGUgPSAiV2hpY2ggYWlybGluZXMgaGFkIHRoZSBsYXJnZXN0ICUgb2YgZmxpZ2h0cyB0aGF0IFxud2VyZSBtb3JlIHRoYW4gMjAgbWludXRlcyBsYXRlIGZyb20gMjAxMC0yMDE3PyIpICsKICB0aGVtZV9taW5pbWFsKCkKYGBgCgogICBMZXQncyBhbHNvIGxvb2sgYXQgdGhlIFNRTCBxdWVyeSBnZW5lcmF0ZSBmb3IgdXM6CiAgIApgYGB7cn0KZmxpZ2h0c19vdmVyMjAgJT4lIAogIHNob3dfcXVlcnkoKQpgYGAKCgo0LiBBbmQsIGZvciB0aGUgbGFzdCBleGVyY2lzZSEgRm9yIGVhY2ggeWVhciBhbmQgY2FycmllciwgZmluZCB0aGUgbnVtYmVyIG9mIGZsaWdodHMsIHRoZSBhdmVyYWdlIGFycml2YWwgZGVsYXksIGFuZCB0aGUgYXZlcmFnZSBkaXN0YW5jZSBvZiB0aGUgZmxpZ2h0LiBVc2UgY2FycmllciBuYW1lLiBBcnJhbmdlIHRoZSByZXN1bHRzIGJ5IGxvbmdlc3QgYXZlcmFnZSBkZWxheSB3aXRoaW4geWVhci4KCmBgYHtyfQpjYXJyaWVyX2luZm8gPC0KICB0YmwoY29uX2FpciwgImZsaWdodHMiKSAlPiUgCiAgZ3JvdXBfYnkoeWVhciwgY2FycmllcikgJT4lIAogIHN1bW1hcml6ZShuX2ZsaWdodHMgPSBuKCksCiAgICAgICAgICAgIGF2Z19hcnJfZGVsYXkgPSBtZWFuKGFycl9kZWxheSksCiAgICAgICAgICAgIGF2Z19kaXN0YW5jZSA9IG1lYW4oZGlzdGFuY2UpKSAlPiUgCiAgaW5uZXJfam9pbih0YmwoY29uX2FpciwgImNhcnJpZXJzIiksIAogICAgICAgICAgICAgYnkgPSBjKCJjYXJyaWVyIiA9ICJjYXJyaWVyIikpICU+JSAKICBhcnJhbmdlKHllYXIsIGRlc2MoYXZnX2Fycl9kZWxheSkpCmBgYAoKICAgVGhpcyB0aW1lLCB3ZSdsbCBzYXZlIHRoZSBkYXRhIHRvIGEgYGRhdGEuZnJhbWVgLiBUaGlzIHF1ZXJ5IHRha2VzIGEgbWludXRlIHRvIHJ1bi4KICAgCmBgYHtyfQpjYXJyaWVyX2luZm9fZGYgPC0KICBjYXJyaWVyX2luZm8gJT4lIAogIGNvbGxlY3QoKQpgYGAKCiAgTGV0J3MgYWxzbyBsb29rIGF0IHRoZSBTUUwgY29kZS4gSXQncyBhIGxpdHRsZSBoYXJkZXIgdG8gcmVhZCB0aGFuIHdoYXQgSSB3cm90ZS4KCmBgYHtyfQpjYXJyaWVyX2luZm8gJT4lIAogIHNob3dfcXVlcnkoKQpgYGAKCiAgIExhc3RseSwgbGV0J3MgcGxvdCB0aGUgZGF0YS4gSSdtIHVzaW5nIHRoZSBkYXRhIHRoYXQgaXMgYWxyZWFkeSBpbiBSIGFzIGEgYGRhdGEuZnJhbWVgIHNvIHRoZSBTUUwgcXVlcnkgZG9lc24ndCBleGVjdXRlIGFnYWluLgogICAKYGBge3J9CmxpYnJhcnkoZ2doaWdobGlnaHQpCgpjYXJyaWVyX2luZm9fZGYgJT4lIAogIGdncGxvdChhZXMoeCA9IHllYXIsCiAgICAgICAgICAgICB5ID0gYXZnX2Fycl9kZWxheSwgCiAgICAgICAgICAgICBjb2xvciA9IG5hbWUpKSArCiAgZ2VvbV9wb2ludCgpICsKICBnZW9tX2xpbmUoKSArCiAgZ2doaWdobGlnaHQobWF4KGF2Z19hcnJfZGVsYXkpID4gMTIpICsKICBsYWJzKHRpdGxlID0gIkZyb250aWVyIGFuZCBTcGlyaXQgQWlybGluZXMgaGF2ZSB0aGUgd29yc3QgYXZlcmFnZSBhcnJpdmFsIGRlbGF5IiwKICAgICAgIHggPSBOVUxMLAogICAgICAgeSA9ICJNaW51dGVzIGxhdGUsIGF2Zy4iKSArCiAgdGhlbWVfbWluaW1hbCgpICsKICB0aGVtZShwYW5lbC5ncmlkLm1pbm9yLnggPSBlbGVtZW50X2JsYW5rKCksCiAgICAgICAgcGFuZWwuZ3JpZC5tYWpvci54ID0gZWxlbWVudF9ibGFuaygpLCAKICAgICAgICBwbG90LnRpdGxlLnBvc2l0aW9uID0gInBsb3QiKQpgYGAKClRoZSBsYXN0IHRoaW5nIHdlIHNob3VsZCBkbyBpcyBkaXNjb25uZWN0IGZyb20gdGhlIGRhdGFiYXNlLgoKYGBge3J9CmRiRGlzY29ubmVjdChjb25fYWlyKQpgYGAKCgoKCgoKCgo=" download="sqlinr.Rmd">
+<button class="btn btn-info"><i class="fa fa-save"></i> Download .Rmd file</button>
+</a>
+</div>
+<h2 id="resources">Resources</h2>
+<ul>
+<li><a href="https://mdsr-book.github.io/mdsr2e/ch-sql.html#sec:dplyr-sql">SQL chapter</a> of <em>Modern Data Science with R</em> (<em>MDSR</em> for short) by Baumer, Kaplan, and Horton<br />
+</li>
+<li><a href="http://jtleek.com/ads2020/week-6.html#databases">Databases</a> chapter of Jeff Leek and Roger D. Peng’s Advanced Data Science 2020 course.<br />
+</li>
+<li><a href="https://sciencificity-blog.netlify.app/posts/2020-12-12-using-the-tidyverse-with-databases/">Vebash Naidoo’s blog posts</a><br />
+</li>
+<li><a href="https://dbplyr.tidyverse.org/articles/sql-translation.html"><code>dbplyr</code> SQL translation</a> vignette</li>
+<li><a href="https://db.rstudio.com/">Databases using R</a> from RStudio</li>
+</ul>
+<h2 id="goals">Goals</h2>
+<p>The goal of this tutorial is not to teach you everything there is to know about SQL. Rather, I will show you some of the main SQL functions, how we can use them in R Studio, how they are related to <code>dplyr</code> functions you are familiar with, and how we can actually write <code>dplyr</code> code that will be translated to SQL in the background by the <code>dbplyr</code> package (part of <code>tidyverse</code>) - magic! I will do a few examples. If you want to see more examples, check out the resources I have linked to above.</p>
+<h2 id="why-sql">Why SQL?</h2>
+<p>If you ever work somewhere that has large troves of data, it will likely be stored in some type of database. In many cases, the datasets would be so large that you would not be able to read the entire dataset into R. It would crash your computer. We can use SQL queries to to do as much processing as we can in the database. Then, we can bring a much smaller dataset into R.</p>
+<p>SQL is one of the common types of databases. And, even if you use a different one in the future, much of what you learn here would be easily transferable. You can read more detail about connecting to databases from R in the R Studio <a href="https://db.rstudio.com/">documentation</a>.</p>
+<p>Another related tool we won’t have time to talk about in class is <a href="https://spark.rstudio.com/mlib/"><code>sparklyr</code></a>, an R package that can be used to push some machine learning work off of your computer.</p>
+<h2 id="set-up">Set up</h2>
+<p>First, we load the libraries we will use. There will be some new ones you’ll need to install.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span>   <span class='co'># for reading in data, graphing, and cleaning</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dbplyr.tidyverse.org/'>dbplyr</a></span><span class='op'>)</span>      <span class='co'># for SQL query "cheating" - part of tidyverse but needs to be loaded separately</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/mdsr-book/mdsr'>mdsr</a></span><span class='op'>)</span>        <span class='co'># for accessing some databases - goes with Modern Data Science with R textbook</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://downloads.mariadb.org/connector-c/'>RMySQL</a></span><span class='op'>)</span>      <span class='co'># for accessing MySQL databases</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://rsqlite.r-dbi.org'>RSQLite</a></span><span class='op'>)</span>     <span class='co'># for accessing SQLite databases</span>
+</code></pre>
+</div>
+</div>
+<h2 id="connecting-to-a-database-and-exploring-it">Connecting to a database and exploring it</h2>
+<p>Throughout this tutorial, we will use the <code>airlines</code> database, which is a SQL database hosted on AWS created by the authors of <a href="https://mdsr-book.github.io/mdsr2e/ch-mdsr.html"><em>MDSR</em></a>.</p>
+<p>We can connect to the database using the following code. This is what code that connects to a <code>MySQL</code> database would normally look like.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>con_air</span> <span class='op'>&lt;-</span> <span class='fu'>dbConnect</span><span class='op'>(</span><span class='fu'>RMySQL</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/RMySQL/man/MySQLDriver-class.html'>MySQL</a></span><span class='op'>(</span><span class='op'>)</span>, 
+                     dbname <span class='op'>=</span> <span class='st'>"airlines"</span>, 
+                     host <span class='op'>=</span> <span class='st'>"mdsr.cdc7tgkkqd0n.us-east-1.rds.amazonaws.com"</span>, 
+                     user <span class='op'>=</span> <span class='st'>"mdsr_public"</span>, 
+                     password <span class='op'>=</span> <span class='st'>"ImhsmflMDSwR"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>There is also a short-cut function from the <code>mdsr</code> library that can be used:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>con_air</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/mdsr/man/src_scidb.html'>dbConnect_scidb</a></span><span class='op'>(</span><span class='st'>"airlines"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>Now that we are connected to the database, let’s see what’s in it. We can write R code to list the tables in the database. This is in an R code chunk.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='fu'>dbListTables</span><span class='op'>(</span><span class='va'>con_air</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>[1] &quot;airports&quot; &quot;carriers&quot; &quot;flights&quot;  &quot;planes&quot;  </code></pre>
+</div>
+<p>Or we can insert a SQL code chunk and write SQL code to do the same thing. To insert a SQL code chunk, choose Insert SQL from the dropdown bar in the same area as the <code>Knit</code> button. You need to put the database name in the <code>connection</code> argument in the code chunk option. Here is a short video clip to illustrate:</p>
+<center>
+<video src="insert_sql.mp4" style="width:80.0%" controls=""><a href="insert_sql.mp4">Video</a></video>
+</center>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb2"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb2-1"><a href="#cb2-1"></a>SHOW <span class="kw">TABLES</span>;</span></code></pre></div>
+<div class="knitsql-table">
+<table>
+<caption><span id="tab:unnamed-chunk-7">Table 1: </span>4 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Tables_in_airlines</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">airports</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">carriers</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">flights</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">planes</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>We can also see the variable names in a database using either R code:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='fu'>dbListFields</span><span class='op'>(</span><span class='va'>con_air</span>, <span class='st'>"flights"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code> [1] &quot;year&quot;           &quot;month&quot;          &quot;day&quot;           
+ [4] &quot;dep_time&quot;       &quot;sched_dep_time&quot; &quot;dep_delay&quot;     
+ [7] &quot;arr_time&quot;       &quot;sched_arr_time&quot; &quot;arr_delay&quot;     
+[10] &quot;carrier&quot;        &quot;tailnum&quot;        &quot;flight&quot;        
+[13] &quot;origin&quot;         &quot;dest&quot;           &quot;air_time&quot;      
+[16] &quot;distance&quot;       &quot;cancelled&quot;      &quot;diverted&quot;      
+[19] &quot;hour&quot;           &quot;minute&quot;         &quot;time_hour&quot;     </code></pre>
+</div>
+<p>Or SQL code in a SQL code chunk:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb4"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb4-1"><a href="#cb4-1"></a>DESCRIBE flights;</span></code></pre></div>
+<div class="knitsql-table">
+<table>
+<caption><span id="tab:unnamed-chunk-9">Table 2: </span>Displaying records 1 - 10</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Field</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Null</th>
+<th style="text-align: left;">Key</th>
+<th style="text-align: left;">Default</th>
+<th style="text-align: left;">Extra</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">year</td>
+<td style="text-align: left;">smallint(4)</td>
+<td style="text-align: left;">YES</td>
+<td style="text-align: left;">MUL</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">month</td>
+<td style="text-align: left;">smallint(2)</td>
+<td style="text-align: left;">YES</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">day</td>
+<td style="text-align: left;">smallint(2)</td>
+<td style="text-align: left;">YES</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">dep_time</td>
+<td style="text-align: left;">smallint(4)</td>
+<td style="text-align: left;">YES</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sched_dep_time</td>
+<td style="text-align: left;">smallint(4)</td>
+<td style="text-align: left;">YES</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">dep_delay</td>
+<td style="text-align: left;">smallint(4)</td>
+<td style="text-align: left;">YES</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">arr_time</td>
+<td style="text-align: left;">smallint(4)</td>
+<td style="text-align: left;">YES</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sched_arr_time</td>
+<td style="text-align: left;">smallint(4)</td>
+<td style="text-align: left;">YES</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">arr_delay</td>
+<td style="text-align: left;">smallint(4)</td>
+<td style="text-align: left;">YES</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">carrier</td>
+<td style="text-align: left;">varchar(2)</td>
+<td style="text-align: left;">NO</td>
+<td style="text-align: left;">MUL</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>NOTE: If you are inactive in the database for a while (I’m not exactly sure how long), the database will disconnect. You can also tell it to disconnect using the function <code>dbDisconnect()</code> with the database name as an argument, which I will do at the end of this tutorial.</p>
+<h2 id="working-with-the-database-sql-queries">Working with the database, SQL queries</h2>
+<p>As we delve into SQL code, I think it’s helpful to use this table to remember how SQL relates to R functions, mostly from <code>dplyr</code>:</p>
+<table>
+<thead>
+<tr class="header">
+<th>R</th>
+<th>SQL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>select()</code></td>
+<td><code>SELECT</code></td>
+</tr>
+<tr class="even">
+<td><code>tbl()</code></td>
+<td><code>FROM</code></td>
+</tr>
+<tr class="odd">
+<td><code>filter()</code></td>
+<td><code>WHERE</code></td>
+</tr>
+<tr class="even">
+<td><code>group_by()</code></td>
+<td><code>GROUP BY</code></td>
+</tr>
+<tr class="odd">
+<td><code>arrange()</code></td>
+<td><code>ORDER BY</code></td>
+</tr>
+<tr class="even">
+<td><code>inner_join()</code></td>
+<td><code>INNER JOIN</code> or <code>JOIN</code></td>
+</tr>
+<tr class="odd">
+<td><code>head(x)</code></td>
+<td><code>LIMIT x</code></td>
+</tr>
+</tbody>
+</table>
+<p>This is not an exhaustive list, but gets us pretty far. You may notice that <code>mutate()</code> and <code>summarize()</code> are not on the list of <code>dplyr</code> functions. That is because those computations are done in the SQL <code>SELECT</code>. Just like there are many functions we can use within <code>mutate()</code> and <code>summarize()</code> in R, there are many functions we can use in a <code>SELECT</code> in SQL. You can see a list of some <a href="https://www.w3schools.com/sql/sql_ref_mysql.asp">here</a>.</p>
+<p>Let’s go through a few examples of some SQL code, or SQL queries. These are all written inside of <em>SQL code chunks</em>, NOT R code chunks.</p>
+<ol type="1">
+<li>We start with a simple example that pulls in the first 20 rows of the <code>flights</code> data to point out a couple things about SQL queries: a) You can use <code>*</code> to mean all the variables, b) Use <code>LIMIT</code> to pull back fewer rows, especially with a query you’re unsure about, c) All SQL queries end with a semi-colon, <code>;</code>.</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb5"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">SELECT</span> <span class="op">*</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="kw">FROM</span> flights</span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="kw">LIMIT</span> <span class="dv">20</span>;</span></code></pre></div>
+<div class="knitsql-table">
+<table>
+<caption><span id="tab:unnamed-chunk-10">Table 3: </span>Displaying records 1 - 10</caption>
+<colgroup>
+<col style="width: 2%" />
+<col style="width: 3%" />
+<col style="width: 2%" />
+<col style="width: 4%" />
+<col style="width: 8%" />
+<col style="width: 5%" />
+<col style="width: 4%" />
+<col style="width: 8%" />
+<col style="width: 5%" />
+<col style="width: 4%" />
+<col style="width: 4%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 2%" />
+<col style="width: 4%" />
+<col style="width: 4%" />
+<col style="width: 5%" />
+<col style="width: 4%" />
+<col style="width: 2%" />
+<col style="width: 3%" />
+<col style="width: 10%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">year</th>
+<th style="text-align: right;">month</th>
+<th style="text-align: right;">day</th>
+<th style="text-align: right;">dep_time</th>
+<th style="text-align: right;">sched_dep_time</th>
+<th style="text-align: right;">dep_delay</th>
+<th style="text-align: right;">arr_time</th>
+<th style="text-align: right;">sched_arr_time</th>
+<th style="text-align: right;">arr_delay</th>
+<th style="text-align: left;">carrier</th>
+<th style="text-align: left;">tailnum</th>
+<th style="text-align: right;">flight</th>
+<th style="text-align: left;">origin</th>
+<th style="text-align: left;">dest</th>
+<th style="text-align: right;">air_time</th>
+<th style="text-align: right;">distance</th>
+<th style="text-align: right;">cancelled</th>
+<th style="text-align: right;">diverted</th>
+<th style="text-align: right;">hour</th>
+<th style="text-align: right;">minute</th>
+<th style="text-align: left;">time_hour</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">2010</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2100</td>
+<td style="text-align: right;">181</td>
+<td style="text-align: right;">159</td>
+<td style="text-align: right;">2320</td>
+<td style="text-align: right;">159</td>
+<td style="text-align: left;">XE</td>
+<td style="text-align: left;">N11137</td>
+<td style="text-align: right;">2558</td>
+<td style="text-align: left;">EWR</td>
+<td style="text-align: left;">OMA</td>
+<td style="text-align: right;">162</td>
+<td style="text-align: right;">1133</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">2010-10-01 21:00:00</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2010</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1920</td>
+<td style="text-align: right;">281</td>
+<td style="text-align: right;">230</td>
+<td style="text-align: right;">2214</td>
+<td style="text-align: right;">256</td>
+<td style="text-align: left;">B6</td>
+<td style="text-align: left;">N659JB</td>
+<td style="text-align: right;">562</td>
+<td style="text-align: left;">FLL</td>
+<td style="text-align: left;">SWF</td>
+<td style="text-align: right;">131</td>
+<td style="text-align: right;">1119</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: left;">2010-10-01 19:20:00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2010</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">2355</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">339</td>
+<td style="text-align: right;">334</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">B6</td>
+<td style="text-align: left;">N563JB</td>
+<td style="text-align: right;">701</td>
+<td style="text-align: left;">JFK</td>
+<td style="text-align: left;">SJU</td>
+<td style="text-align: right;">196</td>
+<td style="text-align: right;">1597</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">55</td>
+<td style="text-align: left;">2010-10-01 23:55:00</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2010</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">2200</td>
+<td style="text-align: right;">125</td>
+<td style="text-align: right;">41</td>
+<td style="text-align: right;">2249</td>
+<td style="text-align: right;">112</td>
+<td style="text-align: left;">XE</td>
+<td style="text-align: left;">N16559</td>
+<td style="text-align: right;">5982</td>
+<td style="text-align: left;">IAD</td>
+<td style="text-align: left;">BNA</td>
+<td style="text-align: right;">82</td>
+<td style="text-align: right;">542</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">22</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">2010-10-01 22:00:00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2010</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">2245</td>
+<td style="text-align: right;">82</td>
+<td style="text-align: right;">104</td>
+<td style="text-align: right;">2347</td>
+<td style="text-align: right;">77</td>
+<td style="text-align: left;">OO</td>
+<td style="text-align: left;">N908SW</td>
+<td style="text-align: right;">6433</td>
+<td style="text-align: left;">LAX</td>
+<td style="text-align: left;">FAT</td>
+<td style="text-align: right;">37</td>
+<td style="text-align: right;">209</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">22</td>
+<td style="text-align: right;">45</td>
+<td style="text-align: left;">2010-10-01 22:45:00</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2010</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">-3</td>
+<td style="text-align: right;">451</td>
+<td style="text-align: right;">500</td>
+<td style="text-align: right;">-9</td>
+<td style="text-align: left;">AA</td>
+<td style="text-align: left;">N3FRAA</td>
+<td style="text-align: right;">700</td>
+<td style="text-align: left;">LAX</td>
+<td style="text-align: left;">DFW</td>
+<td style="text-align: right;">150</td>
+<td style="text-align: right;">1235</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">2010-10-01 00:10:00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2010</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">2150</td>
+<td style="text-align: right;">137</td>
+<td style="text-align: right;">139</td>
+<td style="text-align: right;">2337</td>
+<td style="text-align: right;">122</td>
+<td style="text-align: left;">DL</td>
+<td style="text-align: left;">N347NW</td>
+<td style="text-align: right;">1752</td>
+<td style="text-align: left;">ATL</td>
+<td style="text-align: left;">IAD</td>
+<td style="text-align: right;">70</td>
+<td style="text-align: right;">533</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: left;">2010-10-01 21:50:00</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2010</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">-7</td>
+<td style="text-align: right;">538</td>
+<td style="text-align: right;">537</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">CO</td>
+<td style="text-align: left;">N73283</td>
+<td style="text-align: right;">1740</td>
+<td style="text-align: left;">SMF</td>
+<td style="text-align: left;">IAH</td>
+<td style="text-align: right;">193</td>
+<td style="text-align: right;">1609</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: left;">2010-10-01 00:15:00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2010</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">-2</td>
+<td style="text-align: right;">643</td>
+<td style="text-align: right;">645</td>
+<td style="text-align: right;">-2</td>
+<td style="text-align: left;">DL</td>
+<td style="text-align: left;">N333NW</td>
+<td style="text-align: right;">2344</td>
+<td style="text-align: left;">LAS</td>
+<td style="text-align: left;">CVG</td>
+<td style="text-align: right;">196</td>
+<td style="text-align: right;">1678</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">2010-10-01 00:10:00</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2010</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">2225</td>
+<td style="text-align: right;">105</td>
+<td style="text-align: right;">831</td>
+<td style="text-align: right;">642</td>
+<td style="text-align: right;">109</td>
+<td style="text-align: left;">B6</td>
+<td style="text-align: left;">N585JB</td>
+<td style="text-align: right;">174</td>
+<td style="text-align: left;">SJC</td>
+<td style="text-align: left;">JFK</td>
+<td style="text-align: right;">293</td>
+<td style="text-align: right;">2570</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">22</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: left;">2010-10-01 22:25:00</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>If we want to save the results of this query to a table in R, we could do the following in an <em>R code chunk</em>. I will often write the SQL query in a SQL chunk first to make sure everything goes as planned, and then copy and paste it to an R code chunk like this. NOTE: there is NOT a semicolon at the end of the query when you do this!</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>small_query</span> <span class='op'>&lt;-</span> 
+  <span class='fu'>tbl</span><span class='op'>(</span><span class='va'>con_air</span>,
+      <span class='fu'><a href='https://dbplyr.tidyverse.org/reference/sql.html'>sql</a></span><span class='op'>(</span><span class='st'>"
+          SELECT * 
+          FROM flights 
+          LIMIT 20
+          "</span><span class='op'>)</span>
+      <span class='op'>)</span>
+
+<span class='va'>small_query</span>
+</code></pre>
+</div>
+<pre><code># Source:   SQL [?? x 21]
+# Database: mysql 5.7.31-log
+#   [mdsr_public@mdsr.cdc7tgkkqd0n.us-east-1.rds.amazonaws.com:/airlines]
+    year month   day dep_time sched_dep_time dep_delay arr_time
+   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;int&gt;    &lt;int&gt;
+ 1  2010    10     1        1           2100       181      159
+ 2  2010    10     1        1           1920       281      230
+ 3  2010    10     1        3           2355         8      339
+ 4  2010    10     1        5           2200       125       41
+ 5  2010    10     1        7           2245        82      104
+ 6  2010    10     1        7             10        -3      451
+ 7  2010    10     1        7           2150       137      139
+ 8  2010    10     1        8             15        -7      538
+ 9  2010    10     1        8             10        -2      643
+10  2010    10     1       10           2225       105      831
+# … with more rows, and 14 more variables: sched_arr_time &lt;int&gt;,
+#   arr_delay &lt;int&gt;, carrier &lt;chr&gt;, tailnum &lt;chr&gt;, flight &lt;int&gt;,
+#   origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;int&gt;, distance &lt;int&gt;,
+#   cancelled &lt;int&gt;, diverted &lt;int&gt;, hour &lt;int&gt;, minute &lt;int&gt;,
+#   time_hour &lt;chr&gt;</code></pre>
+</div>
+<p>Also notice that, although this <em>looks</em> like an R <code>data.frame</code> or <code>tibble</code>, it is actually a special type of table.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span><span class='op'>(</span><span class='va'>small_query</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>[1] &quot;tbl_MySQLConnection&quot; &quot;tbl_dbi&quot;             &quot;tbl_sql&quot;            
+[4] &quot;tbl_lazy&quot;            &quot;tbl&quot;                </code></pre>
+</div>
+<ol start="2" type="1">
+<li>In this example, we will compute some summary statistics about the <code>flights</code> dataset. We will find the minimum and maximum years in the dataset, the total number of flights, and the number of distinct carriers. We’re back to writing this in a SQL chunk. This query takes some time to run (~45 seconds on my computer). With the <code>COUNT</code> function, since we are interested in counting all the rows (each row is a flight), we use <code>*</code> instead of a specific variable. We could also put any variable in there instead of <code>*</code>. There are nearly 48 <em>million</em> flights in this database! (I believe data get added regularly, so it might be even bigger when you run this.)</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb8"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">SELECT</span> </span>
+<span id="cb8-2"><a href="#cb8-2"></a>  <span class="fu">MIN</span>(`year`) <span class="kw">AS</span> `min_year`, </span>
+<span id="cb8-3"><a href="#cb8-3"></a>  <span class="fu">MAX</span>(`year`) <span class="kw">AS</span> `max_year`,</span>
+<span id="cb8-4"><a href="#cb8-4"></a>  <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">as</span> `num_flights`,</span>
+<span id="cb8-5"><a href="#cb8-5"></a>  <span class="fu">COUNT</span>(<span class="kw">DISTINCT</span>(carrier)) <span class="kw">as</span> num_carriers</span>
+<span id="cb8-6"><a href="#cb8-6"></a><span class="kw">FROM</span> `flights`</span></code></pre></div>
+<div class="knitsql-table">
+<table>
+<caption><span id="tab:unnamed-chunk-13">Table 4: </span>1 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">min_year</th>
+<th style="text-align: right;">max_year</th>
+<th style="text-align: right;">num_flights</th>
+<th style="text-align: right;">num_carriers</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">2010</td>
+<td style="text-align: right;">2017</td>
+<td style="text-align: right;">47932811</td>
+<td style="text-align: right;">20</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<ol start="3" type="1">
+<li><p>Now, let’s add some complexity. We will find, for each carrier, the proportion of flights that are more than 20 minutes late. Order the carriers from largest to smallest proportion. If you are new to SQL, I would recommend doing this in pieces to make sure your code works.</p>
+<p>First, I see that I can use logic in SQL. It returns 0’s and 1’s rather than <code>TRUE</code>s and <code>FALSE</code>s like in R. This is good, because I’m going to want to do some math on them.</p></li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb9"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">SELECT</span> </span>
+<span id="cb9-2"><a href="#cb9-2"></a>  carrier, </span>
+<span id="cb9-3"><a href="#cb9-3"></a>  arr_delay, </span>
+<span id="cb9-4"><a href="#cb9-4"></a>  <span class="dt">year</span>,</span>
+<span id="cb9-5"><a href="#cb9-5"></a>  (arr_delay <span class="op">&gt;</span> <span class="dv">20</span>) <span class="kw">as</span> late_over20</span>
+<span id="cb9-6"><a href="#cb9-6"></a><span class="kw">FROM</span> flights</span>
+<span id="cb9-7"><a href="#cb9-7"></a><span class="kw">LIMIT</span> <span class="dv">20</span>;</span></code></pre></div>
+<div class="knitsql-table">
+<table>
+<caption><span id="tab:unnamed-chunk-14">Table 5: </span>Displaying records 1 - 10</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">carrier</th>
+<th style="text-align: right;">arr_delay</th>
+<th style="text-align: right;">year</th>
+<th style="text-align: right;">late_over20</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">XE</td>
+<td style="text-align: right;">159</td>
+<td style="text-align: right;">2010</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">B6</td>
+<td style="text-align: right;">256</td>
+<td style="text-align: right;">2010</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">B6</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">2010</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">XE</td>
+<td style="text-align: right;">112</td>
+<td style="text-align: right;">2010</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">OO</td>
+<td style="text-align: right;">77</td>
+<td style="text-align: right;">2010</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AA</td>
+<td style="text-align: right;">-9</td>
+<td style="text-align: right;">2010</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">DL</td>
+<td style="text-align: right;">122</td>
+<td style="text-align: right;">2010</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CO</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2010</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">DL</td>
+<td style="text-align: right;">-2</td>
+<td style="text-align: right;">2010</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">B6</td>
+<td style="text-align: right;">109</td>
+<td style="text-align: right;">2010</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>If I group the data by <code>carrier</code> and take the average of <code>late_over20</code>, that will give me the proportion of flights that are more than 20 minutes late. I have limited the initial dataset here in the main <code>FROM</code>. To get an idea of how long my query will run, I start with a small limit (like 100) and continue to increase it, usually by multiples of ten. When I’m sure it can handle the entire dataset, I remove that part.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb10"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">SELECT</span> </span>
+<span id="cb10-2"><a href="#cb10-2"></a>  carrier, </span>
+<span id="cb10-3"><a href="#cb10-3"></a>  <span class="fu">AVG</span>(arr_delay <span class="op">&gt;</span> <span class="dv">20</span>) <span class="kw">AS</span> prop_late_over20</span>
+<span id="cb10-4"><a href="#cb10-4"></a><span class="kw">FROM</span> (<span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> flights <span class="kw">LIMIT</span> <span class="dv">10000</span>) `fl`</span>
+<span id="cb10-5"><a href="#cb10-5"></a><span class="kw">GROUP</span> <span class="kw">BY</span> carrier</span>
+<span id="cb10-6"><a href="#cb10-6"></a><span class="kw">ORDER</span> <span class="kw">BY</span> `prop_late_over20` <span class="kw">DESC</span>;</span></code></pre></div>
+<div class="knitsql-table">
+<table>
+<caption><span id="tab:unnamed-chunk-15">Table 6: </span>Displaying records 1 - 10</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">carrier</th>
+<th style="text-align: right;">prop_late_over20</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">B6</td>
+<td style="text-align: right;">0.4404</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">OH</td>
+<td style="text-align: right;">0.2269</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">9E</td>
+<td style="text-align: right;">0.1557</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">US</td>
+<td style="text-align: right;">0.1476</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">MQ</td>
+<td style="text-align: right;">0.1243</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">EV</td>
+<td style="text-align: right;">0.1214</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">OO</td>
+<td style="text-align: right;">0.1186</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CO</td>
+<td style="text-align: right;">0.1175</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">DL</td>
+<td style="text-align: right;">0.1003</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AA</td>
+<td style="text-align: right;">0.0973</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>So, our final query is below. This takes about a minute to run.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb11"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw">SELECT</span> </span>
+<span id="cb11-2"><a href="#cb11-2"></a>  carrier, </span>
+<span id="cb11-3"><a href="#cb11-3"></a>  <span class="fu">AVG</span>(arr_delay <span class="op">&gt;</span> <span class="dv">20</span>) <span class="kw">AS</span> prop_late_over20</span>
+<span id="cb11-4"><a href="#cb11-4"></a><span class="kw">FROM</span> flights</span>
+<span id="cb11-5"><a href="#cb11-5"></a><span class="kw">GROUP</span> <span class="kw">BY</span> carrier</span>
+<span id="cb11-6"><a href="#cb11-6"></a><span class="kw">ORDER</span> <span class="kw">BY</span> `prop_late_over20` <span class="kw">DESC</span>;</span></code></pre></div>
+<div class="knitsql-table">
+<table>
+<caption><span id="tab:unnamed-chunk-16">Table 7: </span>Displaying records 1 - 10</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">carrier</th>
+<th style="text-align: right;">prop_late_over20</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">NK</td>
+<td style="text-align: right;">0.1984</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">B6</td>
+<td style="text-align: right;">0.1927</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">OH</td>
+<td style="text-align: right;">0.1818</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F9</td>
+<td style="text-align: right;">0.1795</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">EV</td>
+<td style="text-align: right;">0.1773</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MQ</td>
+<td style="text-align: right;">0.1697</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">VX</td>
+<td style="text-align: right;">0.1693</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">XE</td>
+<td style="text-align: right;">0.1680</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">AA</td>
+<td style="text-align: right;">0.1553</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">UA</td>
+<td style="text-align: right;">0.1539</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<ol start="4" type="1">
+<li>We’ll do one more example with even more complexity, including a join. For each year and carrier, find the number of flights, the average arrival delay, and the average distance of the flight. Use carrier name. Arrange the results by longest average delay within year.</li>
+</ol>
+<p>First, I’ll do the summarizing without joining to <code>carriers</code>. I do this on a sample of data.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb12"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw">SELECT</span> </span>
+<span id="cb12-2"><a href="#cb12-2"></a>  <span class="dt">year</span>,</span>
+<span id="cb12-3"><a href="#cb12-3"></a>  carrier, </span>
+<span id="cb12-4"><a href="#cb12-4"></a>  <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">AS</span> n_flights, </span>
+<span id="cb12-5"><a href="#cb12-5"></a>  <span class="fu">AVG</span>(arr_delay) <span class="kw">AS</span> avg_arr_delay, </span>
+<span id="cb12-6"><a href="#cb12-6"></a>  <span class="fu">AVG</span>(distance) <span class="kw">AS</span> avg_distance</span>
+<span id="cb12-7"><a href="#cb12-7"></a><span class="kw">FROM</span> (<span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> flights <span class="kw">LIMIT</span> <span class="dv">1000</span>) fl</span>
+<span id="cb12-8"><a href="#cb12-8"></a><span class="kw">GROUP</span> <span class="kw">BY</span> <span class="dt">year</span>, carrier;</span></code></pre></div>
+<div class="knitsql-table">
+<table>
+<caption><span id="tab:unnamed-chunk-17">Table 8: </span>Displaying records 1 - 10</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">year</th>
+<th style="text-align: left;">carrier</th>
+<th style="text-align: right;">n_flights</th>
+<th style="text-align: right;">avg_arr_delay</th>
+<th style="text-align: right;">avg_distance</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">2010</td>
+<td style="text-align: left;">9E</td>
+<td style="text-align: right;">47</td>
+<td style="text-align: right;">-10.0213</td>
+<td style="text-align: right;">391.1277</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2010</td>
+<td style="text-align: left;">AA</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">6.8133</td>
+<td style="text-align: right;">1057.4667</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2010</td>
+<td style="text-align: left;">AS</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">-7.2500</td>
+<td style="text-align: right;">976.7500</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2010</td>
+<td style="text-align: left;">B6</td>
+<td style="text-align: right;">31</td>
+<td style="text-align: right;">62.9032</td>
+<td style="text-align: right;">1213.8710</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2010</td>
+<td style="text-align: left;">CO</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">-6.6500</td>
+<td style="text-align: right;">1042.5500</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2010</td>
+<td style="text-align: left;">DL</td>
+<td style="text-align: right;">114</td>
+<td style="text-align: right;">-5.9298</td>
+<td style="text-align: right;">854.2982</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2010</td>
+<td style="text-align: left;">EV</td>
+<td style="text-align: right;">66</td>
+<td style="text-align: right;">-10.8939</td>
+<td style="text-align: right;">411.0909</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2010</td>
+<td style="text-align: left;">F9</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">-8.5714</td>
+<td style="text-align: right;">960.2143</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2010</td>
+<td style="text-align: left;">FL</td>
+<td style="text-align: right;">36</td>
+<td style="text-align: right;">-11.0833</td>
+<td style="text-align: right;">594.0278</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2010</td>
+<td style="text-align: left;">HA</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">0.4615</td>
+<td style="text-align: right;">341.5385</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Now, I’ll join the <code>carriers</code> data, which only has two variables. I join to the already summarized data, which will be less work computationally.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb13"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw">SELECT</span> </span>
+<span id="cb13-2"><a href="#cb13-2"></a>  <span class="dt">year</span>,</span>
+<span id="cb13-3"><a href="#cb13-3"></a>  name,</span>
+<span id="cb13-4"><a href="#cb13-4"></a>  n_flights,</span>
+<span id="cb13-5"><a href="#cb13-5"></a>  avg_arr_delay,</span>
+<span id="cb13-6"><a href="#cb13-6"></a>  avg_distance</span>
+<span id="cb13-7"><a href="#cb13-7"></a><span class="kw">FROM</span> (<span class="kw">SELECT</span> </span>
+<span id="cb13-8"><a href="#cb13-8"></a>  <span class="dt">year</span>,</span>
+<span id="cb13-9"><a href="#cb13-9"></a>  carrier, </span>
+<span id="cb13-10"><a href="#cb13-10"></a>  <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">AS</span> n_flights, </span>
+<span id="cb13-11"><a href="#cb13-11"></a>  <span class="fu">AVG</span>(arr_delay) <span class="kw">AS</span> avg_arr_delay, </span>
+<span id="cb13-12"><a href="#cb13-12"></a>  <span class="fu">AVG</span>(distance) <span class="kw">AS</span> avg_distance</span>
+<span id="cb13-13"><a href="#cb13-13"></a><span class="kw">FROM</span> (<span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> flights <span class="kw">LIMIT</span> <span class="dv">1000</span>) fl</span>
+<span id="cb13-14"><a href="#cb13-14"></a><span class="kw">GROUP</span> <span class="kw">BY</span> <span class="dt">year</span>, carrier) smry</span>
+<span id="cb13-15"><a href="#cb13-15"></a><span class="kw">INNER</span> <span class="kw">JOIN</span> carriers <span class="kw">AS</span> c </span>
+<span id="cb13-16"><a href="#cb13-16"></a>  <span class="kw">ON</span> (smry.carrier <span class="op">=</span> c.carrier)</span>
+<span id="cb13-17"><a href="#cb13-17"></a><span class="kw">ORDER</span> <span class="kw">BY</span> <span class="dt">year</span>, avg_arr_delay <span class="kw">DESC</span>;</span></code></pre></div>
+<div class="knitsql-table">
+<table>
+<caption><span id="tab:unnamed-chunk-18">Table 9: </span>Displaying records 1 - 10</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">year</th>
+<th style="text-align: left;">name</th>
+<th style="text-align: right;">n_flights</th>
+<th style="text-align: right;">avg_arr_delay</th>
+<th style="text-align: right;">avg_distance</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">2010</td>
+<td style="text-align: left;">JetBlue Airways</td>
+<td style="text-align: right;">31</td>
+<td style="text-align: right;">62.9032</td>
+<td style="text-align: right;">1213.8710</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2010</td>
+<td style="text-align: left;">PSA Airlines Inc.</td>
+<td style="text-align: right;">26</td>
+<td style="text-align: right;">9.6923</td>
+<td style="text-align: right;">423.9615</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2010</td>
+<td style="text-align: left;">American Airlines Inc.</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">6.8133</td>
+<td style="text-align: right;">1057.4667</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2010</td>
+<td style="text-align: left;">US Airways Inc.</td>
+<td style="text-align: right;">56</td>
+<td style="text-align: right;">0.5357</td>
+<td style="text-align: right;">821.0893</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2010</td>
+<td style="text-align: left;">Hawaiian Airlines Inc.</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">0.4615</td>
+<td style="text-align: right;">341.5385</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2010</td>
+<td style="text-align: left;">Envoy Air</td>
+<td style="text-align: right;">82</td>
+<td style="text-align: right;">-0.4024</td>
+<td style="text-align: right;">475.0976</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2010</td>
+<td style="text-align: left;">ExpressJet Airlines Inc. (1)</td>
+<td style="text-align: right;">85</td>
+<td style="text-align: right;">-1.3412</td>
+<td style="text-align: right;">527.9765</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2010</td>
+<td style="text-align: left;">SkyWest Airlines Inc.</td>
+<td style="text-align: right;">123</td>
+<td style="text-align: right;">-4.8130</td>
+<td style="text-align: right;">425.1382</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2010</td>
+<td style="text-align: left;">Delta Air Lines Inc.</td>
+<td style="text-align: right;">114</td>
+<td style="text-align: right;">-5.9298</td>
+<td style="text-align: right;">854.2982</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2010</td>
+<td style="text-align: left;">Mesa Airlines Inc.</td>
+<td style="text-align: right;">24</td>
+<td style="text-align: right;">-6.4583</td>
+<td style="text-align: right;">482.3750</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>I will skip running the full query for now, but you would replace <code>(SELECT * FROM flights LIMIT 1000)</code> with <code>flights</code> to do that. We’ll see the results in the next section.</p>
+<h2 id="working-with-the-database-dbplyr-cheating">Working with the database, <code>dbplyr</code> “cheating”</h2>
+<p>If you’re new to SQL that last section might have been a bit tricky to do on your own (although I’m confident you could read the code I wrote and would figure it out on your own eventually). Well, you’re in luck! As the section heading indicates, we can “cheat” in writing our SQL code by using <code>dplyr</code> functions. These will get translated to SQL using the <code>dbplyr</code> package.</p>
+<p>If you feel a little rusty in your <code>dplyr</code> skills, you can review the main ones <a href="https://ggplot-dplyr-intro.netlify.app/#Wrangling_data_with_dplyr_functions">here</a> (I suggest also downloading the <a href="https://ggplot-dplyr-intro.netlify.app/#demo-video">demo video</a> file) and more advanced ones, including joins, <a href="https://03-wrangling-tutorial.netlify.app/">here</a>. Not ALL functions are translatable. You can check the list <a href="https://dbplyr.tidyverse.org/articles/sql-translation.html#known-functions">here</a> or use the <code>translate_sql()</code> function to check vector expressions (functions applied to variables in the dataset), for example:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='fu'><a href='https://dbplyr.tidyverse.org/reference/translate_sql.html'>translate_sql</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>&lt;SQL&gt; AVG(`x`) OVER ()</code></pre>
+</div>
+<p>The code that it shows may not be perfect or you may want to simplify it further, but it should at least give you an idea if that function is even possible to translate to SQL.</p>
+<p>I am going to illustrate this by replicating the examples we went through above.</p>
+<ol type="1">
+<li>Pull in the first 20 rows of the <code>flights</code> data. The only different between this code and regular <code>dplyr</code> code is the way we access the data, using <code>tbl()</code>.</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='fu'>tbl</span><span class='op'>(</span><span class='va'>con_air</span>, <span class='st'>"flights"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fl'>20</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code># Source:   lazy query [?? x 21]
+# Database: mysql 5.7.31-log
+#   [mdsr_public@mdsr.cdc7tgkkqd0n.us-east-1.rds.amazonaws.com:/airlines]
+    year month   day dep_time sched_dep_time dep_delay arr_time
+   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;int&gt;    &lt;int&gt;
+ 1  2010    10     1        1           2100       181      159
+ 2  2010    10     1        1           1920       281      230
+ 3  2010    10     1        3           2355         8      339
+ 4  2010    10     1        5           2200       125       41
+ 5  2010    10     1        7           2245        82      104
+ 6  2010    10     1        7             10        -3      451
+ 7  2010    10     1        7           2150       137      139
+ 8  2010    10     1        8             15        -7      538
+ 9  2010    10     1        8             10        -2      643
+10  2010    10     1       10           2225       105      831
+# … with more rows, and 14 more variables: sched_arr_time &lt;int&gt;,
+#   arr_delay &lt;int&gt;, carrier &lt;chr&gt;, tailnum &lt;chr&gt;, flight &lt;int&gt;,
+#   origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;int&gt;, distance &lt;int&gt;,
+#   cancelled &lt;int&gt;, diverted &lt;int&gt;, hour &lt;int&gt;, minute &lt;int&gt;,
+#   time_hour &lt;chr&gt;</code></pre>
+</div>
+<p>We can see the SQL query that is automagically (actually, someone wrote a lot of code to do it, but it sure seems like magic!) run in the background.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>flights_20</span> <span class='op'>&lt;-</span>
+  <span class='fu'>tbl</span><span class='op'>(</span><span class='va'>con_air</span>, <span class='st'>"flights"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fl'>20</span><span class='op'>)</span>
+
+<span class='fu'>show_query</span><span class='op'>(</span><span class='va'>flights_20</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>&lt;SQL&gt;
+SELECT *
+FROM `flights`
+LIMIT 20</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span><span class='op'>(</span><span class='va'>flights_20</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>[1] &quot;tbl_MySQLConnection&quot; &quot;tbl_dbi&quot;             &quot;tbl_sql&quot;            
+[4] &quot;tbl_lazy&quot;            &quot;tbl&quot;                </code></pre>
+</div>
+<p>We can also write this out to a <code>data.frame</code> using the <code>collect()</code> function.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>flights_20_df</span> <span class='op'>&lt;-</span> <span class='fu'>collect</span><span class='op'>(</span><span class='va'>flights_20</span><span class='op'>)</span>
+<span class='va'>flights_20_df</span>
+</code></pre>
+</div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["year"],"name":[1],"type":["int"],"align":["right"]},{"label":["month"],"name":[2],"type":["int"],"align":["right"]},{"label":["day"],"name":[3],"type":["int"],"align":["right"]},{"label":["dep_time"],"name":[4],"type":["int"],"align":["right"]},{"label":["sched_dep_time"],"name":[5],"type":["int"],"align":["right"]},{"label":["dep_delay"],"name":[6],"type":["int"],"align":["right"]},{"label":["arr_time"],"name":[7],"type":["int"],"align":["right"]},{"label":["sched_arr_time"],"name":[8],"type":["int"],"align":["right"]},{"label":["arr_delay"],"name":[9],"type":["int"],"align":["right"]},{"label":["carrier"],"name":[10],"type":["chr"],"align":["left"]},{"label":["tailnum"],"name":[11],"type":["chr"],"align":["left"]},{"label":["flight"],"name":[12],"type":["int"],"align":["right"]},{"label":["origin"],"name":[13],"type":["chr"],"align":["left"]},{"label":["dest"],"name":[14],"type":["chr"],"align":["left"]},{"label":["air_time"],"name":[15],"type":["int"],"align":["right"]},{"label":["distance"],"name":[16],"type":["int"],"align":["right"]},{"label":["cancelled"],"name":[17],"type":["int"],"align":["right"]},{"label":["diverted"],"name":[18],"type":["int"],"align":["right"]},{"label":["hour"],"name":[19],"type":["int"],"align":["right"]},{"label":["minute"],"name":[20],"type":["int"],"align":["right"]},{"label":["time_hour"],"name":[21],"type":["chr"],"align":["left"]}],"data":[{"1":"2010","2":"10","3":"1","4":"1","5":"2100","6":"181","7":"159","8":"2320","9":"159","10":"XE","11":"N11137","12":"2558","13":"EWR","14":"OMA","15":"162","16":"1133","17":"0","18":"0","19":"21","20":"0","21":"2010-10-01 21:00:00"},{"1":"2010","2":"10","3":"1","4":"1","5":"1920","6":"281","7":"230","8":"2214","9":"256","10":"B6","11":"N659JB","12":"562","13":"FLL","14":"SWF","15":"131","16":"1119","17":"0","18":"0","19":"19","20":"20","21":"2010-10-01 19:20:00"},{"1":"2010","2":"10","3":"1","4":"3","5":"2355","6":"8","7":"339","8":"334","9":"5","10":"B6","11":"N563JB","12":"701","13":"JFK","14":"SJU","15":"196","16":"1597","17":"0","18":"0","19":"23","20":"55","21":"2010-10-01 23:55:00"},{"1":"2010","2":"10","3":"1","4":"5","5":"2200","6":"125","7":"41","8":"2249","9":"112","10":"XE","11":"N16559","12":"5982","13":"IAD","14":"BNA","15":"82","16":"542","17":"0","18":"0","19":"22","20":"0","21":"2010-10-01 22:00:00"},{"1":"2010","2":"10","3":"1","4":"7","5":"2245","6":"82","7":"104","8":"2347","9":"77","10":"OO","11":"N908SW","12":"6433","13":"LAX","14":"FAT","15":"37","16":"209","17":"0","18":"0","19":"22","20":"45","21":"2010-10-01 22:45:00"},{"1":"2010","2":"10","3":"1","4":"7","5":"10","6":"-3","7":"451","8":"500","9":"-9","10":"AA","11":"N3FRAA","12":"700","13":"LAX","14":"DFW","15":"150","16":"1235","17":"0","18":"0","19":"0","20":"10","21":"2010-10-01 00:10:00"},{"1":"2010","2":"10","3":"1","4":"7","5":"2150","6":"137","7":"139","8":"2337","9":"122","10":"DL","11":"N347NW","12":"1752","13":"ATL","14":"IAD","15":"70","16":"533","17":"0","18":"0","19":"21","20":"50","21":"2010-10-01 21:50:00"},{"1":"2010","2":"10","3":"1","4":"8","5":"15","6":"-7","7":"538","8":"537","9":"1","10":"CO","11":"N73283","12":"1740","13":"SMF","14":"IAH","15":"193","16":"1609","17":"0","18":"0","19":"0","20":"15","21":"2010-10-01 00:15:00"},{"1":"2010","2":"10","3":"1","4":"8","5":"10","6":"-2","7":"643","8":"645","9":"-2","10":"DL","11":"N333NW","12":"2344","13":"LAS","14":"CVG","15":"196","16":"1678","17":"0","18":"0","19":"0","20":"10","21":"2010-10-01 00:10:00"},{"1":"2010","2":"10","3":"1","4":"10","5":"2225","6":"105","7":"831","8":"642","9":"109","10":"B6","11":"N585JB","12":"174","13":"SJC","14":"JFK","15":"293","16":"2570","17":"0","18":"0","19":"22","20":"25","21":"2010-10-01 22:25:00"},{"1":"2010","2":"10","3":"1","4":"12","5":"2045","6":"207","7":"136","8":"2209","9":"207","10":"B6","11":"N267JB","12":"1329","13":"BOS","14":"BWI","15":"61","16":"370","17":"0","18":"0","19":"20","20":"45","21":"2010-10-01 20:45:00"},{"1":"2010","2":"10","3":"1","4":"17","5":"2319","6":"58","7":"758","8":"732","9":"26","10":"UA","11":"N556UA","12":"792","13":"SFO","14":"IAD","15":"259","16":"2419","17":"0","18":"0","19":"23","20":"19","21":"2010-10-01 23:19:00"},{"1":"2010","2":"10","3":"1","4":"19","5":"15","6":"4","7":"546","8":"548","9":"-2","10":"CO","11":"N71411","12":"269","13":"SFO","14":"IAH","15":"194","16":"1635","17":"0","18":"0","19":"0","20":"15","21":"2010-10-01 00:15:00"},{"1":"2010","2":"10","3":"1","4":"20","5":"2145","6":"155","7":"305","8":"27","9":"158","10":"B6","11":"N715JB","12":"383","13":"LGA","14":"FLL","15":"150","16":"1076","17":"0","18":"0","19":"21","20":"45","21":"2010-10-01 21:45:00"},{"1":"2010","2":"10","3":"1","4":"21","5":"25","6":"-4","7":"537","8":"535","9":"2","10":"AA","11":"N5EGAA","12":"2281","13":"SFO","14":"DFW","15":"174","16":"1464","17":"0","18":"0","19":"0","20":"25","21":"2010-10-01 00:25:00"},{"1":"2010","2":"10","3":"1","4":"24","5":"30","6":"-6","7":"547","8":"604","9":"-17","10":"DL","11":"N351NW","12":"1768","13":"LAX","14":"MSP","15":"181","16":"1536","17":"0","18":"0","19":"0","20":"30","21":"2010-10-01 00:30:00"},{"1":"2010","2":"10","3":"1","4":"25","5":"2359","6":"26","7":"357","8":"337","9":"20","10":"B6","11":"N559JB","12":"727","13":"JFK","14":"BQN","15":"196","16":"1576","17":"0","18":"0","19":"23","20":"59","21":"2010-10-01 23:59:00"},{"1":"2010","2":"10","3":"1","4":"26","5":"30","6":"-4","7":"525","8":"533","9":"-8","10":"CO","11":"N78509","12":"1094","13":"LAX","14":"IAH","15":"161","16":"1379","17":"0","18":"0","19":"0","20":"30","21":"2010-10-01 00:30:00"},{"1":"2010","2":"10","3":"1","4":"27","5":"30","6":"-3","7":"459","8":"446","9":"13","10":"AS","11":"N306AS","12":"108","13":"ANC","14":"SEA","15":"196","16":"1449","17":"0","18":"0","19":"0","20":"30","21":"2010-10-01 00:30:00"},{"1":"2010","2":"10","3":"1","4":"30","5":"2135","6":"175","7":"130","8":"2233","9":"177","10":"OH","11":"N679CA","12":"6505","13":"ATL","14":"ORD","15":"87","16":"606","17":"0","18":"0","19":"21","20":"35","21":"2010-10-01 21:35:00"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode">
+<pre><code><span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span><span class='op'>(</span><span class='va'>flights_20_df</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>[1] &quot;tbl_df&quot;     &quot;tbl&quot;        &quot;data.frame&quot;</code></pre>
+</div>
+<ol start="2" type="1">
+<li>In this example, we will compute some summary statistics about the <code>flights</code> dataset. We will find the minimum and maximum years in the dataset, the total number of flights, and the number of distinct carriers. Just like when we did this with a SQL query, this does take a minute to run.</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>overall_smry</span> <span class='op'>&lt;-</span>
+  <span class='fu'>tbl</span><span class='op'>(</span><span class='va'>con_air</span>, <span class='st'>"flights"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>summarize</span><span class='op'>(</span>min_year <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span><span class='op'>(</span><span class='va'>year</span><span class='op'>)</span>,
+            max_year <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>year</span><span class='op'>)</span>,
+            num_flights <span class='op'>=</span> <span class='fu'>n</span><span class='op'>(</span><span class='op'>)</span>,
+            num_carriers <span class='op'>=</span> <span class='fu'>n_distinct</span><span class='op'>(</span><span class='va'>carrier</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='va'>overall_smry</span>
+</code></pre>
+</div>
+<pre><code># Source:   lazy query [?? x 4]
+# Database: mysql 5.7.31-log
+#   [mdsr_public@mdsr.cdc7tgkkqd0n.us-east-1.rds.amazonaws.com:/airlines]
+  min_year max_year num_flights num_carriers
+     &lt;int&gt;    &lt;int&gt;       &lt;dbl&gt;        &lt;dbl&gt;
+1     2010     2017    47932811           20</code></pre>
+</div>
+<p>We can also look at the SQL code that was written in the background. This looks similar to the code I wrote above, although I tried to make it a little more readable.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>overall_smry</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>show_query</span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>&lt;SQL&gt;
+SELECT MIN(`year`) AS `min_year`, MAX(`year`) AS `max_year`, COUNT(*) AS `num_flights`, COUNT(DISTINCT `carrier`) AS `num_carriers`
+FROM `flights`</code></pre>
+</div>
+<ol start="3" type="1">
+<li>Next, we will find, for each carrier, the proportion of flights that are more than 20 minutes late. Order the carriers from largest to smallest proportion. When I first ran this, I put the <code>head(100)</code> in to make sure I didn’t get any weird results. I am going to skip outputting the table here because I’m going to plot the data in a moment. Outputting the table is really where the code is executed, and I want to avoid doing that twice.</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>flights_over20</span> <span class='op'>&lt;-</span> 
+  <span class='fu'>tbl</span><span class='op'>(</span><span class='va'>con_air</span>, <span class='st'>"flights"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+<span class='co'>#  head(100) %&gt;% </span>
+  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>carrier</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>summarize</span><span class='op'>(</span>prop_late_over20 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>arr_delay</span> <span class='op'>&gt;</span> <span class='fl'>20</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>arrange</span><span class='op'>(</span><span class='fu'>desc</span><span class='op'>(</span><span class='va'>prop_late_over20</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>We could <code>%&gt;%</code> right into a plot, too! This code takes a while to run because the query is executed here. If we wanted to use the data from the SQL query over and over again, it would be a good idea to save it to a <code>data.frame</code> using <code>collect()</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>flights_over20</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>prop_late_over20</span>,
+             y <span class='op'>=</span> <span class='fu'>fct_reorder</span><span class='op'>(</span><span class='va'>carrier</span>, <span class='va'>prop_late_over20</span>, <span class='va'>median</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_col</span><span class='op'>(</span>fill <span class='op'>=</span> <span class='st'>"lightblue"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_x_continuous</span><span class='op'>(</span>expand <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>0</span><span class='op'>)</span>, 
+                     labels <span class='op'>=</span> <span class='fu'>scales</span><span class='fu'>::</span><span class='va'><a href='https://scales.r-lib.org/reference/label_percent.html'>percent</a></span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>labs</span><span class='op'>(</span>x <span class='op'>=</span> <span class='cn'>NULL</span>,
+       y <span class='op'>=</span> <span class='cn'>NULL</span>,
+       title <span class='op'>=</span> <span class='st'>"Which airlines had the largest % of flights that \nwere more than 20 minutes late from 2010-2017?"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme_minimal</span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="sqlinr_files/figure-html5/unnamed-chunk-27-1.png" width="624" /></p>
+</div>
+<p>Let’s also look at the SQL query generate for us:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>flights_over20</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>show_query</span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>&lt;SQL&gt;
+SELECT `carrier`, AVG(`arr_delay` &gt; 20.0) AS `prop_late_over20`
+FROM `flights`
+GROUP BY `carrier`
+ORDER BY `prop_late_over20` DESC</code></pre>
+</div>
+<ol start="4" type="1">
+<li>And, for the last exercise! For each year and carrier, find the number of flights, the average arrival delay, and the average distance of the flight. Use carrier name. Arrange the results by longest average delay within year.</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>carrier_info</span> <span class='op'>&lt;-</span>
+  <span class='fu'>tbl</span><span class='op'>(</span><span class='va'>con_air</span>, <span class='st'>"flights"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>year</span>, <span class='va'>carrier</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>summarize</span><span class='op'>(</span>n_flights <span class='op'>=</span> <span class='fu'>n</span><span class='op'>(</span><span class='op'>)</span>,
+            avg_arr_delay <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>arr_delay</span><span class='op'>)</span>,
+            avg_distance <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>distance</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>inner_join</span><span class='op'>(</span><span class='fu'>tbl</span><span class='op'>(</span><span class='va'>con_air</span>, <span class='st'>"carriers"</span><span class='op'>)</span>, 
+             by <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"carrier"</span> <span class='op'>=</span> <span class='st'>"carrier"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>arrange</span><span class='op'>(</span><span class='va'>year</span>, <span class='fu'>desc</span><span class='op'>(</span><span class='va'>avg_arr_delay</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>This time, we’ll save the data to a <code>data.frame</code>. This query takes a minute to run.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>carrier_info_df</span> <span class='op'>&lt;-</span>
+  <span class='va'>carrier_info</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>collect</span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>Let’s also look at the SQL code. It’s a little harder to read than what I wrote.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>carrier_info</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>show_query</span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>&lt;SQL&gt;
+SELECT *
+FROM (SELECT `LHS`.`year` AS `year`, `LHS`.`carrier` AS `carrier`, `LHS`.`n_flights` AS `n_flights`, `LHS`.`avg_arr_delay` AS `avg_arr_delay`, `LHS`.`avg_distance` AS `avg_distance`, `RHS`.`name` AS `name`
+FROM (SELECT `year`, `carrier`, COUNT(*) AS `n_flights`, AVG(`arr_delay`) AS `avg_arr_delay`, AVG(`distance`) AS `avg_distance`
+FROM `flights`
+GROUP BY `year`, `carrier`) `LHS`
+INNER JOIN `carriers` AS `RHS`
+ON (`LHS`.`carrier` = `RHS`.`carrier`)
+) `dbplyr_003`
+ORDER BY `year`, `avg_arr_delay` DESC</code></pre>
+</div>
+<p>Lastly, let’s plot the data. I’m using the data that is already in R as a <code>data.frame</code> so the SQL query doesn’t execute again.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/yutannihilation/gghighlight/'>gghighlight</a></span><span class='op'>)</span>
+
+<span class='va'>carrier_info_df</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>year</span>,
+             y <span class='op'>=</span> <span class='va'>avg_arr_delay</span>, 
+             color <span class='op'>=</span> <span class='va'>name</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_point</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_line</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/gghighlight/man/gghighlight.html'>gghighlight</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>avg_arr_delay</span><span class='op'>)</span> <span class='op'>&gt;</span> <span class='fl'>12</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>labs</span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"Frontier and Spirit Airlines have the worst average arrival delay"</span>,
+       x <span class='op'>=</span> <span class='cn'>NULL</span>,
+       y <span class='op'>=</span> <span class='st'>"Minutes late, avg."</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme_minimal</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme</span><span class='op'>(</span>panel.grid.minor.x <span class='op'>=</span> <span class='fu'>element_blank</span><span class='op'>(</span><span class='op'>)</span>,
+        panel.grid.major.x <span class='op'>=</span> <span class='fu'>element_blank</span><span class='op'>(</span><span class='op'>)</span>, 
+        plot.title.position <span class='op'>=</span> <span class='st'>"plot"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="sqlinr_files/figure-html5/unnamed-chunk-32-1.png" width="624" /></p>
+</div>
+<p>The last thing we should do is disconnect from the database.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='fu'>dbDisconnect</span><span class='op'>(</span><span class='va'>con_air</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom"></div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>

@@ -1,0 +1,437 @@
+---
+title: "Using SQL in R"
+description: |
+  A short intro to SQL and learning how to "cheat" with `dbplyr`.
+output:
+  distill::distill_article:
+    toc: true
+    toc_float: true
+    self_contained: false
+draft: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      message = FALSE,
+                      warning = FALSE,
+                      error = TRUE)
+```
+
+```{r echo=FALSE}
+library(emo)          # for emojis!   
+library(downloadthis) # for including download buttons for files
+```
+
+```{r paged-table, echo=FALSE}
+# define a method for objects of the class data.frame
+# see https://github.com/rstudio/distill/issues/310#issuecomment-797541459
+library(knitr)
+knit_print.data.frame <- function(x, ...) {
+  asis_output(
+    rmarkdown:::paged_table_html(x, options = attr(x, "options")),
+    meta = list(dependencies = rmarkdown:::html_dependency_pagedtable())
+  )
+}
+registerS3method("knit_print", "data.frame", knit_print.data.frame)
+
+knit_print.tbl_lazy <- function(x, ...) {
+  asis_output(
+    rmarkdown:::paged_table_html(x, options = attr(x, "options")),
+    meta = list(dependencies = rmarkdown:::html_dependency_pagedtable())
+  )
+}
+registerS3method("knit_print", "tbl_lazy", knit_print.tbl_lazy)
+```
+
+## Follow along
+
+You can download this .Rmd file below if you'd like to follow along. I do have a few hidden notes you can disregard. This document is a distill_article, so you may want to change to an html_document to knit. You will also need to delete any image references to properly knit, since you won't have those images.
+
+```{r, echo=FALSE}
+download_file(
+  path = "sqlinr.Rmd",
+  button_label = "Download .Rmd file",
+  button_type = "info",
+  has_icon = TRUE,
+  icon = "fa fa-save",
+  self_contained = FALSE
+)
+```
+
+## Resources
+
+* [SQL chapter](https://mdsr-book.github.io/mdsr2e/ch-sql.html#sec:dplyr-sql) of *Modern Data Science with R* (*MDSR* for short) by Baumer, Kaplan, and Horton  
+* [Databases](http://jtleek.com/ads2020/week-6.html#databases) chapter of Jeff Leek and Roger D. Peng's Advanced Data Science 2020 course.  
+* [Vebash Naidoo's blog posts](https://sciencificity-blog.netlify.app/posts/2020-12-12-using-the-tidyverse-with-databases/)  
+* [`dbplyr` SQL translation](https://dbplyr.tidyverse.org/articles/sql-translation.html) vignette
+* [Databases using R](https://db.rstudio.com/) from RStudio
+
+## Goals
+
+The goal of this tutorial is not to teach you everything there is to know about SQL. Rather, I will show you some of the main SQL functions, how we can use them in R Studio, how they are related to `dplyr` functions you are familiar with, and how we can actually write `dplyr` code that will be translated to SQL in the background by the `dbplyr` package (part of `tidyverse`) - magic! I will do a few examples. If you want to see more examples, check out the resources I have linked to above.
+
+## Why SQL?
+
+If you ever work somewhere that has large troves of data, it will likely be stored in some type of database. In many cases, the datasets would be so large that you would not be able to read the entire dataset into R. It would crash your computer. We can use SQL queries to to do as much processing as we can in the database. Then, we can bring a much smaller dataset into R. 
+
+SQL is one of the common types of databases. And, even if you use a different one in the future, much of what you learn here would be easily transferable. You can read more detail about connecting to databases from R in the R Studio [documentation](https://db.rstudio.com/). 
+
+Another related tool we won't have time to talk about in class is [`sparklyr`](https://spark.rstudio.com/mlib/), an R package that can be used to push some machine learning work off of your computer. 
+
+## Set up
+
+First, we load the libraries we will use. There will be some new ones you'll need to install.
+
+```{r}
+library(tidyverse)   # for reading in data, graphing, and cleaning
+library(dbplyr)      # for SQL query "cheating" - part of tidyverse but needs to be loaded separately
+library(mdsr)        # for accessing some databases - goes with Modern Data Science with R textbook
+library(RMySQL)      # for accessing MySQL databases
+library(RSQLite)     # for accessing SQLite databases
+```
+
+## Connecting to a database and exploring it
+
+Throughout this tutorial, we will use the `airlines` database, which is a SQL database hosted on AWS created by the authors of [*MDSR*](https://mdsr-book.github.io/mdsr2e/ch-mdsr.html).
+
+We can connect to the database using the following code. This is what code that connects to a `MySQL` database would normally look like.
+
+```{r, eval=FALSE}
+con_air <- dbConnect(RMySQL::MySQL(), 
+                     dbname = "airlines", 
+                     host = "mdsr.cdc7tgkkqd0n.us-east-1.rds.amazonaws.com", 
+                     user = "mdsr_public", 
+                     password = "ImhsmflMDSwR")
+```
+
+There is also a short-cut function from the `mdsr` library that can be used:
+
+```{r}
+con_air <- dbConnect_scidb("airlines")
+```
+
+Now that we are connected to the database, let's see what's in it. We can write R code to list the tables in the database. This is in an R code chunk.
+
+```{r}
+dbListTables(con_air)
+```
+
+Or we can insert a SQL code chunk and write SQL code to do the same thing. To insert a SQL code chunk, choose Insert SQL from the dropdown bar in the same area as the `Knit` button. You need to put the database name in the `connection` argument in the code chunk option. Here is a short video clip to illustrate:
+
+<center>
+![](insert_sql.mp4){width=80%}
+</center>
+
+```{sql connection=con_air}
+SHOW TABLES;
+```
+
+We can also see the variable names in a database using either R code:
+
+```{r}
+dbListFields(con_air, "flights")
+```
+
+Or SQL code in a SQL code chunk:
+
+```{sql connection=con_air}
+DESCRIBE flights;
+```
+
+NOTE: If you are inactive in the database for a while (I'm not exactly sure how long), the database will disconnect. You can also tell it to disconnect using the function `dbDisconnect()` with the database name as an argument, which I will do at the end of this tutorial.
+
+## Working with the database, SQL queries
+
+As we delve into SQL code, I think it's helpful to use this table to remember how SQL relates to R functions, mostly from `dplyr`:
+
+R                 | SQL
+------------------|-------
+`select()`        | `SELECT`
+`tbl()`           | `FROM`
+`filter()`        | `WHERE`
+`group_by()`      | `GROUP BY`
+`arrange()`       | `ORDER BY`
+`inner_join()`    | `INNER JOIN` or `JOIN`
+`head(x)`         | `LIMIT x`
+
+
+This is not an exhaustive list, but gets us pretty far. You may notice that `mutate()` and `summarize()` are not on the list of `dplyr` functions. That is because those computations are done in the SQL `SELECT`. Just like there are many functions we can use within `mutate()` and `summarize()` in R, there are many functions we can use in a `SELECT` in SQL. You can see a list of some [here](https://www.w3schools.com/sql/sql_ref_mysql.asp).
+
+Let's go through a few examples of some SQL code, or SQL queries. These are all written inside of *SQL code chunks*, NOT R code chunks.
+
+1. We start with a simple example that pulls in the first 20 rows of the `flights` data to point out a couple things about SQL queries: a) You can use `*` to mean all the variables, b) Use `LIMIT` to pull back fewer rows, especially with a query you're unsure about, c) All SQL queries end with a semi-colon, `;`.
+
+```{sql connection=con_air}
+SELECT *
+FROM flights
+LIMIT 20;
+```
+
+   If we want to save the results of this query to a table in R, we could do the following in an *R code chunk*. I will often write the SQL query in a SQL chunk first to make sure everything goes as planned, and then copy and paste it to an R code chunk like this. NOTE: there is NOT a semicolon at the end of the query when you do this!
+
+```{r}
+small_query <- 
+  tbl(con_air,
+      sql("
+          SELECT * 
+          FROM flights 
+          LIMIT 20
+          ")
+      )
+
+small_query
+```
+
+   Also notice that, although this *looks* like an R `data.frame` or `tibble`, it is actually a special type of table.
+
+```{r}
+class(small_query)
+```
+
+2. In this example, we will compute some summary statistics about the `flights` dataset. We will find the minimum and maximum years in the dataset, the total number of flights, and the number of distinct carriers. We're back to writing this in a SQL chunk. This query takes some time to run (~45 seconds on my computer). With the `COUNT` function, since we are interested in counting all the rows (each row is a flight), we use `*` instead of a specific variable. We could also put any variable in there instead of `*`. There are nearly 48 *million* flights in this database! (I believe data get added regularly, so it might be even bigger when you run this.)
+
+```{sql connection=con_air}
+SELECT 
+  MIN(`year`) AS `min_year`, 
+  MAX(`year`) AS `max_year`,
+  COUNT(*) as `num_flights`,
+  COUNT(DISTINCT(carrier)) as num_carriers
+FROM `flights`
+```
+
+3. Now, let's add some complexity. We will find, for each carrier, the proportion of flights that are more than 20 minutes late. Order the carriers from largest to smallest proportion. If you are new to SQL, I would recommend doing this in pieces to make sure your code works. 
+
+   First, I see that I can use logic in SQL. It returns 0's and 1's rather than `TRUE`s and `FALSE`s like in R. This is good, because I'm going to want to do some math on them. 
+
+```{sql connection=con_air}
+SELECT 
+  carrier, 
+  arr_delay, 
+  year,
+  (arr_delay > 20) as late_over20
+FROM flights
+LIMIT 20;
+```
+
+   If I group the data by `carrier` and take the average of `late_over20`, that will give me the proportion of flights that are more than 20 minutes late. I have limited the initial dataset here in the main `FROM`. To get an idea of how long my query will run, I start with a small limit (like 100) and continue to increase it, usually by multiples of ten. When I'm sure it can handle the entire dataset, I remove that part.
+
+```{sql connection=con_air}
+SELECT 
+  carrier, 
+  AVG(arr_delay > 20) AS prop_late_over20
+FROM (SELECT * FROM flights LIMIT 10000) `fl`
+GROUP BY carrier
+ORDER BY `prop_late_over20` DESC;
+```
+
+   So, our final query is below. This takes about a minute to run.
+
+```{sql connection=con_air}
+SELECT 
+  carrier, 
+  AVG(arr_delay > 20) AS prop_late_over20
+FROM flights
+GROUP BY carrier
+ORDER BY `prop_late_over20` DESC;
+```
+
+4. We'll do one more example with even more complexity, including a join. For each year and carrier, find the number of flights, the average arrival delay, and the average distance of the flight. Use carrier name. Arrange the results by longest average delay within year.
+
+First, I'll do the summarizing without joining to `carriers`. I do this on a sample of data.
+
+```{sql connection=con_air}
+SELECT 
+  year,
+  carrier, 
+  COUNT(*) AS n_flights, 
+  AVG(arr_delay) AS avg_arr_delay, 
+  AVG(distance) AS avg_distance
+FROM (SELECT * FROM flights LIMIT 1000) fl
+GROUP BY year, carrier;
+```
+
+  Now, I'll join the `carriers` data, which only has two variables. I join to the already summarized data, which will be less work computationally. 
+  
+```{sql connection=con_air}
+SELECT 
+  year,
+  name,
+  n_flights,
+  avg_arr_delay,
+  avg_distance
+FROM (SELECT 
+  year,
+  carrier, 
+  COUNT(*) AS n_flights, 
+  AVG(arr_delay) AS avg_arr_delay, 
+  AVG(distance) AS avg_distance
+FROM (SELECT * FROM flights LIMIT 1000) fl
+GROUP BY year, carrier) smry
+INNER JOIN carriers AS c 
+  ON (smry.carrier = c.carrier)
+ORDER BY year, avg_arr_delay DESC;
+```
+
+  I will skip running the full query for now, but you would replace `(SELECT * FROM flights LIMIT 1000)` with `flights` to do that. We'll see the results in the next section.
+
+## Working with the database, `dbplyr` "cheating"
+
+If you're new to SQL that last section might have been a bit tricky to do on your own (although I'm confident you could read the code I wrote and would figure it out on your own eventually). Well, you're in luck! As the section heading indicates, we can "cheat" in writing our SQL code by using `dplyr` functions. These will get translated to SQL using the `dbplyr` package. 
+
+If you feel a little rusty in your `dplyr` skills, you can review the main ones [here](https://ggplot-dplyr-intro.netlify.app/#Wrangling_data_with_dplyr_functions) (I suggest also downloading the [demo video](https://ggplot-dplyr-intro.netlify.app/#demo-video) file) and more advanced ones, including joins, [here](https://03-wrangling-tutorial.netlify.app/). Not ALL functions are translatable. You can check the list [here](https://dbplyr.tidyverse.org/articles/sql-translation.html#known-functions) or use the `translate_sql()` function to check vector expressions (functions applied to variables in the dataset), for example:
+
+```{r}
+translate_sql(mean(x))
+```
+
+The code that it shows may not be perfect or you may want to simplify it further, but it should at least give you an idea if that function is even possible to translate to SQL.
+
+I am going to illustrate this by replicating the examples we went through above.
+
+1. Pull in the first 20 rows of the `flights` data. The only different between this code and regular `dplyr` code is the way we access the data, using `tbl()`.
+
+```{r}
+tbl(con_air, "flights") %>% 
+  head(20)
+```
+
+   We can see the SQL query that is automagically (actually, someone wrote a lot of code to do it, but it sure seems like magic!) run in the background.
+
+```{r}
+flights_20 <-
+  tbl(con_air, "flights") %>% 
+  head(20)
+
+show_query(flights_20)
+```
+
+```{r}
+class(flights_20)
+```
+
+   We can also write this out to a `data.frame` using the `collect()` function. 
+
+```{r}
+flights_20_df <- collect(flights_20)
+flights_20_df
+class(flights_20_df)
+```
+
+2. In this example, we will compute some summary statistics about the `flights` dataset. We will find the minimum and maximum years in the dataset, the total number of flights, and the number of distinct carriers. Just like when we did this with a SQL query, this does take a minute to run.
+
+```{r}
+overall_smry <-
+  tbl(con_air, "flights") %>% 
+  summarize(min_year = min(year),
+            max_year = max(year),
+            num_flights = n(),
+            num_carriers = n_distinct(carrier))
+
+overall_smry
+```
+
+   We can also look at the SQL code that was written in the background. This looks similar to the code I wrote above, although I tried to make it a little more readable.
+
+```{r}
+overall_smry %>% 
+  show_query()
+```
+
+3. Next, we will find, for each carrier, the proportion of flights that are more than 20 minutes late. Order the carriers from largest to smallest proportion. When I first ran this, I put the `head(100)` in to make sure I didn't get any weird results. I am going to skip outputting the table here because I'm going to plot the data in a moment. Outputting the table is really where the code is executed, and I want to avoid doing that twice.
+
+```{r}
+flights_over20 <- 
+  tbl(con_air, "flights") %>% 
+#  head(100) %>% 
+  group_by(carrier) %>% 
+  summarize(prop_late_over20 = mean(arr_delay > 20)) %>% 
+  arrange(desc(prop_late_over20))
+```
+
+   We could `%>%` right into a plot, too! This code takes a while to run because the query is executed here. If we wanted to use the data from the SQL query over and over again, it would be a good idea to save it to a `data.frame` using `collect()`.
+
+```{r}
+flights_over20 %>% 
+  ggplot(aes(x = prop_late_over20,
+             y = fct_reorder(carrier, prop_late_over20, median))) +
+  geom_col(fill = "lightblue") +
+  scale_x_continuous(expand = c(0,0), 
+                     labels = scales::percent) +
+  labs(x = NULL,
+       y = NULL,
+       title = "Which airlines had the largest % of flights that \nwere more than 20 minutes late from 2010-2017?") +
+  theme_minimal()
+```
+
+   Let's also look at the SQL query generate for us:
+   
+```{r}
+flights_over20 %>% 
+  show_query()
+```
+
+
+4. And, for the last exercise! For each year and carrier, find the number of flights, the average arrival delay, and the average distance of the flight. Use carrier name. Arrange the results by longest average delay within year.
+
+```{r}
+carrier_info <-
+  tbl(con_air, "flights") %>% 
+  group_by(year, carrier) %>% 
+  summarize(n_flights = n(),
+            avg_arr_delay = mean(arr_delay),
+            avg_distance = mean(distance)) %>% 
+  inner_join(tbl(con_air, "carriers"), 
+             by = c("carrier" = "carrier")) %>% 
+  arrange(year, desc(avg_arr_delay))
+```
+
+   This time, we'll save the data to a `data.frame`. This query takes a minute to run.
+   
+```{r}
+carrier_info_df <-
+  carrier_info %>% 
+  collect()
+```
+
+  Let's also look at the SQL code. It's a little harder to read than what I wrote.
+
+```{r}
+carrier_info %>% 
+  show_query()
+```
+
+   Lastly, let's plot the data. I'm using the data that is already in R as a `data.frame` so the SQL query doesn't execute again.
+   
+```{r}
+library(gghighlight)
+
+carrier_info_df %>% 
+  ggplot(aes(x = year,
+             y = avg_arr_delay, 
+             color = name)) +
+  geom_point() +
+  geom_line() +
+  gghighlight(max(avg_arr_delay) > 12) +
+  labs(title = "Frontier and Spirit Airlines have the worst average arrival delay",
+       x = NULL,
+       y = "Minutes late, avg.") +
+  theme_minimal() +
+  theme(panel.grid.minor.x = element_blank(),
+        panel.grid.major.x = element_blank(), 
+        plot.title.position = "plot")
+```
+
+The last thing we should do is disconnect from the database.
+
+```{r}
+dbDisconnect(con_air)
+```
+
+
+
+
+
+
+
+
