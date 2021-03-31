@@ -79,6 +79,7 @@ theme_set(theme_minimal()) # my favorite ggplot2 theme :)
 ```
 
 Then we load the data we will use throughout this tutorial and do some modifications.
+
 ```{r}
 data("house_prices")
 
@@ -457,7 +458,7 @@ obs4_many %>%
        color = "")
 ```
 
-Here we notice that the patterns for each observation are not parallel and are more wiggly than they were in the lasso model. They lines even cross. 
+Here we notice that the patterns for each observation are not parallel and are more wiggly than they were in the lasso model. They could even cross. 
 
 The `DALEX` library provides some functions for us so we don't have to do this by hand. Sadly, it seems that not all the functionality is quite ready yet, so we still have to do a little bit of work by hand. First, we create the `predict_profile()` which is like what we did by hand above when we generated 50 values of `sqft_living` that fall between the minimum and maximum and then see how changes those values of `sqft_living` affect predicted house price, holding all other variables constant. Only this function does that for EACH of the variables. The variables that are moving are identified in the `_vname_` column
 
