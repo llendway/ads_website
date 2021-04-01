@@ -96,7 +96,7 @@ As mentioned in the global model interpretation tutorial last week, local model 
 
 ## Recreate some models
 
-Once again we will build the lasso and random forest models to predict `log_price` of a house from the King County data. As mentioned in the previous tutorial, we wouldn't have to use `log_price` for random forest, but I'm going to keep it that way so I can reference some of the output from that model. 
+Once again we will build the lasso and random forest models to predict `log_price` of a house from the King County data. As mentioned in the previous tutorial, we wouldn't have to use `log_price` for random forest, but I'm going to keep it that way so it's the same as the lasso model. 
 
 Recreate the lasso model: 
 
@@ -187,17 +187,6 @@ house_lasso_final_wf <- house_lasso_wf %>%
 # fit final model
 house_lasso_final_mod <- house_lasso_final_wf %>% 
   fit(data = house_training)
-
-# compute the training rmse - we'll compare to this later
-house_training %>% 
-  select(log_price) %>% 
-  bind_cols(
-    predict(house_lasso_final_mod, 
-            new_data = house_training)
-    ) %>%
-  summarize(
-    training_rmse = sqrt(mean((log_price - .pred)^2))
-    )
 ```
 
 Recreate the random forest model:
@@ -232,18 +221,371 @@ ranger_workflow <-
 set.seed(712) # for reproducibility - random sampling in random forest choosing number of variables
 ranger_fit <- ranger_workflow %>% 
   fit(house_training)
+```
 
-# compute the training rmse - we'll compare to this later
-house_training %>% 
-  select(log_price) %>% 
-  bind_cols(predict(ranger_fit, new_data = house_training)) %>%
-  summarize(training_rmse = sqrt(mean((log_price - .pred)^2)))
+## Individual explanation
+
+
+### CP profiles
+
+Link to prior material
+
+### Break down plots
+
+Estimate the contribution of each variable. If model isn't additive, can change depending on order of variables.
+
+Let's look at one and then explaing. First, explainers.
+
+```{r}
+lasso_explain <- 
+  explain_tidymodels(
+    model = house_lasso_final_mod,
+    data = house_training %>% select(-log_price), 
+    y = house_training %>%  pull(log_price),
+    label = "lasso"
+  )
+
+rf_explain <- 
+  explain_tidymodels(
+    model = ranger_fit,
+    data = house_training %>% select(-log_price), 
+    y = house_training %>%  pull(log_price),
+    label = "rf"
+  )
+```
+
+Now create the plot. 
+
+```{r}
+#Choose an expensive house
+new_obs <- house_testing %>% slice(5377) 
+
+#price - just to know because I can't think in logs
+10^(new_obs$log_price)
+
+pp_lasso <- predict_parts(explainer = lasso_explain,
+                          new_observation = new_obs,
+                          type = "break_down") #default
+
+plot(pp_lasso)
+
+pp_lasso
+
+pp_lasso %>% 
+  as_tibble()
+```
+
+What does this show?
+
+Look at intercept bar. It is the average predicted price (*predicted*, not actual price) for all the training data (fed into the explainer). We could compute that "by hand".
+
+```{r}
+mean(rf_explain$y_hat)
+
+predict()
+
+predict(ranger_fit, new_data = new_obs %>% mutate(grade = "10"))
+```
+
+Then, the `+.254` for the `grade = 10`  bar, is the average prediction if grade was fixed at 10. We could also do that "by hand".
+
+```{r}
+data_grade10 <- rf_explain$data %>% 
+  mutate(grade = "11")
+
+predict(ranger_fit, new_data = data_grade10) %>% 
+  summarize(avg_grade10 = mean(.pred)) %>% 
+  pull(avg_grade10)
+
+colMeans(predict(ranger_fit, new_data = data_grade10))
+```
+
+
+```{r}
+library("randomForest")
+set.seed(1313)
+titanic_rf <- randomForest(survived ~ class + gender + age + 
+                sibsp + parch + fare + embarked, 
+                data = titanic %>% drop_na())
+
+explain_titanic <- DALEX::explain(model = titanic_rf,  
+                        data = titanic %>% drop_na() %>% select(-survived),
+                           y = titanic %>% drop_na() %>% mutate(survived = survived == "yes") %>% pull(survived), 
+                       label = "Random Forest")
+
+passenger <- titanic %>% drop_na() %>% slice(327)
+
+bd_rf <- predict_parts(explainer = explain_titanic,
+                 new_observation = passenger,
+                 type = "break_down")
+plot(bd_rf)
+```
+
+
+```{r}
+mean(explain_titanic$y_hat)
+
+titanic_data <- titanic %>% drop_na() %>% select(-survived)
+
+titanic_all_f <- titanic_data %>% 
+  mutate(gender = factor("female", levels = c("female", "male")))
+
+predict(titanic_rf, newdata = titanic_all_f, type = "prob") %>% 
+  as_tibble() %>% 
+  summarize(avg_surv = mean(yes))
+
+titanic_all_f_parch1 <- titanic_all_f %>% 
+  mutate(parch = 1)
+
+predict(titanic_rf, newdata = titanic_all_f_parch1, type = "prob") %>% 
+  as_tibble() %>% 
+  summarize(avg_surv = mean(yes))
+
+
+predict(titanic_rf, newdata = passenger, type = "prob")
 ```
 
 
 
+Contributions don't change due to which variables are considered first in lasso without interactions because our model is additive. The plot looks different, but the length of the bars is the same.
+
+```{r}
+pp_lasso_ord1 <- predict_parts(explainer = lasso_explain,
+                          new_observation = new_obs,
+                          type = "break_down", #default
+                          order = c("bathrooms",
+                                    "floors",
+                                    "condition",
+                                    "sqft_basement",
+                                    "sqft_living",
+                                    "date",
+                                    "waterfront",
+                                    "grade",
+                                    "yr_built",
+                                    "bedrooms",
+                                    "sqft_lot",
+                                    "view",
+                                    "sqft_above",
+                                    "id",
+                                    "zipcode",
+                                    "sqft_living15",
+                                    "lat",
+                                    "sqft_lot15",
+                                    "yr_renovated",
+                                    "long")) 
+
+pp_lasso_ord1 
+
+plot(pp_lasso_ord1)
+
+# Don't judge my code here, please :)
+# This is just to reorder it to make it easier to compare to the previous output
+
+Intercept <- pp_lasso_ord1 %>% 
+  as.tibble() %>% 
+  slice(1)
+
+middle <- pp_lasso_ord1 %>% 
+  as.tibble() %>% 
+  slice(-1, -nrow(.)) %>% 
+  arrange(desc(abs(contribution)))
+
+prediction <- pp_lasso_ord1 %>% 
+  as.tibble() %>% 
+  slice(nrow(.))   
+
+Intercept %>% 
+  bind_rows(middle) %>% 
+  bind_rows(prediction) %>% 
+  select(variable, contribution)
+```
+
+
+```{r}
+pp_lasso_ord2 <- predict_parts(explainer = lasso_explain,
+                          new_observation = new_obs,
+                          type = "break_down", #default
+                          order = c("yr_built",
+                                    "sqft_above",
+                                    "sqft_living",
+                                    "floors",
+                                    "condition",
+                                    "date",
+                                    "waterfront",
+                                    "sqft_basement",
+                                    "grade",
+                                    "bathrooms",
+                                    "bedrooms",
+                                    "sqft_lot",
+                                    "view",
+                                    "id",
+                                    "zipcode",
+                                    "sqft_living15",
+                                    "lat",
+                                    "sqft_lot15",
+                                    "yr_renovated",
+                                    "long")) 
+
+pp_lasso_ord2
+
+plot(pp_lasso_ord2)
+
+# The messy code again :)
+
+Intercept2 <- pp_lasso_ord2 %>% 
+  as.tibble() %>% 
+  slice(1)
+
+middle2 <- pp_lasso_ord2 %>% 
+  as.tibble() %>% 
+  slice(-1, -nrow(.)) %>% 
+  arrange(desc(abs(contribution)))
+
+prediction2 <- pp_lasso_ord2 %>% 
+  as.tibble() %>% 
+  slice(nrow(.))   
+
+Intercept2 %>% 
+  bind_rows(middle2) %>% 
+  bind_rows(prediction2) %>% 
+  select(variable, contribution)
+```
+
+Try for random forest ... how are variables ordered? A variable Importance measure - see [6.3](https://ema.drwhy.ai/breakDown.html#BDMethod)
+
+```{r}
+pp_rf <- predict_parts(explainer = rf_explain,
+                       new_observation = new_obs,
+                       type = "break_down")
+
+pp_rf
+
+plot(pp_rf)
+
+pp_rf %>% 
+  as_tibble()
+
+```
 
 
 
+What does this show?
 
+Look at intercept bar. It is the average predicted price (*predicted*, not actual price) for all the training data (fed into the explainer). We could compute that "by hand".
+
+```{r}
+
+predict(ranger_fit, new_data = house_training) %>% 
+  pull(.pred) %>% 
+  mean()
+
+predict(ranger_fit, new_data = new_obs)
+```
+
+Then, the `+.254` for the `grade = 10`  bar, is the average prediction if grade was fixed at 10. We could also do that "by hand".
+
+```{r}
+data_lat <- rf_explain$data %>% 
+  mutate(lat = 47.6351)
+
+predict(ranger_fit, new_data = data_lat) %>% 
+  summarize(avg_lat = mean(.pred)) %>% 
+  pull(avg_lat)
+```
+
+
+
+```{r}
+pp_rf_ord1 <- predict_parts(explainer = rf_explain,
+                            new_observation = new_obs,
+                            type = "break_down", #default
+                            order = c("bathrooms",
+                                      "floors",
+                                      "condition",
+                                      "sqft_basement",
+                                      "sqft_living",
+                                      "date",
+                                      "waterfront",
+                                      "grade",
+                                      "yr_built",
+                                      "bedrooms",
+                                      "sqft_lot",
+                                      "view",
+                                      "sqft_above",
+                                      "id",
+                                      "zipcode",
+                                      "sqft_living15",
+                                      "lat",
+                                      "sqft_lot15",
+                                      "yr_renovated",
+                                      "long")) 
+
+plot(pp_rf_ord1)
+
+# The messy code again :)
+
+Intercept_rf1 <- pp_rf_ord1 %>% 
+  as.tibble() %>% 
+  slice(1)
+
+middle_rf1 <- pp_rf_ord1 %>% 
+  as.tibble() %>% 
+  slice(-1, -nrow(.)) %>% 
+  arrange(desc(abs(contribution)))
+
+prediction_rf1 <- pp_rf_ord1 %>% 
+  as.tibble() %>% 
+  slice(nrow(.))   
+
+Intercept_rf1 %>% 
+  bind_rows(middle_rf1) %>% 
+  bind_rows(prediction_rf1) %>% 
+  select(variable, contribution)
+```
+
+```{r}
+pp_rf_ord2 <- predict_parts(explainer = rf_explain,
+                            new_observation = new_obs,
+                            type = "break_down", #default
+                            order = c("yr_built",
+                                      "sqft_above",
+                                      "sqft_living",
+                                      "floors",
+                                      "condition",
+                                      "date",
+                                      "waterfront",
+                                      "sqft_basement",
+                                      "grade",
+                                      "bathrooms",
+                                      "bedrooms",
+                                      "sqft_lot",
+                                      "view",
+                                      "id",
+                                      "zipcode",
+                                      "sqft_living15",
+                                      "lat",
+                                      "sqft_lot15",
+                                      "yr_renovated",
+                                      "long")) 
+
+plot(pp_rf_ord2)
+
+Intercept_rf2 <- pp_rf_ord2 %>% 
+  as.tibble() %>% 
+  slice(1)
+
+middle_rf2 <- pp_rf_ord2 %>% 
+  as.tibble() %>% 
+  slice(-1, -nrow(.)) %>% 
+  arrange(desc(abs(contribution)))
+
+prediction_rf2 <- pp_rf_ord2 %>% 
+  as.tibble() %>% 
+  slice(nrow(.))   
+
+Intercept_rf2 %>% 
+  bind_rows(middle_rf2) %>% 
+  bind_rows(prediction_rf2) %>% 
+  select(variable, contribution)
+```
 
