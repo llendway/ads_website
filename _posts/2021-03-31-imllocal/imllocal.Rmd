@@ -93,7 +93,6 @@ house_prices <- house_prices %>%
 
 As mentioned in the global model interpretation tutorial last week, local model interpretation helps us understand the impact variables have on individual observations. In this tutorial, I will give a general overview of a few methods and show you some R code that can help you execute them. I highly suggest reading the resources I listed above, especially [Explanatory Model Analysis](https://ema.drwhy.ai/InstanceLevelExploration.html), which is a companion to the `DALEX` package we will be using.
 
-
 ## Recreate some models
 
 Once again we will build the lasso and random forest models to predict `log_price` of a house from the King County data. As mentioned in the previous tutorial, we wouldn't have to use `log_price` for random forest, but I'm going to keep it that way so it's the same as the lasso model. 
@@ -223,20 +222,22 @@ ranger_fit <- ranger_workflow %>%
   fit(house_training)
 ```
 
-## Individual explanation
+## Individual model explanation
 
+Again, the types of model explanations we'll focus on in this tutorial are individual, also called local or instance-level. 
 
 ### CP profiles
 
-Link to prior material
+We learned one of these methods in the previous tutorial, [ceteris-peribus profiles](https://advanced-ds-in-r.netlify.app/posts/2021-03-24-imlglobal/#ceteris-paribus-profiles), or CP profiles. These show how changing the value of one variable while holding the others at their values affects the predicted outcome for a specific observation. 
 
 ### Break down plots
 
-Estimate the contribution of each variable. If model isn't additive, can change depending on order of variables.
+Next, we'll look at [break-down plots](https://ema.drwhy.ai/breakDown.html#BDR). These plots visualize the estimated contribution of each variable to that observation's predicted outcome. These work especially well for additive models. We will see that if a model isn't additive, the break-down plot can change depending on the order in which we examine the variables.
 
-Let's look at one and then explaing. First, explainers.
+Let's start by looking at one of the break-down plots and then we'll dive into how they're made.
 
 ```{r}
+# Create an explainer for the lasso model:
 lasso_explain <- 
   explain_tidymodels(
     model = house_lasso_final_mod,
@@ -245,6 +246,7 @@ lasso_explain <-
     label = "lasso"
   )
 
+# Create an explainer for the random forest model:
 rf_explain <- 
   explain_tidymodels(
     model = ranger_fit,
@@ -252,102 +254,87 @@ rf_explain <-
     y = house_training %>%  pull(log_price),
     label = "rf"
   )
-```
 
-Now create the plot. 
-
-```{r}
-#Choose an expensive house
+# Choose an observation
 new_obs <- house_testing %>% slice(5377) 
 
-#price - just to know because I can't think in logs
+# Price of new_obs's house - just to know because I can't think in logs
 10^(new_obs$log_price)
+```
 
+Now create the plot, and output a few other things. The plot shows the variables on the y-axis and this observation's value for that variable. One sort of weird thing that I haven't quite figured out yet is it shows that the observation's `grade` is `10` when it is actually `11`. I think the `grade` factor may have been changed to an integer and then back to a factor at some point since `as.integer(new_obs$grade) =` `r  as.integer(new_obs$grade)`. For now, we won't worry about it. Just know that `grade = 10` really means `grade = 11`.
+
+```{r}
+# Pulls together the data needed for the break-down plot
 pp_lasso <- predict_parts(explainer = lasso_explain,
                           new_observation = new_obs,
                           type = "break_down") #default
 
+# Break-down plot
 plot(pp_lasso)
 
+# Table form of break-down plot data
 pp_lasso
 
-pp_lasso %>% 
-  as_tibble()
+# Data we'll use later to compare contributions
+lasso_bdp <-
+  pp_lasso %>% 
+  as_tibble() %>% 
+  select(variable, contribution)
 ```
 
-What does this show?
+**What does this graph show?** 
 
-Look at intercept bar. It is the average predicted price (*predicted*, not actual price) for all the training data (fed into the explainer). We could compute that "by hand".
+Where the bars all start is labeled the intercept. It is the average predicted `log_price` (*predicted*, not actual price) when the lasso model is applied to the training data (fed into the explainer). We could compute that "by hand".
 
 ```{r}
-mean(rf_explain$y_hat)
+intercept <- 
+  predict(house_lasso_final_mod, new_data = house_training) %>% 
+  pull(.pred) %>% 
+  mean()
 
-predict()
-
-predict(ranger_fit, new_data = new_obs %>% mutate(grade = "10"))
+intercept
 ```
 
-Then, the `+.254` for the `grade = 10`  bar, is the average prediction if grade was fixed at 10. We could also do that "by hand".
+Then, the `+.254` for the `grade = 10`  bar (remember, that's actually `grade = 11`), is the change in average prediction if grade was fixed at 11. We can also do that "by hand". First, we set all `grade`s in the training set to `11`. Then find the new average predicted `log_price` when the lasso model is applied to this modified training data. And, lastly, compute the difference.
 
 ```{r}
-data_grade10 <- rf_explain$data %>% 
+# Put in grade = "11" for all observations
+data_grade11 <- house_training %>% 
   mutate(grade = "11")
 
-predict(ranger_fit, new_data = data_grade10) %>% 
-  summarize(avg_grade10 = mean(.pred)) %>% 
-  pull(avg_grade10)
+# Find predictions
+avg_grade11 <-
+  predict(house_lasso_final_mod, new_data = data_grade11) %>% 
+  summarize(avg_grade11 = mean(.pred)) %>% 
+  pull(avg_grade11)
 
-colMeans(predict(ranger_fit, new_data = data_grade10))
+# Compute difference
+avg_grade11 - intercept
 ```
+
+So, a `grade` of 11 contributes `r round(avg_grade11 - intercept, 3)` to the average predicted score, for this observation.  Let's do one more level "by hand", the `sqft_living = 3790` bar. Now set `grade = 11` and `sqft_living = 3790` and find the new average predicted `log_price` when the lasso model is applied to this modified training data. Then, compute the difference between this and the previous average predicted `log_price`, when only fixing `grade`, `r avg_grade11`.
 
 
 ```{r}
-library("randomForest")
-set.seed(1313)
-titanic_rf <- randomForest(survived ~ class + gender + age + 
-                sibsp + parch + fare + embarked, 
-                data = titanic %>% drop_na())
+# Put in grade = "11" and sqft_living = 3790 for all observations
+data_grade11_sqft3790 <- house_training %>% 
+  mutate(grade = "11",
+         sqft_living = 3790)
 
-explain_titanic <- DALEX::explain(model = titanic_rf,  
-                        data = titanic %>% drop_na() %>% select(-survived),
-                           y = titanic %>% drop_na() %>% mutate(survived = survived == "yes") %>% pull(survived), 
-                       label = "Random Forest")
+# Find predictions
+avg_grade11_sqft3790 <-
+  predict(house_lasso_final_mod, new_data = data_grade11_sqft3790) %>% 
+  summarize(avg_grade11_sqft3790 = mean(.pred)) %>% 
+  pull(avg_grade11_sqft3790)
 
-passenger <- titanic %>% drop_na() %>% slice(327)
-
-bd_rf <- predict_parts(explainer = explain_titanic,
-                 new_observation = passenger,
-                 type = "break_down")
-plot(bd_rf)
+# Compute difference
+avg_grade11_sqft3790 - avg_grade11
 ```
 
+So, `sqft_living` of 3790 contributes `r round(avg_grade11_sqft3790 - avg_grade11, 3)` to the average predicted score, for this observation.
 
-```{r}
-mean(explain_titanic$y_hat)
-
-titanic_data <- titanic %>% drop_na() %>% select(-survived)
-
-titanic_all_f <- titanic_data %>% 
-  mutate(gender = factor("female", levels = c("female", "male")))
-
-predict(titanic_rf, newdata = titanic_all_f, type = "prob") %>% 
-  as_tibble() %>% 
-  summarize(avg_surv = mean(yes))
-
-titanic_all_f_parch1 <- titanic_all_f %>% 
-  mutate(parch = 1)
-
-predict(titanic_rf, newdata = titanic_all_f_parch1, type = "prob") %>% 
-  as_tibble() %>% 
-  summarize(avg_surv = mean(yes))
-
-
-predict(titanic_rf, newdata = passenger, type = "prob")
-```
-
-
-
-Contributions don't change due to which variables are considered first in lasso without interactions because our model is additive. The plot looks different, but the length of the bars is the same.
+In additive models, like lasso without interactions, contributions don't change due to which variables are considered first. In the code below, we give a new order in which to consider the variables. The plot looks different, but the length of the bars is the same, thus the contribution is the same
 
 ```{r}
 pp_lasso_ord1 <- predict_parts(explainer = lasso_explain,
@@ -374,128 +361,69 @@ pp_lasso_ord1 <- predict_parts(explainer = lasso_explain,
                                     "yr_renovated",
                                     "long")) 
 
-pp_lasso_ord1 
-
 plot(pp_lasso_ord1)
-
-# Don't judge my code here, please :)
-# This is just to reorder it to make it easier to compare to the previous output
-
-Intercept <- pp_lasso_ord1 %>% 
-  as.tibble() %>% 
-  slice(1)
-
-middle <- pp_lasso_ord1 %>% 
-  as.tibble() %>% 
-  slice(-1, -nrow(.)) %>% 
-  arrange(desc(abs(contribution)))
-
-prediction <- pp_lasso_ord1 %>% 
-  as.tibble() %>% 
-  slice(nrow(.))   
-
-Intercept %>% 
-  bind_rows(middle) %>% 
-  bind_rows(prediction) %>% 
-  select(variable, contribution)
 ```
 
+Joining together the new, reordered version and the original version, we can see that the contributions are the same.
 
 ```{r}
-pp_lasso_ord2 <- predict_parts(explainer = lasso_explain,
-                          new_observation = new_obs,
-                          type = "break_down", #default
-                          order = c("yr_built",
-                                    "sqft_above",
-                                    "sqft_living",
-                                    "floors",
-                                    "condition",
-                                    "date",
-                                    "waterfront",
-                                    "sqft_basement",
-                                    "grade",
-                                    "bathrooms",
-                                    "bedrooms",
-                                    "sqft_lot",
-                                    "view",
-                                    "id",
-                                    "zipcode",
-                                    "sqft_living15",
-                                    "lat",
-                                    "sqft_lot15",
-                                    "yr_renovated",
-                                    "long")) 
-
-pp_lasso_ord2
-
-plot(pp_lasso_ord2)
-
-# The messy code again :)
-
-Intercept2 <- pp_lasso_ord2 %>% 
-  as.tibble() %>% 
-  slice(1)
-
-middle2 <- pp_lasso_ord2 %>% 
-  as.tibble() %>% 
-  slice(-1, -nrow(.)) %>% 
-  arrange(desc(abs(contribution)))
-
-prediction2 <- pp_lasso_ord2 %>% 
-  as.tibble() %>% 
-  slice(nrow(.))   
-
-Intercept2 %>% 
-  bind_rows(middle2) %>% 
-  bind_rows(prediction2) %>% 
-  select(variable, contribution)
+pp_lasso_ord1 %>% 
+  as_tibble() %>% 
+  select(variable, contribution) %>% 
+  left_join(lasso_bdp, by = "variable") %>% 
+  rename(reordered = contribution.x,
+         original = contribution.y)
 ```
 
-Try for random forest ... how are variables ordered? A variable Importance measure - see [6.3](https://ema.drwhy.ai/breakDown.html#BDMethod)
+Now, let's do this for the random forest model
 
 ```{r}
+# Pulls together the data needed for the break-down plot
 pp_rf <- predict_parts(explainer = rf_explain,
                        new_observation = new_obs,
                        type = "break_down")
 
-pp_rf
-
+# Break-down plot
 plot(pp_rf)
 
-pp_rf %>% 
-  as_tibble()
-
+# Used later to compare variable reordering
+rf_bdp <- pp_rf %>% 
+  as_tibble() %>% 
+  select(variable, contribution)
 ```
 
-
-
-What does this show?
-
-Look at intercept bar. It is the average predicted price (*predicted*, not actual price) for all the training data (fed into the explainer). We could compute that "by hand".
+**What does this show again?** The intercept bar is the average predicted `log_price` when the random forest is applied to all the training data. I'll do one more hand-computation to illustrate (you don't ever have to do this - it's just to give you some extra understanding of what the function does). 
 
 ```{r}
-
-predict(ranger_fit, new_data = house_training) %>% 
+rf_avg_pred <-
+  predict(ranger_fit, new_data = house_training) %>% 
   pull(.pred) %>% 
   mean()
 
-predict(ranger_fit, new_data = new_obs)
+rf_avg_pred
 ```
 
-Then, the `+.254` for the `grade = 10`  bar, is the average prediction if grade was fixed at 10. We could also do that "by hand".
+Then, the `+0.114` next to the `lat = 47.6351` bar, is the change in average prediction if latitude was fixed at 47.6351. So `lat = 47.6351` increased the `log_price` by `0.114`.
 
 ```{r}
-data_lat <- rf_explain$data %>% 
+# Fix latitude at 47.6351
+data_lat <- house_training %>% 
   mutate(lat = 47.6351)
 
+# Find average predictions
+rf_lat47 <-
 predict(ranger_fit, new_data = data_lat) %>% 
   summarize(avg_lat = mean(.pred)) %>% 
   pull(avg_lat)
+
+# Compute difference
+rf_lat47 - rf_avg_pred
 ```
 
-
+Now, let's see what happens when we change the order in which the variables are considered in the random forest model, which is not additive.
 
 ```{r}
+#Change order
 pp_rf_ord1 <- predict_parts(explainer = rf_explain,
                             new_observation = new_obs,
                             type = "break_down", #default
@@ -519,73 +447,65 @@ pp_rf_ord1 <- predict_parts(explainer = rf_explain,
                                       "sqft_lot15",
                                       "yr_renovated",
                                       "long")) 
-
+# Break-down plot
 plot(pp_rf_ord1)
 
-# The messy code again :)
-
-Intercept_rf1 <- pp_rf_ord1 %>% 
-  as.tibble() %>% 
-  slice(1)
-
-middle_rf1 <- pp_rf_ord1 %>% 
-  as.tibble() %>% 
-  slice(-1, -nrow(.)) %>% 
-  arrange(desc(abs(contribution)))
-
-prediction_rf1 <- pp_rf_ord1 %>% 
-  as.tibble() %>% 
-  slice(nrow(.))   
-
-Intercept_rf1 %>% 
-  bind_rows(middle_rf1) %>% 
-  bind_rows(prediction_rf1) %>% 
-  select(variable, contribution)
+# Join original ordering and compute difference
+pp_rf_ord1 %>% 
+  as_tibble() %>% 
+  select(variable, contribution) %>% 
+  left_join(rf_bdp, by = "variable") %>% 
+  rename(reordered = contribution.x,
+         original = contribution.y) %>% 
+  mutate(diff = round(reordered - original,3)) %>% 
+  arrange(desc(abs(diff)))
 ```
 
-```{r}
-pp_rf_ord2 <- predict_parts(explainer = rf_explain,
-                            new_observation = new_obs,
-                            type = "break_down", #default
-                            order = c("yr_built",
-                                      "sqft_above",
-                                      "sqft_living",
-                                      "floors",
-                                      "condition",
-                                      "date",
-                                      "waterfront",
-                                      "sqft_basement",
-                                      "grade",
-                                      "bathrooms",
-                                      "bedrooms",
-                                      "sqft_lot",
-                                      "view",
-                                      "id",
-                                      "zipcode",
-                                      "sqft_living15",
-                                      "lat",
-                                      "sqft_lot15",
-                                      "yr_renovated",
-                                      "long")) 
+I have ordered the variables by their differences in contribution. We can see that the order in which the variables are considered affects the results. Notice that the `bathrooms = 3.75` contribution even changes sign.
 
-plot(pp_rf_ord2)
+The original ordering is based on a variable importance score, discussed in depth [here](https://ema.drwhy.ai/breakDown.html#BDMethodGen). Next, we will learn about SHapley Additive exPlanations (SHAP), another way we can try to account for these differences.
 
-Intercept_rf2 <- pp_rf_ord2 %>% 
-  as.tibble() %>% 
-  slice(1)
+## SHapley Additive exPlanations (SHAP)
 
-middle_rf2 <- pp_rf_ord2 %>% 
-  as.tibble() %>% 
-  slice(-1, -nrow(.)) %>% 
-  arrange(desc(abs(contribution)))
+SHAPs are based on Shapley values. I am not going to go into the theoretical detail here. Please see the chapter in [Explanatory Model Analysis](https://ema.drwhy.ai/shapley.html#SHAPMethod) or [Interpretable Machine Learning](https://christophm.github.io/interpretable-ml-book/shap.html#treeshap) if you are interested. Instead, I will explain the intuition and how to run it in R and interpret the results. 
 
-prediction_rf2 <- pp_rf_ord2 %>% 
-  as.tibble() %>% 
-  slice(nrow(.))   
+The idea is to take change the order in which we consider the variables in the break-down plots, ie. a permutation or reordering of the variables, and then to average the contributions. That's it! Ideally, we would look at every possible permutation, but since that takes a lot of time, we will only look at a sample of them.
 
-Intercept_rf2 %>% 
-  bind_rows(middle_rf2) %>% 
-  bind_rows(prediction_rf2) %>% 
-  select(variable, contribution)
+And, the R code to execute this once again uses the `predict_parts()` function. The `type = "shap"` and there is an additional argument, `B`, which is how many permutations of the variables we desire. I recommend starting small. In this case, 10 already ran for quite a while, so I'll stick with that. You might consider adding `cache=TRUE` to the code chunk options so you don't have to re-run this section every time you knit the file. 
+
+```{r, cache=TRUE}
+rf_shap <-predict_parts(explainer = rf_explain,
+                        new_observation = new_obs,
+                        type = "shap",
+                        B = 10 #number of reorderings - start small
+)
+
+plot(rf_shap)
 ```
+
+**What does this graph show?**
+
+Each bar shows the average contribution of each variable's value to the predicted response for this observation. So, the grade of 11 contributes almost an additional `0.15` to the predicted `log_price` for this observation, on average. The boxplot shows the variation across permutations of the variables' order of consideration. If the variation is large, and especially if the boxplot encompasses both postitive and negative values, we will be less confident in its exact effect.
+
+Notice that when we apply this to the lasso model, the boxplots are just a point because permuting the order in which we consider the variables doesn't matter with additive models. So, you should only bother to do this with non-additive models. 
+
+```{r, cache=TRUE}
+lasso_shap <-predict_parts(explainer = lasso_explain,
+                        new_observation = new_obs,
+                        type = "shap",
+                        B = 10 #number of reorderings - start small
+)
+
+plot(lasso_shap)
+```
+
+## Local Interpretable Model-agnostic Explanations (LIME)
+
+
+
+
+
+
+
+
 
