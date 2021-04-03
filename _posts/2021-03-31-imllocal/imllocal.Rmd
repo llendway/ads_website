@@ -517,30 +517,14 @@ The arguments we need to provide to the function are:
   * `n_permutations`: the number of perturbed samples. To elaborate on the quote above from Christoph Molnar, a perturbation of our observation of interest means that the values of the variables are slightly modified from the  observation of interest- think of it as jittering in `geom_jitter()`. They are weighted by the distance from the observation of interest. You can read more detail [here](https://cran.r-project.org/web/packages/lime/vignettes/Understanding_lime.html).
   * `type`: the type of LIME method to use. I will only discuss `lime` but there are other options.
   
-Let's look at an example and then discuss the output. I `set.seed()` for reproducibility of the random perturbations. Like I mentioned above, we need to eliminate the outcome variable from the observation of interest. I also eliminated variables 
-
+Let's look at an example and then discuss the output. I `set.seed()` for reproducibility of the random perturbations. Like I mentioned above, we need to eliminate the outcome variable from the observation of interest. 
 ```{r}
-# Figure out why I need this code - order of libraries?
-# Taken from: https://rdrr.io/cran/DALEXtra/src/R/predict_surrogate.R
+set.seed(2)
 
-# model_type(rf_explain) ... gives error ... why??
-# Error: The class of model must have a model_type method. See ?model_type to get an overview of models supported out of the box
-
-# may have to change this to 'classification' for classification
-model_type.dalex_explainer <- function(x, ...) 'regression'
-
-predict_model.dalex_explainer <- function(x, newdata, ...) {
-  class(x) = "explainer"
-  pred <- predict(x, newdata)
-  return(as.data.frame(pred))
-}
-```
-
-
-```{r}
-# This code initially worked without the code chunk above - why not now?
-# The new observation cannot have the outcome variable in it!
-set.seed(100)
+# NEED these two lines of code always!
+# They make sure our explainer is defined correctly to use in the next step
+model_type.dalex_explainer <- DALEXtra::model_type.dalex_explainer
+predict_model.dalex_explainer <- DALEXtra::predict_model.dalex_explainer
 
 lime_rf <- predict_surrogate(explainer = rf_explain,
                              new_observation = new_obs %>%
@@ -548,10 +532,20 @@ lime_rf <- predict_surrogate(explainer = rf_explain,
                              n_features = 5,
                              n_permutations = 1000,
                              type = "lime")
+
+lime_rf %>% 
+  select(model_r2, model_prediction, prediction) %>% 
+  distinct()
 ```
 
+These are some of the model-level outputs. The `model_r2` gives overall model performance (I think it's a type of $R^2$), the `prediction` is the prediction from the original model, and the `model_prediction` is the prediction from this local model. I like to look to see how close the original prediction matched the local model prediction. After looking at these high-level stats, examine the plot.
 
 ```{r}
-plot(lime_rf)
+plot(lime_rf) 
 ```
 
+**What does this show us?**
+
+* The predicted value from the original random forest model (**Prediction**) is about 6.17. 
+* The predicted value from the local model is not shown, but we saw that in the output above.  
+* The (**Explanation fit**) is an overall performance metric for the local model - `model_r2` from the output above.
