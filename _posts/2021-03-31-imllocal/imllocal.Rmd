@@ -7,7 +7,7 @@ output:
     toc: true
     toc_float: true
     self_contained: false
-draft: true
+draft: false
 ---
 
 
@@ -518,6 +518,7 @@ The arguments we need to provide to the function are:
   * `type`: the type of LIME method to use. I will only discuss `lime` but there are other options.
   
 Let's look at an example and then discuss the output. I `set.seed()` for reproducibility of the random perturbations. Like I mentioned above, we need to eliminate the outcome variable from the observation of interest. 
+
 ```{r}
 set.seed(2)
 
@@ -541,11 +542,13 @@ lime_rf %>%
 These are some of the model-level outputs. The `model_r2` gives overall model performance (I think it's a type of $R^2$), the `prediction` is the prediction from the original model, and the `model_prediction` is the prediction from this local model. I like to look to see how close the original prediction matched the local model prediction. After looking at these high-level stats, examine the plot.
 
 ```{r}
-plot(lime_rf) 
+plot(lime_rf) +
+  labs(x = "Variable")
 ```
 
 **What does this show us?**
 
 * The predicted value from the original random forest model (**Prediction**) is about 6.17. 
 * The predicted value from the local model is not shown, but we saw that in the output above.  
-* The (**Explanation fit**) is an overall performance metric for the local model - `model_r2` from the output above.
+* The (**Explanation fit**) is an overall performance metric for the local model - `model_r2` from the output above.  
+* The bars show the variables orderd by weight, giving an indication of which variables are most important in the local model.

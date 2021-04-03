@@ -1,0 +1,2974 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ad0000; } /* Alert */
+code span.an { color: #5e5e5e; } /* Annotation */
+code span.at { color: #20794d; } /* Attribute */
+code span.bn { color: #ad0000; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007ba5; } /* ControlFlow */
+code span.ch { color: #20794d; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #5e5e5e; } /* Comment */
+code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+code span.dt { color: #ad0000; } /* DataType */
+code span.dv { color: #ad0000; } /* DecVal */
+code span.er { color: #ad0000; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #ad0000; } /* Float */
+code span.fu { color: #4758ab; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #5e5e5e; } /* Information */
+code span.kw { color: #007ba5; } /* Keyword */
+code span.op { color: #5e5e5e; } /* Operator */
+code span.ot { color: #007ba5; } /* Other */
+code span.pp { color: #ad0000; } /* Preprocessor */
+code span.sc { color: #20794d; } /* SpecialChar */
+code span.ss { color: #20794d; } /* SpecialString */
+code span.st { color: #20794d; } /* String */
+code span.va { color: #111111; } /* Variable */
+code span.vs { color: #20794d; } /* VerbatimString */
+code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+</style>
+
+  <!--radix_placeholder_meta_tags-->
+<title>Advanced Data Science in R: Interpretable Machine Learning</title>
+
+<meta property="description" itemprop="description" content="This tutorial focuses on local interpretation."/>
+
+
+<!--  https://schema.org/Article -->
+<meta property="article:published" itemprop="datePublished" content="2021-04-03"/>
+<meta property="article:created" itemprop="dateCreated" content="2021-04-03"/>
+
+<!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+<meta property="og:title" content="Advanced Data Science in R: Interpretable Machine Learning"/>
+<meta property="og:type" content="article"/>
+<meta property="og:description" content="This tutorial focuses on local interpretation."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:site_name" content="Advanced Data Science in R"/>
+
+<!--  https://dev.twitter.com/cards/types/summary -->
+<meta property="twitter:card" content="summary"/>
+<meta property="twitter:title" content="Advanced Data Science in R: Interpretable Machine Learning"/>
+<meta property="twitter:description" content="This tutorial focuses on local interpretation."/>
+
+<!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+
+<script type="text/json" id="radix-rmarkdown-metadata">
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","output","draft","date"]}},"value":[{"type":"character","attributes":{},"value":["Interpretable Machine Learning"]},{"type":"character","attributes":{},"value":["This tutorial focuses on local interpretation."]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_float","self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["04-03-2021"]}]}
+</script>
+<!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["imllocal_files/anchor-4.2.2/anchor.min.js","imllocal_files/bowser-1.9.3/bowser.min.js","imllocal_files/distill-2.2.21/template.v2.js","imllocal_files/figure-html5/unnamed-chunk-11-1.png","imllocal_files/figure-html5/unnamed-chunk-14-1.png","imllocal_files/figure-html5/unnamed-chunk-15-1.png","imllocal_files/figure-html5/unnamed-chunk-16-1.png","imllocal_files/figure-html5/unnamed-chunk-18-1.png","imllocal_files/figure-html5/unnamed-chunk-5-1.png","imllocal_files/figure-html5/unnamed-chunk-9-1.png","imllocal_files/font-awesome-5.13.0/css/all.min.css","imllocal_files/font-awesome-5.13.0/css/v4-shims.min.css","imllocal_files/font-awesome-5.13.0/js/script.js","imllocal_files/font-awesome-5.13.0/webfonts/fa-brands-400.eot","imllocal_files/font-awesome-5.13.0/webfonts/fa-brands-400.svg","imllocal_files/font-awesome-5.13.0/webfonts/fa-brands-400.ttf","imllocal_files/font-awesome-5.13.0/webfonts/fa-brands-400.woff","imllocal_files/font-awesome-5.13.0/webfonts/fa-brands-400.woff2","imllocal_files/font-awesome-5.13.0/webfonts/fa-regular-400.eot","imllocal_files/font-awesome-5.13.0/webfonts/fa-regular-400.svg","imllocal_files/font-awesome-5.13.0/webfonts/fa-regular-400.ttf","imllocal_files/font-awesome-5.13.0/webfonts/fa-regular-400.woff","imllocal_files/font-awesome-5.13.0/webfonts/fa-regular-400.woff2","imllocal_files/font-awesome-5.13.0/webfonts/fa-solid-900.eot","imllocal_files/font-awesome-5.13.0/webfonts/fa-solid-900.svg","imllocal_files/font-awesome-5.13.0/webfonts/fa-solid-900.ttf","imllocal_files/font-awesome-5.13.0/webfonts/fa-solid-900.woff","imllocal_files/font-awesome-5.13.0/webfonts/fa-solid-900.woff2","imllocal_files/jquery-1.11.3/jquery.min.js","imllocal_files/pagedtable-1.1/css/pagedtable.css","imllocal_files/pagedtable-1.1/js/pagedtable.js","imllocal_files/webcomponents-2.0.0/webcomponents.js"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+<meta name="distill:offset" content="../.."/>
+
+<script type="application/javascript">
+
+  window.headroom_prevent_pin = false;
+
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+
+    // initialize headroom for banner
+    var header = $('header').get(0);
+    var headerHeight = header.offsetHeight;
+    var headroom = new Headroom(header, {
+      tolerance: 5,
+      onPin : function() {
+        if (window.headroom_prevent_pin) {
+          window.headroom_prevent_pin = false;
+          headroom.unpin();
+        }
+      }
+    });
+    headroom.init();
+    if(window.location.hash)
+      headroom.unpin();
+    $(header).addClass('headroom--transition');
+
+    // offset scroll location for banner on hash change
+    // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
+    window.addEventListener("hashchange", function(event) {
+      window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
+    });
+
+    // responsive menu
+    $('.distill-site-header').each(function(i, val) {
+      var topnav = $(this);
+      var toggle = topnav.find('.nav-toggle');
+      toggle.on('click', function() {
+        topnav.toggleClass('responsive');
+      });
+    });
+
+    // nav dropdowns
+    $('.nav-dropbtn').click(function(e) {
+      $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
+      $(this).parent().siblings('.nav-dropdown')
+         .children('.nav-dropdown-content').removeClass('nav-dropdown-active');
+    });
+    $("body").click(function(e){
+      $('.nav-dropdown-content').removeClass('nav-dropdown-active');
+    });
+    $(".nav-dropdown").click(function(e){
+      e.stopPropagation();
+    });
+  });
+</script>
+
+<style type="text/css">
+
+/* Theme (user-documented overrideables for nav appearance) */
+
+.distill-site-nav {
+  color: rgba(255, 255, 255, 0.8);
+  background-color: #0F2E3D;
+  font-size: 15px;
+  font-weight: 300;
+}
+
+.distill-site-nav a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.distill-site-nav a:hover {
+  color: white;
+}
+
+@media print {
+  .distill-site-nav {
+    display: none;
+  }
+}
+
+.distill-site-header {
+
+}
+
+.distill-site-footer {
+
+}
+
+
+/* Site Header */
+
+.distill-site-header {
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 3;
+}
+
+.distill-site-header .nav-left {
+  display: inline-block;
+  margin-left: 8px;
+}
+
+@media screen and (max-width: 768px) {
+  .distill-site-header .nav-left {
+    margin-left: 0;
+  }
+}
+
+
+.distill-site-header .nav-right {
+  float: right;
+  margin-right: 8px;
+}
+
+.distill-site-header a,
+.distill-site-header .title {
+  display: inline-block;
+  text-align: center;
+  padding: 14px 10px 14px 10px;
+}
+
+.distill-site-header .title {
+  font-size: 18px;
+  min-width: 150px;
+}
+
+.distill-site-header .logo {
+  padding: 0;
+}
+
+.distill-site-header .logo img {
+  display: none;
+  max-height: 20px;
+  width: auto;
+  margin-bottom: -4px;
+}
+
+.distill-site-header .nav-image img {
+  max-height: 18px;
+  width: auto;
+  display: inline-block;
+  margin-bottom: -3px;
+}
+
+
+
+@media screen and (min-width: 1000px) {
+  .distill-site-header .logo img {
+    display: inline-block;
+  }
+  .distill-site-header .nav-left {
+    margin-left: 20px;
+  }
+  .distill-site-header .nav-right {
+    margin-right: 20px;
+  }
+  .distill-site-header .title {
+    padding-left: 12px;
+  }
+}
+
+
+.distill-site-header .nav-toggle {
+  display: none;
+}
+
+.nav-dropdown {
+  display: inline-block;
+  position: relative;
+}
+
+.nav-dropdown .nav-dropbtn {
+  border: none;
+  outline: none;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 16px 10px;
+  background-color: transparent;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  margin: 0;
+  margin-top: 1px;
+  z-index: 2;
+}
+
+.nav-dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 200px;
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 4px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+  z-index: 1;
+  margin-top: 2px;
+  white-space: nowrap;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.nav-dropdown-content hr {
+  margin-top: 4px;
+  margin-bottom: 4px;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.nav-dropdown-active {
+  display: block;
+}
+
+.nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
+  color: black;
+  padding: 6px 24px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.nav-dropdown-content .nav-dropdown-header {
+  display: block;
+  padding: 5px 24px;
+  padding-bottom: 0;
+  text-transform: uppercase;
+  font-size: 14px;
+  color: #999999;
+  white-space: nowrap;
+}
+
+.nav-dropdown:hover .nav-dropbtn {
+  color: white;
+}
+
+.nav-dropdown-content a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.nav-right .nav-dropdown-content {
+  margin-left: -45%;
+  right: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
+  .distill-site-header a.nav-toggle {
+    float: right;
+    display: block;
+  }
+  .distill-site-header .title {
+    margin-left: 0;
+  }
+  .distill-site-header .nav-right {
+    margin-right: 0;
+  }
+  .distill-site-header {
+    overflow: hidden;
+  }
+  .nav-right .nav-dropdown-content {
+    margin-left: 0;
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+  .distill-site-header.responsive {position: relative; min-height: 500px; }
+  .distill-site-header.responsive a.nav-toggle {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .distill-site-header.responsive a,
+  .distill-site-header.responsive .nav-dropdown {
+    display: block;
+    text-align: left;
+  }
+  .distill-site-header.responsive .nav-left,
+  .distill-site-header.responsive .nav-right {
+    width: 100%;
+  }
+  .distill-site-header.responsive .nav-dropdown {float: none;}
+  .distill-site-header.responsive .nav-dropdown-content {position: relative;}
+  .distill-site-header.responsive .nav-dropdown .nav-dropbtn {
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+}
+
+/* Site Footer */
+
+.distill-site-footer {
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  z-index: 3;
+  margin-top: 30px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  text-align: center;
+}
+
+/* Headroom */
+
+d-title {
+  padding-top: 6rem;
+}
+
+@media print {
+  d-title {
+    padding-top: 4rem;
+  }
+}
+
+.headroom {
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.headroom--transition {
+  transition: all .4s ease-in-out;
+}
+
+.headroom--unpinned {
+  top: -100px;
+}
+
+.headroom--pinned {
+  top: 0;
+}
+
+</style>
+
+<link href="../../site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
+<link href="../../site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
+<script src="../../site_libs/headroom-0.9.4/headroom.min.js"></script>
+<script src="../../site_libs/autocomplete-0.37.1/autocomplete.min.js"></script>
+<script src="../../site_libs/fuse-6.4.1/fuse.min.js"></script>
+
+<script type="application/javascript">
+
+function getMeta(metaName) {
+  var metas = document.getElementsByTagName('meta');
+  for (let i = 0; i < metas.length; i++) {
+    if (metas[i].getAttribute('name') === metaName) {
+      return metas[i].getAttribute('content');
+    }
+  }
+  return '';
+}
+
+function offsetURL(url) {
+  var offset = getMeta('distill:offset');
+  return offset ? offset + '/' + url : url;
+}
+
+function createFuseIndex() {
+
+  // create fuse index
+  var options = {
+    keys: [
+      { name: 'title', weight: 20 },
+      { name: 'categories', weight: 15 },
+      { name: 'description', weight: 10 },
+      { name: 'contents', weight: 5 },
+    ],
+    ignoreLocation: true,
+    threshold: 0
+  };
+  var fuse = new window.Fuse([], options);
+
+  // fetch the main search.json
+  return fetch(offsetURL('search.json'))
+    .then(function(response) {
+      if (response.status == 200) {
+        return response.json().then(function(json) {
+          // index main articles
+          json.articles.forEach(function(article) {
+            fuse.add(article);
+          });
+          // download collections and index their articles
+          return Promise.all(json.collections.map(function(collection) {
+            return fetch(offsetURL(collection)).then(function(response) {
+              if (response.status === 200) {
+                return response.json().then(function(articles) {
+                  articles.forEach(function(article) {
+                    fuse.add(article);
+                  });
+                })
+              } else {
+                return Promise.reject(
+                  new Error('Unexpected status from search index request: ' +
+                            response.status)
+                );
+              }
+            });
+          })).then(function() {
+            return fuse;
+          });
+        });
+
+      } else {
+        return Promise.reject(
+          new Error('Unexpected status from search index request: ' +
+                      response.status)
+        );
+      }
+    });
+}
+
+window.document.addEventListener("DOMContentLoaded", function (event) {
+
+  // get search element (bail if we don't have one)
+  var searchEl = window.document.getElementById('distill-search');
+  if (!searchEl)
+    return;
+
+  createFuseIndex()
+    .then(function(fuse) {
+
+      // make search box visible
+      searchEl.classList.remove('hidden');
+
+      // initialize autocomplete
+      var options = {
+        autoselect: true,
+        hint: false,
+        minLength: 2,
+      };
+      window.autocomplete(searchEl, options, [{
+        source: function(query, callback) {
+          const searchOptions = {
+            isCaseSensitive: false,
+            shouldSort: true,
+            minMatchCharLength: 2,
+            limit: 10,
+          };
+          var results = fuse.search(query, searchOptions);
+          callback(results
+            .map(function(result) { return result.item; })
+            .filter(function(item) { return !!item.description; })
+          );
+        },
+        templates: {
+          suggestion: function(suggestion) {
+            var html = `
+              <div class="search-item">
+                <h3>${suggestion.title}</h3>
+                <div class="search-item-description">
+                  ${suggestion.description}
+                </div>
+                <div class="search-item-preview">
+                  <img src="${suggestion.preview ? offsetURL(suggestion.preview) : ''}"</img>
+                </div>
+              </div>
+            `;
+            return html;
+          }
+        }
+      }]).on('autocomplete:selected', function(event, suggestion) {
+        window.location.href = offsetURL(suggestion.path);
+      });
+      // remove inline display style on autocompleter (we want to
+      // manage responsive display via css)
+      $('.algolia-autocomplete').css("display", "");
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+
+});
+
+</script>
+
+<style type="text/css">
+
+/* Algolioa Autocomplete */
+
+.algolia-autocomplete {
+  display: inline-block;
+  margin-left: 10px;
+  vertical-align: sub;
+  background-color: white;
+  color: black;
+  padding: 6px;
+  padding-top: 8px;
+  padding-bottom: 0;
+  border-radius: 6px;
+  border: 1px #0F2E3D solid;
+  width: 180px;
+}
+
+
+@media screen and (max-width: 768px) {
+  .distill-site-nav .algolia-autocomplete {
+    display: none;
+    visibility: hidden;
+  }
+  .distill-site-nav.responsive .algolia-autocomplete {
+    display: inline-block;
+    visibility: visible;
+  }
+  .distill-site-nav.responsive .algolia-autocomplete .aa-dropdown-menu {
+    margin-left: 0;
+    width: 400px;
+    max-height: 400px;
+  }
+}
+
+.algolia-autocomplete .aa-input, .algolia-autocomplete .aa-hint {
+  width: 90%;
+  outline: none;
+  border: none;
+}
+
+.algolia-autocomplete .aa-hint {
+  color: #999;
+}
+.algolia-autocomplete .aa-dropdown-menu {
+  width: 550px;
+  max-height: 70vh;
+  overflow-x: visible;
+  overflow-y: scroll;
+  padding: 5px;
+  margin-top: 3px;
+  margin-left: -150px;
+  background-color: #fff;
+  border-radius: 5px;
+  border: 1px solid #999;
+  border-top: none;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion {
+  cursor: pointer;
+  padding: 5px 4px;
+  border-bottom: 1px solid #eee;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion:last-of-type {
+  border-bottom: none;
+  margin-bottom: 2px;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item {
+  overflow: hidden;
+  font-size: 0.8em;
+  line-height: 1.4em;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item h3 {
+  margin-block-start: 0;
+  margin-block-end: 5px;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-description {
+  display: inline-block;
+  overflow: hidden;
+  height: 2.8em;
+  width: 80%;
+  margin-right: 4%;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview {
+  display: inline-block;
+  width: 15%;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img {
+  height: 3em;
+  width: auto;
+  display: none;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img[src] {
+  display: initial;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor {
+  background-color: #eee;
+}
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion em {
+  font-weight: bold;
+  font-style: normal;
+}
+
+</style>
+
+
+<!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+
+<style type="text/css">
+
+body {
+  background-color: white;
+}
+
+.pandoc-table {
+  width: 100%;
+}
+
+.pandoc-table>caption {
+  margin-bottom: 10px;
+}
+
+.pandoc-table th:not([align]) {
+  text-align: left;
+}
+
+.pagedtable-footer {
+  font-size: 15px;
+}
+
+d-byline .byline {
+  grid-template-columns: 2fr 2fr;
+}
+
+d-byline .byline h3 {
+  margin-block-start: 1.5em;
+}
+
+d-byline .byline .authors-affiliations h3 {
+  margin-block-start: 0.5em;
+}
+
+.authors-affiliations .orcid-id {
+  width: 16px;
+  height:16px;
+  margin-left: 4px;
+  margin-right: 4px;
+  vertical-align: middle;
+  padding-bottom: 2px;
+}
+
+d-title .dt-tags {
+  margin-top: 1em;
+  grid-column: text;
+}
+
+.dt-tags .dt-tag {
+  text-decoration: none;
+  display: inline-block;
+  color: rgba(0,0,0,0.6);
+  padding: 0em 0.4em;
+  margin-right: 0.5em;
+  margin-bottom: 0.4em;
+  font-size: 70%;
+  border: 1px solid rgba(0,0,0,0.2);
+  border-radius: 3px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+d-article table.gt_table td,
+d-article table.gt_table th {
+  border-bottom: none;
+}
+
+.html-widget {
+  margin-bottom: 2.0em;
+}
+
+.l-screen-inset {
+  padding-right: 16px;
+}
+
+.l-screen .caption {
+  margin-left: 10px;
+}
+
+.shaded {
+  background: rgb(247, 247, 247);
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.shaded .html-widget {
+  margin-bottom: 0;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.shaded .shaded-content {
+  background: white;
+}
+
+.text-output {
+  margin-top: 0;
+  line-height: 1.5em;
+}
+
+.hidden {
+  display: none !important;
+}
+
+d-article {
+  padding-top: 2.5rem;
+  padding-bottom: 30px;
+}
+
+d-appendix {
+  padding-top: 30px;
+}
+
+d-article>p>img {
+  width: 100%;
+}
+
+d-article h2 {
+  margin: 1rem 0 1.5rem 0;
+}
+
+d-article h3 {
+  margin-top: 1.5rem;
+}
+
+d-article iframe {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: 2.0em;
+  width: 100%;
+}
+
+/* Tweak code blocks */
+
+d-article div.sourceCode code,
+d-article pre code {
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+}
+
+d-article pre,
+d-article div.sourceCode,
+d-article div.sourceCode pre {
+  overflow: auto;
+}
+
+d-article div.sourceCode {
+  background-color: white;
+}
+
+d-article div.sourceCode pre {
+  padding-left: 10px;
+  font-size: 12px;
+  border-left: 2px solid rgba(0,0,0,0.1);
+}
+
+d-article pre {
+  font-size: 12px;
+  color: black;
+  background: none;
+  margin-top: 0;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+d-article pre a {
+  border-bottom: none;
+}
+
+d-article pre a:hover {
+  border-bottom: none;
+  text-decoration: underline;
+}
+
+@media(min-width: 768px) {
+
+d-article pre,
+d-article div.sourceCode,
+d-article div.sourceCode pre {
+  overflow: visible !important;
+}
+
+d-article div.sourceCode pre {
+  padding-left: 18px;
+  font-size: 14px;
+}
+
+d-article pre {
+  font-size: 14px;
+}
+
+}
+
+figure img.external {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+/* CSS for d-contents */
+
+.d-contents {
+  grid-column: text;
+  color: rgba(0,0,0,0.8);
+  font-size: 0.9em;
+  padding-bottom: 1em;
+  margin-bottom: 1em;
+  padding-bottom: 0.5em;
+  margin-bottom: 1em;
+  padding-left: 0.25em;
+  justify-self: start;
+}
+
+@media(min-width: 1000px) {
+  .d-contents.d-contents-float {
+    height: 0;
+    grid-column-start: 1;
+    grid-column-end: 4;
+    justify-self: center;
+    padding-right: 3em;
+    padding-left: 2em;
+  }
+}
+
+.d-contents nav h3 {
+  font-size: 18px;
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+.d-contents li {
+  list-style-type: none
+}
+
+.d-contents nav > ul {
+  padding-left: 0;
+}
+
+.d-contents ul {
+  padding-left: 1em
+}
+
+.d-contents nav ul li {
+  margin-top: 0.6em;
+  margin-bottom: 0.2em;
+}
+
+.d-contents nav a {
+  font-size: 13px;
+  border-bottom: none;
+  text-decoration: none
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.d-contents nav a:hover {
+  text-decoration: underline solid rgba(0, 0, 0, 0.6)
+}
+
+.d-contents nav > ul > li > a {
+  font-weight: 600;
+}
+
+.d-contents nav > ul > li > ul {
+  font-weight: inherit;
+}
+
+.d-contents nav > ul > li > ul > li {
+  margin-top: 0.2em;
+}
+
+
+.d-contents nav ul {
+  margin-top: 0;
+  margin-bottom: 0.25em;
+}
+
+.d-article-with-toc h2:nth-child(2) {
+  margin-top: 0;
+}
+
+
+/* Figure */
+
+.figure {
+  position: relative;
+  margin-bottom: 2.5em;
+  margin-top: 1.5em;
+}
+
+.figure img {
+  width: 100%;
+}
+
+.figure .caption {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 12px;
+  line-height: 1.5em;
+}
+
+.figure img.external {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+.figure .caption a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.figure .caption b,
+.figure .caption strong, {
+  font-weight: 600;
+  color: rgba(0, 0, 0, 1.0);
+}
+
+/* Citations */
+
+d-article .citation {
+  color: inherit;
+  cursor: inherit;
+}
+
+div.hanging-indent{
+  margin-left: 1em; text-indent: -1em;
+}
+
+
+/* Tweak 1000px media break to show more text */
+
+@media(min-width: 1000px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 16px;
+  }
+
+  .grid {
+    grid-column-gap: 16px;
+  }
+
+  d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+  }
+  figure .caption, .figure .caption, figure figcaption {
+    font-size: 13px;
+  }
+}
+
+@media(min-width: 1180px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 32px;
+  }
+
+  .grid {
+    grid-column-gap: 32px;
+  }
+}
+
+
+/* Get the citation styles for the appendix (not auto-injected on render since
+   we do our own rendering of the citation appendix) */
+
+d-appendix .citation-appendix,
+.d-appendix .citation-appendix {
+  font-size: 11px;
+  line-height: 15px;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  padding-left: 18px;
+  border: 1px solid rgba(0,0,0,0.1);
+  background: rgba(0, 0, 0, 0.02);
+  padding: 10px 18px;
+  border-radius: 3px;
+  color: rgba(150, 150, 150, 1);
+  overflow: hidden;
+  margin-top: -12px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* Include appendix styles here so they can be overridden */
+
+d-appendix {
+  contain: layout style;
+  font-size: 0.8em;
+  line-height: 1.7em;
+  margin-top: 60px;
+  margin-bottom: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  color: rgba(0,0,0,0.5);
+  padding-top: 60px;
+  padding-bottom: 48px;
+}
+
+d-appendix h3 {
+  grid-column: page-start / text-start;
+  font-size: 15px;
+  font-weight: 500;
+  margin-top: 1em;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.65);
+}
+
+d-appendix h3 + * {
+  margin-top: 1em;
+}
+
+d-appendix ol {
+  padding: 0 0 0 15px;
+}
+
+@media (min-width: 768px) {
+  d-appendix ol {
+    padding: 0 0 0 30px;
+    margin-left: -30px;
+  }
+}
+
+d-appendix li {
+  margin-bottom: 1em;
+}
+
+d-appendix a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+d-appendix > * {
+  grid-column: text;
+}
+
+d-appendix > d-footnote-list,
+d-appendix > d-citation-list,
+d-appendix > distill-appendix {
+  grid-column: screen;
+}
+
+/* Include footnote styles here so they can be overridden */
+
+d-footnote-list {
+  contain: layout style;
+}
+
+d-footnote-list > * {
+  grid-column: text;
+}
+
+d-footnote-list a.footnote-backlink {
+  color: rgba(0,0,0,0.3);
+  padding-left: 0.5em;
+}
+
+
+
+/* Anchor.js */
+
+.anchorjs-link {
+  /*transition: all .25s linear; */
+  text-decoration: none;
+  border-bottom: none;
+}
+*:hover > .anchorjs-link {
+  margin-left: -1.125em !important;
+  text-decoration: none;
+  border-bottom: none;
+}
+
+/* Social footer */
+
+.social_footer {
+  margin-top: 30px;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.67);
+}
+
+.disqus-comments {
+  margin-right: 30px;
+}
+
+.disqus-comment-count {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+
+#disqus_thread {
+  margin-top: 30px;
+}
+
+.article-sharing a {
+  border-bottom: none;
+  margin-right: 8px;
+}
+
+.article-sharing a:hover {
+  border-bottom: none;
+}
+
+.sidebar-section.subscribe {
+  font-size: 12px;
+  line-height: 1.6em;
+}
+
+.subscribe p {
+  margin-bottom: 0.5em;
+}
+
+
+.article-footer .subscribe {
+  font-size: 15px;
+  margin-top: 45px;
+}
+
+
+.sidebar-section.custom {
+  font-size: 12px;
+  line-height: 1.6em;
+}
+
+.custom p {
+  margin-bottom: 0.5em;
+}
+
+/* Styles for listing layout (hide title) */
+.layout-listing d-title, .layout-listing .d-title {
+  display: none;
+}
+
+/* Styles for posts lists (not auto-injected) */
+
+
+.posts-with-sidebar {
+  padding-left: 45px;
+  padding-right: 45px;
+}
+
+.posts-list .description h2,
+.posts-list .description p {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+}
+
+.posts-list .description h2 {
+  font-weight: 700;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.posts-list h2.post-tag {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  padding-bottom: 12px;
+}
+.posts-list {
+  margin-top: 60px;
+  margin-bottom: 24px;
+}
+
+.posts-list .post-preview {
+  text-decoration: none;
+  overflow: hidden;
+  display: block;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 24px 0;
+}
+
+.post-preview-last {
+  border-bottom: none !important;
+}
+
+.posts-list .posts-list-caption {
+  grid-column: screen;
+  font-weight: 400;
+}
+
+.posts-list .post-preview h2 {
+  margin: 0 0 6px 0;
+  line-height: 1.2em;
+  font-style: normal;
+  font-size: 24px;
+}
+
+.posts-list .post-preview p {
+  margin: 0 0 12px 0;
+  line-height: 1.4em;
+  font-size: 16px;
+}
+
+.posts-list .post-preview .thumbnail {
+  box-sizing: border-box;
+  margin-bottom: 24px;
+  position: relative;
+  max-width: 500px;
+}
+.posts-list .post-preview img {
+  width: 100%;
+  display: block;
+}
+
+.posts-list .metadata {
+  font-size: 12px;
+  line-height: 1.4em;
+  margin-bottom: 18px;
+}
+
+.posts-list .metadata > * {
+  display: inline-block;
+}
+
+.posts-list .metadata .publishedDate {
+  margin-right: 2em;
+}
+
+.posts-list .metadata .dt-authors {
+  display: block;
+  margin-top: 0.3em;
+  margin-right: 2em;
+}
+
+.posts-list .dt-tags {
+  display: block;
+  line-height: 1em;
+}
+
+.posts-list .dt-tags .dt-tag {
+  display: inline-block;
+  color: rgba(0,0,0,0.6);
+  padding: 0.3em 0.4em;
+  margin-right: 0.2em;
+  margin-bottom: 0.4em;
+  font-size: 60%;
+  border: 1px solid rgba(0,0,0,0.2);
+  border-radius: 3px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.posts-list img {
+  opacity: 1;
+}
+
+.posts-list img[data-src] {
+  opacity: 0;
+}
+
+.posts-more {
+  clear: both;
+}
+
+
+.posts-sidebar {
+  font-size: 16px;
+}
+
+.posts-sidebar h3 {
+  font-size: 16px;
+  margin-top: 0;
+  margin-bottom: 0.5em;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.sidebar-section {
+  margin-bottom: 30px;
+}
+
+.categories ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.categories li {
+  color: rgba(0, 0, 0, 0.8);
+  margin-bottom: 0;
+}
+
+.categories li>a {
+  border-bottom: none;
+}
+
+.categories li>a:hover {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+.categories .active {
+  font-weight: 600;
+}
+
+.categories .category-count {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+
+@media(min-width: 768px) {
+  .posts-list .post-preview h2 {
+    font-size: 26px;
+  }
+  .posts-list .post-preview .thumbnail {
+    float: right;
+    width: 30%;
+    margin-bottom: 0;
+  }
+  .posts-list .post-preview .description {
+    float: left;
+    width: 45%;
+  }
+  .posts-list .post-preview .metadata {
+    float: left;
+    width: 20%;
+    margin-top: 8px;
+  }
+  .posts-list .post-preview p {
+    margin: 0 0 12px 0;
+    line-height: 1.5em;
+    font-size: 16px;
+  }
+  .posts-with-sidebar .posts-list {
+    float: left;
+    width: 75%;
+  }
+  .posts-with-sidebar .posts-sidebar {
+    float: right;
+    width: 20%;
+    margin-top: 60px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+}
+
+
+/* Improve display for browsers without grid (IE/Edge <= 15) */
+
+.downlevel {
+  line-height: 1.6em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  margin: 0;
+}
+
+.downlevel .d-title {
+  padding-top: 6rem;
+  padding-bottom: 1.5rem;
+}
+
+.downlevel .d-title h1 {
+  font-size: 50px;
+  font-weight: 700;
+  line-height: 1.1em;
+  margin: 0 0 0.5rem;
+}
+
+.downlevel .d-title p {
+  font-weight: 300;
+  font-size: 1.2rem;
+  line-height: 1.55em;
+  margin-top: 0;
+}
+
+.downlevel .d-byline {
+  padding-top: 0.8em;
+  padding-bottom: 0.8em;
+  font-size: 0.8rem;
+  line-height: 1.8em;
+}
+
+.downlevel .section-separator {
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.downlevel .d-article {
+  font-size: 1.06rem;
+  line-height: 1.7em;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+}
+
+
+.downlevel .d-appendix {
+  padding-left: 0;
+  padding-right: 0;
+  max-width: none;
+  font-size: 0.8em;
+  line-height: 1.7em;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.5);
+  padding-top: 40px;
+  padding-bottom: 48px;
+}
+
+.downlevel .footnotes ol {
+  padding-left: 13px;
+}
+
+.downlevel .base-grid,
+.downlevel .distill-header,
+.downlevel .d-title,
+.downlevel .d-abstract,
+.downlevel .d-article,
+.downlevel .d-appendix,
+.downlevel .distill-appendix,
+.downlevel .d-byline,
+.downlevel .d-footnote-list,
+.downlevel .d-citation-list,
+.downlevel .distill-footer,
+.downlevel .appendix-bottom,
+.downlevel .posts-container {
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+@media(min-width: 768px) {
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+  padding-left: 150px;
+  padding-right: 150px;
+  max-width: 900px;
+}
+}
+
+.downlevel pre code {
+  display: block;
+  border-left: 2px solid rgba(0, 0, 0, .1);
+  padding: 0 0 0 20px;
+  font-size: 14px;
+}
+
+.downlevel code, .downlevel pre {
+  color: black;
+  background: none;
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+.downlevel .posts-list .post-preview {
+  color: inherit;
+}
+
+
+
+</style>
+
+<script type="application/javascript">
+
+function is_downlevel_browser() {
+  if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                 window.navigator.userAgent)) {
+    return true;
+  } else {
+    return window.load_distill_framework === undefined;
+  }
+}
+
+// show body when load is complete
+function on_load_complete() {
+
+  // add anchors
+  if (window.anchors) {
+    window.anchors.options.placement = 'left';
+    window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
+  }
+
+
+  // set body to visible
+  document.body.style.visibility = 'visible';
+
+  // force redraw for leaflet widgets
+  if (window.HTMLWidgets) {
+    var maps = window.HTMLWidgets.findAll(".leaflet");
+    $.each(maps, function(i, el) {
+      var map = this.getMap();
+      map.invalidateSize();
+      map.eachLayer(function(layer) {
+        if (layer instanceof L.TileLayer)
+          layer.redraw();
+      });
+    });
+  }
+
+  // trigger 'shown' so htmlwidgets resize
+  $('d-article').trigger('shown');
+}
+
+function init_distill() {
+
+  init_common();
+
+  // create front matter
+  var front_matter = $('<d-front-matter></d-front-matter>');
+  $('#distill-front-matter').wrap(front_matter);
+
+  // create d-title
+  $('.d-title').changeElementType('d-title');
+
+  // create d-byline
+  var byline = $('<d-byline></d-byline>');
+  $('.d-byline').replaceWith(byline);
+
+  // create d-article
+  var article = $('<d-article></d-article>');
+  $('.d-article').wrap(article).children().unwrap();
+
+  // move posts container into article
+  $('.posts-container').appendTo($('d-article'));
+
+  // create d-appendix
+  $('.d-appendix').changeElementType('d-appendix');
+
+  // flag indicating that we have appendix items
+  var appendix = $('.appendix-bottom').children('h3').length > 0;
+
+  // replace footnotes with <d-footnote>
+  $('.footnote-ref').each(function(i, val) {
+    appendix = true;
+    var href = $(this).attr('href');
+    var id = href.replace('#', '');
+    var fn = $('#' + id);
+    var fn_p = $('#' + id + '>p');
+    fn_p.find('.footnote-back').remove();
+    var text = fn_p.html();
+    var dtfn = $('<d-footnote></d-footnote>');
+    dtfn.html(text);
+    $(this).replaceWith(dtfn);
+  });
+  // remove footnotes
+  $('.footnotes').remove();
+
+  // move refs into #references-listing
+  $('#references-listing').replaceWith($('#refs'));
+
+  $('h1.appendix, h2.appendix').each(function(i, val) {
+    $(this).changeElementType('h3');
+  });
+  $('h3.appendix').each(function(i, val) {
+    var id = $(this).attr('id');
+    $('.d-contents a[href="#' + id + '"]').parent().remove();
+    appendix = true;
+    $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+  });
+
+  // show d-appendix if we have appendix content
+  $("d-appendix").css('display', appendix ? 'grid' : 'none');
+
+  // localize layout chunks to just output
+  $('.layout-chunk').each(function(i, val) {
+
+    // capture layout
+    var layout = $(this).attr('data-layout');
+
+    // apply layout to markdown level block elements
+    var elements = $(this).children().not('div.sourceCode, pre, script');
+    elements.each(function(i, el) {
+      var layout_div = $('<div class="' + layout + '"></div>');
+      if (layout_div.hasClass('shaded')) {
+        var shaded_content = $('<div class="shaded-content"></div>');
+        $(this).wrap(shaded_content);
+        $(this).parent().wrap(layout_div);
+      } else {
+        $(this).wrap(layout_div);
+      }
+    });
+
+
+    // unwrap the layout-chunk div
+    $(this).children().unwrap();
+  });
+
+  // remove code block used to force  highlighting css
+  $('.distill-force-highlighting-css').parent().remove();
+
+  // remove empty line numbers inserted by pandoc when using a
+  // custom syntax highlighting theme
+  $('code.sourceCode a:empty').remove();
+
+  // load distill framework
+  load_distill_framework();
+
+  // wait for window.distillRunlevel == 4 to do post processing
+  function distill_post_process() {
+
+    if (!window.distillRunlevel || window.distillRunlevel < 4)
+      return;
+
+    // hide author/affiliations entirely if we have no authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+    if (!have_authors)
+      $('d-byline').addClass('hidden');
+
+    // article with toc class
+    $('.d-contents').parent().addClass('d-article-with-toc');
+
+    // strip links that point to #
+    $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+
+    // add orcid ids
+    $('.authors-affiliations').find('.author').each(function(i, el) {
+      var orcid_id = front_matter.authors[i].orcidID;
+      if (orcid_id) {
+        var a = $('<a></a>');
+        a.attr('href', 'https://orcid.org/' + orcid_id);
+        var img = $('<img></img>');
+        img.addClass('orcid-id');
+        img.attr('alt', 'ORCID ID');
+        img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
+        a.append(img);
+        $(this).append(a);
+      }
+    });
+
+    // hide elements of author/affiliations grid that have no value
+    function hide_byline_column(caption) {
+      $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+    }
+
+    // affiliations
+    var have_affiliations = false;
+    for (var i = 0; i<front_matter.authors.length; ++i) {
+      var author = front_matter.authors[i];
+      if (author.affiliation !== "&nbsp;") {
+        have_affiliations = true;
+        break;
+      }
+    }
+    if (!have_affiliations)
+      $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+
+    // published date
+    if (!front_matter.publishedDate)
+      hide_byline_column("Published");
+
+    // document object identifier
+    var doi = $('d-byline').find('h3:contains("DOI")');
+    var doi_p = doi.next().empty();
+    if (!front_matter.doi) {
+      // if we have a citation and valid citationText then link to that
+      if ($('#citation').length > 0 && front_matter.citationText) {
+        doi.html('Citation');
+        $('<a href="#citation"></a>')
+          .text(front_matter.citationText)
+          .appendTo(doi_p);
+      } else {
+        hide_byline_column("DOI");
+      }
+    } else {
+      $('<a></a>')
+         .attr('href', "https://doi.org/" + front_matter.doi)
+         .html(front_matter.doi)
+         .appendTo(doi_p);
+    }
+
+     // change plural form of authors/affiliations
+    if (front_matter.authors.length === 1) {
+      var grid = $('.authors-affiliations');
+      grid.children('h3:contains("Authors")').text('Author');
+      grid.children('h3:contains("Affiliations")').text('Affiliation');
+    }
+
+    // remove d-appendix and d-footnote-list local styles
+    $('d-appendix > style:first-child').remove();
+    $('d-footnote-list > style:first-child').remove();
+
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+
+    // clear polling timer
+    clearInterval(tid);
+
+    // show body now that everything is ready
+    on_load_complete();
+  }
+
+  var tid = setInterval(distill_post_process, 50);
+  distill_post_process();
+
+}
+
+function init_downlevel() {
+
+  init_common();
+
+   // insert hr after d-title
+  $('.d-title').after($('<hr class="section-separator"/>'));
+
+  // check if we have authors
+  var front_matter = JSON.parse($("#distill-front-matter").html());
+  var have_authors = front_matter.authors && front_matter.authors.length > 0;
+
+  // manage byline/border
+  if (!have_authors)
+    $('.d-byline').remove();
+  $('.d-byline').after($('<hr class="section-separator"/>'));
+  $('.d-byline a').remove();
+
+  // remove toc
+  $('.d-contents').remove();
+
+  // move appendix elements
+  $('h1.appendix, h2.appendix').each(function(i, val) {
+    $(this).changeElementType('h3');
+  });
+  $('h3.appendix').each(function(i, val) {
+    $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+  });
+
+
+  // inject headers into references and footnotes
+  var refs_header = $('<h3></h3>');
+  refs_header.text('References');
+  $('#refs').prepend(refs_header);
+
+  var footnotes_header = $('<h3></h3');
+  footnotes_header.text('Footnotes');
+  $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+
+  // move appendix-bottom entries to the bottom
+  $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+  $('.appendix-bottom').remove();
+
+  // remove appendix if it's empty
+  if ($('.d-appendix').children().length === 0)
+    $('.d-appendix').remove();
+
+  // prepend separator above appendix
+  $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+
+  // trim code
+  $('pre>code').each(function(i, val) {
+    $(this).html($.trim($(this).html()));
+  });
+
+  // move posts-container right before article
+  $('.posts-container').insertBefore($('.d-article'));
+
+  $('body').addClass('downlevel');
+
+  on_load_complete();
+}
+
+
+function init_common() {
+
+  // jquery plugin to change element types
+  (function($) {
+    $.fn.changeElementType = function(newType) {
+      var attrs = {};
+
+      $.each(this[0].attributes, function(idx, attr) {
+        attrs[attr.nodeName] = attr.nodeValue;
+      });
+
+      this.replaceWith(function() {
+        return $("<" + newType + "/>", attrs).append($(this).contents());
+      });
+    };
+  })(jQuery);
+
+  // prevent underline for linked images
+  $('a > img').parent().css({'border-bottom' : 'none'});
+
+  // mark non-body figures created by knitr chunks as 100% width
+  $('.layout-chunk').each(function(i, val) {
+    var figures = $(this).find('img, .html-widget');
+    if ($(this).attr('data-layout') !== "l-body") {
+      figures.css('width', '100%');
+    } else {
+      figures.css('max-width', '100%');
+      figures.filter("[width]").each(function(i, val) {
+        var fig = $(this);
+        fig.css('width', fig.attr('width') + 'px');
+      });
+
+    }
+  });
+
+  // auto-append index.html to post-preview links in file: protocol
+  // and in rstudio ide preview
+  $('.post-preview').each(function(i, val) {
+    if (window.location.protocol === "file:")
+      $(this).attr('href', $(this).attr('href') + "index.html");
+  });
+
+  // get rid of index.html references in header
+  if (window.location.protocol !== "file:") {
+    $('.distill-site-header a[href]').each(function(i,val) {
+      $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+    });
+  }
+
+  // add class to pandoc style tables
+  $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+  $('.kable-table').children('table').addClass('pandoc-table');
+
+  // add figcaption style to table captions
+  $('caption').parent('table').addClass("figcaption");
+
+  // initialize posts list
+  if (window.init_posts_list)
+    window.init_posts_list();
+
+  // implmement disqus comment link
+  $('.disqus-comment-count').click(function() {
+    window.headroom_prevent_pin = true;
+    $('#disqus_thread').toggleClass('hidden');
+    if (!$('#disqus_thread').hasClass('hidden')) {
+      var offset = $(this).offset();
+      $(window).resize();
+      $('html, body').animate({
+        scrollTop: offset.top - 35
+      });
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  if (is_downlevel_browser())
+    init_downlevel();
+  else
+    window.addEventListener('WebComponentsReady', init_distill);
+});
+
+</script>
+
+<style type="text/css">
+/* base variables */
+
+/* Edit the CSS properties in this file to create a custom
+   Distill theme. Only edit values in the right column
+   for each row; values shown are the CSS defaults.
+   To return any property to the default,
+   you may set its value to: unset
+   All rows must end with a semi-colon.                      */
+
+/* Optional: embed custom fonts here with `@import`          */
+/* This must remain at the top of this file.                 */
+
+
+
+html {
+  /*-- Main font sizes --*/
+  --title-size:      50px;
+  --body-size:       1.06rem;
+  --code-size:       14px;
+  --aside-size:      12px;
+  --fig-cap-size:    13px;
+  /*-- Main font colors --*/
+  --title-color:     #000000;
+  --header-color:    rgba(0, 0, 0, 0.8);
+  --body-color:      rgba(0, 0, 0, 0.8);
+  --aside-color:     rgba(0, 0, 0, 0.6);
+  --fig-cap-color:   rgba(0, 0, 0, 0.6);
+  /*-- Specify custom fonts ~~~ must be imported above   --*/
+  --heading-font:    sans-serif;
+  --mono-font:       monospace;
+  --body-font:       sans-serif;
+  --navbar-font:     sans-serif;  /* websites + blogs only */
+}
+
+/*-- ARTICLE METADATA --*/
+d-byline {
+  --heading-size:    0.6rem;
+  --heading-color:   rgba(0, 0, 0, 0.5);
+  --body-size:       0.8rem;
+  --body-color:      rgba(0, 0, 0, 0.8);
+}
+
+/*-- ARTICLE TABLE OF CONTENTS --*/
+.d-contents {
+  --heading-size:    18px;
+  --contents-size:   13px;
+}
+
+/*-- ARTICLE APPENDIX --*/
+d-appendix {
+  --heading-size:    15px;
+  --heading-color:   rgba(0, 0, 0, 0.65);
+  --text-size:       0.8em;
+  --text-color:      rgba(0, 0, 0, 0.5);
+}
+
+/*-- WEBSITE HEADER + FOOTER --*/
+/* These properties only apply to Distill sites and blogs  */
+
+.distill-site-header {
+  --title-size:       18px;
+  --text-color:       rgba(255, 255, 255, 0.8);
+  --text-size:        15px;
+  --hover-color:      white;
+  --bkgd-color:       #0F2E3D;
+}
+
+.distill-site-footer {
+  --text-color:       rgba(255, 255, 255, 0.8);
+  --text-size:        15px;
+  --hover-color:      white;
+  --bkgd-color:       #0F2E3D;
+}
+
+/*-- Additional custom styles --*/
+/* Add any additional CSS rules below                      */
+</style>
+<style type="text/css">
+/* base variables */
+
+/* Edit the CSS properties in this file to create a custom
+   Distill theme. Only edit values in the right column
+   for each row; values shown are the CSS defaults.
+   To return any property to the default,
+   you may set its value to: unset
+   All rows must end with a semi-colon.                      */
+
+/* Optional: embed custom fonts here with `@import`          */
+/* This must remain at the top of this file.                 */
+
+@import url('https://fonts.googleapis.com/css2?family=Newslab');
+
+html {
+  /*-- Main font sizes --*/
+  --title-size:      28px;
+  --body-size:       1.06rem;
+  --code-size:       14px;
+  --aside-size:      12px;
+  --fig-cap-size:    13px;
+  /*-- Main font colors --*/
+  --title-color:     #D44420;
+  --header-color:    #D44420;
+  --body-color:      rgba(0, 0, 0, 0.8);
+  --aside-color:     rgba(0, 0, 0, 0.6);
+  --fig-cap-color:   rgba(0, 0, 0, 0.6);
+  /*-- Specify custom fonts ~~~ must be imported above   --*/
+  --heading-font:    'Newslab', sans-serif;
+  --mono-font:       monospace;
+  --body-font:       sans-serif;
+  --navbar-font:     'Newslab', sans-serif;  /* websites + blogs only */
+}
+
+/*-- ARTICLE METADATA --*/
+d-byline {
+  --heading-size:    0.6rem;
+  --heading-color:   rgba(0, 0, 0, 0.5);
+  --body-size:       0.8rem;
+  --body-color:      rgba(0, 0, 0, 0.8);
+}
+
+/*-- ARTICLE TABLE OF CONTENTS --*/
+.d-contents {
+  --heading-size:    18px;
+  --contents-size:   13px;
+}
+
+/*-- ARTICLE APPENDIX --*/
+d-appendix {
+  --heading-size:    15px;
+  --heading-color:   rgba(0, 0, 0, 0.65);
+  --text-size:       0.8em;
+  --text-color:      rgba(0, 0, 0, 0.5);
+}
+
+/*-- WEBSITE HEADER + FOOTER --*/
+/* These properties only apply to Distill sites and blogs  */
+
+.distill-site-header {
+  --title-size:       32px;
+  --text-color:       rgba(255, 255, 255, 0.8);
+  --text-size:        15px;
+  --hover-color:      white;
+  --bkgd-color:       #01426A;
+}
+
+.distill-site-footer {
+  --text-color:       rgba(255, 255, 255, 0.8);
+  --text-size:        15px;
+  --hover-color:      white;
+  --bkgd-color:       #0F2E3D;
+}
+
+/*-- Additional custom styles --*/
+/* Add any additional CSS rules below                      */
+</style>
+<style type="text/css">
+/* base style */
+
+/* FONT FAMILIES */
+
+:root {
+  --heading-default: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  --mono-default: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  --body-default: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+}
+
+body,
+.posts-list .post-preview p,
+.posts-list .description p {
+  font-family: var(--body-font), var(--body-default);
+}
+
+h1, h2, h3, h4, h5, h6,
+.posts-list .post-preview h2,
+.posts-list .description h2 {
+  font-family: var(--heading-font), var(--heading-default);
+}
+
+d-article div.sourceCode code,
+d-article pre code {
+	font-family: var(--mono-font), var(--mono-default);
+}
+
+
+/*-- TITLE --*/
+d-title h1,
+.posts-list > h1 {
+  color: var(--title-color, black);
+}
+
+d-title h1 {
+  font-size: var(--title-size, 50px);
+}
+
+/*-- HEADERS --*/
+d-article h1,
+d-article h2,
+d-article h3,
+d-article h4,
+d-article h5,
+d-article h6 {
+  color: var(--header-color, rgba(0, 0, 0, 0.8));
+}
+
+/*-- BODY --*/
+/* only text inside of <p> tags */
+d-article > p {
+  color: var(--body-color, rgba(0, 0, 0, 0.8));
+  font-size: var(--body-size, 1.06rem);
+}
+
+/*-- CODE --*/
+d-article div.sourceCode code,
+d-article pre code {
+	font-size: var(--code-size, 14px);
+}
+
+/*-- ASIDE --*/
+d-article aside {
+	font-size: var(--aside-size, 12px);
+	color: var(--aside-color, rgba(0, 0, 0, 0.6));
+}
+
+/*-- FIGURE CAPTIONS --*/
+figure .caption,
+figure figcaption,
+.figure .caption {
+	font-size: var(--fig-cap-size, 13px);
+	color: var(--fig-cap-color, rgba(0, 0, 0, 0.6));
+}
+
+/*-- METADATA --*/
+d-byline h3 {
+	font-size: var(--heading-size, 0.6rem);
+	color: var(--heading-color, rgba(0, 0, 0, 0.5));
+}
+
+d-byline {
+	font-size: var(--body-size, 0.8rem);
+	color: var(--body-color, rgba(0, 0, 0, 0.8));
+}
+
+d-byline a,
+d-article d-byline a {
+	color: var(--body-color, rgba(0, 0, 0, 0.8));
+}
+
+/*-- TABLE OF CONTENTS --*/
+.d-contents nav h3 {
+	font-size: var(--heading-size, 18px);
+}
+
+.d-contents nav a {
+	font-size: var(--contents-size, 13px);
+}
+
+/*-- APPENDIX --*/
+d-appendix h3 {
+  font-size: var(--heading-size, 15px);
+	color: var(--heading-color, rgba(0, 0, 0, 0.65));
+}
+
+d-appendix {
+  font-size: var(--text-size, 0.8em);
+	color: var(--text-color, rgba(0, 0, 0, 0.5));
+}
+
+d-appendix d-footnote-list a.footnote-backlink {
+	color: var(--text-color, rgba(0, 0, 0, 0.5));
+}
+
+/*-- WEBSITE HEADER + FOOTER --*/
+.distill-site-header .title {
+	font-size: var(--title-size, 18px);
+	font-family: var(--navbar-font), var(--heading-default);
+}
+
+.distill-site-header a,
+.nav-dropdown .nav-dropbtn {
+  font-family: var(--navbar-font), var(--heading-default);
+}
+
+.distill-site-header a:hover {
+	color: var(--hover-color, white);
+}
+
+.distill-site-header {
+	font-size: var(--text-size, 15px);
+	color: var(--text-color, rgba(255, 255, 255, 0.8));
+	background-color: var(--bkgd-color, #0F2E3D);
+}
+
+.distill-site-footer {
+	font-size: var(--text-size, 15px);
+	color: var(--text-color, rgba(255, 255, 255, 0.8));
+	background-color: var(--bkgd-color, #0F2E3D);
+}
+
+.distill-site-footer a:hover {
+	color: var(--hover-color, white);
+}</style>
+<!--/radix_placeholder_distill-->
+  <script src="../../site_libs/font-awesome-5.13.0/js/script.js"></script>
+  <link href="../../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+  <script src="../../site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+  <script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="../../site_libs/anchor-4.2.2/anchor.min.js"></script>
+  <script src="../../site_libs/bowser-1.9.3/bowser.min.js"></script>
+  <script src="../../site_libs/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="../../site_libs/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+<!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Interpretable Machine Learning","description":"This tutorial focuses on local interpretation.","authors":[],"publishedDate":"2021-04-03T00:00:00.000+00:00"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<header class="header header--fixed" role="banner">
+<nav class="distill-site-nav distill-site-header">
+<div class="nav-left">
+<a href="../../index.html" class="title">Advanced Data Science in R</a>
+<input id="distill-search" class="nav-search hidden" type="text" placeholder="Search..."/>
+</div>
+<div class="nav-right">
+<a href="../../index.html">Home</a>
+<a href="../../course.html">Course Materials</a>
+<a href="../../assign.html">Assignments</a>
+<a href="../../resources.html">Resources</a>
+<a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
+</div>
+</nav>
+</header>
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Interpretable Machine Learning</h1>
+<!--radix_placeholder_categories-->
+<!--/radix_placeholder_categories-->
+<p><p>This tutorial focuses on local interpretation.</p></p>
+</div>
+
+
+<div class="d-article">
+<div class="d-contents d-contents-float">
+<nav class="l-text toc figcaption" id="TOC">
+<h3>Contents</h3>
+<ul>
+<li><a href="#follow-along">Follow along</a></li>
+<li><a href="#resources">Resources</a></li>
+<li><a href="#set-up">Set up</a></li>
+<li><a href="#intro">Intro</a></li>
+<li><a href="#recreate-some-models">Recreate some models</a></li>
+<li><a href="#individual-model-explanation">Individual model explanation</a><ul>
+<li><a href="#cp-profiles">CP profiles</a></li>
+<li><a href="#break-down-plots">Break down plots</a></li>
+</ul></li>
+<li><a href="#shapley-additive-explanations-shap">SHapley Additive exPlanations (SHAP)</a></li>
+<li><a href="#local-interpretable-model-agnostic-explanations-lime">Local Interpretable Model-agnostic Explanations (LIME)</a></li>
+</ul>
+</nav>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<h2 id="follow-along">Follow along</h2>
+<p>You can download this .Rmd file below if you’d like to follow along. I do have a few hidden notes you can disregard. This document is a distill_article, so you may want to change to an html_document to knit. You will also need to delete any image references to properly knit, since you won’t have those images.</p>
+<div class="layout-chunk" data-layout="l-body">
+<a href="data:text/x-markdown;base64,LS0tCnRpdGxlOiAiSW50ZXJwcmV0YWJsZSBNYWNoaW5lIExlYXJuaW5nIgpkZXNjcmlwdGlvbjogfAogIFRoaXMgdHV0b3JpYWwgZm9jdXNlcyBvbiBsb2NhbCBpbnRlcnByZXRhdGlvbi4Kb3V0cHV0OgogIGRpc3RpbGw6OmRpc3RpbGxfYXJ0aWNsZToKICAgIHRvYzogdHJ1ZQogICAgdG9jX2Zsb2F0OiB0cnVlCiAgICBzZWxmX2NvbnRhaW5lZDogZmFsc2UKZHJhZnQ6IGZhbHNlCi0tLQoKCmBgYHtyIHNldHVwLCBpbmNsdWRlPUZBTFNFfQprbml0cjo6b3B0c19jaHVuayRzZXQoZWNobyA9IFRSVUUsCiAgICAgICAgICAgICAgICAgICAgICBtZXNzYWdlID0gRkFMU0UsCiAgICAgICAgICAgICAgICAgICAgICB3YXJuaW5nID0gRkFMU0UsCiAgICAgICAgICAgICAgICAgICAgICBlcnJvciA9IFRSVUUpCmBgYAoKYGBge3IgZWNobz1GQUxTRX0KbGlicmFyeShlbW8pICAgICAgICAgICMgZm9yIGVtb2ppcyEgICAKbGlicmFyeShkb3dubG9hZHRoaXMpICMgZm9yIGluY2x1ZGluZyBkb3dubG9hZCBidXR0b25zIGZvciBmaWxlcwpgYGAKCmBgYHtyIHBhZ2VkLXRhYmxlLCBlY2hvPUZBTFNFfQojIGRlZmluZSBhIG1ldGhvZCBmb3Igb2JqZWN0cyBvZiB0aGUgY2xhc3MgZGF0YS5mcmFtZQojIHNlZSBodHRwczovL2dpdGh1Yi5jb20vcnN0dWRpby9kaXN0aWxsL2lzc3Vlcy8zMTAjaXNzdWVjb21tZW50LTc5NzU0MTQ1OQpsaWJyYXJ5KGtuaXRyKQprbml0X3ByaW50LmRhdGEuZnJhbWUgPC0gZnVuY3Rpb24oeCwgLi4uKSB7CiAgYXNpc19vdXRwdXQoCiAgICBybWFya2Rvd246OjpwYWdlZF90YWJsZV9odG1sKHgsIG9wdGlvbnMgPSBhdHRyKHgsICJvcHRpb25zIikpLAogICAgbWV0YSA9IGxpc3QoZGVwZW5kZW5jaWVzID0gcm1hcmtkb3duOjo6aHRtbF9kZXBlbmRlbmN5X3BhZ2VkdGFibGUoKSkKICApCn0KcmVnaXN0ZXJTM21ldGhvZCgia25pdF9wcmludCIsICJkYXRhLmZyYW1lIiwga25pdF9wcmludC5kYXRhLmZyYW1lKQpgYGAKCiMjIEZvbGxvdyBhbG9uZwoKWW91IGNhbiBkb3dubG9hZCB0aGlzIC5SbWQgZmlsZSBiZWxvdyBpZiB5b3UnZCBsaWtlIHRvIGZvbGxvdyBhbG9uZy4gSSBkbyBoYXZlIGEgZmV3IGhpZGRlbiBub3RlcyB5b3UgY2FuIGRpc3JlZ2FyZC4gVGhpcyBkb2N1bWVudCBpcyBhIGRpc3RpbGxfYXJ0aWNsZSwgc28geW91IG1heSB3YW50IHRvIGNoYW5nZSB0byBhbiBodG1sX2RvY3VtZW50IHRvIGtuaXQuIFlvdSB3aWxsIGFsc28gbmVlZCB0byBkZWxldGUgYW55IGltYWdlIHJlZmVyZW5jZXMgdG8gcHJvcGVybHkga25pdCwgc2luY2UgeW91IHdvbid0IGhhdmUgdGhvc2UgaW1hZ2VzLgoKYGBge3IsIGVjaG89RkFMU0V9CmRvd25sb2FkX2ZpbGUoCiAgcGF0aCA9ICJpbWxsb2NhbC5SbWQiLAogIGJ1dHRvbl9sYWJlbCA9ICJEb3dubG9hZCAuUm1kIGZpbGUiLAogIGJ1dHRvbl90eXBlID0gImluZm8iLAogIGhhc19pY29uID0gVFJVRSwKICBpY29uID0gImZhIGZhLXNhdmUiLAogIHNlbGZfY29udGFpbmVkID0gRkFMU0UKKQpgYGAKCiMjIFJlc291cmNlcwoKKiBbRXhwbGFuYXRvcnkgTW9kZWwgQW5hbHlzaXNdKGh0dHBzOi8vZW1hLmRyd2h5LmFpL0luc3RhbmNlTGV2ZWxFeHBsb3JhdGlvbi5odG1sKSBieSBQcnplbXlzbGF3IEJpZWNlayBhbmQgVG9tYXN6IEJ1cnp5a293c2tpLCBzZWN0aW9uIElJOiBJbnN0YW5jZSBMZXZlbCBjaGFwdGVycy4KCiogW0ludGVycHJldGFibGUgTWFjaGluZSBMZWFybmluZ10oaHR0cHM6Ly9icmFkbGV5Ym9laG1rZS5naXRodWIuaW8vSE9NTC9pbWwuaHRtbCkgY2hhcHRlciBvZiBIT01MIGJ5IGJ5IEJyYWRsZXkgQm9laG1rZSAmIEJyYW5kb24gR3JlZW53ZWxsLiAKCiogW0ludGVycHJldGFibGUgTWFjaGluZSBMZWFybmluZ10oaHR0cHM6Ly9jaHJpc3RvcGhtLmdpdGh1Yi5pby9pbnRlcnByZXRhYmxlLW1sLWJvb2svYWdub3N0aWMuaHRtbCkgYm9vayBieSBDaHJpc3RvcGggTW9sbmFyLCBzcGVjaWZpY2FsbHkgY2hhcHRlciA1LgoKCiMjIFNldCB1cAoKRmlyc3QsIHdlIGxvYWQgdGhlIGxpYnJhcmllcyB3ZSB3aWxsIHVzZS4gVGhlcmUgd2lsbCBiZSBzb21lIG5ldyBvbmVzIHlvdSdsbCBuZWVkIHRvIGluc3RhbGwuCgpgYGB7ciBsaWJyYXJpZXN9CmxpYnJhcnkodGlkeXZlcnNlKSAgICAgICAgICMgZm9yIHJlYWRpbmcgaW4gZGF0YSwgZ3JhcGhpbmcsIGFuZCBjbGVhbmluZwpsaWJyYXJ5KHRpZHltb2RlbHMpICAgICAgICAjIGZvciBtb2RlbGluZyAuLi4gdGlkaWx5CmxpYnJhcnkobHVicmlkYXRlKSAgICAgICAgICMgZm9yIGRhdGVzCmxpYnJhcnkobW9kZXJuZGl2ZSkgICAgICAgICMgZm9yIEtpbmcgQ291bnR5IGhvdXNpbmcgZGF0YQpsaWJyYXJ5KERBTEVYKSAgICAgICAgICAgICAjIG1vRGVsIEFnbm9zdGljIExhbmd1YWdlIGZvciBFeHBsb3JhdGlvbiBhbmQgZVhwbGFuYXRpb24gKGZvciBtb2RlbCBpbnRlcnByZXRhdGlvbikgIApsaWJyYXJ5KGxpbWUpICAgICAgICAgICAgICAjIGZvciBMSU1FCmxpYnJhcnkoREFMRVh0cmEpICAgICAgICAgICMgZm9yIGV4dGVuc2lvbiBvZiBEQUxFWApsaWJyYXJ5KHBhdGNod29yaykgICAgICAgICAjIGZvciBjb21iaW5pbmcgcGxvdHMgbmljZWx5CmxpYnJhcnkocm1hcmtkb3duKSAgICAgICAgICMgZm9yIHBhZ2VkIHRhYmxlcwp0aGVtZV9zZXQodGhlbWVfbWluaW1hbCgpKSAjIG15IGZhdm9yaXRlIGdncGxvdDIgdGhlbWUgOikKYGBgCgpUaGVuIHdlIGxvYWQgdGhlIGRhdGEgd2Ugd2lsbCB1c2UgdGhyb3VnaG91dCB0aGlzIHR1dG9yaWFsIGFuZCBkbyBzb21lIG1vZGlmaWNhdGlvbnMuCgpgYGB7cn0KZGF0YSgiaG91c2VfcHJpY2VzIikKCiMgQ3JlYXRlIGxvZ19wcmljZSBhbmQgZHJvcCBwcmljZSB2YXJpYWJsZQpob3VzZV9wcmljZXMgPC0gaG91c2VfcHJpY2VzICU+JSAKICBtdXRhdGUobG9nX3ByaWNlID0gbG9nKHByaWNlLCBiYXNlID0gMTApKSAlPiUgCiAgIyBtYWtlIGFsbCBpbnRlZ2VycyBudW1lcmljIC4uLiBmaXhlcyBwcmVkaWN0aW9uIHByb2JsZW0KICBtdXRhdGUoYWNyb3NzKHdoZXJlKGlzLmludGVnZXIpLCBhcy5udW1lcmljKSkgJT4lIAogIHNlbGVjdCgtcHJpY2UpCmBgYAoKIyMgSW50cm8KCkFzIG1lbnRpb25lZCBpbiB0aGUgZ2xvYmFsIG1vZGVsIGludGVycHJldGF0aW9uIHR1dG9yaWFsIGxhc3Qgd2VlaywgbG9jYWwgbW9kZWwgaW50ZXJwcmV0YXRpb24gaGVscHMgdXMgdW5kZXJzdGFuZCB0aGUgaW1wYWN0IHZhcmlhYmxlcyBoYXZlIG9uIGluZGl2aWR1YWwgb2JzZXJ2YXRpb25zLiBJbiB0aGlzIHR1dG9yaWFsLCBJIHdpbGwgZ2l2ZSBhIGdlbmVyYWwgb3ZlcnZpZXcgb2YgYSBmZXcgbWV0aG9kcyBhbmQgc2hvdyB5b3Ugc29tZSBSIGNvZGUgdGhhdCBjYW4gaGVscCB5b3UgZXhlY3V0ZSB0aGVtLiBJIGhpZ2hseSBzdWdnZXN0IHJlYWRpbmcgdGhlIHJlc291cmNlcyBJIGxpc3RlZCBhYm92ZSwgZXNwZWNpYWxseSBbRXhwbGFuYXRvcnkgTW9kZWwgQW5hbHlzaXNdKGh0dHBzOi8vZW1hLmRyd2h5LmFpL0luc3RhbmNlTGV2ZWxFeHBsb3JhdGlvbi5odG1sKSwgd2hpY2ggaXMgYSBjb21wYW5pb24gdG8gdGhlIGBEQUxFWGAgcGFja2FnZSB3ZSB3aWxsIGJlIHVzaW5nLgoKIyMgUmVjcmVhdGUgc29tZSBtb2RlbHMKCk9uY2UgYWdhaW4gd2Ugd2lsbCBidWlsZCB0aGUgbGFzc28gYW5kIHJhbmRvbSBmb3Jlc3QgbW9kZWxzIHRvIHByZWRpY3QgYGxvZ19wcmljZWAgb2YgYSBob3VzZSBmcm9tIHRoZSBLaW5nIENvdW50eSBkYXRhLiBBcyBtZW50aW9uZWQgaW4gdGhlIHByZXZpb3VzIHR1dG9yaWFsLCB3ZSB3b3VsZG4ndCBoYXZlIHRvIHVzZSBgbG9nX3ByaWNlYCBmb3IgcmFuZG9tIGZvcmVzdCwgYnV0IEknbSBnb2luZyB0byBrZWVwIGl0IHRoYXQgd2F5IHNvIGl0J3MgdGhlIHNhbWUgYXMgdGhlIGxhc3NvIG1vZGVsLiAKClJlY3JlYXRlIHRoZSBsYXNzbyBtb2RlbDogCgpgYGB7ciBsYXNzby1tb2R9CnNldC5zZWVkKDMyNykgI2ZvciByZXByb2R1Y2liaWxpdHkKCiMgUmFuZG9tbHkgYXNzaWducyA3NSUgb2YgdGhlIGRhdGEgdG8gdHJhaW5pbmcuCmhvdXNlX3NwbGl0IDwtIGluaXRpYWxfc3BsaXQoaG91c2VfcHJpY2VzLCAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICBwcm9wID0gLjc1KQpob3VzZV90cmFpbmluZyA8LSB0cmFpbmluZyhob3VzZV9zcGxpdCkKaG91c2VfdGVzdGluZyA8LSB0ZXN0aW5nKGhvdXNlX3NwbGl0KQoKIyBsYXNzbyByZWNpcGUgYW5kIHRyYW5zZm9ybWF0aW9uIHN0ZXBzCmhvdXNlX3JlY2lwZSA8LSByZWNpcGUobG9nX3ByaWNlIH4gLiwgCiAgICAgICAgICAgICAgICAgICAgICAgZGF0YSA9IGhvdXNlX3RyYWluaW5nKSAlPiUgCiAgc3RlcF9ybShzcWZ0X2xpdmluZzE1LCBzcWZ0X2xvdDE1KSAlPiUKICBzdGVwX2xvZyhzdGFydHNfd2l0aCgic3FmdCIpLAogICAgICAgICAgIC1zcWZ0X2Jhc2VtZW50LCAKICAgICAgICAgICBiYXNlID0gMTApICU+JSAKICBzdGVwX211dGF0ZShncmFkZSA9IGFzLmNoYXJhY3RlcihncmFkZSksCiAgICAgICAgICAgICAgZ3JhZGUgPSBmY3RfcmVsZXZlbCgKICAgICAgICAgICAgICAgICAgICAgICAgY2FzZV93aGVuKAogICAgICAgICAgICAgICAgICAgICAgICAgIGdyYWRlICVpbiUgIjEiOiI2IiAgIH4gImJlbG93X2F2ZXJhZ2UiLAogICAgICAgICAgICAgICAgICAgICAgICAgIGdyYWRlICVpbiUgIjEwIjoiMTMiIH4gImhpZ2giLAogICAgICAgICAgICAgICAgICAgICAgICAgIFRSVUUgfiBncmFkZQogICAgICAgICAgICAgICAgICAgICAgICApLAogICAgICAgICAgICAgICAgICAgICAgICAiYmVsb3dfYXZlcmFnZSIsIjciLCI4IiwiOSIsImhpZ2giKSwKICAgICAgICAgICAgICBiYXNlbWVudCA9IGFzLm51bWVyaWMoc3FmdF9iYXNlbWVudCA9PSAwKSwKICAgICAgICAgICAgICByZW5vdmF0ZWQgPSBhcy5udW1lcmljKHlyX3Jlbm92YXRlZCA9PSAwKSwKICAgICAgICAgICAgICB2aWV3ID0gYXMubnVtZXJpYyh2aWV3ID09IDApLAogICAgICAgICAgICAgIHdhdGVyZnJvbnQgPSBhcy5udW1lcmljKHdhdGVyZnJvbnQpLAogICAgICAgICAgICAgIGFnZV9hdF9zYWxlID0geWVhcihkYXRlKSAtIHlyX2J1aWx0KSU+JSAKICBzdGVwX3JtKHNxZnRfYmFzZW1lbnQsIAogICAgICAgICAgeXJfcmVub3ZhdGVkLCAKICAgICAgICAgIHlyX2J1aWx0KSAlPiUgCiAgc3RlcF9kYXRlKGRhdGUsIAogICAgICAgICAgICBmZWF0dXJlcyA9ICJtb250aCIpICU+JSAKICB1cGRhdGVfcm9sZShhbGxfb2YoYygiaWQiLAogICAgICAgICAgICAgICAgICAgICAgICJkYXRlIiwKICAgICAgICAgICAgICAgICAgICAgICAiemlwY29kZSIsIAogICAgICAgICAgICAgICAgICAgICAgICJsYXQiLCAKICAgICAgICAgICAgICAgICAgICAgICAibG9uZyIpKSwKICAgICAgICAgICAgICBuZXdfcm9sZSA9ICJldmFsdWF0aXZlIikgJT4lIAogIHN0ZXBfZHVtbXkoYWxsX25vbWluYWwoKSwgCiAgICAgICAgICAgICAtYWxsX291dGNvbWVzKCksIAogICAgICAgICAgICAgLWhhc19yb2xlKG1hdGNoID0gImV2YWx1YXRpdmUiKSkgJT4lIAogIHN0ZXBfbm9ybWFsaXplKGFsbF9wcmVkaWN0b3JzKCksIAogICAgICAgICAgICAgICAgIC1hbGxfbm9taW5hbCgpKQoKI2RlZmluZSBsYXNzbyBtb2RlbApob3VzZV9sYXNzb19tb2QgPC0gCiAgbGluZWFyX3JlZyhtaXh0dXJlID0gMSkgJT4lIAogIHNldF9lbmdpbmUoImdsbW5ldCIpICU+JSAKICBzZXRfYXJncyhwZW5hbHR5ID0gdHVuZSgpKSAlPiUgCiAgc2V0X21vZGUoInJlZ3Jlc3Npb24iKQoKIyBjcmVhdGUgd29ya2Zsb3cKaG91c2VfbGFzc29fd2YgPC0gCiAgd29ya2Zsb3coKSAlPiUgCiAgYWRkX3JlY2lwZShob3VzZV9yZWNpcGUpICU+JSAKICBhZGRfbW9kZWwoaG91c2VfbGFzc29fbW9kKQoKIyBjcmVhdGUgY3Ygc2FtcGxlcwpzZXQuc2VlZCgxMjExKSAjIGZvciByZXByb2R1Y2liaWxpdHkKaG91c2VfY3YgPC0gdmZvbGRfY3YoaG91c2VfdHJhaW5pbmcsIHYgPSA1KQoKCiMgcGVuYWx0eSBncmlkIC0gY2hhbmdlZCB0byAxMCBsZXZlbHMKcGVuYWx0eV9ncmlkIDwtIGdyaWRfcmVndWxhcihwZW5hbHR5KCksCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgbGV2ZWxzID0gMTApCgojIHR1bmUgdGhlIG1vZGVsIApob3VzZV9sYXNzb190dW5lIDwtIAogIGhvdXNlX2xhc3NvX3dmICU+JSAKICB0dW5lX2dyaWQoCiAgICByZXNhbXBsZXMgPSBob3VzZV9jdiwKICAgIGdyaWQgPSBwZW5hbHR5X2dyaWQKICAgICkKCiMgY2hvb3NlIHRoZSBiZXN0IHBlbmFsdHkKYmVzdF9wYXJhbSA8LSBob3VzZV9sYXNzb190dW5lICU+JSAKICBzZWxlY3RfYmVzdChtZXRyaWMgPSAicm1zZSIpCgojIGZpbmFsaXplIHdvcmtmbG93CmhvdXNlX2xhc3NvX2ZpbmFsX3dmIDwtIGhvdXNlX2xhc3NvX3dmICU+JSAKICBmaW5hbGl6ZV93b3JrZmxvdyhiZXN0X3BhcmFtKQoKIyBmaXQgZmluYWwgbW9kZWwKaG91c2VfbGFzc29fZmluYWxfbW9kIDwtIGhvdXNlX2xhc3NvX2ZpbmFsX3dmICU+JSAKICBmaXQoZGF0YSA9IGhvdXNlX3RyYWluaW5nKQpgYGAKClJlY3JlYXRlIHRoZSByYW5kb20gZm9yZXN0IG1vZGVsOgoKYGBge3IgcmYtbW9kZWx9CiMgc2V0IHVwIHJlY2lwZSBhbmQgdHJhbnNmb3JtYXRpb24gc3RlcHMgYW5kIHJvbGVzCnJhbmdlcl9yZWNpcGUgPC0gCiAgcmVjaXBlKGZvcm11bGEgPSBsb2dfcHJpY2UgfiAuLCAKICAgICAgICAgZGF0YSA9IGhvdXNlX3RyYWluaW5nKSAlPiUgCiAgc3RlcF9kYXRlKGRhdGUsIAogICAgICAgICAgICBmZWF0dXJlcyA9ICJtb250aCIpICU+JSAKICAjIE1ha2UgdGhlc2UgZXZhbHVhdGl2ZSB2YXJpYWJsZXMsIG5vdCBpbmNsdWRlZCBpbiBtb2RlbGluZwogIHVwZGF0ZV9yb2xlKGFsbF9vZihjKCJpZCIsCiAgICAgICAgICAgICAgICAgICAgICAgImRhdGUiKSksCiAgICAgICAgICAgICAgbmV3X3JvbGUgPSAiZXZhbHVhdGl2ZSIpCgojZGVmaW5lIG1vZGVsCnJhbmdlcl9zcGVjIDwtIAogIHJhbmRfZm9yZXN0KG10cnkgPSA2LCAKICAgICAgICAgICAgICBtaW5fbiA9IDEwLCAKICAgICAgICAgICAgICB0cmVlcyA9IDIwMCkgJT4lIAogIHNldF9tb2RlKCJyZWdyZXNzaW9uIikgJT4lIAogIHNldF9lbmdpbmUoInJhbmdlciIpCgojY3JlYXRlIHdvcmtmbG93CnJhbmdlcl93b3JrZmxvdyA8LSAKICB3b3JrZmxvdygpICU+JSAKICBhZGRfcmVjaXBlKHJhbmdlcl9yZWNpcGUpICU+JSAKICBhZGRfbW9kZWwocmFuZ2VyX3NwZWMpIAoKI2ZpdCB0aGUgbW9kZWwKc2V0LnNlZWQoNzEyKSAjIGZvciByZXByb2R1Y2liaWxpdHkgLSByYW5kb20gc2FtcGxpbmcgaW4gcmFuZG9tIGZvcmVzdCBjaG9vc2luZyBudW1iZXIgb2YgdmFyaWFibGVzCnJhbmdlcl9maXQgPC0gcmFuZ2VyX3dvcmtmbG93ICU+JSAKICBmaXQoaG91c2VfdHJhaW5pbmcpCmBgYAoKIyMgSW5kaXZpZHVhbCBtb2RlbCBleHBsYW5hdGlvbgoKQWdhaW4sIHRoZSB0eXBlcyBvZiBtb2RlbCBleHBsYW5hdGlvbnMgd2UnbGwgZm9jdXMgb24gaW4gdGhpcyB0dXRvcmlhbCBhcmUgaW5kaXZpZHVhbCwgYWxzbyBjYWxsZWQgbG9jYWwgb3IgaW5zdGFuY2UtbGV2ZWwuIAoKIyMjIENQIHByb2ZpbGVzCgpXZSBsZWFybmVkIG9uZSBvZiB0aGVzZSBtZXRob2RzIGluIHRoZSBwcmV2aW91cyB0dXRvcmlhbCwgW2NldGVyaXMtcGVyaWJ1cyBwcm9maWxlc10oaHR0cHM6Ly9hZHZhbmNlZC1kcy1pbi1yLm5ldGxpZnkuYXBwL3Bvc3RzLzIwMjEtMDMtMjQtaW1sZ2xvYmFsLyNjZXRlcmlzLXBhcmlidXMtcHJvZmlsZXMpLCBvciBDUCBwcm9maWxlcy4gVGhlc2Ugc2hvdyBob3cgY2hhbmdpbmcgdGhlIHZhbHVlIG9mIG9uZSB2YXJpYWJsZSB3aGlsZSBob2xkaW5nIHRoZSBvdGhlcnMgYXQgdGhlaXIgdmFsdWVzIGFmZmVjdHMgdGhlIHByZWRpY3RlZCBvdXRjb21lIGZvciBhIHNwZWNpZmljIG9ic2VydmF0aW9uLiAKCiMjIyBCcmVhayBkb3duIHBsb3RzCgpOZXh0LCB3ZSdsbCBsb29rIGF0IFticmVhay1kb3duIHBsb3RzXShodHRwczovL2VtYS5kcndoeS5haS9icmVha0Rvd24uaHRtbCNCRFIpLiBUaGVzZSBwbG90cyB2aXN1YWxpemUgdGhlIGVzdGltYXRlZCBjb250cmlidXRpb24gb2YgZWFjaCB2YXJpYWJsZSB0byB0aGF0IG9ic2VydmF0aW9uJ3MgcHJlZGljdGVkIG91dGNvbWUuIFRoZXNlIHdvcmsgZXNwZWNpYWxseSB3ZWxsIGZvciBhZGRpdGl2ZSBtb2RlbHMuIFdlIHdpbGwgc2VlIHRoYXQgaWYgYSBtb2RlbCBpc24ndCBhZGRpdGl2ZSwgdGhlIGJyZWFrLWRvd24gcGxvdCBjYW4gY2hhbmdlIGRlcGVuZGluZyBvbiB0aGUgb3JkZXIgaW4gd2hpY2ggd2UgZXhhbWluZSB0aGUgdmFyaWFibGVzLgoKTGV0J3Mgc3RhcnQgYnkgbG9va2luZyBhdCBvbmUgb2YgdGhlIGJyZWFrLWRvd24gcGxvdHMgYW5kIHRoZW4gd2UnbGwgZGl2ZSBpbnRvIGhvdyB0aGV5J3JlIG1hZGUuCgpgYGB7cn0KIyBDcmVhdGUgYW4gZXhwbGFpbmVyIGZvciB0aGUgbGFzc28gbW9kZWw6Cmxhc3NvX2V4cGxhaW4gPC0gCiAgZXhwbGFpbl90aWR5bW9kZWxzKAogICAgbW9kZWwgPSBob3VzZV9sYXNzb19maW5hbF9tb2QsCiAgICBkYXRhID0gaG91c2VfdHJhaW5pbmcgJT4lIHNlbGVjdCgtbG9nX3ByaWNlKSwgCiAgICB5ID0gaG91c2VfdHJhaW5pbmcgJT4lICBwdWxsKGxvZ19wcmljZSksCiAgICBsYWJlbCA9ICJsYXNzbyIKICApCgojIENyZWF0ZSBhbiBleHBsYWluZXIgZm9yIHRoZSByYW5kb20gZm9yZXN0IG1vZGVsOgpyZl9leHBsYWluIDwtIAogIGV4cGxhaW5fdGlkeW1vZGVscygKICAgIG1vZGVsID0gcmFuZ2VyX2ZpdCwKICAgIGRhdGEgPSBob3VzZV90cmFpbmluZyAlPiUgc2VsZWN0KC1sb2dfcHJpY2UpLCAKICAgIHkgPSBob3VzZV90cmFpbmluZyAlPiUgIHB1bGwobG9nX3ByaWNlKSwKICAgIGxhYmVsID0gInJmIgogICkKCiMgQ2hvb3NlIGFuIG9ic2VydmF0aW9uCm5ld19vYnMgPC0gaG91c2VfdGVzdGluZyAlPiUgc2xpY2UoNTM3NykgCgojIFByaWNlIG9mIG5ld19vYnMncyBob3VzZSAtIGp1c3QgdG8ga25vdyBiZWNhdXNlIEkgY2FuJ3QgdGhpbmsgaW4gbG9ncwoxMF4obmV3X29icyRsb2dfcHJpY2UpCmBgYAoKTm93IGNyZWF0ZSB0aGUgcGxvdCwgYW5kIG91dHB1dCBhIGZldyBvdGhlciB0aGluZ3MuIFRoZSBwbG90IHNob3dzIHRoZSB2YXJpYWJsZXMgb24gdGhlIHktYXhpcyBhbmQgdGhpcyBvYnNlcnZhdGlvbidzIHZhbHVlIGZvciB0aGF0IHZhcmlhYmxlLiBPbmUgc29ydCBvZiB3ZWlyZCB0aGluZyB0aGF0IEkgaGF2ZW4ndCBxdWl0ZSBmaWd1cmVkIG91dCB5ZXQgaXMgaXQgc2hvd3MgdGhhdCB0aGUgb2JzZXJ2YXRpb24ncyBgZ3JhZGVgIGlzIGAxMGAgd2hlbiBpdCBpcyBhY3R1YWxseSBgMTFgLiBJIHRoaW5rIHRoZSBgZ3JhZGVgIGZhY3RvciBtYXkgaGF2ZSBiZWVuIGNoYW5nZWQgdG8gYW4gaW50ZWdlciBhbmQgdGhlbiBiYWNrIHRvIGEgZmFjdG9yIGF0IHNvbWUgcG9pbnQgc2luY2UgYGFzLmludGVnZXIobmV3X29icyRncmFkZSkgPWAgYHIgIGFzLmludGVnZXIobmV3X29icyRncmFkZSlgLiBGb3Igbm93LCB3ZSB3b24ndCB3b3JyeSBhYm91dCBpdC4gSnVzdCBrbm93IHRoYXQgYGdyYWRlID0gMTBgIHJlYWxseSBtZWFucyBgZ3JhZGUgPSAxMWAuCgpgYGB7cn0KIyBQdWxscyB0b2dldGhlciB0aGUgZGF0YSBuZWVkZWQgZm9yIHRoZSBicmVhay1kb3duIHBsb3QKcHBfbGFzc28gPC0gcHJlZGljdF9wYXJ0cyhleHBsYWluZXIgPSBsYXNzb19leHBsYWluLAogICAgICAgICAgICAgICAgICAgICAgICAgIG5ld19vYnNlcnZhdGlvbiA9IG5ld19vYnMsCiAgICAgICAgICAgICAgICAgICAgICAgICAgdHlwZSA9ICJicmVha19kb3duIikgI2RlZmF1bHQKCiMgQnJlYWstZG93biBwbG90CnBsb3QocHBfbGFzc28pCgojIFRhYmxlIGZvcm0gb2YgYnJlYWstZG93biBwbG90IGRhdGEKcHBfbGFzc28KCiMgRGF0YSB3ZSdsbCB1c2UgbGF0ZXIgdG8gY29tcGFyZSBjb250cmlidXRpb25zCmxhc3NvX2JkcCA8LQogIHBwX2xhc3NvICU+JSAKICBhc190aWJibGUoKSAlPiUgCiAgc2VsZWN0KHZhcmlhYmxlLCBjb250cmlidXRpb24pCmBgYAoKKipXaGF0IGRvZXMgdGhpcyBncmFwaCBzaG93PyoqIAoKV2hlcmUgdGhlIGJhcnMgYWxsIHN0YXJ0IGlzIGxhYmVsZWQgdGhlIGludGVyY2VwdC4gSXQgaXMgdGhlIGF2ZXJhZ2UgcHJlZGljdGVkIGBsb2dfcHJpY2VgICgqcHJlZGljdGVkKiwgbm90IGFjdHVhbCBwcmljZSkgd2hlbiB0aGUgbGFzc28gbW9kZWwgaXMgYXBwbGllZCB0byB0aGUgdHJhaW5pbmcgZGF0YSAoZmVkIGludG8gdGhlIGV4cGxhaW5lcikuIFdlIGNvdWxkIGNvbXB1dGUgdGhhdCAiYnkgaGFuZCIuCgpgYGB7cn0KaW50ZXJjZXB0IDwtIAogIHByZWRpY3QoaG91c2VfbGFzc29fZmluYWxfbW9kLCBuZXdfZGF0YSA9IGhvdXNlX3RyYWluaW5nKSAlPiUgCiAgcHVsbCgucHJlZCkgJT4lIAogIG1lYW4oKQoKaW50ZXJjZXB0CmBgYAoKVGhlbiwgdGhlIGArLjI1NGAgZm9yIHRoZSBgZ3JhZGUgPSAxMGAgIGJhciAocmVtZW1iZXIsIHRoYXQncyBhY3R1YWxseSBgZ3JhZGUgPSAxMWApLCBpcyB0aGUgY2hhbmdlIGluIGF2ZXJhZ2UgcHJlZGljdGlvbiBpZiBncmFkZSB3YXMgZml4ZWQgYXQgMTEuIFdlIGNhbiBhbHNvIGRvIHRoYXQgImJ5IGhhbmQiLiBGaXJzdCwgd2Ugc2V0IGFsbCBgZ3JhZGVgcyBpbiB0aGUgdHJhaW5pbmcgc2V0IHRvIGAxMWAuIFRoZW4gZmluZCB0aGUgbmV3IGF2ZXJhZ2UgcHJlZGljdGVkIGBsb2dfcHJpY2VgIHdoZW4gdGhlIGxhc3NvIG1vZGVsIGlzIGFwcGxpZWQgdG8gdGhpcyBtb2RpZmllZCB0cmFpbmluZyBkYXRhLiBBbmQsIGxhc3RseSwgY29tcHV0ZSB0aGUgZGlmZmVyZW5jZS4KCmBgYHtyfQojIFB1dCBpbiBncmFkZSA9ICIxMSIgZm9yIGFsbCBvYnNlcnZhdGlvbnMKZGF0YV9ncmFkZTExIDwtIGhvdXNlX3RyYWluaW5nICU+JSAKICBtdXRhdGUoZ3JhZGUgPSAiMTEiKQoKIyBGaW5kIHByZWRpY3Rpb25zCmF2Z19ncmFkZTExIDwtCiAgcHJlZGljdChob3VzZV9sYXNzb19maW5hbF9tb2QsIG5ld19kYXRhID0gZGF0YV9ncmFkZTExKSAlPiUgCiAgc3VtbWFyaXplKGF2Z19ncmFkZTExID0gbWVhbigucHJlZCkpICU+JSAKICBwdWxsKGF2Z19ncmFkZTExKQoKIyBDb21wdXRlIGRpZmZlcmVuY2UKYXZnX2dyYWRlMTEgLSBpbnRlcmNlcHQKYGBgCgpTbywgYSBgZ3JhZGVgIG9mIDExIGNvbnRyaWJ1dGVzIGByIHJvdW5kKGF2Z19ncmFkZTExIC0gaW50ZXJjZXB0LCAzKWAgdG8gdGhlIGF2ZXJhZ2UgcHJlZGljdGVkIHNjb3JlLCBmb3IgdGhpcyBvYnNlcnZhdGlvbi4gIExldCdzIGRvIG9uZSBtb3JlIGxldmVsICJieSBoYW5kIiwgdGhlIGBzcWZ0X2xpdmluZyA9IDM3OTBgIGJhci4gTm93IHNldCBgZ3JhZGUgPSAxMWAgYW5kIGBzcWZ0X2xpdmluZyA9IDM3OTBgIGFuZCBmaW5kIHRoZSBuZXcgYXZlcmFnZSBwcmVkaWN0ZWQgYGxvZ19wcmljZWAgd2hlbiB0aGUgbGFzc28gbW9kZWwgaXMgYXBwbGllZCB0byB0aGlzIG1vZGlmaWVkIHRyYWluaW5nIGRhdGEuIFRoZW4sIGNvbXB1dGUgdGhlIGRpZmZlcmVuY2UgYmV0d2VlbiB0aGlzIGFuZCB0aGUgcHJldmlvdXMgYXZlcmFnZSBwcmVkaWN0ZWQgYGxvZ19wcmljZWAsIHdoZW4gb25seSBmaXhpbmcgYGdyYWRlYCwgYHIgYXZnX2dyYWRlMTFgLgoKCmBgYHtyfQojIFB1dCBpbiBncmFkZSA9ICIxMSIgYW5kIHNxZnRfbGl2aW5nID0gMzc5MCBmb3IgYWxsIG9ic2VydmF0aW9ucwpkYXRhX2dyYWRlMTFfc3FmdDM3OTAgPC0gaG91c2VfdHJhaW5pbmcgJT4lIAogIG11dGF0ZShncmFkZSA9ICIxMSIsCiAgICAgICAgIHNxZnRfbGl2aW5nID0gMzc5MCkKCiMgRmluZCBwcmVkaWN0aW9ucwphdmdfZ3JhZGUxMV9zcWZ0Mzc5MCA8LQogIHByZWRpY3QoaG91c2VfbGFzc29fZmluYWxfbW9kLCBuZXdfZGF0YSA9IGRhdGFfZ3JhZGUxMV9zcWZ0Mzc5MCkgJT4lIAogIHN1bW1hcml6ZShhdmdfZ3JhZGUxMV9zcWZ0Mzc5MCA9IG1lYW4oLnByZWQpKSAlPiUgCiAgcHVsbChhdmdfZ3JhZGUxMV9zcWZ0Mzc5MCkKCiMgQ29tcHV0ZSBkaWZmZXJlbmNlCmF2Z19ncmFkZTExX3NxZnQzNzkwIC0gYXZnX2dyYWRlMTEKYGBgCgpTbywgYHNxZnRfbGl2aW5nYCBvZiAzNzkwIGNvbnRyaWJ1dGVzIGByIHJvdW5kKGF2Z19ncmFkZTExX3NxZnQzNzkwIC0gYXZnX2dyYWRlMTEsIDMpYCB0byB0aGUgYXZlcmFnZSBwcmVkaWN0ZWQgc2NvcmUsIGZvciB0aGlzIG9ic2VydmF0aW9uLgoKSW4gYWRkaXRpdmUgbW9kZWxzLCBsaWtlIGxhc3NvIHdpdGhvdXQgaW50ZXJhY3Rpb25zLCBjb250cmlidXRpb25zIGRvbid0IGNoYW5nZSBkdWUgdG8gd2hpY2ggdmFyaWFibGVzIGFyZSBjb25zaWRlcmVkIGZpcnN0LiBJbiB0aGUgY29kZSBiZWxvdywgd2UgZ2l2ZSBhIG5ldyBvcmRlciBpbiB3aGljaCB0byBjb25zaWRlciB0aGUgdmFyaWFibGVzLiBUaGUgcGxvdCBsb29rcyBkaWZmZXJlbnQsIGJ1dCB0aGUgbGVuZ3RoIG9mIHRoZSBiYXJzIGlzIHRoZSBzYW1lLCB0aHVzIHRoZSBjb250cmlidXRpb24gaXMgdGhlIHNhbWUKCmBgYHtyfQpwcF9sYXNzb19vcmQxIDwtIHByZWRpY3RfcGFydHMoZXhwbGFpbmVyID0gbGFzc29fZXhwbGFpbiwKICAgICAgICAgICAgICAgICAgICAgICAgICBuZXdfb2JzZXJ2YXRpb24gPSBuZXdfb2JzLAogICAgICAgICAgICAgICAgICAgICAgICAgIHR5cGUgPSAiYnJlYWtfZG93biIsICNkZWZhdWx0CiAgICAgICAgICAgICAgICAgICAgICAgICAgb3JkZXIgPSBjKCJiYXRocm9vbXMiLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAiZmxvb3JzIiwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgImNvbmRpdGlvbiIsCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICJzcWZ0X2Jhc2VtZW50IiwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgInNxZnRfbGl2aW5nIiwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgImRhdGUiLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAid2F0ZXJmcm9udCIsCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICJncmFkZSIsCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICJ5cl9idWlsdCIsCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICJiZWRyb29tcyIsCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICJzcWZ0X2xvdCIsCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICJ2aWV3IiwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgInNxZnRfYWJvdmUiLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAiaWQiLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAiemlwY29kZSIsCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICJzcWZ0X2xpdmluZzE1IiwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgImxhdCIsCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICJzcWZ0X2xvdDE1IiwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgInlyX3Jlbm92YXRlZCIsCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICJsb25nIikpIAoKcGxvdChwcF9sYXNzb19vcmQxKQpgYGAKCkpvaW5pbmcgdG9nZXRoZXIgdGhlIG5ldywgcmVvcmRlcmVkIHZlcnNpb24gYW5kIHRoZSBvcmlnaW5hbCB2ZXJzaW9uLCB3ZSBjYW4gc2VlIHRoYXQgdGhlIGNvbnRyaWJ1dGlvbnMgYXJlIHRoZSBzYW1lLgoKYGBge3J9CnBwX2xhc3NvX29yZDEgJT4lIAogIGFzX3RpYmJsZSgpICU+JSAKICBzZWxlY3QodmFyaWFibGUsIGNvbnRyaWJ1dGlvbikgJT4lIAogIGxlZnRfam9pbihsYXNzb19iZHAsIGJ5ID0gInZhcmlhYmxlIikgJT4lIAogIHJlbmFtZShyZW9yZGVyZWQgPSBjb250cmlidXRpb24ueCwKICAgICAgICAgb3JpZ2luYWwgPSBjb250cmlidXRpb24ueSkKYGBgCgpOb3csIGxldCdzIGRvIHRoaXMgZm9yIHRoZSByYW5kb20gZm9yZXN0IG1vZGVsCgpgYGB7cn0KIyBQdWxscyB0b2dldGhlciB0aGUgZGF0YSBuZWVkZWQgZm9yIHRoZSBicmVhay1kb3duIHBsb3QKcHBfcmYgPC0gcHJlZGljdF9wYXJ0cyhleHBsYWluZXIgPSByZl9leHBsYWluLAogICAgICAgICAgICAgICAgICAgICAgIG5ld19vYnNlcnZhdGlvbiA9IG5ld19vYnMsCiAgICAgICAgICAgICAgICAgICAgICAgdHlwZSA9ICJicmVha19kb3duIikKCiMgQnJlYWstZG93biBwbG90CnBsb3QocHBfcmYpCgojIFVzZWQgbGF0ZXIgdG8gY29tcGFyZSB2YXJpYWJsZSByZW9yZGVyaW5nCnJmX2JkcCA8LSBwcF9yZiAlPiUgCiAgYXNfdGliYmxlKCkgJT4lIAogIHNlbGVjdCh2YXJpYWJsZSwgY29udHJpYnV0aW9uKQpgYGAKCioqV2hhdCBkb2VzIHRoaXMgc2hvdyBhZ2Fpbj8qKiBUaGUgaW50ZXJjZXB0IGJhciBpcyB0aGUgYXZlcmFnZSBwcmVkaWN0ZWQgYGxvZ19wcmljZWAgd2hlbiB0aGUgcmFuZG9tIGZvcmVzdCBpcyBhcHBsaWVkIHRvIGFsbCB0aGUgdHJhaW5pbmcgZGF0YS4gSSdsbCBkbyBvbmUgbW9yZSBoYW5kLWNvbXB1dGF0aW9uIHRvIGlsbHVzdHJhdGUgKHlvdSBkb24ndCBldmVyIGhhdmUgdG8gZG8gdGhpcyAtIGl0J3MganVzdCB0byBnaXZlIHlvdSBzb21lIGV4dHJhIHVuZGVyc3RhbmRpbmcgb2Ygd2hhdCB0aGUgZnVuY3Rpb24gZG9lcykuIAoKYGBge3J9CnJmX2F2Z19wcmVkIDwtCiAgcHJlZGljdChyYW5nZXJfZml0LCBuZXdfZGF0YSA9IGhvdXNlX3RyYWluaW5nKSAlPiUgCiAgcHVsbCgucHJlZCkgJT4lIAogIG1lYW4oKQoKcmZfYXZnX3ByZWQKYGBgCgpUaGVuLCB0aGUgYCswLjExNGAgbmV4dCB0byB0aGUgYGxhdCA9IDQ3LjYzNTFgIGJhciwgaXMgdGhlIGNoYW5nZSBpbiBhdmVyYWdlIHByZWRpY3Rpb24gaWYgbGF0aXR1ZGUgd2FzIGZpeGVkIGF0IDQ3LjYzNTEuIFNvIGBsYXQgPSA0Ny42MzUxYCBpbmNyZWFzZWQgdGhlIGBsb2dfcHJpY2VgIGJ5IGAwLjExNGAuCgpgYGB7cn0KIyBGaXggbGF0aXR1ZGUgYXQgNDcuNjM1MQpkYXRhX2xhdCA8LSBob3VzZV90cmFpbmluZyAlPiUgCiAgbXV0YXRlKGxhdCA9IDQ3LjYzNTEpCgojIEZpbmQgYXZlcmFnZSBwcmVkaWN0aW9ucwpyZl9sYXQ0NyA8LQpwcmVkaWN0KHJhbmdlcl9maXQsIG5ld19kYXRhID0gZGF0YV9sYXQpICU+JSAKICBzdW1tYXJpemUoYXZnX2xhdCA9IG1lYW4oLnByZWQpKSAlPiUgCiAgcHVsbChhdmdfbGF0KQoKIyBDb21wdXRlIGRpZmZlcmVuY2UKcmZfbGF0NDcgLSByZl9hdmdfcHJlZApgYGAKCk5vdywgbGV0J3Mgc2VlIHdoYXQgaGFwcGVucyB3aGVuIHdlIGNoYW5nZSB0aGUgb3JkZXIgaW4gd2hpY2ggdGhlIHZhcmlhYmxlcyBhcmUgY29uc2lkZXJlZCBpbiB0aGUgcmFuZG9tIGZvcmVzdCBtb2RlbCwgd2hpY2ggaXMgbm90IGFkZGl0aXZlLgoKYGBge3J9CiNDaGFuZ2Ugb3JkZXIKcHBfcmZfb3JkMSA8LSBwcmVkaWN0X3BhcnRzKGV4cGxhaW5lciA9IHJmX2V4cGxhaW4sCiAgICAgICAgICAgICAgICAgICAgICAgICAgICBuZXdfb2JzZXJ2YXRpb24gPSBuZXdfb2JzLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgdHlwZSA9ICJicmVha19kb3duIiwgI2RlZmF1bHQKICAgICAgICAgICAgICAgICAgICAgICAgICAgIG9yZGVyID0gYygiYmF0aHJvb21zIiwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAiZmxvb3JzIiwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAiY29uZGl0aW9uIiwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAic3FmdF9iYXNlbWVudCIsCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgInNxZnRfbGl2aW5nIiwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAiZGF0ZSIsCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIndhdGVyZnJvbnQiLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICJncmFkZSIsCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgInlyX2J1aWx0IiwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAiYmVkcm9vbXMiLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICJzcWZ0X2xvdCIsCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgInZpZXciLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICJzcWZ0X2Fib3ZlIiwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAiaWQiLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICJ6aXBjb2RlIiwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAic3FmdF9saXZpbmcxNSIsCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgImxhdCIsCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgInNxZnRfbG90MTUiLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICJ5cl9yZW5vdmF0ZWQiLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICJsb25nIikpIAojIEJyZWFrLWRvd24gcGxvdApwbG90KHBwX3JmX29yZDEpCgojIEpvaW4gb3JpZ2luYWwgb3JkZXJpbmcgYW5kIGNvbXB1dGUgZGlmZmVyZW5jZQpwcF9yZl9vcmQxICU+JSAKICBhc190aWJibGUoKSAlPiUgCiAgc2VsZWN0KHZhcmlhYmxlLCBjb250cmlidXRpb24pICU+JSAKICBsZWZ0X2pvaW4ocmZfYmRwLCBieSA9ICJ2YXJpYWJsZSIpICU+JSAKICByZW5hbWUocmVvcmRlcmVkID0gY29udHJpYnV0aW9uLngsCiAgICAgICAgIG9yaWdpbmFsID0gY29udHJpYnV0aW9uLnkpICU+JSAKICBtdXRhdGUoZGlmZiA9IHJvdW5kKHJlb3JkZXJlZCAtIG9yaWdpbmFsLDMpKSAlPiUgCiAgYXJyYW5nZShkZXNjKGFicyhkaWZmKSkpCmBgYAoKSSBoYXZlIG9yZGVyZWQgdGhlIHZhcmlhYmxlcyBieSB0aGVpciBkaWZmZXJlbmNlcyBpbiBjb250cmlidXRpb24uIFdlIGNhbiBzZWUgdGhhdCB0aGUgb3JkZXIgaW4gd2hpY2ggdGhlIHZhcmlhYmxlcyBhcmUgY29uc2lkZXJlZCBhZmZlY3RzIHRoZSByZXN1bHRzLiBOb3RpY2UgdGhhdCB0aGUgYGJhdGhyb29tcyA9IDMuNzVgIGNvbnRyaWJ1dGlvbiBldmVuIGNoYW5nZXMgc2lnbi4KClRoZSBvcmlnaW5hbCBvcmRlcmluZyBpcyBiYXNlZCBvbiBhIHZhcmlhYmxlIGltcG9ydGFuY2Ugc2NvcmUsIGRpc2N1c3NlZCBpbiBkZXB0aCBbaGVyZV0oaHR0cHM6Ly9lbWEuZHJ3aHkuYWkvYnJlYWtEb3duLmh0bWwjQkRNZXRob2RHZW4pLiBOZXh0LCB3ZSB3aWxsIGxlYXJuIGFib3V0IFNIYXBsZXkgQWRkaXRpdmUgZXhQbGFuYXRpb25zIChTSEFQKSwgYW5vdGhlciB3YXkgd2UgY2FuIHRyeSB0byBhY2NvdW50IGZvciB0aGVzZSBkaWZmZXJlbmNlcy4KCiMjIFNIYXBsZXkgQWRkaXRpdmUgZXhQbGFuYXRpb25zIChTSEFQKQoKU0hBUHMgYXJlIGJhc2VkIG9uIFNoYXBsZXkgdmFsdWVzLiBJIGFtIG5vdCBnb2luZyB0byBnbyBpbnRvIHRoZSB0aGVvcmV0aWNhbCBkZXRhaWwgaGVyZS4gUGxlYXNlIHNlZSB0aGUgY2hhcHRlciBpbiBbRXhwbGFuYXRvcnkgTW9kZWwgQW5hbHlzaXNdKGh0dHBzOi8vZW1hLmRyd2h5LmFpL3NoYXBsZXkuaHRtbCNTSEFQTWV0aG9kKSBvciBbSW50ZXJwcmV0YWJsZSBNYWNoaW5lIExlYXJuaW5nXShodHRwczovL2NocmlzdG9waG0uZ2l0aHViLmlvL2ludGVycHJldGFibGUtbWwtYm9vay9zaGFwLmh0bWwjdHJlZXNoYXApIGlmIHlvdSBhcmUgaW50ZXJlc3RlZC4gSW5zdGVhZCwgSSB3aWxsIGV4cGxhaW4gdGhlIGludHVpdGlvbiBhbmQgaG93IHRvIHJ1biBpdCBpbiBSIGFuZCBpbnRlcnByZXQgdGhlIHJlc3VsdHMuIAoKVGhlIGlkZWEgaXMgdG8gdGFrZSBjaGFuZ2UgdGhlIG9yZGVyIGluIHdoaWNoIHdlIGNvbnNpZGVyIHRoZSB2YXJpYWJsZXMgaW4gdGhlIGJyZWFrLWRvd24gcGxvdHMsIGllLiBhIHBlcm11dGF0aW9uIG9yIHJlb3JkZXJpbmcgb2YgdGhlIHZhcmlhYmxlcywgYW5kIHRoZW4gdG8gYXZlcmFnZSB0aGUgY29udHJpYnV0aW9ucy4gVGhhdCdzIGl0ISBJZGVhbGx5LCB3ZSB3b3VsZCBsb29rIGF0IGV2ZXJ5IHBvc3NpYmxlIHBlcm11dGF0aW9uLCBidXQgc2luY2UgdGhhdCB0YWtlcyBhIGxvdCBvZiB0aW1lLCB3ZSB3aWxsIG9ubHkgbG9vayBhdCBhIHNhbXBsZSBvZiB0aGVtLgoKQW5kLCB0aGUgUiBjb2RlIHRvIGV4ZWN1dGUgdGhpcyBvbmNlIGFnYWluIHVzZXMgdGhlIGBwcmVkaWN0X3BhcnRzKClgIGZ1bmN0aW9uLiBUaGUgYHR5cGUgPSAic2hhcCJgIGFuZCB0aGVyZSBpcyBhbiBhZGRpdGlvbmFsIGFyZ3VtZW50LCBgQmAsIHdoaWNoIGlzIGhvdyBtYW55IHBlcm11dGF0aW9ucyBvZiB0aGUgdmFyaWFibGVzIHdlIGRlc2lyZS4gSSByZWNvbW1lbmQgc3RhcnRpbmcgc21hbGwuIEluIHRoaXMgY2FzZSwgMTAgYWxyZWFkeSByYW4gZm9yIHF1aXRlIGEgd2hpbGUsIHNvIEknbGwgc3RpY2sgd2l0aCB0aGF0LiBZb3UgbWlnaHQgY29uc2lkZXIgYWRkaW5nIGBjYWNoZT1UUlVFYCB0byB0aGUgY29kZSBjaHVuayBvcHRpb25zIHNvIHlvdSBkb24ndCBoYXZlIHRvIHJlLXJ1biB0aGlzIHNlY3Rpb24gZXZlcnkgdGltZSB5b3Uga25pdCB0aGUgZmlsZS4gCgpgYGB7ciwgY2FjaGU9VFJVRX0KcmZfc2hhcCA8LXByZWRpY3RfcGFydHMoZXhwbGFpbmVyID0gcmZfZXhwbGFpbiwKICAgICAgICAgICAgICAgICAgICAgICAgbmV3X29ic2VydmF0aW9uID0gbmV3X29icywKICAgICAgICAgICAgICAgICAgICAgICAgdHlwZSA9ICJzaGFwIiwKICAgICAgICAgICAgICAgICAgICAgICAgQiA9IDEwICNudW1iZXIgb2YgcmVvcmRlcmluZ3MgLSBzdGFydCBzbWFsbAopCgpwbG90KHJmX3NoYXApCmBgYAoKKipXaGF0IGRvZXMgdGhpcyBncmFwaCBzaG93PyoqCgpFYWNoIGJhciBzaG93cyB0aGUgYXZlcmFnZSBjb250cmlidXRpb24gb2YgZWFjaCB2YXJpYWJsZSdzIHZhbHVlIHRvIHRoZSBwcmVkaWN0ZWQgcmVzcG9uc2UgZm9yIHRoaXMgb2JzZXJ2YXRpb24uIFNvLCB0aGUgZ3JhZGUgb2YgMTEgY29udHJpYnV0ZXMgYWxtb3N0IGFuIGFkZGl0aW9uYWwgYDAuMTVgIHRvIHRoZSBwcmVkaWN0ZWQgYGxvZ19wcmljZWAgZm9yIHRoaXMgb2JzZXJ2YXRpb24sIG9uIGF2ZXJhZ2UuIFRoZSBib3hwbG90IHNob3dzIHRoZSB2YXJpYXRpb24gYWNyb3NzIHBlcm11dGF0aW9ucyBvZiB0aGUgdmFyaWFibGVzJyBvcmRlciBvZiBjb25zaWRlcmF0aW9uLiBJZiB0aGUgdmFyaWF0aW9uIGlzIGxhcmdlLCBhbmQgZXNwZWNpYWxseSBpZiB0aGUgYm94cGxvdCBlbmNvbXBhc3NlcyBib3RoIHBvc3RpdGl2ZSBhbmQgbmVnYXRpdmUgdmFsdWVzLCB3ZSB3aWxsIGJlIGxlc3MgY29uZmlkZW50IGluIGl0cyBleGFjdCBlZmZlY3QuCgpOb3RpY2UgdGhhdCB3aGVuIHdlIGFwcGx5IHRoaXMgdG8gdGhlIGxhc3NvIG1vZGVsLCB0aGUgYm94cGxvdHMgYXJlIGp1c3QgYSBwb2ludCBiZWNhdXNlIHBlcm11dGluZyB0aGUgb3JkZXIgaW4gd2hpY2ggd2UgY29uc2lkZXIgdGhlIHZhcmlhYmxlcyBkb2Vzbid0IG1hdHRlciB3aXRoIGFkZGl0aXZlIG1vZGVscy4gU28sIHlvdSBzaG91bGQgb25seSBib3RoZXIgdG8gZG8gdGhpcyB3aXRoIG5vbi1hZGRpdGl2ZSBtb2RlbHMuIAoKYGBge3IsIGNhY2hlPVRSVUV9Cmxhc3NvX3NoYXAgPC1wcmVkaWN0X3BhcnRzKGV4cGxhaW5lciA9IGxhc3NvX2V4cGxhaW4sCiAgICAgICAgICAgICAgICAgICAgICAgIG5ld19vYnNlcnZhdGlvbiA9IG5ld19vYnMsCiAgICAgICAgICAgICAgICAgICAgICAgIHR5cGUgPSAic2hhcCIsCiAgICAgICAgICAgICAgICAgICAgICAgIEIgPSAxMCAjbnVtYmVyIG9mIHJlb3JkZXJpbmdzIC0gc3RhcnQgc21hbGwKKQoKcGxvdChsYXNzb19zaGFwKQpgYGAKCiMjIExvY2FsIEludGVycHJldGFibGUgTW9kZWwtYWdub3N0aWMgRXhwbGFuYXRpb25zIChMSU1FKQoKVGhlIGxhc3QgbG9jYWwgaW50ZXJwcmV0YWJsZSBtYWNoaW5lIGxlYXJuaW5nIG1ldGhvZCBJIHdpbGwgZGlzY3VzcyBpcyBMSU1FLiBDaHJpc3RvcGggTW9sbmFyLCBpbiBoaXMgYm9vayBbKkludGVycHJldGFibGUgTWFjaGluZSBMZWFybmluZypdKGh0dHBzOi8vY2hyaXN0b3BobS5naXRodWIuaW8vaW50ZXJwcmV0YWJsZS1tbC1ib29rL2xpbWUuaHRtbCNsaW1lLWZvci10YWJ1bGFyLWRhdGEpLCBnaXZlcyBhIGdyZWF0IG92ZXJ2aWV3IG9mIGhvdyB0aGVzZSBhcmUgY29uc3RydWN0ZWQ6Cgo+IEZpcnN0LCBmb3JnZXQgYWJvdXQgdGhlIHRyYWluaW5nIGRhdGEgYW5kIGltYWdpbmUgeW91IG9ubHkgaGF2ZSB0aGUgYmxhY2sgYm94IG1vZGVsIHdoZXJlIHlvdSBjYW4gaW5wdXQgZGF0YSBwb2ludHMgYW5kIGdldCB0aGUgcHJlZGljdGlvbnMgb2YgdGhlIG1vZGVsLiBZb3UgY2FuIHByb2JlIHRoZSBib3ggYXMgb2Z0ZW4gYXMgeW91IHdhbnQuIFlvdXIgZ29hbCBpcyB0byB1bmRlcnN0YW5kIHdoeSB0aGUgbWFjaGluZSBsZWFybmluZyBtb2RlbCBtYWRlIGEgY2VydGFpbiBwcmVkaWN0aW9uLiBMSU1FIHRlc3RzIHdoYXQgaGFwcGVucyB0byB0aGUgcHJlZGljdGlvbnMgd2hlbiB5b3UgZ2l2ZSB2YXJpYXRpb25zIG9mIHlvdXIgZGF0YSBpbnRvIHRoZSBtYWNoaW5lIGxlYXJuaW5nIG1vZGVsLiBMSU1FIGdlbmVyYXRlcyBhIG5ldyBkYXRhc2V0IGNvbnNpc3Rpbmcgb2YgcGVydHVyYmVkIHNhbXBsZXMgYW5kIHRoZSBjb3JyZXNwb25kaW5nIHByZWRpY3Rpb25zIG9mIHRoZSBibGFjayBib3ggbW9kZWwuIE9uIHRoaXMgbmV3IGRhdGFzZXQgTElNRSB0aGVuIHRyYWlucyBhbiBpbnRlcnByZXRhYmxlIG1vZGVsLCB3aGljaCBpcyB3ZWlnaHRlZCBieSB0aGUgcHJveGltaXR5IG9mIHRoZSBzYW1wbGVkIGluc3RhbmNlcyB0byB0aGUgaW5zdGFuY2Ugb2YgaW50ZXJlc3QuIAoKT2Z0ZW4gYSBzaW1wbGUgZGVjaXNpb24gdHJlZSBvciBMQVNTTyBtb2RlbCBpcyB1c2VkIGFzIHRoZSBpbnRlcnByZXRhYmxlIG1vZGVsLiAKCldlIGFyZSBnb2luZyB0byB1c2UgdGhlIGBwcmVkaWN0X3N1cnJvZ2F0ZSgpYCBmdW5jdGlvbiBhbmQgaXRzIGFzc29jaWF0ZWQgYHBsb3QoKWAgZnVuY3Rpb24gdG8gcGVyZm9ybSBMSU1FLiBUaGUgZnVuY3Rpb25zIHdlIHVzZSBjYWxsIGZ1bmN0aW9ucyBmcm9tIHRoZSBgbGltZWAgbGlicmFyeSBiZWhpbmQgdGhlIHNjZW5lcy4gVXNpbmcgdGhlc2UgZnVuY3Rpb25zIHdpbGwgY3JlYXRlIGEgbG9jYWwgTEFTU08gbW9kZWwgd2l0aCBhIG1heGltdW0gb2YgSyB2YXJpYWJsZXMgKGNob3NlbiB2aWEgdGhlIGBuX2ZlYXR1cmVzYCBhcmd1bWVudCBpbiB0aGUgZnVuY3Rpb24pLgoKVGhlIGFyZ3VtZW50cyB3ZSBuZWVkIHRvIHByb3ZpZGUgdG8gdGhlIGZ1bmN0aW9uIGFyZToKICAqIGBleHBsYWluZXJgOiB0aGUgZXhwbGFpbmVyIHdlIGRlZmluZWQgZWFybGllciAgCiAgKiBgbmV3X29ic2VydmF0aW9uYDogdGhlIG9ic2VydmF0aW9uIHdlJ3JlIGludGVyZXN0ZWQgaW4gZXhhbWluaW5nIC0gdGhpcyBjYW5ub3QgaGF2ZSB0aGUgb3V0Y29tZS9yZXNwb25zZSB2YXJpYWJsZSBpbiBpdCBvciB5b3Ugd2lsbCBnZXQgYW4gZXJyb3IhICAKICAqIGBuX2ZlYXR1cmVzYDogdGhlIG1heGltdW0gbnVtYmVyIG9mIHZhcmlhYmxlcyB0aGF0IHdpbGwgYmUgaW5jbHVkZWQgaW4gdGhlIGxvY2FsIExBU1NPIG1vZGVsICAKICAqIGBuX3Blcm11dGF0aW9uc2A6IHRoZSBudW1iZXIgb2YgcGVydHVyYmVkIHNhbXBsZXMuIFRvIGVsYWJvcmF0ZSBvbiB0aGUgcXVvdGUgYWJvdmUgZnJvbSBDaHJpc3RvcGggTW9sbmFyLCBhIHBlcnR1cmJhdGlvbiBvZiBvdXIgb2JzZXJ2YXRpb24gb2YgaW50ZXJlc3QgbWVhbnMgdGhhdCB0aGUgdmFsdWVzIG9mIHRoZSB2YXJpYWJsZXMgYXJlIHNsaWdodGx5IG1vZGlmaWVkIGZyb20gdGhlICBvYnNlcnZhdGlvbiBvZiBpbnRlcmVzdC0gdGhpbmsgb2YgaXQgYXMgaml0dGVyaW5nIGluIGBnZW9tX2ppdHRlcigpYC4gVGhleSBhcmUgd2VpZ2h0ZWQgYnkgdGhlIGRpc3RhbmNlIGZyb20gdGhlIG9ic2VydmF0aW9uIG9mIGludGVyZXN0LiBZb3UgY2FuIHJlYWQgbW9yZSBkZXRhaWwgW2hlcmVdKGh0dHBzOi8vY3Jhbi5yLXByb2plY3Qub3JnL3dlYi9wYWNrYWdlcy9saW1lL3ZpZ25ldHRlcy9VbmRlcnN0YW5kaW5nX2xpbWUuaHRtbCkuCiAgKiBgdHlwZWA6IHRoZSB0eXBlIG9mIExJTUUgbWV0aG9kIHRvIHVzZS4gSSB3aWxsIG9ubHkgZGlzY3VzcyBgbGltZWAgYnV0IHRoZXJlIGFyZSBvdGhlciBvcHRpb25zLgogIApMZXQncyBsb29rIGF0IGFuIGV4YW1wbGUgYW5kIHRoZW4gZGlzY3VzcyB0aGUgb3V0cHV0LiBJIGBzZXQuc2VlZCgpYCBmb3IgcmVwcm9kdWNpYmlsaXR5IG9mIHRoZSByYW5kb20gcGVydHVyYmF0aW9ucy4gTGlrZSBJIG1lbnRpb25lZCBhYm92ZSwgd2UgbmVlZCB0byBlbGltaW5hdGUgdGhlIG91dGNvbWUgdmFyaWFibGUgZnJvbSB0aGUgb2JzZXJ2YXRpb24gb2YgaW50ZXJlc3QuIAoKYGBge3J9CnNldC5zZWVkKDIpCgojIE5FRUQgdGhlc2UgdHdvIGxpbmVzIG9mIGNvZGUgYWx3YXlzIQojIFRoZXkgbWFrZSBzdXJlIG91ciBleHBsYWluZXIgaXMgZGVmaW5lZCBjb3JyZWN0bHkgdG8gdXNlIGluIHRoZSBuZXh0IHN0ZXAKbW9kZWxfdHlwZS5kYWxleF9leHBsYWluZXIgPC0gREFMRVh0cmE6Om1vZGVsX3R5cGUuZGFsZXhfZXhwbGFpbmVyCnByZWRpY3RfbW9kZWwuZGFsZXhfZXhwbGFpbmVyIDwtIERBTEVYdHJhOjpwcmVkaWN0X21vZGVsLmRhbGV4X2V4cGxhaW5lcgoKbGltZV9yZiA8LSBwcmVkaWN0X3N1cnJvZ2F0ZShleHBsYWluZXIgPSByZl9leHBsYWluLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgIG5ld19vYnNlcnZhdGlvbiA9IG5ld19vYnMgJT4lCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBzZWxlY3QoLWxvZ19wcmljZSksIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgIG5fZmVhdHVyZXMgPSA1LAogICAgICAgICAgICAgICAgICAgICAgICAgICAgIG5fcGVybXV0YXRpb25zID0gMTAwMCwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICB0eXBlID0gImxpbWUiKQoKbGltZV9yZiAlPiUgCiAgc2VsZWN0KG1vZGVsX3IyLCBtb2RlbF9wcmVkaWN0aW9uLCBwcmVkaWN0aW9uKSAlPiUgCiAgZGlzdGluY3QoKQpgYGAKClRoZXNlIGFyZSBzb21lIG9mIHRoZSBtb2RlbC1sZXZlbCBvdXRwdXRzLiBUaGUgYG1vZGVsX3IyYCBnaXZlcyBvdmVyYWxsIG1vZGVsIHBlcmZvcm1hbmNlIChJIHRoaW5rIGl0J3MgYSB0eXBlIG9mICRSXjIkKSwgdGhlIGBwcmVkaWN0aW9uYCBpcyB0aGUgcHJlZGljdGlvbiBmcm9tIHRoZSBvcmlnaW5hbCBtb2RlbCwgYW5kIHRoZSBgbW9kZWxfcHJlZGljdGlvbmAgaXMgdGhlIHByZWRpY3Rpb24gZnJvbSB0aGlzIGxvY2FsIG1vZGVsLiBJIGxpa2UgdG8gbG9vayB0byBzZWUgaG93IGNsb3NlIHRoZSBvcmlnaW5hbCBwcmVkaWN0aW9uIG1hdGNoZWQgdGhlIGxvY2FsIG1vZGVsIHByZWRpY3Rpb24uIEFmdGVyIGxvb2tpbmcgYXQgdGhlc2UgaGlnaC1sZXZlbCBzdGF0cywgZXhhbWluZSB0aGUgcGxvdC4KCmBgYHtyfQpwbG90KGxpbWVfcmYpICsKICBsYWJzKHggPSAiVmFyaWFibGUiKQpgYGAKCioqV2hhdCBkb2VzIHRoaXMgc2hvdyB1cz8qKgoKKiBUaGUgcHJlZGljdGVkIHZhbHVlIGZyb20gdGhlIG9yaWdpbmFsIHJhbmRvbSBmb3Jlc3QgbW9kZWwgKCoqUHJlZGljdGlvbioqKSBpcyBhYm91dCA2LjE3LiAKKiBUaGUgcHJlZGljdGVkIHZhbHVlIGZyb20gdGhlIGxvY2FsIG1vZGVsIGlzIG5vdCBzaG93biwgYnV0IHdlIHNhdyB0aGF0IGluIHRoZSBvdXRwdXQgYWJvdmUuICAKKiBUaGUgKCoqRXhwbGFuYXRpb24gZml0KiopIGlzIGFuIG92ZXJhbGwgcGVyZm9ybWFuY2UgbWV0cmljIGZvciB0aGUgbG9jYWwgbW9kZWwgLSBgbW9kZWxfcjJgIGZyb20gdGhlIG91dHB1dCBhYm92ZS4gIAoqIFRoZSBiYXJzIHNob3cgdGhlIHZhcmlhYmxlcyBvcmRlcmQgYnkgd2VpZ2h0LCBnaXZpbmcgYW4gaW5kaWNhdGlvbiBvZiB3aGljaCB2YXJpYWJsZXMgYXJlIG1vc3QgaW1wb3J0YW50IGluIHRoZSBsb2NhbCBtb2RlbC4K" download="imllocal.Rmd">
+<button class="btn btn-info"><i class="fa fa-save"></i> Download .Rmd file</button>
+</a>
+</div>
+<h2 id="resources">Resources</h2>
+<ul>
+<li><p><a href="https://ema.drwhy.ai/InstanceLevelExploration.html">Explanatory Model Analysis</a> by Przemyslaw Biecek and Tomasz Burzykowski, section II: Instance Level chapters.</p></li>
+<li><p><a href="https://bradleyboehmke.github.io/HOML/iml.html">Interpretable Machine Learning</a> chapter of HOML by by Bradley Boehmke &amp; Brandon Greenwell.</p></li>
+<li><p><a href="https://christophm.github.io/interpretable-ml-book/agnostic.html">Interpretable Machine Learning</a> book by Christoph Molnar, specifically chapter 5.</p></li>
+</ul>
+<h2 id="set-up">Set up</h2>
+<p>First, we load the libraries we will use. There will be some new ones you’ll need to install.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span>         <span class='co'># for reading in data, graphing, and cleaning</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidymodels.tidymodels.org'>tidymodels</a></span><span class='op'>)</span>        <span class='co'># for modeling ... tidily</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://lubridate.tidyverse.org'>lubridate</a></span><span class='op'>)</span>         <span class='co'># for dates</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/moderndive/moderndive/issues'>moderndive</a></span><span class='op'>)</span>        <span class='co'># for King County housing data</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dalex.drwhy.ai'>DALEX</a></span><span class='op'>)</span>             <span class='co'># moDel Agnostic Language for Exploration and eXplanation (for model interpretation)  </span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://lime.data-imaginist.com'>lime</a></span><span class='op'>)</span>              <span class='co'># for LIME</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ModelOriented.github.io/DALEXtra/'>DALEXtra</a></span><span class='op'>)</span>          <span class='co'># for extension of DALEX</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://patchwork.data-imaginist.com'>patchwork</a></span><span class='op'>)</span>         <span class='co'># for combining plots nicely</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/rstudio/rmarkdown'>rmarkdown</a></span><span class='op'>)</span>         <span class='co'># for paged tables</span>
+<span class='fu'>theme_set</span><span class='op'>(</span><span class='fu'>theme_minimal</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='co'># my favorite ggplot2 theme :)</span>
+</code></pre>
+</div>
+</div>
+<p>Then we load the data we will use throughout this tutorial and do some modifications.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"house_prices"</span><span class='op'>)</span>
+
+<span class='co'># Create log_price and drop price variable</span>
+<span class='va'>house_prices</span> <span class='op'>&lt;-</span> <span class='va'>house_prices</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>mutate</span><span class='op'>(</span>log_price <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>price</span>, base <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='co'># make all integers numeric ... fixes prediction problem</span>
+  <span class='fu'>mutate</span><span class='op'>(</span><span class='fu'>across</span><span class='op'>(</span><span class='fu'>where</span><span class='op'>(</span><span class='va'>is.integer</span><span class='op'>)</span>, <span class='va'>as.numeric</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>select</span><span class='op'>(</span><span class='op'>-</span><span class='va'>price</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<h2 id="intro">Intro</h2>
+<p>As mentioned in the global model interpretation tutorial last week, local model interpretation helps us understand the impact variables have on individual observations. In this tutorial, I will give a general overview of a few methods and show you some R code that can help you execute them. I highly suggest reading the resources I listed above, especially <a href="https://ema.drwhy.ai/InstanceLevelExploration.html">Explanatory Model Analysis</a>, which is a companion to the <code>DALEX</code> package we will be using.</p>
+<h2 id="recreate-some-models">Recreate some models</h2>
+<p>Once again we will build the lasso and random forest models to predict <code>log_price</code> of a house from the King County data. As mentioned in the previous tutorial, we wouldn’t have to use <code>log_price</code> for random forest, but I’m going to keep it that way so it’s the same as the lasso model.</p>
+<p>Recreate the lasso model:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>327</span><span class='op'>)</span> <span class='co'>#for reproducibility</span>
+
+<span class='co'># Randomly assigns 75% of the data to training.</span>
+<span class='va'>house_split</span> <span class='op'>&lt;-</span> <span class='fu'>initial_split</span><span class='op'>(</span><span class='va'>house_prices</span>, 
+                             prop <span class='op'>=</span> <span class='fl'>.75</span><span class='op'>)</span>
+<span class='va'>house_training</span> <span class='op'>&lt;-</span> <span class='fu'>training</span><span class='op'>(</span><span class='va'>house_split</span><span class='op'>)</span>
+<span class='va'>house_testing</span> <span class='op'>&lt;-</span> <span class='fu'>testing</span><span class='op'>(</span><span class='va'>house_split</span><span class='op'>)</span>
+
+<span class='co'># lasso recipe and transformation steps</span>
+<span class='va'>house_recipe</span> <span class='op'>&lt;-</span> <span class='fu'>recipe</span><span class='op'>(</span><span class='va'>log_price</span> <span class='op'>~</span> <span class='va'>.</span>, 
+                       data <span class='op'>=</span> <span class='va'>house_training</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>step_rm</span><span class='op'>(</span><span class='va'>sqft_living15</span>, <span class='va'>sqft_lot15</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>step_log</span><span class='op'>(</span><span class='fu'>starts_with</span><span class='op'>(</span><span class='st'>"sqft"</span><span class='op'>)</span>,
+           <span class='op'>-</span><span class='va'>sqft_basement</span>, 
+           base <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>step_mutate</span><span class='op'>(</span>grade <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span><span class='op'>(</span><span class='va'>grade</span><span class='op'>)</span>,
+              grade <span class='op'>=</span> <span class='fu'>fct_relevel</span><span class='op'>(</span>
+                        <span class='fu'>case_when</span><span class='op'>(</span>
+                          <span class='va'>grade</span> <span class='op'>%in%</span> <span class='st'>"1"</span><span class='op'>:</span><span class='st'>"6"</span>   <span class='op'>~</span> <span class='st'>"below_average"</span>,
+                          <span class='va'>grade</span> <span class='op'>%in%</span> <span class='st'>"10"</span><span class='op'>:</span><span class='st'>"13"</span> <span class='op'>~</span> <span class='st'>"high"</span>,
+                          <span class='cn'>TRUE</span> <span class='op'>~</span> <span class='va'>grade</span>
+                        <span class='op'>)</span>,
+                        <span class='st'>"below_average"</span>,<span class='st'>"7"</span>,<span class='st'>"8"</span>,<span class='st'>"9"</span>,<span class='st'>"high"</span><span class='op'>)</span>,
+              basement <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>sqft_basement</span> <span class='op'>==</span> <span class='fl'>0</span><span class='op'>)</span>,
+              renovated <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>yr_renovated</span> <span class='op'>==</span> <span class='fl'>0</span><span class='op'>)</span>,
+              view <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>view</span> <span class='op'>==</span> <span class='fl'>0</span><span class='op'>)</span>,
+              waterfront <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>waterfront</span><span class='op'>)</span>,
+              age_at_sale <span class='op'>=</span> <span class='fu'><a href='http://lubridate.tidyverse.org/reference/year.html'>year</a></span><span class='op'>(</span><span class='va'>date</span><span class='op'>)</span> <span class='op'>-</span> <span class='va'>yr_built</span><span class='op'>)</span><span class='op'>%&gt;%</span> 
+  <span class='fu'>step_rm</span><span class='op'>(</span><span class='va'>sqft_basement</span>, 
+          <span class='va'>yr_renovated</span>, 
+          <span class='va'>yr_built</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>step_date</span><span class='op'>(</span><span class='va'>date</span>, 
+            features <span class='op'>=</span> <span class='st'>"month"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>update_role</span><span class='op'>(</span><span class='fu'>all_of</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"id"</span>,
+                       <span class='st'>"date"</span>,
+                       <span class='st'>"zipcode"</span>, 
+                       <span class='st'>"lat"</span>, 
+                       <span class='st'>"long"</span><span class='op'>)</span><span class='op'>)</span>,
+              new_role <span class='op'>=</span> <span class='st'>"evaluative"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>step_dummy</span><span class='op'>(</span><span class='fu'>all_nominal</span><span class='op'>(</span><span class='op'>)</span>, 
+             <span class='op'>-</span><span class='fu'>all_outcomes</span><span class='op'>(</span><span class='op'>)</span>, 
+             <span class='op'>-</span><span class='fu'>has_role</span><span class='op'>(</span>match <span class='op'>=</span> <span class='st'>"evaluative"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>step_normalize</span><span class='op'>(</span><span class='fu'>all_predictors</span><span class='op'>(</span><span class='op'>)</span>, 
+                 <span class='op'>-</span><span class='fu'>all_nominal</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='co'>#define lasso model</span>
+<span class='va'>house_lasso_mod</span> <span class='op'>&lt;-</span> 
+  <span class='fu'>linear_reg</span><span class='op'>(</span>mixture <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>set_engine</span><span class='op'>(</span><span class='st'>"glmnet"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>set_args</span><span class='op'>(</span>penalty <span class='op'>=</span> <span class='fu'>tune</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>set_mode</span><span class='op'>(</span><span class='st'>"regression"</span><span class='op'>)</span>
+
+<span class='co'># create workflow</span>
+<span class='va'>house_lasso_wf</span> <span class='op'>&lt;-</span> 
+  <span class='fu'>workflow</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>add_recipe</span><span class='op'>(</span><span class='va'>house_recipe</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>add_model</span><span class='op'>(</span><span class='va'>house_lasso_mod</span><span class='op'>)</span>
+
+<span class='co'># create cv samples</span>
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1211</span><span class='op'>)</span> <span class='co'># for reproducibility</span>
+<span class='va'>house_cv</span> <span class='op'>&lt;-</span> <span class='fu'>vfold_cv</span><span class='op'>(</span><span class='va'>house_training</span>, v <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
+
+
+<span class='co'># penalty grid - changed to 10 levels</span>
+<span class='va'>penalty_grid</span> <span class='op'>&lt;-</span> <span class='fu'>grid_regular</span><span class='op'>(</span><span class='fu'>penalty</span><span class='op'>(</span><span class='op'>)</span>,
+                             levels <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>
+
+<span class='co'># tune the model </span>
+<span class='va'>house_lasso_tune</span> <span class='op'>&lt;-</span> 
+  <span class='va'>house_lasso_wf</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>tune_grid</span><span class='op'>(</span>
+    resamples <span class='op'>=</span> <span class='va'>house_cv</span>,
+    grid <span class='op'>=</span> <span class='va'>penalty_grid</span>
+    <span class='op'>)</span>
+
+<span class='co'># choose the best penalty</span>
+<span class='va'>best_param</span> <span class='op'>&lt;-</span> <span class='va'>house_lasso_tune</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>select_best</span><span class='op'>(</span>metric <span class='op'>=</span> <span class='st'>"rmse"</span><span class='op'>)</span>
+
+<span class='co'># finalize workflow</span>
+<span class='va'>house_lasso_final_wf</span> <span class='op'>&lt;-</span> <span class='va'>house_lasso_wf</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>finalize_workflow</span><span class='op'>(</span><span class='va'>best_param</span><span class='op'>)</span>
+
+<span class='co'># fit final model</span>
+<span class='va'>house_lasso_final_mod</span> <span class='op'>&lt;-</span> <span class='va'>house_lasso_final_wf</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>fit</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>house_training</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>Recreate the random forest model:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='co'># set up recipe and transformation steps and roles</span>
+<span class='va'>ranger_recipe</span> <span class='op'>&lt;-</span> 
+  <span class='fu'>recipe</span><span class='op'>(</span>formula <span class='op'>=</span> <span class='va'>log_price</span> <span class='op'>~</span> <span class='va'>.</span>, 
+         data <span class='op'>=</span> <span class='va'>house_training</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>step_date</span><span class='op'>(</span><span class='va'>date</span>, 
+            features <span class='op'>=</span> <span class='st'>"month"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='co'># Make these evaluative variables, not included in modeling</span>
+  <span class='fu'>update_role</span><span class='op'>(</span><span class='fu'>all_of</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"id"</span>,
+                       <span class='st'>"date"</span><span class='op'>)</span><span class='op'>)</span>,
+              new_role <span class='op'>=</span> <span class='st'>"evaluative"</span><span class='op'>)</span>
+
+<span class='co'>#define model</span>
+<span class='va'>ranger_spec</span> <span class='op'>&lt;-</span> 
+  <span class='fu'>rand_forest</span><span class='op'>(</span>mtry <span class='op'>=</span> <span class='fl'>6</span>, 
+              min_n <span class='op'>=</span> <span class='fl'>10</span>, 
+              trees <span class='op'>=</span> <span class='fl'>200</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>set_mode</span><span class='op'>(</span><span class='st'>"regression"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>set_engine</span><span class='op'>(</span><span class='st'>"ranger"</span><span class='op'>)</span>
+
+<span class='co'>#create workflow</span>
+<span class='va'>ranger_workflow</span> <span class='op'>&lt;-</span> 
+  <span class='fu'>workflow</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>add_recipe</span><span class='op'>(</span><span class='va'>ranger_recipe</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>add_model</span><span class='op'>(</span><span class='va'>ranger_spec</span><span class='op'>)</span> 
+
+<span class='co'>#fit the model</span>
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>712</span><span class='op'>)</span> <span class='co'># for reproducibility - random sampling in random forest choosing number of variables</span>
+<span class='va'>ranger_fit</span> <span class='op'>&lt;-</span> <span class='va'>ranger_workflow</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>fit</span><span class='op'>(</span><span class='va'>house_training</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<h2 id="individual-model-explanation">Individual model explanation</h2>
+<p>Again, the types of model explanations we’ll focus on in this tutorial are individual, also called local or instance-level.</p>
+<h3 id="cp-profiles">CP profiles</h3>
+<p>We learned one of these methods in the previous tutorial, <a href="https://advanced-ds-in-r.netlify.app/posts/2021-03-24-imlglobal/#ceteris-paribus-profiles">ceteris-peribus profiles</a>, or CP profiles. These show how changing the value of one variable while holding the others at their values affects the predicted outcome for a specific observation.</p>
+<h3 id="break-down-plots">Break down plots</h3>
+<p>Next, we’ll look at <a href="https://ema.drwhy.ai/breakDown.html#BDR">break-down plots</a>. These plots visualize the estimated contribution of each variable to that observation’s predicted outcome. These work especially well for additive models. We will see that if a model isn’t additive, the break-down plot can change depending on the order in which we examine the variables.</p>
+<p>Let’s start by looking at one of the break-down plots and then we’ll dive into how they’re made.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='co'># Create an explainer for the lasso model:</span>
+<span class='va'>lasso_explain</span> <span class='op'>&lt;-</span> 
+  <span class='fu'><a href='https://ModelOriented.github.io/DALEXtra/reference/explain_tidymodels.html'>explain_tidymodels</a></span><span class='op'>(</span>
+    model <span class='op'>=</span> <span class='va'>house_lasso_final_mod</span>,
+    data <span class='op'>=</span> <span class='va'>house_training</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span><span class='op'>(</span><span class='op'>-</span><span class='va'>log_price</span><span class='op'>)</span>, 
+    y <span class='op'>=</span> <span class='va'>house_training</span> <span class='op'>%&gt;%</span>  <span class='fu'>pull</span><span class='op'>(</span><span class='va'>log_price</span><span class='op'>)</span>,
+    label <span class='op'>=</span> <span class='st'>"lasso"</span>
+  <span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>Preparation of a new explainer is initiated
+  -&gt; model label       :  lasso 
+  -&gt; data              :  16210  rows  20  cols 
+  -&gt; data              :  tibble converted into a data.frame 
+  -&gt; target variable   :  16210  values 
+  -&gt; predict function  :  yhat.workflow  will be used ( [33m default [39m )
+  -&gt; predicted values  :  No value for predict function target column. ( [33m default [39m )
+  -&gt; model_info        :  package tidymodels , ver. 0.1.2 , task regression ( [33m default [39m ) 
+  -&gt; predicted values  :  numerical, min =  5.047104 , mean =  5.665499 , max =  6.652808  
+  -&gt; residual function :  difference between y and yhat ( [33m default [39m )
+  -&gt; residuals         :  numerical, min =  -0.5380901 , mean =  -2.92155e-14 , max =  0.617312  
+ [32m A new explainer has been created! [39m </code></pre>
+<div class="sourceCode">
+<pre><code><span class='co'># Create an explainer for the random forest model:</span>
+<span class='va'>rf_explain</span> <span class='op'>&lt;-</span> 
+  <span class='fu'><a href='https://ModelOriented.github.io/DALEXtra/reference/explain_tidymodels.html'>explain_tidymodels</a></span><span class='op'>(</span>
+    model <span class='op'>=</span> <span class='va'>ranger_fit</span>,
+    data <span class='op'>=</span> <span class='va'>house_training</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span><span class='op'>(</span><span class='op'>-</span><span class='va'>log_price</span><span class='op'>)</span>, 
+    y <span class='op'>=</span> <span class='va'>house_training</span> <span class='op'>%&gt;%</span>  <span class='fu'>pull</span><span class='op'>(</span><span class='va'>log_price</span><span class='op'>)</span>,
+    label <span class='op'>=</span> <span class='st'>"rf"</span>
+  <span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>Preparation of a new explainer is initiated
+  -&gt; model label       :  rf 
+  -&gt; data              :  16210  rows  20  cols 
+  -&gt; data              :  tibble converted into a data.frame 
+  -&gt; target variable   :  16210  values 
+  -&gt; predict function  :  yhat.workflow  will be used ( [33m default [39m )
+  -&gt; predicted values  :  No value for predict function target column. ( [33m default [39m )
+  -&gt; model_info        :  package tidymodels , ver. 0.1.2 , task regression ( [33m default [39m ) 
+  -&gt; predicted values  :  numerical, min =  5.067779 , mean =  5.665052 , max =  6.73216  
+  -&gt; residual function :  difference between y and yhat ( [33m default [39m )
+  -&gt; residuals         :  numerical, min =  -0.3414938 , mean =  0.0004474744 , max =  0.2219833  
+ [32m A new explainer has been created! [39m </code></pre>
+<div class="sourceCode">
+<pre><code><span class='co'># Choose an observation</span>
+<span class='va'>new_obs</span> <span class='op'>&lt;-</span> <span class='va'>house_testing</span> <span class='op'>%&gt;%</span> <span class='fu'>slice</span><span class='op'>(</span><span class='fl'>5377</span><span class='op'>)</span> 
+
+<span class='co'># Price of new_obs's house - just to know because I can't think in logs</span>
+<span class='fl'>10</span><span class='op'>^</span><span class='op'>(</span><span class='va'>new_obs</span><span class='op'>$</span><span class='va'>log_price</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>[1] 1865000</code></pre>
+</div>
+<p>Now create the plot, and output a few other things. The plot shows the variables on the y-axis and this observation’s value for that variable. One sort of weird thing that I haven’t quite figured out yet is it shows that the observation’s <code>grade</code> is <code>10</code> when it is actually <code>11</code>. I think the <code>grade</code> factor may have been changed to an integer and then back to a factor at some point since <code>as.integer(new_obs$grade) =</code> 10. For now, we won’t worry about it. Just know that <code>grade = 10</code> really means <code>grade = 11</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='co'># Pulls together the data needed for the break-down plot</span>
+<span class='va'>pp_lasso</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dalex.drwhy.ai/reference/predict_parts.html'>predict_parts</a></span><span class='op'>(</span>explainer <span class='op'>=</span> <span class='va'>lasso_explain</span>,
+                          new_observation <span class='op'>=</span> <span class='va'>new_obs</span>,
+                          type <span class='op'>=</span> <span class='st'>"break_down"</span><span class='op'>)</span> <span class='co'>#default</span>
+
+<span class='co'># Break-down plot</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>pp_lasso</span><span class='op'>)</span>
+</code></pre>
+</div>
+<img src="imllocal_files/figure-html5/unnamed-chunk-5-1.png" width="624" />
+<div class="sourceCode">
+<pre><code><span class='co'># Table form of break-down plot data</span>
+<span class='va'>pp_lasso</span>
+</code></pre>
+</div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["variable"],"name":[1],"type":["chr"],"align":["left"]},{"label":["contribution"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["variable_name"],"name":[3],"type":["chr"],"align":["left"]},{"label":["variable_value"],"name":[4],"type":["chr"],"align":["left"]},{"label":["cumulative"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["sign"],"name":[6],"type":["fct"],"align":["left"]},{"label":["position"],"name":[7],"type":["int"],"align":["right"]},{"label":["label"],"name":[8],"type":["chr"],"align":["left"]}],"data":[{"1":"intercept","2":"5.665499485","3":"intercept","4":"1","5":"5.665499","6":"1","7":"22","8":"lasso"},{"1":"grade = 10","2":"0.254468070","3":"grade","4":"10","5":"5.919968","6":"1","7":"21","8":"lasso"},{"1":"sqft_living = 3790","2":"0.094909668","3":"sqft_living","4":"3790","5":"6.014877","6":"1","7":"20","8":"lasso"},{"1":"yr_built = 2006","2":"-0.083066106","3":"yr_built","4":"2006","5":"5.931811","6":"-1","7":"19","8":"lasso"},{"1":"bathrooms = 3.75","2":"0.057427435","3":"bathrooms","4":"3.75","5":"5.989239","6":"1","7":"18","8":"lasso"},{"1":"sqft_above = 3290","2":"0.040681901","3":"sqft_above","4":"3290","5":"6.029920","6":"1","7":"17","8":"lasso"},{"1":"sqft_basement = 500","2":"0.023824081","3":"sqft_basement","4":"500","5":"6.053745","6":"1","7":"16","8":"lasso"},{"1":"floors = 2","2":"0.010629715","3":"floors","4":"2","5":"6.064374","6":"1","7":"15","8":"lasso"},{"1":"bedrooms = 4","2":"-0.010400237","3":"bedrooms","4":"4","5":"6.053974","6":"-1","7":"14","8":"lasso"},{"1":"view = 0","2":"-0.005999253","3":"view","4":"0","5":"6.047975","6":"-1","7":"13","8":"lasso"},{"1":"condition = 3","2":"-0.004105811","3":"condition","4":"3","5":"6.043869","6":"-1","7":"12","8":"lasso"},{"1":"date = 16493","2":"-0.003197149","3":"date","4":"16493","5":"6.040672","6":"-1","7":"11","8":"lasso"},{"1":"sqft_lot = 8797","2":"-0.001542422","3":"sqft_lot","4":"8797","5":"6.039129","6":"-1","7":"10","8":"lasso"},{"1":"waterfront = FALSE","2":"-0.001395467","3":"waterfront","4":"FALSE","5":"6.037734","6":"-1","7":"9","8":"lasso"},{"1":"id = 3262300818","2":"0.000000000","3":"id","4":"3262300818","5":"6.037734","6":"0","7":"8","8":"lasso"},{"1":"yr_renovated = 0","2":"0.000000000","3":"yr_renovated","4":"0","5":"6.037734","6":"0","7":"7","8":"lasso"},{"1":"zipcode = 25","2":"0.000000000","3":"zipcode","4":"25","5":"6.037734","6":"0","7":"6","8":"lasso"},{"1":"lat = 47.6351","2":"0.000000000","3":"lat","4":"47.6351","5":"6.037734","6":"0","7":"5","8":"lasso"},{"1":"long = -122.236","2":"0.000000000","3":"long","4":"-122.236","5":"6.037734","6":"0","7":"4","8":"lasso"},{"1":"sqft_living15 = 2660","2":"0.000000000","3":"sqft_living15","4":"2660","5":"6.037734","6":"0","7":"3","8":"lasso"},{"1":"sqft_lot15 = 12150","2":"0.000000000","3":"sqft_lot15","4":"12150","5":"6.037734","6":"0","7":"2","8":"lasso"},{"1":"prediction","2":"6.037733911","3":"","4":"","5":"6.037734","6":"X","7":"1","8":"lasso"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode">
+<pre><code><span class='co'># Data we'll use later to compare contributions</span>
+<span class='va'>lasso_bdp</span> <span class='op'>&lt;-</span>
+  <span class='va'>pp_lasso</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>as_tibble</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>select</span><span class='op'>(</span><span class='va'>variable</span>, <span class='va'>contribution</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p><strong>What does this graph show?</strong></p>
+<p>Where the bars all start is labeled the intercept. It is the average predicted <code>log_price</code> (<em>predicted</em>, not actual price) when the lasso model is applied to the training data (fed into the explainer). We could compute that “by hand”.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>intercept</span> <span class='op'>&lt;-</span> 
+  <span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>house_lasso_final_mod</span>, new_data <span class='op'>=</span> <span class='va'>house_training</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>pull</span><span class='op'>(</span><span class='va'>.pred</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='va'>intercept</span>
+</code></pre>
+</div>
+<pre><code>[1] 5.665499</code></pre>
+</div>
+<p>Then, the <code>+.254</code> for the <code>grade = 10</code> bar (remember, that’s actually <code>grade = 11</code>), is the change in average prediction if grade was fixed at 11. We can also do that “by hand”. First, we set all <code>grade</code>s in the training set to <code>11</code>. Then find the new average predicted <code>log_price</code> when the lasso model is applied to this modified training data. And, lastly, compute the difference.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='co'># Put in grade = "11" for all observations</span>
+<span class='va'>data_grade11</span> <span class='op'>&lt;-</span> <span class='va'>house_training</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>mutate</span><span class='op'>(</span>grade <span class='op'>=</span> <span class='st'>"11"</span><span class='op'>)</span>
+
+<span class='co'># Find predictions</span>
+<span class='va'>avg_grade11</span> <span class='op'>&lt;-</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>house_lasso_final_mod</span>, new_data <span class='op'>=</span> <span class='va'>data_grade11</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>summarize</span><span class='op'>(</span>avg_grade11 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>.pred</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>pull</span><span class='op'>(</span><span class='va'>avg_grade11</span><span class='op'>)</span>
+
+<span class='co'># Compute difference</span>
+<span class='va'>avg_grade11</span> <span class='op'>-</span> <span class='va'>intercept</span>
+</code></pre>
+</div>
+<pre><code>[1] 0.2544681</code></pre>
+</div>
+<p>So, a <code>grade</code> of 11 contributes 0.254 to the average predicted score, for this observation. Let’s do one more level “by hand”, the <code>sqft_living = 3790</code> bar. Now set <code>grade = 11</code> and <code>sqft_living = 3790</code> and find the new average predicted <code>log_price</code> when the lasso model is applied to this modified training data. Then, compute the difference between this and the previous average predicted <code>log_price</code>, when only fixing <code>grade</code>, 5.9199676.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='co'># Put in grade = "11" and sqft_living = 3790 for all observations</span>
+<span class='va'>data_grade11_sqft3790</span> <span class='op'>&lt;-</span> <span class='va'>house_training</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>mutate</span><span class='op'>(</span>grade <span class='op'>=</span> <span class='st'>"11"</span>,
+         sqft_living <span class='op'>=</span> <span class='fl'>3790</span><span class='op'>)</span>
+
+<span class='co'># Find predictions</span>
+<span class='va'>avg_grade11_sqft3790</span> <span class='op'>&lt;-</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>house_lasso_final_mod</span>, new_data <span class='op'>=</span> <span class='va'>data_grade11_sqft3790</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>summarize</span><span class='op'>(</span>avg_grade11_sqft3790 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>.pred</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>pull</span><span class='op'>(</span><span class='va'>avg_grade11_sqft3790</span><span class='op'>)</span>
+
+<span class='co'># Compute difference</span>
+<span class='va'>avg_grade11_sqft3790</span> <span class='op'>-</span> <span class='va'>avg_grade11</span>
+</code></pre>
+</div>
+<pre><code>[1] 0.09490967</code></pre>
+</div>
+<p>So, <code>sqft_living</code> of 3790 contributes 0.095 to the average predicted score, for this observation.</p>
+<p>In additive models, like lasso without interactions, contributions don’t change due to which variables are considered first. In the code below, we give a new order in which to consider the variables. The plot looks different, but the length of the bars is the same, thus the contribution is the same</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>pp_lasso_ord1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dalex.drwhy.ai/reference/predict_parts.html'>predict_parts</a></span><span class='op'>(</span>explainer <span class='op'>=</span> <span class='va'>lasso_explain</span>,
+                          new_observation <span class='op'>=</span> <span class='va'>new_obs</span>,
+                          type <span class='op'>=</span> <span class='st'>"break_down"</span>, <span class='co'>#default</span>
+                          order <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"bathrooms"</span>,
+                                    <span class='st'>"floors"</span>,
+                                    <span class='st'>"condition"</span>,
+                                    <span class='st'>"sqft_basement"</span>,
+                                    <span class='st'>"sqft_living"</span>,
+                                    <span class='st'>"date"</span>,
+                                    <span class='st'>"waterfront"</span>,
+                                    <span class='st'>"grade"</span>,
+                                    <span class='st'>"yr_built"</span>,
+                                    <span class='st'>"bedrooms"</span>,
+                                    <span class='st'>"sqft_lot"</span>,
+                                    <span class='st'>"view"</span>,
+                                    <span class='st'>"sqft_above"</span>,
+                                    <span class='st'>"id"</span>,
+                                    <span class='st'>"zipcode"</span>,
+                                    <span class='st'>"sqft_living15"</span>,
+                                    <span class='st'>"lat"</span>,
+                                    <span class='st'>"sqft_lot15"</span>,
+                                    <span class='st'>"yr_renovated"</span>,
+                                    <span class='st'>"long"</span><span class='op'>)</span><span class='op'>)</span> 
+
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>pp_lasso_ord1</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="imllocal_files/figure-html5/unnamed-chunk-9-1.png" width="624" /></p>
+</div>
+<p>Joining together the new, reordered version and the original version, we can see that the contributions are the same.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>pp_lasso_ord1</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>as_tibble</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>select</span><span class='op'>(</span><span class='va'>variable</span>, <span class='va'>contribution</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>left_join</span><span class='op'>(</span><span class='va'>lasso_bdp</span>, by <span class='op'>=</span> <span class='st'>"variable"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>rename</span><span class='op'>(</span>reordered <span class='op'>=</span> <span class='va'>contribution.x</span>,
+         original <span class='op'>=</span> <span class='va'>contribution.y</span><span class='op'>)</span>
+</code></pre>
+</div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["variable"],"name":[1],"type":["chr"],"align":["left"]},{"label":["reordered"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["original"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"intercept","2":"5.665499485","3":"5.665499485"},{"1":"bathrooms = 3.75","2":"0.057427435","3":"0.057427435"},{"1":"floors = 2","2":"0.010629715","3":"0.010629715"},{"1":"condition = 3","2":"-0.004105811","3":"-0.004105811"},{"1":"sqft_basement = 500","2":"0.023824081","3":"0.023824081"},{"1":"sqft_living = 3790","2":"0.094909668","3":"0.094909668"},{"1":"date = 16493","2":"-0.003197149","3":"-0.003197149"},{"1":"waterfront = FALSE","2":"-0.001395467","3":"-0.001395467"},{"1":"grade = 10","2":"0.254468070","3":"0.254468070"},{"1":"yr_built = 2006","2":"-0.083066106","3":"-0.083066106"},{"1":"bedrooms = 4","2":"-0.010400237","3":"-0.010400237"},{"1":"sqft_lot = 8797","2":"-0.001542422","3":"-0.001542422"},{"1":"view = 0","2":"-0.005999253","3":"-0.005999253"},{"1":"sqft_above = 3290","2":"0.040681901","3":"0.040681901"},{"1":"id = 3262300818","2":"0.000000000","3":"0.000000000"},{"1":"zipcode = 25","2":"0.000000000","3":"0.000000000"},{"1":"sqft_living15 = 2660","2":"0.000000000","3":"0.000000000"},{"1":"lat = 47.6351","2":"0.000000000","3":"0.000000000"},{"1":"sqft_lot15 = 12150","2":"0.000000000","3":"0.000000000"},{"1":"yr_renovated = 0","2":"0.000000000","3":"0.000000000"},{"1":"long = -122.236","2":"0.000000000","3":"0.000000000"},{"1":"prediction","2":"6.037733911","3":"6.037733911"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<p>Now, let’s do this for the random forest model</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='co'># Pulls together the data needed for the break-down plot</span>
+<span class='va'>pp_rf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dalex.drwhy.ai/reference/predict_parts.html'>predict_parts</a></span><span class='op'>(</span>explainer <span class='op'>=</span> <span class='va'>rf_explain</span>,
+                       new_observation <span class='op'>=</span> <span class='va'>new_obs</span>,
+                       type <span class='op'>=</span> <span class='st'>"break_down"</span><span class='op'>)</span>
+
+<span class='co'># Break-down plot</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>pp_rf</span><span class='op'>)</span>
+</code></pre>
+</div>
+<img src="imllocal_files/figure-html5/unnamed-chunk-11-1.png" width="624" />
+<div class="sourceCode">
+<pre><code><span class='co'># Used later to compare variable reordering</span>
+<span class='va'>rf_bdp</span> <span class='op'>&lt;-</span> <span class='va'>pp_rf</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>as_tibble</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>select</span><span class='op'>(</span><span class='va'>variable</span>, <span class='va'>contribution</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p><strong>What does this show again?</strong> The intercept bar is the average predicted <code>log_price</code> when the random forest is applied to all the training data. I’ll do one more hand-computation to illustrate (you don’t ever have to do this - it’s just to give you some extra understanding of what the function does).</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>rf_avg_pred</span> <span class='op'>&lt;-</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>ranger_fit</span>, new_data <span class='op'>=</span> <span class='va'>house_training</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>pull</span><span class='op'>(</span><span class='va'>.pred</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='va'>rf_avg_pred</span>
+</code></pre>
+</div>
+<pre><code>[1] 5.665052</code></pre>
+</div>
+<p>Then, the <code>+0.114</code> next to the <code>lat = 47.6351</code> bar, is the change in average prediction if latitude was fixed at 47.6351. So <code>lat = 47.6351</code> increased the <code>log_price</code> by <code>0.114</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='co'># Fix latitude at 47.6351</span>
+<span class='va'>data_lat</span> <span class='op'>&lt;-</span> <span class='va'>house_training</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>mutate</span><span class='op'>(</span>lat <span class='op'>=</span> <span class='fl'>47.6351</span><span class='op'>)</span>
+
+<span class='co'># Find average predictions</span>
+<span class='va'>rf_lat47</span> <span class='op'>&lt;-</span>
+<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>ranger_fit</span>, new_data <span class='op'>=</span> <span class='va'>data_lat</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>summarize</span><span class='op'>(</span>avg_lat <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>.pred</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>pull</span><span class='op'>(</span><span class='va'>avg_lat</span><span class='op'>)</span>
+
+<span class='co'># Compute difference</span>
+<span class='va'>rf_lat47</span> <span class='op'>-</span> <span class='va'>rf_avg_pred</span>
+</code></pre>
+</div>
+<pre><code>[1] 0.1139563</code></pre>
+</div>
+<p>Now, let’s see what happens when we change the order in which the variables are considered in the random forest model, which is not additive.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='co'>#Change order</span>
+<span class='va'>pp_rf_ord1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dalex.drwhy.ai/reference/predict_parts.html'>predict_parts</a></span><span class='op'>(</span>explainer <span class='op'>=</span> <span class='va'>rf_explain</span>,
+                            new_observation <span class='op'>=</span> <span class='va'>new_obs</span>,
+                            type <span class='op'>=</span> <span class='st'>"break_down"</span>, <span class='co'>#default</span>
+                            order <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"bathrooms"</span>,
+                                      <span class='st'>"floors"</span>,
+                                      <span class='st'>"condition"</span>,
+                                      <span class='st'>"sqft_basement"</span>,
+                                      <span class='st'>"sqft_living"</span>,
+                                      <span class='st'>"date"</span>,
+                                      <span class='st'>"waterfront"</span>,
+                                      <span class='st'>"grade"</span>,
+                                      <span class='st'>"yr_built"</span>,
+                                      <span class='st'>"bedrooms"</span>,
+                                      <span class='st'>"sqft_lot"</span>,
+                                      <span class='st'>"view"</span>,
+                                      <span class='st'>"sqft_above"</span>,
+                                      <span class='st'>"id"</span>,
+                                      <span class='st'>"zipcode"</span>,
+                                      <span class='st'>"sqft_living15"</span>,
+                                      <span class='st'>"lat"</span>,
+                                      <span class='st'>"sqft_lot15"</span>,
+                                      <span class='st'>"yr_renovated"</span>,
+                                      <span class='st'>"long"</span><span class='op'>)</span><span class='op'>)</span> 
+<span class='co'># Break-down plot</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>pp_rf_ord1</span><span class='op'>)</span>
+</code></pre>
+</div>
+<img src="imllocal_files/figure-html5/unnamed-chunk-14-1.png" width="624" />
+<div class="sourceCode">
+<pre><code><span class='co'># Join original ordering and compute difference</span>
+<span class='va'>pp_rf_ord1</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>as_tibble</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>select</span><span class='op'>(</span><span class='va'>variable</span>, <span class='va'>contribution</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>left_join</span><span class='op'>(</span><span class='va'>rf_bdp</span>, by <span class='op'>=</span> <span class='st'>"variable"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>rename</span><span class='op'>(</span>reordered <span class='op'>=</span> <span class='va'>contribution.x</span>,
+         original <span class='op'>=</span> <span class='va'>contribution.y</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>mutate</span><span class='op'>(</span>diff <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='va'>reordered</span> <span class='op'>-</span> <span class='va'>original</span>,<span class='fl'>3</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>arrange</span><span class='op'>(</span><span class='fu'>desc</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='va'>diff</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["variable"],"name":[1],"type":["chr"],"align":["left"]},{"label":["reordered"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["original"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["diff"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"grade = 10","2":"0.1825904885","3":"9.840801e-02","4":"0.084"},{"1":"sqft_living = 3790","2":"0.0957262817","3":"1.492621e-01","4":"-0.054"},{"1":"sqft_living15 = 2660","2":"0.0022691943","3":"2.608356e-02","4":"-0.024"},{"1":"bathrooms = 3.75","2":"0.0105919736","3":"2.671680e-02","4":"-0.016"},{"1":"long = -122.236","2":"0.0687338450","3":"5.607995e-02","4":"0.013"},{"1":"sqft_basement = 500","2":"0.0030728077","3":"-2.722241e-03","4":"0.006"},{"1":"zipcode = 25","2":"0.0007638770","3":"6.100782e-03","4":"-0.005"},{"1":"yr_built = 2006","2":"-0.0056075413","3":"-1.769269e-03","4":"-0.004"},{"1":"sqft_lot = 8797","2":"-0.0026369329","3":"5.364075e-05","4":"-0.003"},{"1":"sqft_above = 3290","2":"0.0327796218","3":"3.030107e-02","4":"0.002"},{"1":"floors = 2","2":"-0.0005882665","3":"6.971289e-04","4":"-0.001"},{"1":"condition = 3","2":"-0.0023752693","3":"-3.078574e-03","4":"0.001"},{"1":"date = 16493","2":"0.0021573261","3":"1.195408e-03","4":"0.001"},{"1":"bedrooms = 4","2":"0.0014254692","3":"2.457869e-03","4":"-0.001"},{"1":"view = 0","2":"-0.0026202526","3":"-1.303076e-03","4":"-0.001"},{"1":"lat = 47.6351","2":"0.1152943453","3":"1.139563e-01","4":"0.001"},{"1":"sqft_lot15 = 12150","2":"0.0055349234","3":"4.334108e-03","4":"0.001"},{"1":"intercept","2":"5.6650520108","3":"5.665052e+00","4":"0.000"},{"1":"waterfront = FALSE","2":"-0.0006325239","3":"-3.041604e-04","4":"0.000"},{"1":"id = 3262300818","2":"0.0000000000","3":"0.000000e+00","4":"0.000"},{"1":"yr_renovated = 0","2":"-0.0005605845","3":"-5.505822e-04","4":"0.000"},{"1":"prediction","2":"6.1709707936","3":"6.170971e+00","4":"0.000"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<p>I have ordered the variables by their differences in contribution. We can see that the order in which the variables are considered affects the results. Notice that the <code>bathrooms = 3.75</code> contribution even changes sign.</p>
+<p>The original ordering is based on a variable importance score, discussed in depth <a href="https://ema.drwhy.ai/breakDown.html#BDMethodGen">here</a>. Next, we will learn about SHapley Additive exPlanations (SHAP), another way we can try to account for these differences.</p>
+<h2 id="shapley-additive-explanations-shap">SHapley Additive exPlanations (SHAP)</h2>
+<p>SHAPs are based on Shapley values. I am not going to go into the theoretical detail here. Please see the chapter in <a href="https://ema.drwhy.ai/shapley.html#SHAPMethod">Explanatory Model Analysis</a> or <a href="https://christophm.github.io/interpretable-ml-book/shap.html#treeshap">Interpretable Machine Learning</a> if you are interested. Instead, I will explain the intuition and how to run it in R and interpret the results.</p>
+<p>The idea is to take change the order in which we consider the variables in the break-down plots, ie. a permutation or reordering of the variables, and then to average the contributions. That’s it! Ideally, we would look at every possible permutation, but since that takes a lot of time, we will only look at a sample of them.</p>
+<p>And, the R code to execute this once again uses the <code>predict_parts()</code> function. The <code>type = "shap"</code> and there is an additional argument, <code>B</code>, which is how many permutations of the variables we desire. I recommend starting small. In this case, 10 already ran for quite a while, so I’ll stick with that. You might consider adding <code>cache=TRUE</code> to the code chunk options so you don’t have to re-run this section every time you knit the file.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>rf_shap</span> <span class='op'>&lt;-</span><span class='fu'><a href='https://dalex.drwhy.ai/reference/predict_parts.html'>predict_parts</a></span><span class='op'>(</span>explainer <span class='op'>=</span> <span class='va'>rf_explain</span>,
+                        new_observation <span class='op'>=</span> <span class='va'>new_obs</span>,
+                        type <span class='op'>=</span> <span class='st'>"shap"</span>,
+                        B <span class='op'>=</span> <span class='fl'>10</span> <span class='co'>#number of reorderings - start small</span>
+<span class='op'>)</span>
+
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>rf_shap</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="imllocal_files/figure-html5/unnamed-chunk-15-1.png" width="624" /></p>
+</div>
+<p><strong>What does this graph show?</strong></p>
+<p>Each bar shows the average contribution of each variable’s value to the predicted response for this observation. So, the grade of 11 contributes almost an additional <code>0.15</code> to the predicted <code>log_price</code> for this observation, on average. The boxplot shows the variation across permutations of the variables’ order of consideration. If the variation is large, and especially if the boxplot encompasses both postitive and negative values, we will be less confident in its exact effect.</p>
+<p>Notice that when we apply this to the lasso model, the boxplots are just a point because permuting the order in which we consider the variables doesn’t matter with additive models. So, you should only bother to do this with non-additive models.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>lasso_shap</span> <span class='op'>&lt;-</span><span class='fu'><a href='https://dalex.drwhy.ai/reference/predict_parts.html'>predict_parts</a></span><span class='op'>(</span>explainer <span class='op'>=</span> <span class='va'>lasso_explain</span>,
+                        new_observation <span class='op'>=</span> <span class='va'>new_obs</span>,
+                        type <span class='op'>=</span> <span class='st'>"shap"</span>,
+                        B <span class='op'>=</span> <span class='fl'>10</span> <span class='co'>#number of reorderings - start small</span>
+<span class='op'>)</span>
+
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>lasso_shap</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="imllocal_files/figure-html5/unnamed-chunk-16-1.png" width="624" /></p>
+</div>
+<h2 id="local-interpretable-model-agnostic-explanations-lime">Local Interpretable Model-agnostic Explanations (LIME)</h2>
+<p>The last local interpretable machine learning method I will discuss is LIME. Christoph Molnar, in his book <a href="https://christophm.github.io/interpretable-ml-book/lime.html#lime-for-tabular-data"><em>Interpretable Machine Learning</em></a>, gives a great overview of how these are constructed:</p>
+<blockquote>
+<p>First, forget about the training data and imagine you only have the black box model where you can input data points and get the predictions of the model. You can probe the box as often as you want. Your goal is to understand why the machine learning model made a certain prediction. LIME tests what happens to the predictions when you give variations of your data into the machine learning model. LIME generates a new dataset consisting of perturbed samples and the corresponding predictions of the black box model. On this new dataset LIME then trains an interpretable model, which is weighted by the proximity of the sampled instances to the instance of interest.</p>
+</blockquote>
+<p>Often a simple decision tree or LASSO model is used as the interpretable model.</p>
+<p>We are going to use the <code>predict_surrogate()</code> function and its associated <code>plot()</code> function to perform LIME. The functions we use call functions from the <code>lime</code> library behind the scenes. Using these functions will create a local LASSO model with a maximum of K variables (chosen via the <code>n_features</code> argument in the function).</p>
+<p>The arguments we need to provide to the function are: * <code>explainer</code>: the explainer we defined earlier<br />
+* <code>new_observation</code>: the observation we’re interested in examining - this cannot have the outcome/response variable in it or you will get an error!<br />
+* <code>n_features</code>: the maximum number of variables that will be included in the local LASSO model<br />
+* <code>n_permutations</code>: the number of perturbed samples. To elaborate on the quote above from Christoph Molnar, a perturbation of our observation of interest means that the values of the variables are slightly modified from the observation of interest- think of it as jittering in <code>geom_jitter()</code>. They are weighted by the distance from the observation of interest. You can read more detail <a href="https://cran.r-project.org/web/packages/lime/vignettes/Understanding_lime.html">here</a>. * <code>type</code>: the type of LIME method to use. I will only discuss <code>lime</code> but there are other options.</p>
+<p>Let’s look at an example and then discuss the output. I <code>set.seed()</code> for reproducibility of the random perturbations. Like I mentioned above, we need to eliminate the outcome variable from the observation of interest.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>2</span><span class='op'>)</span>
+
+<span class='co'># NEED these two lines of code always!</span>
+<span class='co'># They make sure our explainer is defined correctly to use in the next step</span>
+<span class='va'>model_type.dalex_explainer</span> <span class='op'>&lt;-</span> <span class='fu'>DALEXtra</span><span class='fu'>::</span><span class='va'><a href='https://ModelOriented.github.io/DALEXtra/reference/predict_surrogate.html'>model_type.dalex_explainer</a></span>
+<span class='va'>predict_model.dalex_explainer</span> <span class='op'>&lt;-</span> <span class='fu'>DALEXtra</span><span class='fu'>::</span><span class='va'><a href='https://ModelOriented.github.io/DALEXtra/reference/predict_surrogate.html'>predict_model.dalex_explainer</a></span>
+
+<span class='va'>lime_rf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ModelOriented.github.io/DALEXtra/reference/predict_surrogate.html'>predict_surrogate</a></span><span class='op'>(</span>explainer <span class='op'>=</span> <span class='va'>rf_explain</span>,
+                             new_observation <span class='op'>=</span> <span class='va'>new_obs</span> <span class='op'>%&gt;%</span>
+                               <span class='fu'>select</span><span class='op'>(</span><span class='op'>-</span><span class='va'>log_price</span><span class='op'>)</span>, 
+                             n_features <span class='op'>=</span> <span class='fl'>5</span>,
+                             n_permutations <span class='op'>=</span> <span class='fl'>1000</span>,
+                             type <span class='op'>=</span> <span class='st'>"lime"</span><span class='op'>)</span>
+
+<span class='va'>lime_rf</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>select</span><span class='op'>(</span><span class='va'>model_r2</span>, <span class='va'>model_prediction</span>, <span class='va'>prediction</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>distinct</span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["model_r2"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["model_prediction"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["prediction"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.4472573","2":"6.133951","3":"6.170971"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<p>These are some of the model-level outputs. The <code>model_r2</code> gives overall model performance (I think it’s a type of <span class="math inline">\(R^2\)</span>), the <code>prediction</code> is the prediction from the original model, and the <code>model_prediction</code> is the prediction from this local model. I like to look to see how close the original prediction matched the local model prediction. After looking at these high-level stats, examine the plot.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>lime_rf</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>labs</span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"Variable"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="imllocal_files/figure-html5/unnamed-chunk-18-1.png" width="624" /></p>
+</div>
+<p><strong>What does this show us?</strong></p>
+<ul>
+<li>The predicted value from the original random forest model (<strong>Prediction</strong>) is about 6.17.</li>
+<li>The predicted value from the local model is not shown, but we saw that in the output above.<br />
+</li>
+<li>The (<strong>Explanation fit</strong>) is an overall performance metric for the local model - <code>model_r2</code> from the output above.<br />
+</li>
+<li>The bars show the variables orderd by weight, giving an indication of which variables are most important in the local model.</li>
+</ul>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom"></div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>
