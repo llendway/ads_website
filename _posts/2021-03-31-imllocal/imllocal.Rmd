@@ -71,6 +71,7 @@ library(lubridate)         # for dates
 library(moderndive)        # for King County housing data
 library(DALEX)             # moDel Agnostic Language for Exploration and eXplanation (for model interpretation)  
 library(DALEXtra)          # for extension of DALEX
+library(lime)              # for Local Interpretable Model-agnostic Explanations
 library(patchwork)         # for combining plots nicely
 library(rmarkdown)         # for paged tables
 theme_set(theme_minimal()) # my favorite ggplot2 theme :)
@@ -501,11 +502,34 @@ plot(lasso_shap)
 
 ## Local Interpretable Model-agnostic Explanations (LIME)
 
+The last local interpretable machine learning method I will discuss is LIME. Christoph Molnar, in his book [*Interpretable Machine Learning*](https://christophm.github.io/interpretable-ml-book/lime.html#lime-for-tabular-data), gives a great overview of how these are constructed:
+
+> First, forget about the training data and imagine you only have the black box model where you can input data points and get the predictions of the model. You can probe the box as often as you want. Your goal is to understand why the machine learning model made a certain prediction. LIME tests what happens to the predictions when you give variations of your data into the machine learning model. LIME generates a new dataset consisting of perturbed samples and the corresponding predictions of the black box model. On this new dataset LIME then trains an interpretable model, which is weighted by the proximity of the sampled instances to the instance of interest. 
+
+Often a simple decision tree or LASSO model is used as the interpretable model. 
+
+We are going to use the `predict_surrogate()` function and its associated `plot()` function to perform LIME. The functions we use call functions from the `lime` library behind the scenes. Using these functions will create a local LASSO model with a maximum of K variables (chosen via the `n_features` argument in the function).
+
+The arguments we need to provide to the function are:
+  * `explainer`: the explainer we defined earlier  
+  * `new_observation`: the observation we're interested in examining - this cannot have the outcome/response variable in it or you will get an error!  
+  * `n_features`: the maximum number of variables that will be included in the local LASSO model  
+  * `n_permutations`: 
+  * `type`: the type of LIME method to use. I will only discuss `lime` but there are other options.
+
+```{r}
+# The new observation cannot have the outcome variable in it!
+set.seed(100)
+lime_rf <- predict_surrogate(explainer = rf_explain,
+                             new_observation = new_obs %>%
+                               select(-log_price), 
+                             n_features = 5,
+                             n_permutations = 1000,
+                             type = "lime")
+```
 
 
-
-
-
-
-
+```{r}
+plot(lime_rf)
+```
 
