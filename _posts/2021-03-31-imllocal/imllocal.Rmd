@@ -70,8 +70,8 @@ library(tidymodels)        # for modeling ... tidily
 library(lubridate)         # for dates
 library(moderndive)        # for King County housing data
 library(DALEX)             # moDel Agnostic Language for Exploration and eXplanation (for model interpretation)  
+library(lime)              # for LIME
 library(DALEXtra)          # for extension of DALEX
-library(lime)              # for Local Interpretable Model-agnostic Explanations
 library(patchwork)         # for combining plots nicely
 library(rmarkdown)         # for paged tables
 theme_set(theme_minimal()) # my favorite ggplot2 theme :)
@@ -514,12 +514,34 @@ The arguments we need to provide to the function are:
   * `explainer`: the explainer we defined earlier  
   * `new_observation`: the observation we're interested in examining - this cannot have the outcome/response variable in it or you will get an error!  
   * `n_features`: the maximum number of variables that will be included in the local LASSO model  
-  * `n_permutations`: 
+  * `n_permutations`: the number of perturbed samples. To elaborate on the quote above from Christoph Molnar, a perturbation of our observation of interest means that the values of the variables are slightly modified from the  observation of interest- think of it as jittering in `geom_jitter()`. They are weighted by the distance from the observation of interest. You can read more detail [here](https://cran.r-project.org/web/packages/lime/vignettes/Understanding_lime.html).
   * `type`: the type of LIME method to use. I will only discuss `lime` but there are other options.
+  
+Let's look at an example and then discuss the output. I `set.seed()` for reproducibility of the random perturbations. Like I mentioned above, we need to eliminate the outcome variable from the observation of interest. I also eliminated variables 
 
 ```{r}
+# Figure out why I need this code - order of libraries?
+# Taken from: https://rdrr.io/cran/DALEXtra/src/R/predict_surrogate.R
+
+# model_type(rf_explain) ... gives error ... why??
+# Error: The class of model must have a model_type method. See ?model_type to get an overview of models supported out of the box
+
+# may have to change this to 'classification' for classification
+model_type.dalex_explainer <- function(x, ...) 'regression'
+
+predict_model.dalex_explainer <- function(x, newdata, ...) {
+  class(x) = "explainer"
+  pred <- predict(x, newdata)
+  return(as.data.frame(pred))
+}
+```
+
+
+```{r}
+# This code initially worked without the code chunk above - why not now?
 # The new observation cannot have the outcome variable in it!
 set.seed(100)
+
 lime_rf <- predict_surrogate(explainer = rf_explain,
                              new_observation = new_obs %>%
                                select(-log_price), 
