@@ -68,3 +68,29 @@ download_file(
   self_contained = FALSE
 )
 ```
+
+
+## Assignment #3
+
+Goals:
+
+* Continue using and become more comfortable with Git and GitHub.  
+* Use some local model interpretation tools.  
+* Use SQL inside of R.  
+* Make some amazing graphs!  
+* Practice using `geom_sf()`  
+* Practice using `tidytext`  
+* Continue learning about bias and fairness in data science.  
+
+
+```{r}
+download_file(
+  path = "assignments/03_assignment.html",
+  button_label = "Download Assignment #3!",
+  button_type = "warning",
+  has_icon = TRUE,
+  icon = "fa fa-save",
+  self_contained = FALSE
+)
+```
+
