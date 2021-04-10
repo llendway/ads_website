@@ -1,0 +1,101 @@
+---
+title: 'Assignment #4'
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    df_print: paged
+    code_download: true
+---
+
+```{r setup, include=FALSE}
+#knitr::opts_chunk$set(echo = TRUE, message=FALSE, warning=FALSE)
+```
+
+```{r libraries, message=FALSE}
+#Regular expressions
+library(tidyverse)        # contains stringr for regex
+library(googlesheets4)    # for reading in data
+gs4_deauth()              # to read in google sheet (or download)
+
+#tmap
+
+theme_set(theme_minimal()) # Lisa's favorite theme
+```
+
+When you finish the assignment, remove the `#` from the options chunk at the top, so that messages and warnings aren't printed. If you are getting errors in your code, add `error = TRUE` so that the file knits. I would recommend not removing the `#` until you are completely finished.
+
+## Put it on GitHub!        
+
+From now on, GitHub should be part of your routine when doing assignments. I recommend making it part of your process anytime you are working in R, but I'll make you show it's part of your process for assignments.
+
+**Task**: When you are finished with the assignment, post a link below to the GitHub repo for the assignment. If you want to post it to your personal website, that's ok (not required). Make sure the link goes to a spot in the repo where I can easily find this assignment. For example, if you have a website with a blog and post the assignment as a blog post, link to the post's folder in the repo. As an example, I've linked to my GitHub stacking material [here](https://github.com/llendway/ads_website/tree/master/_posts/2021-03-22-stacking).
+
+## Regular Expressions
+
+Either read in the data using the code below (need to install `googlesheets4` library if you don't have it) or download from [this](
+https://drive.google.com/file/d/12oqEt11miNGL_MtIcU75jx84pz6VEq_w/view?usp=sharing) URL and put it in your project folder.
+
+```{r}
+bestsellers <- read_sheet("https://docs.google.com/spreadsheets/d/1n3xKHK4-t5S73LgxOJVJWT5fMYjLj7kqmYl1LHkpk80/edit?usp=sharing")
+```
+
+**BE SURE TO REMOVE eval=FALSE** from all code sections.
+
+1. Find books with multiple authors (HINT: Consider the possibility of an author having “and” in their name)
+
+```{r, eval=FALSE}
+bestsellers %>% 
+  mutate(mult_auth =str_???(???, "???")) %>% 
+  filter(mult_auth)
+```
+
+2. Detect if the author’s first name starts with a vowel
+
+```{r, eval=FALSE}
+bestsellers %>% 
+  mutate(vowel =str_???(author, "???")) %>% 
+  filter(vowel)
+```
+
+3. Change all authors with the name Alexander to Alex
+
+```{r, eval=FALSE}
+bestsellers %>% 
+  mutate(names = str_???_???(???, "Alexander", "Alex"))
+```
+
+4. Find books that are the second book in a series
+
+```{r, eval=FALSE}
+bestsellers %>%
+  mutate(series = str_???(???, 
+                          pattern = "???")) %>%
+  filter(series == TRUE)
+```
+
+5. Find books that are the third or fourth one in a series
+
+```{r, eval=FALSE}
+bestsellers %>%
+  mutate(series = str_???(???, 
+                          pattern = "???")) %>%
+  filter(series == TRUE)
+```
+
+6. Find books that are the 10th, 11th, ..., or 19th book in a series
+
+```{r, eval=FALSE}
+bestsellers %>%
+  mutate(series = str_???(???, 
+                          pattern = "???")) %>%
+  filter(series == TRUE)
+```
+
+7. Describe in your own words how you would go about writing a regular expression for password pattern matching (ie 8 character minimum, one capital letter minimum, one lowercase letter minimum, one digit minimum, one special character minimum)
+
+## Data Ethics
+
+**Task:**
+
+
