@@ -94,3 +94,22 @@ download_file(
 )
 ```
 
+## Assignment #4
+
+Goals:
+
+* Practice using `tmap`  
+* Practice using regular expressions via `stringr`  
+* Continue learning about bias and fairness in data science.  
+
+
+```{r}
+download_file(
+  path = "assignments/04_assignment.html",
+  button_label = "Download Assignment #4!",
+  button_type = "warning",
+  has_icon = TRUE,
+  icon = "fa fa-save",
+  self_contained = FALSE
+)
+```
