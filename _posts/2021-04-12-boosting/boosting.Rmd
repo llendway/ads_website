@@ -1,0 +1,278 @@
+---
+title: "Boosting"
+description: |
+  This tutorial gives an overview of boosted trees and how to implement them in `tidymodels`.
+output:
+  distill::distill_article:
+    toc: true
+    toc_float: true
+    self_contained: false
+draft: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      message = FALSE,
+                      warning = FALSE,
+                      error = TRUE)
+```
+
+```{r echo=FALSE}
+library(emo)          # for emojis!   
+library(downloadthis) # for including download buttons for files
+```
+
+```{r paged-table, echo=FALSE}
+# define a method for objects of the class data.frame
+# see https://github.com/rstudio/distill/issues/310#issuecomment-797541459
+library(knitr)
+knit_print.data.frame <- function(x, ...) {
+  asis_output(
+    rmarkdown:::paged_table_html(x, options = attr(x, "options")),
+    meta = list(dependencies = rmarkdown:::html_dependency_pagedtable())
+  )
+}
+registerS3method("knit_print", "data.frame", knit_print.data.frame)
+```
+
+## Follow along
+
+You can download this .Rmd file below if you'd like to follow along. I do have a few hidden notes you can disregard. This document is a distill_article, so you may want to change to an html_document to knit. You will also need to delete any image references to properly knit, since you won't have those images.
+
+```{r, echo=FALSE}
+download_file(
+  path = "boosting.Rmd",
+  button_label = "Download .Rmd file",
+  button_type = "info",
+  has_icon = TRUE,
+  icon = "fa fa-save",
+  self_contained = FALSE
+)
+```
+
+## Resources
+
+* [ISLR](https://www.statlearning.com/) by James, Witten, Hastie, and Tibshirani section 8.2.3 on Boosting.  
+* [HOML](https://bradleyboehmke.github.io/HOML/gbm.html) by Boehmke & Greenwell, Chapter 12: Gradient Boosting.  
+* [Gradient boosting in classification](https://blog.paperspace.com/gradient-boosting-for-classification/), a short blog post by Vihar Kurama
+* [Elements of Statistical Learning](https://web.stanford.edu/~hastie/ElemStatLearn/printings/ESLII_print12_toc.pdf) by Hastie, Tibshirani, and Friedman, Chapter 10: Boosting and Additive Trees. This goes more in-depth than what I'll cover.  
+
+## Set up
+
+First, we load the libraries we will use. There will be some new ones you'll need to install.
+
+```{r libraries}
+library(tidyverse)         # for reading in data, graphing, and cleaning
+library(tidymodels)        # for modeling ... tidily
+library(xgboost)           # for boosting - need to install, don't need to load
+library(vip)               # for quick vip plot
+library(lubridate)         # for dates
+library(moderndive)        # for King County housing data
+library(patchwork)         # for combining plots nicely
+library(rmarkdown)         # for paged tables
+theme_set(theme_minimal()) # my favorite ggplot2 theme :)
+```
+
+Then we load the data we will use throughout this tutorial and do some modifications. As I mentioned before, I wouldn't need to take the log here, but I do so I can compare to other models, if desired.
+
+```{r}
+data("house_prices")
+
+# Create log_price and drop price variable
+house_prices <- house_prices %>% 
+  mutate(log_price = log(price, base = 10)) %>% 
+  # make all integers numeric ... fixes prediction problem
+  mutate(across(where(is.integer), as.numeric)) %>% 
+  select(-price, -id)
+```
+
+## Introduction
+
+Boosting is a machine learning algorithm that is similar to bagging or random forests, but the trees are NOT independent of one another. Instead, we use information from prior trees to inform how we build the next trees. The procedure is outlined below (based on Algorithm 8.2 from ISLR) 
+
+1. Build a shallow tree, which may even be a tree with only 1 split. The size of the tree will be a parameter we tune in the model.  
+2. Compute weighted fitted values using the tree, $\lambda \hat{f}^1(x_i)$, where $\lambda$ is a shrinkage parameter, which we will also tune. This is a small positive number, typically something like .001 or .01. The $1$ in the superscript signifies that this is the first model
+3. Compute the residuals, $r(x_i) = f(x_i) - \lambda \hat{f}(x_i)$.  
+4. Fit the next tree using the residuals from the previous model as the outcome variable. This is also a shallow tree.
+5. Update the fitted value to $\lambda \hat{f}^1(x_i) + \lambda \hat{f}^2(x_i)$, where $\hat{f}^2(x_i)$ is the fitted value of $x_i$ using the 2nd tree fit on the residuals.  
+6. Compute the residuals, $r(x_i) = f(x_i) - \lambda \hat{f}(x_i) - \lambda \hat{f}^2(x_i)$.  
+7. Continue steps 3-7, until satisfied. This is often controlled by the number of trees tuning parameter.  
+8. The final model is defined below, where $T$ is the number of trees.
+
+$$
+ \hat{f}(x) = \sum_{j = 1}^{T} \lambda \hat{f}^j(x)
+$$
+
+I have skipped over a lot of details. Please see the resources above for further depth. A similar algorithm is used for classification, although it is slightly more complex since computing residuals is more complicated. 
+
+## Implementing in `tidymodels`
+
+With the basics of how this model works in mind, let's jump into how to set this up using our `tidymodels` toolkit. 
+
+We'll once again be using the King County housing data, which was prepped above. The next step is to split the data.
+
+```{r split}
+set.seed(327) #for reproducibility
+
+# Randomly assigns 75% of the data to training.
+house_split <- initial_split(house_prices, 
+                             prop = .75)
+house_training <- training(house_split)
+house_testing <- testing(house_split)
+```
+
+We do some transformations. I used one-hot dummy encoding as suggested by the `use_xgboost()` function.
+
+```{r recipe}
+# set up recipe and transformation steps and roles
+boost_recipe <- 
+  recipe(formula = log_price ~ ., 
+         data = house_training) %>% 
+  step_date(date, 
+            features = "month") %>% 
+  # Make these evaluative variables, not included in modeling
+  update_role(date,
+              new_role = "evaluative") %>% 
+  step_novel(all_nominal(), -all_outcomes()) %>% 
+  step_dummy(all_nominal(), -all_outcomes(), one_hot = TRUE) 
+```
+
+```{r}
+boost_recipe %>% 
+  prep() %>% 
+  juice() 
+```
+
+
+Next, we specify the model. This is where we can set the parameters we would like to tune. You can read details about what each of the arguments mean [here](https://parsnip.tidymodels.org/reference/boost_tree.html). We have seen some of these before with random forests. I initially tried tuning three of the parameters but the `tune_grid()` ran for over 90 minutes. So, I'm using the advice in [HOML](https://bradleyboehmke.github.io/HOML/gbm.html#xgb-tuning-strategy) to tune the learning rate first.
+
+```{r}
+boost_spec <- boost_tree(
+  trees = 1000,             # number of trees, T in the equations above
+  tree_depth = 2,          # max number of splits in the tree
+  min_n = 5,               # min points required for node to be further split
+  loss_reduction = 10^-5,  # when to stop - smaller = more since it only has to get a little bit better 
+  sample_size = 1,         # proportion of training data to use
+  mtry = 1/3,              # proportion of predictors used
+  learn_rate = tune(),     # lambda from the equations above
+  stop_iter = 50           # number of iterations w/o improvement b4 stopping
+) %>% 
+  set_engine("xgboost") %>% 
+  set_mode("regression")
+```
+
+Now, we create a grid of values to try in tuning. We'll use this later.
+
+```{r grid}
+boost_grid <- grid_regular(learn_rate(),
+                           levels = 10)
+boost_grid
+```
+
+And, let's put the recipe and model specification into a workflow.
+
+```{r wf}
+boost_wf <- workflow() %>% 
+  add_recipe(boost_recipe) %>%
+  add_model(boost_spec)  
+```
+
+Because boosting is time-consuming, even with just one tuning parameter, I am going to just use a validation sample, rather than our usual (and better) cross-validation sampling. I use 40\% of the training data for the validation sample.
+
+```{r val}
+set.seed(494)
+val_split <- validation_split(house_training, 
+                              prop = .6)
+val_split
+```
+
+Now we can train these models. I also saved the predictions. This takes between 2-5 minutes to run (I left my office while it ran, so not positive the exact time).
+
+```{r}
+set.seed(494)
+
+boost_tune <- tune_grid(
+  boost_wf, 
+  val_split,
+  grid = boost_grid,
+  control = control_grid(save_pred = TRUE)
+)
+```
+
+Let's look at the results. We can see that larger learning rates actually seem to do better.
+
+```{r}
+collect_metrics(boost_tune)
+```
+
+We could also graph these results.
+
+```{r}
+collect_metrics(boost_tune) %>% 
+  filter(.metric == "rmse") %>% 
+  ggplot(aes(x = learn_rate, y = mean)) +
+  geom_point() +
+  geom_line() +
+  scale_x_log10() +
+  labs(y = "rmse") +
+  theme_minimal()
+```
+
+We could use this learning rate and go back and try to optimize other parameters. I am going to skip that. Let's select the best learning rate parameter and finalize the model.
+
+```{r}
+# best learning rate, based on rmse
+best_lr <- select_best(boost_tune, "rmse")
+best_lr
+
+# finalize workflow
+final_boost_wf <- finalize_workflow(
+  boost_wf,
+  best_lr
+)
+
+# fit final
+final_boost <- final_boost_wf %>% 
+  fit(data = house_training)
+```
+
+And let's take a quick look at important predictors.
+
+```{r vip}
+final_boost %>% 
+  pull_workflow_fit() %>%
+  vip(geom = "col")
+```
+
+
+
+At this point we could save the `final_boost` model and use it on new data. For now I will apply it to the test data and visualize the results. (On a side note, when I fit the model on the training data and applied to test data using `last_fit()`, I got slightly different results. It is discussed [here](https://github.com/tidymodels/tune/issues/11) and [here](https://github.com/tidymodels/tune/issues/300), and I need to further investigate.)
+
+```{r apply-to-test}
+# Use model on test data
+test_preds <- house_testing %>% 
+  bind_cols(predict(final_boost, new_data = house_testing)) 
+
+# Compute test rmse
+test_preds %>% 
+  summarize(rmse = sqrt(mean((log_price - .pred)^2))) %>% 
+  pull(rmse)
+
+# Graph results
+test_preds %>% 
+  ggplot(aes(x = log_price,
+             y = .pred)) +
+  geom_point(alpha = .5, 
+             size = .5) +
+  geom_smooth(se = FALSE) +
+  geom_abline(slope = 1, 
+              intercept = 0, 
+              color = "darkred") +
+  labs(x = "Actual log(price)", 
+       y = "Predicted log(price)")
+```
+
+The test rmse is similar to the validation rmse, indicating that we are not overfitting. These results are similar, maybe slightly better than the [random forest model](https://advanced-ds-in-r.netlify.app/posts/2021-03-22-stacking/#this-isnt-so-new). It's possible we could improve this even further by tuning some of the other parameters. 
+
+For an example that uses a binary response variable, see Julia Silge's [tutorial](https://juliasilge.com/blog/xgboost-tune-volleyball/) involving beach volleyball data.
+
