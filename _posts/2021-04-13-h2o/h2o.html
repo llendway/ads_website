@@ -1,0 +1,1619 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ad0000; } /* Alert */
+code span.an { color: #5e5e5e; } /* Annotation */
+code span.at { color: #20794d; } /* Attribute */
+code span.bn { color: #ad0000; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007ba5; } /* ControlFlow */
+code span.ch { color: #20794d; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #5e5e5e; } /* Comment */
+code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+code span.dt { color: #ad0000; } /* DataType */
+code span.dv { color: #ad0000; } /* DecVal */
+code span.er { color: #ad0000; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #ad0000; } /* Float */
+code span.fu { color: #4758ab; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #5e5e5e; } /* Information */
+code span.kw { color: #007ba5; } /* Keyword */
+code span.op { color: #5e5e5e; } /* Operator */
+code span.ot { color: #007ba5; } /* Other */
+code span.pp { color: #ad0000; } /* Preprocessor */
+code span.sc { color: #20794d; } /* SpecialChar */
+code span.ss { color: #20794d; } /* SpecialString */
+code span.st { color: #20794d; } /* String */
+code span.va { color: #111111; } /* Variable */
+code span.vs { color: #20794d; } /* VerbatimString */
+code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+</style>
+
+  <!--radix_placeholder_meta_tags-->
+  <title>h2o</title>
+  
+  <meta property="description" itemprop="description" content="An introduction to using $H_2O$ in R."/>
+  
+  
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2021-04-13"/>
+  <meta property="article:created" itemprop="dateCreated" content="2021-04-13"/>
+  
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="h2o"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:description" content="An introduction to using $H_2O$ in R."/>
+  <meta property="og:locale" content="en_US"/>
+  
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content="h2o"/>
+  <meta property="twitter:description" content="An introduction to using $H_2O$ in R."/>
+  
+  <!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","output","draft","date"]}},"value":[{"type":"character","attributes":{},"value":["h2o"]},{"type":"character","attributes":{},"value":["An introduction to using $H_2O$ in R.\n"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_float","self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["04-13-2021"]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["getFrames.png","h2o_flow.png"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+  
+  <style type="text/css">
+  
+  body {
+    background-color: white;
+  }
+  
+  .pandoc-table {
+    width: 100%;
+  }
+  
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+  
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+  
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+  
+  d-byline .byline {
+    grid-template-columns: 2fr 2fr;
+  }
+  
+  d-byline .byline h3 {
+    margin-block-start: 1.5em;
+  }
+  
+  d-byline .byline .authors-affiliations h3 {
+    margin-block-start: 0.5em;
+  }
+  
+  .authors-affiliations .orcid-id {
+    width: 16px;
+    height:16px;
+    margin-left: 4px;
+    margin-right: 4px;
+    vertical-align: middle;
+    padding-bottom: 2px;
+  }
+  
+  d-title .dt-tags {
+    margin-top: 1em;
+    grid-column: text;
+  }
+  
+  .dt-tags .dt-tag {
+    text-decoration: none;
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0em 0.4em;
+    margin-right: 0.5em;
+    margin-bottom: 0.4em;
+    font-size: 70%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  
+  d-article table.gt_table td,
+  d-article table.gt_table th {
+    border-bottom: none;
+  }
+  
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+  
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+  
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+  
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .shaded-content {
+    background: white;
+  }
+  
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+  
+  .hidden {
+    display: none !important;
+  }
+  
+  d-article {
+    padding-top: 2.5rem;
+    padding-bottom: 30px;
+  }
+  
+  d-appendix {
+    padding-top: 30px;
+  }
+  
+  d-article>p>img {
+    width: 100%;
+  }
+  
+  d-article h2 {
+    margin: 1rem 0 1.5rem 0;
+  }
+  
+  d-article h3 {
+    margin-top: 1.5rem;
+  }
+  
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+  
+  /* Tweak code blocks */
+  
+  d-article div.sourceCode code,
+  d-article pre code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  }
+  
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: auto;
+  }
+  
+  d-article div.sourceCode {
+    background-color: white;
+  }
+  
+  d-article div.sourceCode pre {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+  
+  d-article pre {
+    font-size: 12px;
+    color: black;
+    background: none;
+    margin-top: 0;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  d-article pre a {
+    border-bottom: none;
+  }
+  
+  d-article pre a:hover {
+    border-bottom: none;
+    text-decoration: underline;
+  }
+  
+  @media(min-width: 768px) {
+  
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: visible !important;
+  }
+  
+  d-article div.sourceCode pre {
+    padding-left: 18px;
+    font-size: 14px;
+  }
+  
+  d-article pre {
+    font-size: 14px;
+  }
+  
+  }
+  
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  /* CSS for d-contents */
+  
+  .d-contents {
+    grid-column: text;
+    color: rgba(0,0,0,0.8);
+    font-size: 0.9em;
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
+    padding-left: 0.25em;
+    justify-self: start;
+  }
+  
+  @media(min-width: 1000px) {
+    .d-contents.d-contents-float {
+      height: 0;
+      grid-column-start: 1;
+      grid-column-end: 4;
+      justify-self: center;
+      padding-right: 3em;
+      padding-left: 2em;
+    }
+  }
+  
+  .d-contents nav h3 {
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 1em;
+  }
+  
+  .d-contents li {
+    list-style-type: none
+  }
+  
+  .d-contents nav > ul {
+    padding-left: 0;
+  }
+  
+  .d-contents ul {
+    padding-left: 1em
+  }
+  
+  .d-contents nav ul li {
+    margin-top: 0.6em;
+    margin-bottom: 0.2em;
+  }
+  
+  .d-contents nav a {
+    font-size: 13px;
+    border-bottom: none;
+    text-decoration: none
+    color: rgba(0, 0, 0, 0.8);
+  }
+  
+  .d-contents nav a:hover {
+    text-decoration: underline solid rgba(0, 0, 0, 0.6)
+  }
+  
+  .d-contents nav > ul > li > a {
+    font-weight: 600;
+  }
+  
+  .d-contents nav > ul > li > ul {
+    font-weight: inherit;
+  }
+  
+  .d-contents nav > ul > li > ul > li {
+    margin-top: 0.2em;
+  }
+  
+  
+  .d-contents nav ul {
+    margin-top: 0;
+    margin-bottom: 0.25em;
+  }
+  
+  .d-article-with-toc h2:nth-child(2) {
+    margin-top: 0;
+  }
+  
+  
+  /* Figure */
+  
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+  
+  .figure img {
+    width: 100%;
+  }
+  
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+  
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+  
+  /* Citations */
+  
+  d-article .citation {
+    color: inherit;
+    cursor: inherit;
+  }
+  
+  div.hanging-indent{
+    margin-left: 1em; text-indent: -1em;
+  }
+  
+  
+  /* Tweak 1000px media break to show more text */
+  
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+  
+    .grid {
+      grid-column-gap: 16px;
+    }
+  
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+  
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+  
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+  
+  
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+  
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  
+  /* Include appendix styles here so they can be overridden */
+  
+  d-appendix {
+    contain: layout style;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-top: 60px;
+    margin-bottom: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    color: rgba(0,0,0,0.5);
+    padding-top: 60px;
+    padding-bottom: 48px;
+  }
+  
+  d-appendix h3 {
+    grid-column: page-start / text-start;
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 1em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.65);
+  }
+  
+  d-appendix h3 + * {
+    margin-top: 1em;
+  }
+  
+  d-appendix ol {
+    padding: 0 0 0 15px;
+  }
+  
+  @media (min-width: 768px) {
+    d-appendix ol {
+      padding: 0 0 0 30px;
+      margin-left: -30px;
+    }
+  }
+  
+  d-appendix li {
+    margin-bottom: 1em;
+  }
+  
+  d-appendix a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  d-appendix > * {
+    grid-column: text;
+  }
+  
+  d-appendix > d-footnote-list,
+  d-appendix > d-citation-list,
+  d-appendix > distill-appendix {
+    grid-column: screen;
+  }
+  
+  /* Include footnote styles here so they can be overridden */
+  
+  d-footnote-list {
+    contain: layout style;
+  }
+  
+  d-footnote-list > * {
+    grid-column: text;
+  }
+  
+  d-footnote-list a.footnote-backlink {
+    color: rgba(0,0,0,0.3);
+    padding-left: 0.5em;
+  }
+  
+  
+  
+  /* Anchor.js */
+  
+  .anchorjs-link {
+    /*transition: all .25s linear; */
+    text-decoration: none;
+    border-bottom: none;
+  }
+  *:hover > .anchorjs-link {
+    margin-left: -1.125em !important;
+    text-decoration: none;
+    border-bottom: none;
+  }
+  
+  /* Social footer */
+  
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+  
+  .disqus-comments {
+    margin-right: 30px;
+  }
+  
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+  
+  #disqus_thread {
+    margin-top: 30px;
+  }
+  
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+  
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+  
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+  
+  
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+  
+  
+  .sidebar-section.custom {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .custom p {
+    margin-bottom: 0.5em;
+  }
+  
+  /* Styles for listing layout (hide title) */
+  .layout-listing d-title, .layout-listing .d-title {
+    display: none;
+  }
+  
+  /* Styles for posts lists (not auto-injected) */
+  
+  
+  .posts-with-sidebar {
+    padding-left: 45px;
+    padding-right: 45px;
+  }
+  
+  .posts-list .description h2,
+  .posts-list .description p {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  }
+  
+  .posts-list .description h2 {
+    font-weight: 700;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  
+  .posts-list h2.post-tag {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding-bottom: 12px;
+  }
+  .posts-list {
+    margin-top: 60px;
+    margin-bottom: 24px;
+  }
+  
+  .posts-list .post-preview {
+    text-decoration: none;
+    overflow: hidden;
+    display: block;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 24px 0;
+  }
+  
+  .post-preview-last {
+    border-bottom: none !important;
+  }
+  
+  .posts-list .posts-list-caption {
+    grid-column: screen;
+    font-weight: 400;
+  }
+  
+  .posts-list .post-preview h2 {
+    margin: 0 0 6px 0;
+    line-height: 1.2em;
+    font-style: normal;
+    font-size: 24px;
+  }
+  
+  .posts-list .post-preview p {
+    margin: 0 0 12px 0;
+    line-height: 1.4em;
+    font-size: 16px;
+  }
+  
+  .posts-list .post-preview .thumbnail {
+    box-sizing: border-box;
+    margin-bottom: 24px;
+    position: relative;
+    max-width: 500px;
+  }
+  .posts-list .post-preview img {
+    width: 100%;
+    display: block;
+  }
+  
+  .posts-list .metadata {
+    font-size: 12px;
+    line-height: 1.4em;
+    margin-bottom: 18px;
+  }
+  
+  .posts-list .metadata > * {
+    display: inline-block;
+  }
+  
+  .posts-list .metadata .publishedDate {
+    margin-right: 2em;
+  }
+  
+  .posts-list .metadata .dt-authors {
+    display: block;
+    margin-top: 0.3em;
+    margin-right: 2em;
+  }
+  
+  .posts-list .dt-tags {
+    display: block;
+    line-height: 1em;
+  }
+  
+  .posts-list .dt-tags .dt-tag {
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0.3em 0.4em;
+    margin-right: 0.2em;
+    margin-bottom: 0.4em;
+    font-size: 60%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  
+  .posts-list img {
+    opacity: 1;
+  }
+  
+  .posts-list img[data-src] {
+    opacity: 0;
+  }
+  
+  .posts-more {
+    clear: both;
+  }
+  
+  
+  .posts-sidebar {
+    font-size: 16px;
+  }
+  
+  .posts-sidebar h3 {
+    font-size: 16px;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+  
+  .sidebar-section {
+    margin-bottom: 30px;
+  }
+  
+  .categories ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .categories li {
+    color: rgba(0, 0, 0, 0.8);
+    margin-bottom: 0;
+  }
+  
+  .categories li>a {
+    border-bottom: none;
+  }
+  
+  .categories li>a:hover {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  }
+  
+  .categories .active {
+    font-weight: 600;
+  }
+  
+  .categories .category-count {
+    color: rgba(0, 0, 0, 0.4);
+  }
+  
+  
+  @media(min-width: 768px) {
+    .posts-list .post-preview h2 {
+      font-size: 26px;
+    }
+    .posts-list .post-preview .thumbnail {
+      float: right;
+      width: 30%;
+      margin-bottom: 0;
+    }
+    .posts-list .post-preview .description {
+      float: left;
+      width: 45%;
+    }
+    .posts-list .post-preview .metadata {
+      float: left;
+      width: 20%;
+      margin-top: 8px;
+    }
+    .posts-list .post-preview p {
+      margin: 0 0 12px 0;
+      line-height: 1.5em;
+      font-size: 16px;
+    }
+    .posts-with-sidebar .posts-list {
+      float: left;
+      width: 75%;
+    }
+    .posts-with-sidebar .posts-sidebar {
+      float: right;
+      width: 20%;
+      margin-top: 60px;
+      padding-top: 24px;
+      padding-bottom: 24px;
+    }
+  }
+  
+  
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+  
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+  
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+  
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+  
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+  
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+  
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+  
+  
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+  
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+  
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+  
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+  
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  .downlevel .posts-list .post-preview {
+    color: inherit;
+  }
+  
+  
+  
+  </style>
+  
+  <script type="application/javascript">
+  
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+  
+  // show body when load is complete
+  function on_load_complete() {
+  
+    // add anchors
+    if (window.anchors) {
+      window.anchors.options.placement = 'left';
+      window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
+    }
+  
+  
+    // set body to visible
+    document.body.style.visibility = 'visible';
+  
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+  
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+  
+  function init_distill() {
+  
+    init_common();
+  
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+  
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+  
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+  
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+  
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+  
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+  
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+  
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+  
+    // move refs into #references-listing
+    $('#references-listing').replaceWith($('#refs'));
+  
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-contents a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+  
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+  
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+  
+      // capture layout
+      var layout = $(this).attr('data-layout');
+  
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('div.sourceCode, pre, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+  
+  
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+  
+    // remove code block used to force  highlighting css
+    $('.distill-force-highlighting-css').parent().remove();
+  
+    // remove empty line numbers inserted by pandoc when using a
+    // custom syntax highlighting theme
+    $('code.sourceCode a:empty').remove();
+  
+    // load distill framework
+    load_distill_framework();
+  
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+  
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+  
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+  
+      // article with toc class
+      $('.d-contents').parent().addClass('d-article-with-toc');
+  
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+  
+      // add orcid ids
+      $('.authors-affiliations').find('.author').each(function(i, el) {
+        var orcid_id = front_matter.authors[i].orcidID;
+        if (orcid_id) {
+          var a = $('<a></a>');
+          a.attr('href', 'https://orcid.org/' + orcid_id);
+          var img = $('<img></img>');
+          img.addClass('orcid-id');
+          img.attr('alt', 'ORCID ID');
+          img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
+          a.append(img);
+          $(this).append(a);
+        }
+      });
+  
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+  
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+  
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+  
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+  
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+  
+      // remove d-appendix and d-footnote-list local styles
+      $('d-appendix > style:first-child').remove();
+      $('d-footnote-list > style:first-child').remove();
+  
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+  
+      // clear polling timer
+      clearInterval(tid);
+  
+      // show body now that everything is ready
+      on_load_complete();
+    }
+  
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+  
+  }
+  
+  function init_downlevel() {
+  
+    init_common();
+  
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+  
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+  
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+  
+    // remove toc
+    $('.d-contents').remove();
+  
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+  
+  
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+  
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+  
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+  
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+  
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+  
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+  
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+  
+    $('body').addClass('downlevel');
+  
+    on_load_complete();
+  }
+  
+  
+  function init_common() {
+  
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+  
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+  
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+  
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+  
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+  
+      }
+    });
+  
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+  
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+      });
+    }
+  
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+  
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+  
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+  
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+  
+  </script>
+  
+  <!--/radix_placeholder_distill-->
+  <script src="h2o_files/font-awesome-5.13.0/js/script.js"></script>
+  <link href="h2o_files/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+  <script src="h2o_files/pagedtable-1.1/js/pagedtable.js"></script>
+  <script src="h2o_files/jquery-1.11.3/jquery.min.js"></script>
+  <script src="h2o_files/anchor-4.2.2/anchor.min.js"></script>
+  <script src="h2o_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="h2o_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="h2o_files/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"h2o","description":"An introduction to using $H_2O$ in R.","authors":[],"publishedDate":"2021-04-13T00:00:00.000+00:00"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>h2o</h1>
+<!--radix_placeholder_categories-->
+<!--/radix_placeholder_categories-->
+<p><p>An introduction to using <span class="math inline">\(H_2O\)</span> in R.</p></p>
+</div>
+
+
+<div class="d-article">
+<div class="d-contents d-contents-float">
+<nav class="l-text toc figcaption" id="TOC">
+<h3>Contents</h3>
+<ul>
+<li><a href="#follow-along">Follow along</a></li>
+<li><a href="#resources">Resources</a></li>
+<li><a href="#set-up">Set up</a></li>
+<li><a href="#introduction">Introduction</a></li>
+</ul>
+</nav>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<h2 id="follow-along">Follow along</h2>
+<p>You can download this .Rmd file below if you’d like to follow along. I do have a few hidden notes you can disregard. This document is a distill_article, so you may want to change to an html_document to knit. You will also need to delete any image references to properly knit, since you won’t have those images.</p>
+<div class="layout-chunk" data-layout="l-body">
+<a href="data:text/x-markdown;base64,LS0tCnRpdGxlOiAiaDJvIgpkZXNjcmlwdGlvbjogfAogIEFuIGludHJvZHVjdGlvbiB0byB1c2luZyAkSF8yTyQgaW4gUi4Kb3V0cHV0OgogIGRpc3RpbGw6OmRpc3RpbGxfYXJ0aWNsZToKICAgIHRvYzogdHJ1ZQogICAgdG9jX2Zsb2F0OiB0cnVlCiAgICBzZWxmX2NvbnRhaW5lZDogZmFsc2UKZHJhZnQ6IHRydWUKLS0tCgoKYGBge3Igc2V0dXAsIGluY2x1ZGU9RkFMU0V9CmtuaXRyOjpvcHRzX2NodW5rJHNldChlY2hvID0gVFJVRSwKICAgICAgICAgICAgICAgICAgICAgIG1lc3NhZ2UgPSBGQUxTRSwKICAgICAgICAgICAgICAgICAgICAgIHdhcm5pbmcgPSBGQUxTRSwKICAgICAgICAgICAgICAgICAgICAgIGVycm9yID0gVFJVRSkKYGBgCgpgYGB7ciBlY2hvPUZBTFNFfQpsaWJyYXJ5KGVtbykgICAgICAgICAgIyBmb3IgZW1vamlzISAgIApsaWJyYXJ5KGRvd25sb2FkdGhpcykgIyBmb3IgaW5jbHVkaW5nIGRvd25sb2FkIGJ1dHRvbnMgZm9yIGZpbGVzCmBgYAoKYGBge3IgcGFnZWQtdGFibGUsIGVjaG89RkFMU0V9CiMgZGVmaW5lIGEgbWV0aG9kIGZvciBvYmplY3RzIG9mIHRoZSBjbGFzcyBkYXRhLmZyYW1lCiMgc2VlIGh0dHBzOi8vZ2l0aHViLmNvbS9yc3R1ZGlvL2Rpc3RpbGwvaXNzdWVzLzMxMCNpc3N1ZWNvbW1lbnQtNzk3NTQxNDU5CmxpYnJhcnkoa25pdHIpCmtuaXRfcHJpbnQuZGF0YS5mcmFtZSA8LSBmdW5jdGlvbih4LCAuLi4pIHsKICBhc2lzX291dHB1dCgKICAgIHJtYXJrZG93bjo6OnBhZ2VkX3RhYmxlX2h0bWwoeCwgb3B0aW9ucyA9IGF0dHIoeCwgIm9wdGlvbnMiKSksCiAgICBtZXRhID0gbGlzdChkZXBlbmRlbmNpZXMgPSBybWFya2Rvd246OjpodG1sX2RlcGVuZGVuY3lfcGFnZWR0YWJsZSgpKQogICkKfQpyZWdpc3RlclMzbWV0aG9kKCJrbml0X3ByaW50IiwgImRhdGEuZnJhbWUiLCBrbml0X3ByaW50LmRhdGEuZnJhbWUpCmBgYAoKIyMgRm9sbG93IGFsb25nCgpZb3UgY2FuIGRvd25sb2FkIHRoaXMgLlJtZCBmaWxlIGJlbG93IGlmIHlvdSdkIGxpa2UgdG8gZm9sbG93IGFsb25nLiBJIGRvIGhhdmUgYSBmZXcgaGlkZGVuIG5vdGVzIHlvdSBjYW4gZGlzcmVnYXJkLiBUaGlzIGRvY3VtZW50IGlzIGEgZGlzdGlsbF9hcnRpY2xlLCBzbyB5b3UgbWF5IHdhbnQgdG8gY2hhbmdlIHRvIGFuIGh0bWxfZG9jdW1lbnQgdG8ga25pdC4gWW91IHdpbGwgYWxzbyBuZWVkIHRvIGRlbGV0ZSBhbnkgaW1hZ2UgcmVmZXJlbmNlcyB0byBwcm9wZXJseSBrbml0LCBzaW5jZSB5b3Ugd29uJ3QgaGF2ZSB0aG9zZSBpbWFnZXMuCgpgYGB7ciwgZWNobz1GQUxTRX0KZG93bmxvYWRfZmlsZSgKICBwYXRoID0gImgyby5SbWQiLAogIGJ1dHRvbl9sYWJlbCA9ICJEb3dubG9hZCAuUm1kIGZpbGUiLAogIGJ1dHRvbl90eXBlID0gImluZm8iLAogIGhhc19pY29uID0gVFJVRSwKICBpY29uID0gImZhIGZhLXNhdmUiLAogIHNlbGZfY29udGFpbmVkID0gRkFMU0UKKQpgYGAKCiMjIFJlc291cmNlcwoKKiBbaDJvIGluIFIgY2hlYXRzaGVldF0oaHR0cHM6Ly91Z29wcm90by5naXRodWIuaW8vdWdvX3JfZG9jL3BkZi9oMm8ucGRmKSAKKiBbaDIwLmFpIG9ubGluZSBkb2N1bWVudGF0aW9uXShodHRwczovL2RvY3MuaDJvLmFpL2gyby9sYXRlc3Qtc3RhYmxlL2gyby1kb2NzL3dlbGNvbWUuaHRtbCNyLXVzZXJzKSAgCiogW2gyMC5haSBib29rbGV0XShodHRwczovL3d3dy5oMm8uYWkvcmVzb3VyY2VzL2Jvb2tsZXQvbWFjaGluZS1sZWFybmluZy13aXRoLXItYW5kLWgyby8pCiogW25vUnRoIHRhbGsgb24gdXNpbmcgYXV0b01MIGluIFJdKGh0dHBzOi8veW91dHUuYmUvZHNNaC1RcGJyNjApIGJ5IEVyaW4gTGVEZWxsLCBDaGllZiBNYWNoaW5lIExlYXJuaW5nIFNjaWVudGlzdCBhdCBgSDIwLmFpYC4gSWYgeW91IHNlYXJjaCB0aGUgaW50ZXJuZXQgZm9yIEVyaW4gTGVEZWxsLCB5b3Ugd2lsbCBmaW5kIG1hbnkgbW9yZSB2aWRlb3Mgb24gdGhpcyBhbmQgc2ltaWxhciB0b3BpY3MuCgojIyBTZXQgdXAKCkZpcnN0LCB3ZSBsb2FkIHRoZSBsaWJyYXJpZXMgd2Ugd2lsbCB1c2UuIFRoZXJlIHdpbGwgYmUgc29tZSBuZXcgb25lcyB5b3UnbGwgbmVlZCB0byBpbnN0YWxsLiBZb3UgYWxzbyBuZWVkIHRvIGhhdmUgSmF2YSBpbnN0YWxsZWQgLSBkbyB0aGF0IFtoZXJlXShodHRwczovL3d3dy5vcmFjbGUuY29tL2phdmEvdGVjaG5vbG9naWVzL2phdmFzZS1kb3dubG9hZHMuaHRtbCkgZmlyc3QsIGJlZm9yZSBpbnN0YWxsaW5nIHRoZSBgaDJvYCBsaWJyYXJ5LiBUaGUgdmVyc2lvbiBuZWVkcyB0byBiZSB2ZXJzaW9uIDgsIDksIDEwLCAxMSwgMTIsIG9yIDEzLCBhbmQgSSB3YXMgcmVxdWlyZWQgdG8gY3JlYXRlIGFuIGFjY291bnQuIFlvdSBjYW4gY2hlY2sgdG8gc2VlIGlmIHlvdSBhbHJlYWR5IGhhdmUgamF2YSBpbnN0YWxsZWQgYnkgdHlwaW5nIGBqYXZhIC12ZXJzaW9uYCBpbnRvIHRoZSAqdGVybWluYWwqLiBJZiB5b3UgZG8gdGhpcyBpbnNpZGUgb2YgUiwgbWFrZSBzdXJlIHlvdSBhcmUgaW4geW91ciBiYXNlIGRpcmVjdG9yeSAtIHlvdSBjYW4gdXNlIHRoZSBjb21tYW5kIGBjZCAuLmAgdG8gbW92ZSB1cCBpbiB5b3VyIGZvbGRlciBzdHJ1Y3R1cmUuIEFmdGVyIEphdmEgaXMgaW5zdGFsbGVkLCB0aGVuIGluc3RhbGwgYGgyb2AuCgpgYGB7ciBsaWJyYXJpZXN9CmxpYnJhcnkodGlkeXZlcnNlKSAgICAgICAgICMgZm9yIHJlYWRpbmcgaW4gZGF0YSwgZ3JhcGhpbmcsIGFuZCBjbGVhbmluZwpsaWJyYXJ5KHRpZHltb2RlbHMpICAgICAgICAjIGZvciBtb2RlbGluZyAuLi4gdGlkaWx5CmxpYnJhcnkobHVicmlkYXRlKSAgICAgICAgICMgZm9yIGRhdGVzCmxpYnJhcnkobW9kZXJuZGl2ZSkgICAgICAgICMgZm9yIEtpbmcgQ291bnR5IGhvdXNpbmcgZGF0YQpsaWJyYXJ5KHBhdGNod29yaykgICAgICAgICAjIGZvciBjb21iaW5pbmcgcGxvdHMgbmljZWx5CmxpYnJhcnkocm1hcmtkb3duKSAgICAgICAgICMgZm9yIHBhZ2VkIHRhYmxlcwpsaWJyYXJ5KGgybykgICAgICAgICAgICAgICAjIHVzZSBSIGZ1bmN0aW9ucyB0byBhY2Nlc3MgdGhlIEgyTyBtYWNoaW5lIGxlYXJuaW5nIHBsYXRmb3JtIAp0aGVtZV9zZXQodGhlbWVfbWluaW1hbCgpKSAjIG15IGZhdm9yaXRlIGdncGxvdDIgdGhlbWUgOikKYGBgCgpUaGVuIHdlIGxvYWQgdGhlIGRhdGEgd2Ugd2lsbCB1c2UgdGhyb3VnaG91dCB0aGlzIHR1dG9yaWFsIGFuZCBkbyBzb21lIG1vZGlmaWNhdGlvbnMuIEFzIEkgbWVudGlvbmVkIGJlZm9yZSwgSSB3b3VsZG4ndCBuZWVkIHRvIHRha2UgdGhlIGxvZyBoZXJlLCBidXQgSSBkbyBzbyBJIGNhbiBjb21wYXJlIHRvIG90aGVyIG1vZGVscywgaWYgZGVzaXJlZC4KCmBgYHtyfQpkYXRhKCJob3VzZV9wcmljZXMiKQoKIyBDcmVhdGUgbG9nX3ByaWNlIGFuZCBkcm9wIHByaWNlIHZhcmlhYmxlCmhvdXNlX3ByaWNlcyA8LSBob3VzZV9wcmljZXMgJT4lIAogIG11dGF0ZShsb2dfcHJpY2UgPSBsb2cocHJpY2UsIGJhc2UgPSAxMCkpICU+JSAKICAjIG1ha2UgYWxsIGludGVnZXJzIG51bWVyaWMgLi4uIGZpeGVzIHByZWRpY3Rpb24gcHJvYmxlbQogIG11dGF0ZShhY3Jvc3Mod2hlcmUoaXMuaW50ZWdlciksIGFzLm51bWVyaWMpKSAlPiUgCiAgc2VsZWN0KC1wcmljZSwgLWlkKQpgYGAKCiMjIEludHJvZHVjdGlvbgoKSW5pdGlhdGUgb3VyIEgyTyBpbnN0YW5jZS4gVGhpcyBzaG91bGQgd29yayB3aXRob3V0IGVycm9yIGFzIGxvbmcgYXMgeW91IGhhdmUgaW5zdGFsbGVkIG9uZSBvZiB0aGUgSmF2YSB2ZXJzaW9ucyBpbmRpY2F0ZWQgYWJvdmUuCgpgYGB7cn0KaDJvLmluaXQoKQpgYGAKCllvdSBjYW4gYWxzbyBnbyB0byBbaHR0cDovL2xvY2FsaG9zdDo1NDMyMS9mbG93L2luZGV4Lmh0bWxdKGh0dHA6Ly9sb2NhbGhvc3Q6NTQzMjEvZmxvdy9pbmRleC5odG1sKSBpbiBhIHdlYiBicm93c2VyIHRvIHNlZSB0aGUgZmxvdy4gVGhpbmsgb2YgaXQgYXMgdXMgdXNpbmcgUiB0byBpbnRlcmZhY2Ugd2l0aCB0aGF0IHdlYnBhZ2UuCgpSZWFkIGRhdGEgaW50byBIMk8KCmBgYHtyfQpob3VzZV9oMm8gPC0gYXMuaDJvKGhvdXNlX3ByaWNlcykKYGBgCgpTcGxpdCB0aGUgZGF0YSBpbnRvIHRyYWluaW5nIGFuZCB0ZXN0aW5nCgpgYGB7cn0KaG91c2Vfc3BsaXRzIDwtIGgyby5zcGxpdEZyYW1lKGRhdGEgPSBob3VzZV9oMm8sCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICByYXRpb3MgPSBjKC43NSksICNwcm9wIHRvIHRyYWluaW5nCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBzZWVkID0gNDk0KQoKaG91c2VfdHJhaW4gPC0gaG91c2Vfc3BsaXRzW1sxXV0KaG91c2VfdGVzdCA8LSBob3VzZV9zcGxpdHNbWzJdXQpgYGAKCldlIGNhbiBsaXN0IHdoYXQgd2UgaGF2ZSBpbiBIMk8gbGlrZSB0aGlzLiBBbHRob3VnaCBJIGN1cnJlbnRseSBvbmx5IGhhdmUgdGhyZWUgZGF0YXNldHMgdGhlcmUsIHRoaXMgbGlzdCB3aWxsIGNvbnRhaW4gbW9yZSB0aGFuIHRoYXQgYmVjYXVzZSB3aGVuIEkga25pdCB0aGlzIFJtZCBmaWxlLCBJIHdpbGwgYWxzbyBoYXZlIGZpdCBzb21lIG1vZGVscy4KCmBgYHtyfQpoMm8ubHMoKQpgYGAKCkFuZCBub3cgdGhhdCBJIGhhdmUgdGhvc2UgZGF0YSBmcmFtZXMgaW4gSDJPLCBJIGNvdWxkIGFjdHVhbGx5IGRvIHNvbWUgaW5zcGVjdGlvbiBvZiB0aGVtIFt0aGVyZV0oaHR0cDovL2xvY2FsaG9zdDo1NDMyMS9mbG93L2luZGV4Lmh0bWwpICh0aGlzIGxpbmsgd2lsbCBvbmx5IHdvcmsgaWYgeW91IGFyZSBhY3R1YWxseSBjb2RpbmcgYWxvbmcgc2luY2UgeW91IHdpbGwgbmVlZCB0byBoYXZlIHRoZSBkYXRhIGxvYWRlZCB0aGVyZSkuIEZvciBleGFtcGxlLCBJIGNhbiBjbGljayBvbiBgZ2V0RnJhbWVzYCBhbmQgaXQgd2lsbCBnaXZlIGEgcHJldmlldyBvZiB3aGF0IGlzIGN1cnJlbnRseSBpbiBIMk8sIGxpa2UgaW4gdGhlIGltYWdlIGJlbG93IG9uIHRoZSByaWdodC4KCjxjZW50ZXI+Cgo6Ojo6IHtzdHlsZT0iZGlzcGxheTogZmxleDsifQoKOjo6IHt9CgohW0gyTyAiZmxvdyJdKGgyb19mbG93LnBuZyl7d2lkdGg9OTAlfQoKOjo6Cgo6Ojoge30KCiFbZ2V0RnJhbWVzIHJlc3VsdHNdKGdldEZyYW1lcy5wbmcpe3dpZHRoPTkwJX0KCjo6OgoKOjo6OgoKPC9jZW50ZXI+CgoKSSBjb3VsZCBldmVuIGRvIHRoZSBtb2RlbGluZyB0aGVyZSEgSSdtIG5vdCBnb2luZyB0byBkbyB0aGF0IG5vdywgYnV0IEkgZW5jb3VyYWdlIHlvdSB0byBwbGF5IGFyb3VuZCB3aXRoIGl0LiAKCgoKYGBge3J9Cmgyby5yZW1vdmVBbGwoKQpgYGAKCgo=" download="h2o.Rmd">
+<button class="btn btn-info"><i class="fa fa-save"></i> Download .Rmd file</button>
+</a>
+</div>
+<h2 id="resources">Resources</h2>
+<ul>
+<li><a href="https://ugoproto.github.io/ugo_r_doc/pdf/h2o.pdf">h2o in R cheatsheet</a></li>
+<li><a href="https://docs.h2o.ai/h2o/latest-stable/h2o-docs/welcome.html#r-users">h20.ai online documentation</a><br />
+</li>
+<li><a href="https://www.h2o.ai/resources/booklet/machine-learning-with-r-and-h2o/">h20.ai booklet</a></li>
+<li><a href="https://youtu.be/dsMh-Qpbr60">noRth talk on using autoML in R</a> by Erin LeDell, Chief Machine Learning Scientist at <code>H20.ai</code>. If you search the internet for Erin LeDell, you will find many more videos on this and similar topics.</li>
+</ul>
+<h2 id="set-up">Set up</h2>
+<p>First, we load the libraries we will use. There will be some new ones you’ll need to install. You also need to have Java installed - do that <a href="https://www.oracle.com/java/technologies/javase-downloads.html">here</a> first, before installing the <code>h2o</code> library. The version needs to be version 8, 9, 10, 11, 12, or 13, and I was required to create an account. You can check to see if you already have java installed by typing <code>java -version</code> into the <em>terminal</em>. If you do this inside of R, make sure you are in your base directory - you can use the command <code>cd ..</code> to move up in your folder structure. After Java is installed, then install <code>h2o</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span>         <span class='co'># for reading in data, graphing, and cleaning</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidymodels.tidymodels.org'>tidymodels</a></span><span class='op'>)</span>        <span class='co'># for modeling ... tidily</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://lubridate.tidyverse.org'>lubridate</a></span><span class='op'>)</span>         <span class='co'># for dates</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/moderndive/moderndive/issues'>moderndive</a></span><span class='op'>)</span>        <span class='co'># for King County housing data</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://patchwork.data-imaginist.com'>patchwork</a></span><span class='op'>)</span>         <span class='co'># for combining plots nicely</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/rstudio/rmarkdown'>rmarkdown</a></span><span class='op'>)</span>         <span class='co'># for paged tables</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/h2oai/h2o-3'>h2o</a></span><span class='op'>)</span>               <span class='co'># use R functions to access the H2O machine learning platform </span>
+<span class='fu'>theme_set</span><span class='op'>(</span><span class='fu'>theme_minimal</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='co'># my favorite ggplot2 theme :)</span>
+</code></pre>
+</div>
+</div>
+<p>Then we load the data we will use throughout this tutorial and do some modifications. As I mentioned before, I wouldn’t need to take the log here, but I do so I can compare to other models, if desired.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"house_prices"</span><span class='op'>)</span>
+
+<span class='co'># Create log_price and drop price variable</span>
+<span class='va'>house_prices</span> <span class='op'>&lt;-</span> <span class='va'>house_prices</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>mutate</span><span class='op'>(</span>log_price <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/h2o/man/H2OFrame.html'>log</a></span><span class='op'>(</span><span class='va'>price</span>, base <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='co'># make all integers numeric ... fixes prediction problem</span>
+  <span class='fu'>mutate</span><span class='op'>(</span><span class='fu'>across</span><span class='op'>(</span><span class='fu'>where</span><span class='op'>(</span><span class='va'>is.integer</span><span class='op'>)</span>, <span class='va'>as.numeric</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>select</span><span class='op'>(</span><span class='op'>-</span><span class='va'>price</span>, <span class='op'>-</span><span class='va'>id</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<h2 id="introduction">Introduction</h2>
+<p>Initiate our H2O instance. This should work without error as long as you have installed one of the Java versions indicated above.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='fu'><a href='https://rdrr.io/pkg/h2o/man/h2o.init.html'>h2o.init</a></span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code> Connection successful!
+
+R is connected to the H2O cluster: 
+    H2O cluster uptime:         3 hours 13 minutes 
+    H2O cluster timezone:       America/Chicago 
+    H2O data parsing timezone:  UTC 
+    H2O cluster version:        3.32.0.1 
+    H2O cluster version age:    6 months and 4 days !!! 
+    H2O cluster name:           H2O_started_from_R_llendway_cgp501 
+    H2O cluster total nodes:    1 
+    H2O cluster total memory:   4.00 GB 
+    H2O cluster total cores:    4 
+    H2O cluster allowed cores:  4 
+    H2O cluster healthy:        TRUE 
+    H2O Connection ip:          localhost 
+    H2O Connection port:        54321 
+    H2O Connection proxy:       NA 
+    H2O Internal Security:      FALSE 
+    H2O API Extensions:         Amazon S3, XGBoost, Algos, AutoML, Core V3, TargetEncoder, Core V4 
+    R Version:                  R version 4.0.2 (2020-06-22) </code></pre>
+</div>
+<p>You can also go to <a href="http://localhost:54321/flow/index.html">http://localhost:54321/flow/index.html</a> in a web browser to see the flow. Think of it as us using R to interface with that webpage.</p>
+<p>Read data into H2O</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>house_h2o</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/h2o/man/as.h2o.html'>as.h2o</a></span><span class='op'>(</span><span class='va'>house_prices</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>
+  |                                                                  
+  |                                                            |   0%
+  |                                                                  
+  |============================================================| 100%</code></pre>
+</div>
+<p>Split the data into training and testing</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='va'>house_splits</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/h2o/man/h2o.splitFrame.html'>h2o.splitFrame</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>house_h2o</span>,
+                               ratios <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>.75</span><span class='op'>)</span>, <span class='co'>#prop to training</span>
+                               seed <span class='op'>=</span> <span class='fl'>494</span><span class='op'>)</span>
+
+<span class='va'>house_train</span> <span class='op'>&lt;-</span> <span class='va'>house_splits</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
+<span class='va'>house_test</span> <span class='op'>&lt;-</span> <span class='va'>house_splits</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span>
+</code></pre>
+</div>
+</div>
+<p>We can list what we have in H2O like this. Although I currently only have three datasets there, this list will contain more than that because when I knit this Rmd file, I will also have fit some models.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='fu'><a href='https://rdrr.io/pkg/h2o/man/h2o.ls.html'>h2o.ls</a></span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["key"],"name":[1],"type":["fct"],"align":["left"]}],"data":[{"1":"RTMP_sid_9cd9_11"},{"1":"RTMP_sid_9cd9_13"},{"1":"RTMP_sid_9cd9_14"},{"1":"house_prices_sid_9cd9_9"},{"1":"house_prices_sid_9e1f_1"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<p>And now that I have those data frames in H2O, I could actually do some inspection of them <a href="http://localhost:54321/flow/index.html">there</a> (this link will only work if you are actually coding along since you will need to have the data loaded there). For example, I can click on <code>getFrames</code> and it will give a preview of what is currently in H2O, like in the image below on the right.</p>
+<center>
+<div style="display: flex;">
+<div>
+<figure>
+<img src="h2o_flow.png" style="width:90.0%" alt="" /><figcaption>H2O “flow”</figcaption>
+</figure>
+</div>
+<div>
+<figure>
+<img src="getFrames.png" style="width:90.0%" alt="" /><figcaption>getFrames results</figcaption>
+</figure>
+</div>
+</div>
+</center>
+<p>I could even do the modeling there! I’m not going to do that now, but I encourage you to play around with it.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre><code><span class='fu'><a href='https://rdrr.io/pkg/h2o/man/h2o.removeAll.html'>h2o.removeAll</a></span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom"></div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>

@@ -1,0 +1,214 @@
+---
+title: "h2o"
+description: |
+  An introduction to using $H_2O$ in R.
+output:
+  distill::distill_article:
+    toc: true
+    toc_float: true
+    self_contained: false
+draft: true
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      message = FALSE,
+                      warning = FALSE,
+                      error = TRUE)
+```
+
+```{r echo=FALSE}
+library(emo)          # for emojis!   
+library(downloadthis) # for including download buttons for files
+```
+
+```{r paged-table, echo=FALSE}
+# define a method for objects of the class data.frame
+# see https://github.com/rstudio/distill/issues/310#issuecomment-797541459
+library(knitr)
+knit_print.data.frame <- function(x, ...) {
+  asis_output(
+    rmarkdown:::paged_table_html(x, options = attr(x, "options")),
+    meta = list(dependencies = rmarkdown:::html_dependency_pagedtable())
+  )
+}
+registerS3method("knit_print", "data.frame", knit_print.data.frame)
+```
+
+## Follow along
+
+You can download this .Rmd file below if you'd like to follow along. I do have a few hidden notes you can disregard. This document is a distill_article, so you may want to change to an html_document to knit. You will also need to delete any image references to properly knit, since you won't have those images.
+
+```{r, echo=FALSE}
+download_file(
+  path = "h2o.Rmd",
+  button_label = "Download .Rmd file",
+  button_type = "info",
+  has_icon = TRUE,
+  icon = "fa fa-save",
+  self_contained = FALSE
+)
+```
+
+## Resources
+
+* [h2o in R cheatsheet](https://ugoproto.github.io/ugo_r_doc/pdf/h2o.pdf) 
+* [h20.ai online documentation](https://docs.h2o.ai/h2o/latest-stable/h2o-docs/welcome.html#r-users)  
+* [h20.ai booklet](https://www.h2o.ai/resources/booklet/machine-learning-with-r-and-h2o/)
+* [noRth talk on using autoML in R](https://youtu.be/dsMh-Qpbr60) by Erin LeDell, Chief Machine Learning Scientist at `H20.ai`. If you search the internet for Erin LeDell, you will find many more videos on this and similar topics.
+
+## Set up
+
+First, we load the libraries we will use. There will be some new ones you'll need to install. You also need to have Java installed - do that [here](https://www.oracle.com/java/technologies/javase-downloads.html) first, before installing the `h2o` library. The version needs to be version 8, 9, 10, 11, 12, or 13, and I was required to create an account. You can check to see if you already have java installed by typing `java -version` into the *terminal*. If you do this inside of R, make sure you are in your base directory - you can use the command `cd ..` to move up in your folder structure. After Java is installed, then install `h2o`.
+
+```{r libraries}
+library(tidyverse)         # for reading in data, graphing, and cleaning
+library(tidymodels)        # for modeling ... tidily
+library(lubridate)         # for dates
+library(moderndive)        # for King County housing data
+library(patchwork)         # for combining plots nicely
+library(rmarkdown)         # for paged tables
+library(h2o)               # use R functions to access the H2O machine learning platform 
+theme_set(theme_minimal()) # my favorite ggplot2 theme :)
+```
+
+Then we load the data we will use throughout this tutorial and do some modifications. As I mentioned before, I wouldn't need to take the log here, but I do so I can compare to other models, if desired.
+
+```{r}
+data("house_prices")
+
+# Create log_price and drop price variable
+house_prices <- house_prices %>% 
+  mutate(log_price = log(price, base = 10)) %>% 
+  # make all integers numeric ... fixes prediction problem
+  mutate(across(where(is.integer), as.numeric)) %>% 
+  select(-price, -id)
+```
+
+## Introduction
+
+Initiate our H2O instance. This should work without error as long as you have installed one of the Java versions indicated above.
+
+```{r}
+h2o.init()
+```
+
+```{r, echo=FALSE, message=FALSE}
+h2o.removeAll()
+```
+
+You can also go to [http://localhost:54321/flow/index.html](http://localhost:54321/flow/index.html) in a web browser to see the flow. Think of it as us using R to interface with that webpage.
+
+Read data into H2O
+
+```{r}
+house_h2o <- as.h2o(house_prices)
+```
+
+Split the data into training and testing
+
+```{r}
+house_splits <- h2o.splitFrame(data = house_h2o,
+                               ratios = c(.75), #prop to training
+                               seed = 494)
+
+house_train <- house_splits[[1]]
+house_test <- house_splits[[2]]
+```
+
+We can list what we have in H2O like this. Although I currently only have three datasets there, this list will contain more than that because when I knit this Rmd file, I will also have fit some models.
+
+```{r}
+h2o.ls()
+```
+
+And now that I have those data frames in H2O, I could actually do some inspection of them [there](http://localhost:54321/flow/index.html) (this link will only work if you are actually coding along since you will need to have the data loaded there). For example, I can click on `getFrames` and it will give a preview of what is currently in H2O, like in the image below on the right.
+
+<center>
+
+:::: {style="display: flex;"}
+
+::: {}
+
+![H2O "flow"](h2o_flow.png){width=60%}
+
+:::
+
+::: {}
+
+![getFrames results](getFrames.png){width=100%}
+
+:::
+
+::::
+
+</center>
+
+
+I could even do the modeling there! I'm not going to do that now, but I encourage you to play around with it. 
+
+Now, let's explore some of the models we could use, starting with a random forest. Similar to `tidymodels` or any other modeling framework you might use, there are a lot of options. I won't cover all of them, but you can check them out by searching for `h2o.randomForest` in the help.
+
+In this example, I will do the following:
+
+* Define the outcome variable, y, as `log_price`. I chose not to define the predictor variables, which means it will use everything except the outcome as predictors.  
+* Define the training data.  
+* Name the model with `model_id` argument.  
+* Define the number of folds for k-fold cross-validation.  
+* Set a seed for reproducibility.  
+* Define the maximum run time in seconds.
+
+```{r}
+rf_mod <- h2o.randomForest(y = "log_price",
+                           training_frame = house_train,
+                           model_id = "rand_for",
+                           nfolds = 5,
+                           seed = 494,
+                           max_runtime_secs = 180)
+
+```
+
+And we can look at summaries of the model fit. Why is the first set different from the last?????????????//
+
+```{r}
+print(rf_mod)
+```
+
+```{r}
+h2o.performance(rf_mod, 
+                xval = TRUE)
+```
+
+Predict
+
+```{r}
+pred_test <- h2o.predict(rf_mod,
+                         newdata = house_test)
+# make it an R data.frame
+as.data.frame(pred_test)
+```
+
+Save model
+
+```{r}
+h2o.saveModel(rf_mod,
+              path = "/Users/llendway/GoogleDriveMacalester/2020FALL/Advanced_DS/ads_website/_posts/2021-04-13-h2o")
+```
+
+
+```{r}
+test <- h2o.loadModel(path = "/Users/llendway/GoogleDriveMacalester/2020FALL/Advanced_DS/ads_website/_posts/2021-04-13-h2o/rand_for")
+
+prediction_test <- h2o.predict(test,
+                         newdata = house_test)
+# make it an R data.frame
+as.data.frame(prediction_test)
+```
+
+
+```{r}
+h2o.removeAll()
+```
+
+
