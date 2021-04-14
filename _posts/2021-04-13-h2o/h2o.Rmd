@@ -91,13 +91,13 @@ house_prices <- house_prices %>%
 
 Initiate our H2O instance. This should work without error as long as you have installed one of the Java versions indicated above.
 
+```{r}
+h2o.init()
+```
+
 ```{r, echo=FALSE, message=FALSE}
 #to clear out anything old
 h2o.removeAll()
-```
-
-```{r}
-h2o.init()
 ```
 
 You can also go to [http://localhost:54321/flow/index.html](http://localhost:54321/flow/index.html) in a web browser to see the flow. Think of it as us using R to interface with that webpage.
