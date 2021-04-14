@@ -2,12 +2,13 @@
 title: "H2O.ai"
 description: |
   An introduction to doing machine learning using $H_2O$ in R.
+preview: h2o_logo.svg
 output:
   distill::distill_article:
     toc: true
     toc_float: true
     self_contained: false
-draft: true
+draft: false
 ---
 
 
@@ -60,7 +61,7 @@ download_file(
 
 ## Set up
 
-First, we load the libraries we will use. There will be some new ones you'll need to install. You also need to have Java installed - do that [here](https://www.oracle.com/java/technologies/javase-downloads.html) first, before installing the `h2o` library. The version needs to be version 8, 9, 10, 11, 12, or 13, and I was required to create an account. You can check to see if you already have java installed by typing `java -version` into the *terminal*. If you do this inside of R, make sure you are in your base directory - you can use the command `cd ..` to move up in your folder structure. After Java is installed, then install `h2o`.
+First, we load the libraries we will use. There will be some new ones you'll need to install. You also need to have Java installed - do that [here](https://www.oracle.com/java/technologies/javase-downloads.html) first, before installing the `h2o` library. The version needs to be version 8, 9, 10, 11, 12, or 13, and I was required to create an oracle account. You can check to see if you already have java installed by typing `java -version` into the *terminal*. If you do this inside of R, make sure you are in your base directory - you can use the command `cd ..` to move up in your folder structure. After Java is installed, then install `h2o`.
 
 ```{r libraries}
 library(tidyverse)         # for reading in data, graphing, and cleaning
@@ -190,7 +191,7 @@ h2o.performance(rf_mod,
 
 We can also create a graph of variable importance.
 
-```{r, fig.height=3, fig.width=3}
+```{r, fig.height=5, fig.width=3}
 h2o.varimp_plot(rf_mod)
 ```
 
