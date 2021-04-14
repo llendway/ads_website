@@ -1,7 +1,7 @@
 ---
-title: "h2o"
+title: "H2O.ai"
 description: |
-  An introduction to using $H_2O$ in R.
+  An introduction to doing machine learning using $H_2O$ in R.
 output:
   distill::distill_article:
     toc: true
@@ -90,34 +90,38 @@ house_prices <- house_prices %>%
 
 Initiate our H2O instance. This should work without error as long as you have installed one of the Java versions indicated above.
 
+```{r, echo=FALSE, message=FALSE}
+#to clear out anything old
+h2o.removeAll()
+```
+
 ```{r}
 h2o.init()
 ```
 
-```{r, echo=FALSE, message=FALSE}
-h2o.removeAll()
-```
-
 You can also go to [http://localhost:54321/flow/index.html](http://localhost:54321/flow/index.html) in a web browser to see the flow. Think of it as us using R to interface with that webpage.
 
-Read data into H2O
+First, let's read data into H2O. The `destination_frame` argument allows us to name the dataset in H2O.
 
 ```{r}
-house_h2o <- as.h2o(house_prices)
+house_h2o <- as.h2o(house_prices, 
+                    destination_frame = "house_prices")
 ```
 
-Split the data into training and testing
+Next, split the data into training and testing. Again, we can name the datasets we create in H2O using the `destination_frames` argument.
 
 ```{r}
-house_splits <- h2o.splitFrame(data = house_h2o,
-                               ratios = c(.75), #prop to training
-                               seed = 494)
+house_splits <- h2o.splitFrame(
+  data = house_h2o,
+  ratios = c(.75), #prop to training
+  seed = 494,
+  destination_frames = c("house_train", "house_test"))
 
 house_train <- house_splits[[1]]
 house_test <- house_splits[[2]]
 ```
 
-We can list what we have in H2O like this. Although I currently only have three datasets there, this list will contain more than that because when I knit this Rmd file, I will also have fit some models.
+We can list what we have in H2O using `h2o.ls()`. It will have all three I named and maybe more (I'm not exactly sure why).
 
 ```{r}
 h2o.ls()
@@ -146,7 +150,7 @@ And now that I have those data frames in H2O, I could actually do some inspectio
 </center>
 
 
-I could even do the modeling there! I'm not going to do that now, but I encourage you to play around with it. 
+I could even do the modeling there, using the `buildModel` function! I'm not going to do that now, but I encourage you to play around with it. You should find that it's very similar to the functions we will work with in R.
 
 Now, let's explore some of the models we could use, starting with a random forest. Similar to `tidymodels` or any other modeling framework you might use, there are a lot of options. I won't cover all of them, but you can check them out by searching for `h2o.randomForest` in the help.
 
@@ -169,18 +173,35 @@ rf_mod <- h2o.randomForest(y = "log_price",
 
 ```
 
-And we can look at summaries of the model fit. Why is the first set different from the last?????????????//
+And we can look at summaries of the model fit. You may be wondering why the evaluation metrics shown in the first set of output, labeled "H2ORegressionMetrics" are different from those in the `mean` column of the last data frame. I believe it is because in the first set of output, the predictions are combined to compute the metrics whereas in the dataframe, a metric is computed for each fold and then averaged. That is what is stated [here](http://docs.h2o.ai/h2o/latest-stable/h2o-docs/cross-validation.html) in the "How Cross-Validation is Calculated" section. To quote from that documentation:
+
+> For the main model, this is how the cross-validation metrics are computed: The 5 holdout predictions are combined into one prediction for the full training dataset (i.e., predictions for every row of the training data, but the model making the prediction for a particular row has not seen that row during training). This “holdout prediction” is then scored against the true labels, and the overall cross-validation metrics are computed.
 
 ```{r}
 print(rf_mod)
 ```
+
+We can extract just the first part, like this:
 
 ```{r}
 h2o.performance(rf_mod, 
                 xval = TRUE)
 ```
 
-Predict
+We can also create a graph of variable importance.
+
+```{r, fig.height=3, fig.width=3}
+h2o.varimp_plot(rf_mod)
+```
+
+We could also evaluate how well the model performs on the test data.
+
+```{r}
+h2o.performance(model = rf_mod,
+                newdata = house_test)
+```
+
+We can use the model to predict the outcome on new data.
 
 ```{r}
 pred_test <- h2o.predict(rf_mod,
@@ -189,26 +210,139 @@ pred_test <- h2o.predict(rf_mod,
 as.data.frame(pred_test)
 ```
 
-Save model
+We can also save the model. The `force = TRUE` will overwrite the model if it's already there.
 
 ```{r}
 h2o.saveModel(rf_mod,
-              path = "/Users/llendway/GoogleDriveMacalester/2020FALL/Advanced_DS/ads_website/_posts/2021-04-13-h2o")
+              path = "/Users/llendway/GoogleDriveMacalester/2020FALL/Advanced_DS/ads_website/_posts/2021-04-13-h2o", 
+              force = TRUE)
 ```
 
+And read it back in to use it later. Notice it's named "rand_for", which was the `model_id` I gave it back when we fit the model.
 
 ```{r}
 test <- h2o.loadModel(path = "/Users/llendway/GoogleDriveMacalester/2020FALL/Advanced_DS/ads_website/_posts/2021-04-13-h2o/rand_for")
 
+# use the new model to predict on new data
 prediction_test <- h2o.predict(test,
                          newdata = house_test)
 # make it an R data.frame
 as.data.frame(prediction_test)
 ```
 
+## A slighlty more complex example with tuning
+
+In the previous model, we just used all of the default values for the tuning parameters. This time, we will tune the `mtries` parameter, which is the number of randomly sampled variables that are candidates at each split. We use the `h2o.grid()` function when we want to tune. If you wanted to tune more parameters, you would add them to the `rf_params` list.
 
 ```{r}
-h2o.removeAll()
+
+rf_params <- list(mtries = c(3, 5, 7, 10))
+
+rf_mod_tune <- h2o.grid(
+  "randomForest",
+  y = "log_price",
+  training_frame = house_train,
+  grid_id = "rand_for_tune",
+  nfolds = 5, 
+  seed = 494,
+  max_runtime_secs = 180,
+  hyper_params = rf_params
+  )
 ```
 
+Next, we sort the results by rmse.
 
+```{r}
+rf_perf <- h2o.getGrid(
+  grid_id = "rand_for_tune",
+  sort_by = "rmse"
+)
+
+print(rf_perf)
+```
+
+We use `h2o.getModel()` to choose the first model in the list from above, which will be the best model - the one with the smallest rmse.
+
+```{r}
+best_rf <- h2o.getModel(rf_perf@model_ids[[1]])
+```
+
+Then, we evaluate the best model on the test data. Just like in the previous example, we could also save this model and use it later. I will skip that step here.
+
+```{r}
+h2o.performance(model = best_rf,
+                newdata = house_test)
+```
+
+## Auto ML
+
+H2O offers many different machine learning algorithms to use, including boosting (gradient boosting and XGBOOST), stacked ensembles, and deep learning. There is also an auto ML algorithm, which tries many different algorithms and puts the results on a leaderboard. There are many arguments you can change. In this example, I will use most of the defaults. You can read more details [here](https://github.com/h2oai/h2o-tutorials/tree/master/h2o-world-2017/automl). Let's try it out!
+
+```{r}
+aml <- h2o.automl(
+  y = "log_price",
+  training_frame = house_train,
+  nfolds = 5, 
+  seed = 494,
+  max_runtime_secs_per_model = 120,
+  max_models = 10
+)
+```
+
+We can take a look at the leaderboard - change `n` to see more or fewer models.
+
+```{r}
+print(aml@leaderboard, 
+      n = 10)
+```
+
+We can extract the best model (first in the leaderboard list).
+
+```{r}
+best_mod <- as.vector(aml@leaderboard$model_id)[1]
+best_mod
+```
+
+And see the details of the best model. We could save this model to use later, as we did with the first random forest model we created. I will skip that step.
+
+```{r}
+best_auto <- h2o.getModel(best_mod)
+best_auto
+```
+
+And we can do all the same things we did with other models we fit. Like creating a variable importance plot:
+
+```{r, fig.height=4, fig.width=4}
+h2o.varimp_plot(best_auto)
+```
+
+Using it to predict the outcome with new data:
+
+```{r}
+auto_pred <- h2o.predict(best_auto,
+                         newdata = house_test)
+as.data.frame(auto_pred)
+```
+
+And creating a nice plot of predicted vs. actual values:
+
+```{r}
+predictions <- as.data.frame(house_test) %>% 
+  bind_cols(as.data.frame(auto_pred)) 
+
+predictions  %>% 
+  ggplot(aes(x = log_price,
+             y = predict)) +
+  geom_point(alpha = .5, 
+             size = .5) +
+  geom_smooth(se = FALSE) +
+  geom_abline(slope = 1, 
+              intercept = 0, 
+              color = "darkred") +
+  labs(x = "Actual log(price)", 
+       y = "Predicted log(price)")
+```
+
+## Explore!
+
+There is so much more that you can do with this package than I have shown you. I encourage you to explore the resources I linked to above and try it out!
