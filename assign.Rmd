@@ -113,3 +113,21 @@ download_file(
   self_contained = FALSE
 )
 ```
+
+
+## Assignment #5
+
+* Practice using `countrycode` R package.
+
+```{r}
+download_file(
+  path = "assignments/05_assignment.html",
+  button_label = "Download Assignment #5!",
+  button_type = "warning",
+  has_icon = TRUE,
+  icon = "fa fa-save",
+  self_contained = FALSE
+)
+```
+
+

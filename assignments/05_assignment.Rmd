@@ -1,0 +1,91 @@
+---
+title: 'Assignment #5'
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    df_print: paged
+    code_download: true
+---
+
+```{r}
+library(countrycode)
+library(tidyverse)
+library(sf)
+library(rnaturalearth)
+library(rnaturalearthdata)
+library(rgeos)
+```
+
+
+```{r warning=FALSE}
+#finding coordinates for every country in the world dataset
+world <- ne_countries(scale = "medium", returnclass = "sf")
+coordinates <- cbind(world, st_coordinates(st_centroid(world$geometry)))
+coordinates <- 
+  coordinates %>%
+  select(name,sovereignt, type, X,Y)
+```
+
+
+## Exercises: 
+
+<br>
+
+##### Question 1: Convert the name of a country of choice into five different languages of your choice. Use the world dataset and use countryname. You can also use 'codelist' to look at different destinations. (Remove eval=FALSE)
+
+```{r eval=FALSE}
+#remove eval=FALSE before running
+question1 <-
+  world %>%
+  filter(name == '???')
+
+#Repeat the code down below for 4 other languages.
+countryname(question1$name, '???')
+```
+<br> 
+
+##### Question 2: Find the 'region' name and code for the top 30 countries. Use 'countrycode' for this. 
+
+```{r eval=FALSE}
+#remove eval=FALSE before running
+question2 <-
+  world %>% 
+  head(30)
+
+countrycode(question2$name, origin = '???', destination = '???')
+```
+<br>
+
+
+##### Question 3: Use the guess_field() function to find the closest match of the origin of the adm0_a3 column in the world dataset.
+
+
+<br> 
+
+##### Question 4: Draw a map with 5 countries with different labels using geom_sf, geom_text and countryname (you have complete freedom over what countries you want to do)
+
+
+```{r eval=FALSE}
+#remove eval=FALSE before running
+
+question4 <-
+#  coordinates[coordinates$name == ???,] %>%
+# Lisa changed to filter function rather than square brackets.
+# You could use %in% to select mutliple countries at the same
+# time, rather than doing it separately for each.
+  coordinates %>% 
+  filter(name == "???") %>% 
+  mutate(label = countryname(name, destination = '???'))
+
+ggplot() + 
+  geom_sf(data = ???) + 
+  geom_text(data=??? ,aes(X, Y, label=???), size=???) +
+
+```
+
+<br> 
+
+##### Question 5: Draw a map that has each country named after the continent it belongs to and colored  by their continent. Make sure your map looks like an actual map (not grids, not axis, add a title, a caption, etc.)
+
+
