@@ -89,5 +89,8 @@ description: |
   
 * Deep Learning
   - [Deep Learning with R](https://www.manning.com/books/deep-learning-with-r#toc)
-  - [Hands on Machine Learning](https://bradleyboehmke.github.io/HOML/deep-learning.html)
+  - [Hands on Machine Learning](https://bradleyboehmke.github.io/HOML/deep-learning.html)  
+  - [Neural Networks](https://youtube.com/playlist?list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi) YouTube video series by 3Blue1Brown  
+  - [Neural Networks and Deep Learning](http://neuralnetworksanddeeplearning.com/chap1.html) by Michael Nielsen  
+  - [TensorFlow for R tutorials](https://tensorflow.rstudio.com/tutorials/)
   
