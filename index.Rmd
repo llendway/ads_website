@@ -4,6 +4,8 @@ description: |
 site: distill::distill_website
 ---
 
+<script async defer data-domain="advanced-ds-in-r.netlify.app" src="https://plausible.io/js/plausible.js"></script>
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
