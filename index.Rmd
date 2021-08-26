@@ -20,13 +20,13 @@ library(downloadthis)
 
 
 
-Welcome to the Advanced Data Science in R course being taught by me, Lisa Lendway. The calendar for the course can be found on the course Moodle page, which is where you will also submit assignments. Materials for each topic we cover can be found on the Course Materials page of this website. I also included a page with all the resources I will use and a page with the assignments. 
+Welcome to the Advanced Data Science in R course being taught by me, Lisa Lendway. The calendar for the course can be found on the course Moodle page, which is where you will also submit assignments. Materials for each topic we cover can be found on the Course Materials page of this website. I also included a page with some of the resources I will use (and more!) and a page with the assignments. 
 
 ```{r, echo=FALSE}
 library(downloadthis)
 download_file(
   path = "assignments/syllabus_less_info.html",
-  button_label = "Download syllabus",
+  button_label = "Syllabus - Spring 2021",
   button_type = "info",
   has_icon = TRUE,
   icon = "fa fa-save",

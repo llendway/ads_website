@@ -22,8 +22,15 @@ download_file(
 )
 ```
 
+### Fall 2021 Assignments
 
-## Assignment #1
+Coming soon!
+
+
+### Spring 2021 Assignments
+
+
+#### Assignment #1
 
 Goals:
 
@@ -45,7 +52,7 @@ download_file(
 )
 ```
 
-## Assignment #2
+#### Assignment #2
 
 Goals:
 
@@ -70,7 +77,7 @@ download_file(
 ```
 
 
-## Assignment #3
+#### Assignment #3
 
 Goals:
 
@@ -94,7 +101,7 @@ download_file(
 )
 ```
 
-## Assignment #4
+#### Assignment #4
 
 Goals:
 
@@ -115,7 +122,7 @@ download_file(
 ```
 
 
-## Assignment #5
+#### Assignment #5
 
 * Practice using `countrycode` R package.
 

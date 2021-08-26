@@ -5,6 +5,7 @@ description: |
 
 * Review material
   - [Lisa's Intro DS course](https://ds112-lendway.netlify.app/)  
+  - [Prof. Brianna Heggeseth's Machine Learning course](https://bcheggeseth.github.io/253_fall_2021/) - she'll be building the site throughough the fall 2021 semester and is using `tidymodels`
   - [Hands on Machine Learning with R](https://bradleyboehmke.github.io/HOML/) by Bradley Boehmke and Brandon Greenwell  
   - [Johns Hopkins SPH ADS course site](http://jtleek.com/ads2020/index.html) by Jeff Leek and Roger Peng (Has both review and new material)
   
@@ -21,7 +22,8 @@ description: |
 * Building a website  
   - [Sharing on Short Notice](https://rstudio.com/resources/webinars/sharing-on-short-notice-how-to-get-your-materials-online-with-r-markdown/) with Alison Hill and Desirée De Leon from R Studio
   - [Lisa's Building a distill website blog post](https://lisalendway.netlify.app/posts/2020-12-09-buildingdistill/)  
-  - [Tom Mock's distill post](https://themockup.blog/posts/2020-08-01-building-a-blog-with-distill/)
+  - [Tom Mock's distill post](https://themockup.blog/posts/2020-08-01-building-a-blog-with-distill/)  
+  - [The Distillery showcase](https://distillery.rbind.io/showcase.html) featuring websites made with distill and their source code.
   - [Emily Zabor's tutorial](https://www.emilyzabor.com/tutorials/rmarkdown_websites_tutorial.html)  
   - [blogdown book site](https://bookdown.org/yihui/blogdown/) by Yihui Xie, Amber Thomas, and Alison Hill and check out recent updates [here](https://blog.rstudio.com/2021/01/18/blogdown-v1.0/)
   
