@@ -17,7 +17,8 @@ description: |
   - [Lisa's GitHub for collaboration](https://github.com/llendway/github_for_collaboration/blob/master/github_for_collaboration.md)  
   - [Lisa's more in-depth post and video](https://lisalendway.netlify.app/posts/2021-02-24-gitinrstudio/) that goes more in-depth on how to collaborate
   - [Happy git with R](https://happygitwithr.com/) by Jenny Bryan
-  - [R Packages - making a PR](https://r-pkgs.org/git.html#git-pullreq) from the *R Packages* boook by Hadley Wickham and Jenny Bryan
+  - [R Packages - making a PR](https://r-pkgs.org/git.html#git-pullreq) from the *R Packages* boook by Hadley Wickham and Jenny Bryan  
+  - [Pull request helpers](https://usethis.r-lib.org/articles/articles/pr-functions.html) from the `usethis` package
   
 * Building a website  
   - [Sharing on Short Notice](https://rstudio.com/resources/webinars/sharing-on-short-notice-how-to-get-your-materials-online-with-r-markdown/) with Alison Hill and Desirée De Leon from R Studio
