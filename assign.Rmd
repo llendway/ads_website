@@ -7,7 +7,7 @@ description: |
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-As you go, you may develop your own R Markdown style you like. I encourage you to download and use the template below at first.
+As you go, you may develop your own R Markdown style you like or you might use my file layout to start. If you'd like a different starting point, you can use the template below.
 
 ```{r}
 library(downloadthis)
@@ -24,8 +24,27 @@ download_file(
 
 ### Fall 2021 Assignments
 
-Coming soon!
+#### Assignment #1
 
+Goals:
+
+* Set up and use git and GitHub with RStudio.  
+* Create a personal website and hear about why this is a useful thing to have.  
+* Start generating ideas about your project for the course.
+* Read about and reflect on bias and fairness in data science.
+
+```{r}
+download_file(
+  path = "assignments/2021_fall/01_assignment.html",
+  button_label = "Download Assignment #1!",
+  button_type = "warning",
+  has_icon = TRUE,
+  icon = "fa fa-save",
+  self_contained = FALSE
+)
+```
+
+More assignments coming later!
 
 ### Spring 2021 Assignments
 
