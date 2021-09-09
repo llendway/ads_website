@@ -1,5 +1,6 @@
 ---
 title: "Machine Learning review with an intro to the tidymodels package"
+date: 02-28-2021
 preview: modeling_process_tidymodels.png
 output:
   distill::distill_article:
@@ -118,6 +119,7 @@ First, let's load some of the libraries we will use:
 ```{r libraries}
 library(tidyverse)         # for reading in data, graphing, and cleaning
 library(tidymodels)        # for modeling ... tidily
+library(usemodels)         # for suggesting step_XXX() functions
 library(glmnet)            # for regularized regression, including LASSO
 library(naniar)            # for examining missing values (NAs)
 library(lubridate)         # for date manipulation
@@ -239,7 +241,9 @@ This step may  not seem very time consuming in this example, but you will often 
 
 * We use the `recipe()` function to define the response/outcome variable and the predictor variables. 
 
-* A variety of `step_xxx()` functions can be used to do any data pre-processing/transforming. Find them all [here](https://www.tidymodels.org/find/recipes/). I used a few, with brief descriptions in the code. I also used some selector functions, like `all_predictors()` and `all_nominal()` to help me select the right variables. For suggestions on which `step_xxx()` functions to use with which engines, see this list of functions with [example templates](https://usemodels.tidymodels.org/reference/templates.html#examples). (Thank you Alison Hill, for showing me this resource via [R Studio Community](https://community.rstudio.com/t/tidymodels-lasso-scaled-variables/99256).)
+* A variety of `step_xxx()` functions can be used to do any data pre-processing/transforming. Find them all [here](https://www.tidymodels.org/find/recipes/). I used a few, with brief descriptions in the code. I also used some selector functions, like `all_predictors()` and `all_nominal()` to help me select the right variables. Some of the `step_xxx()` functions I chose to use below are because we'll be fitting a LASSO model later on.
+
+* For suggestions on which `step_xxx()` functions to use with which engines, see this list of functions with [example templates](https://usemodels.tidymodels.org/reference/templates.html#examples). (Thank you Alison Hill, for showing me this resource via [R Studio Community](https://community.rstudio.com/t/tidymodels-lasso-scaled-variables/99256).) 
 
 * One thing that is different here from what you might be used to is that we explicitly make dummy variables with the `step_dummy()` function. We don't need to always do that - it depends on the model we use. The [recommended preprocessing](https://www.tmwr.org/pre-proc-table.html) appendix of the *Tidy Modeling with R* book is a good place to look for reference.  
 
@@ -316,7 +320,7 @@ house_recipe %>%
   
 ### 4. Fitting model(s)
 
-Now that we have split and pre-processed the data, we are ready to model! First, we will model `log_price` using simple linear regression.
+Now that we have split and pre-processed the data, we are ready to model! First, we will model `log_price` using linear regression.
 
 We will do this using some modeling functions from the `parsnip` package. Find all available functions [here](https://www.tidymodels.org/find/parsnip/). [Here](https://parsnip.tidymodels.org/reference/linear_reg.html) is the detail for linear regression.
 
@@ -400,7 +404,8 @@ house_lm_fit_cv %>%
 # Evaluation metrics averaged over all folds:
 collect_metrics(house_lm_fit_cv)
 
-# Just to show you where the averages come from:
+# Just to show you where the averages come from.
+# You would never need to do this part since it's the same as the previous chunk.
 house_lm_fit_cv %>% 
   select(id, .metrics) %>% 
   unnest(.metrics) %>% 
@@ -740,7 +745,7 @@ house_lasso_final_mod %>%
   tidy() 
 ```
 
-We can also visualize variable importance.
+We can also visualize variable importance. We'll learn other methods of doing this later in the course.
 
 ```{r vip}
 # Visualize variable importance
