@@ -44,6 +44,27 @@ download_file(
 )
 ```
 
+#### Assignment #2
+
+Goals:
+
+* Continue using and become more comfortable with Git and GitHub.  
+* Refresh your machine learning skills.  
+* Use the `tidymodels` packages to build models.  
+* Read about and reflect on bias and fairness in data science.
+
+
+```{r}
+download_file(
+  path = "assignments/2021_fall/02_assignment.html",
+  button_label = "Download Assignment #2!",
+  button_type = "warning",
+  has_icon = TRUE,
+  icon = "fa fa-save",
+  self_contained = FALSE
+)
+```
+
 More assignments coming later!
 
 ### Spring 2021 Assignments
