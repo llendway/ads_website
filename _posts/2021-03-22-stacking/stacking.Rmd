@@ -1,5 +1,6 @@
 ---
 title: "Model Stacking"
+date: 03-10-2021
 preview: stacks_hex.png
 output:
   distill::distill_article:
@@ -64,6 +65,8 @@ library(tidyverse)         # for reading in data, graphing, and cleaning
 library(tidymodels)        # for modeling ... tidily
 library(stacks)            # for stacking models
 library(glmnet)            # for regularized regression, including LASSO
+library(ranger)            # for random forest model
+library(kknn)              # for knn model
 library(naniar)            # for examining missing values (NAs)
 library(lubridate)         # for date manipulation
 library(moderndive)        # for King County housing data
@@ -174,7 +177,7 @@ sqrt(ranger_fit$fit$fit$fit$prediction.error)
 
 We will also evaluate this using cross-validation because we'll need that later when we stack models. I'm using the same seed I used in the [previous tutorial](https://advanced-ds-in-r.netlify.app/posts/2021-03-16-ml-review/) when we fit a linear regression because I want the same folds. 
 
-We also define a couple things that will be used in stacking. The `metric` tells it we are using `RMSE`. We also use the `control_stack_resamples()` function to make assure the assessment set predictions and and workflow used to fit the resamples is stored. 
+We also define a couple things that will be used in stacking. The `metric_set()` tells it we are using `RMSE`. We also use the `control_stack_resamples()` function to assure the assessment set predictions and and workflow used to fit the resamples is stored. 
 
 ```{r}
 set.seed(1211) # for reproducibility
@@ -363,7 +366,7 @@ We can examine some plots to see if we need to adjust the penalty parameter at a
 autoplot(house_blend)
 ```
 
-We can also examine the plot with average number of members on the x-axis. You might wonder where the average comes from - it is because we are using cross-validation. So, we get different results for each penalty depending on the fold being left out. This plot can be a little hard to read since the rmse and rsq share the same y-axis even though they could be on very different scales (In the future, this will be fixed, thanks to Max Kuhn and Simon Couch's quick [response](https://github.com/tidymodels/stacks/issues/77) to my [request](https://community.rstudio.com/t/tidymodels-stacks-autoplot-with-type-members/99786)). 
+We can also examine the plot with average number of members on the x-axis. You might wonder where the average comes from - it is because we are using cross-validation. So, we get different results for each penalty depending on the fold being left out. (Thanks to Max Kuhn and Simon Couch's quick [response](https://github.com/tidymodels/stacks/issues/77) to my [request](https://community.rstudio.com/t/tidymodels-stacks-autoplot-with-type-members/99786) to fix the axes of the plot - yay!). 
 
 ```{r}
 autoplot(house_blend, type = "members")
@@ -382,8 +385,6 @@ house_final_stack <- house_blend %>%
   fit_members()
 
 house_final_stack
-
-collect_metrics()
 ```
 
 Now we can use this just as we would use a single model. For example, we can predict with it on new data and create the same predicted vs. actual plot we made above.
