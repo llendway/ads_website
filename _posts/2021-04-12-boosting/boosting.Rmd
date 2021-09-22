@@ -2,6 +2,7 @@
 title: "Boosting"
 description: |
   This tutorial gives an overview of boosted trees and how to implement them in `tidymodels`.
+date: 03-23-2021
 output:
   distill::distill_article:
     toc: true
@@ -64,7 +65,9 @@ First, we load the libraries we will use. There will be some new ones you'll nee
 ```{r libraries}
 library(tidyverse)         # for reading in data, graphing, and cleaning
 library(tidymodels)        # for modeling ... tidily
+library(usemodels)         # for tidymodels suggestions
 library(xgboost)           # for boosting - need to install, don't need to load
+library(doParallel)        # for parallel processing
 library(vip)               # for quick vip plot
 library(lubridate)         # for dates
 library(moderndive)        # for King County housing data
@@ -90,14 +93,58 @@ house_prices <- house_prices %>%
 
 Boosting is a machine learning algorithm that is similar to bagging or random forests, but the trees are NOT independent of one another. Instead, we use information from prior trees to inform how we build the next trees. The procedure is outlined below (based on Algorithm 8.2 from ISLR) 
 
-1. Build a shallow tree, which may even be a tree with only 1 split. The size of the tree will be a parameter we tune in the model.  
-2. Compute weighted fitted values using the tree, $\lambda \hat{f}^1(x_i)$, where $\lambda$ is a shrinkage parameter, which we will also tune. This is a small positive number, typically something like .001 or .01. The $1$ in the superscript signifies that this is the first model
-3. Compute the residuals, $r(x_i) = f(x_i) - \lambda \hat{f}(x_i)$.  
-4. Fit the next tree using the residuals from the previous model as the outcome variable. This is also a shallow tree.
-5. Update the fitted value to $\lambda \hat{f}^1(x_i) + \lambda \hat{f}^2(x_i)$, where $\hat{f}^2(x_i)$ is the fitted value of $x_i$ using the 2nd tree fit on the residuals.  
-6. Compute the residuals, $r(x_i) = f(x_i) - \lambda \hat{f}(x_i) - \lambda \hat{f}^2(x_i)$.  
-7. Continue steps 3-7, until satisfied. This is often controlled by the number of trees tuning parameter.  
-8. The final model is defined below, where $T$ is the number of trees.
+**Initialize**: In this step, we set the fitted values of all observations to $0$, $\hat{f}(x) = 0$ and the residuals to the actual values of the response variable, $r_i = y_i$. We could think of this as step $0$ and could label it $\hat{f}^0(x) = 0$
+
+**Iteration 1**: 
+
+1. Fit a tree, $\hat{f}^1$ with $d$ splits ($d$ will be a parameter we tune in the model). We fit this using all predictor variables (although only a small number will be used, somewhat depending on $d$) on the *residuals*, $r_i$. Remember, in this first iteration, $r_i = y_i$.  
+2. Update the fitted values using 
+$$
+\hat{f}(x) = \hat{f}(x) + \lambda \hat{f}^1(x),
+$$ 
+, where $\lambda$ is a shrinkage parameter, which we will also tune. This is a small positive number, typically something like .001 or .01. In this first iteration, the $\hat{f}(x)$ to the right of the equals sign is $0$. So, the updated fitted values are equal to $\lambda \hat{f}^1(x)$.  
+3. Update the residuals, 
+$$
+r_i = r_i - \lambda \hat{f}(x_i).
+$$  
+Since the residuals were initially set to $r_i = y_i$, in this first iteration, $r_i = y_i - \lambda \hat{f}(x_i)$.
+
+**Iteration 2**: 
+
+1. Fit the next tree, $\hat{f}^2$, with $d$ splits on the residuals updated from the previous model, $r_i$.   
+2. Like in iteration 1, update the fitted values to 
+
+$$
+\hat{f}(x) = \hat{f}(x) + \lambda \hat{f}^2(x),
+$$ 
+So, after 2 iterations
+$$
+\hat{f}(x) = \lambda \hat{f}^1(x) + \lambda \hat{f}^2(x),
+$$
+where $\hat{f}^2(x)$ are the fitted values using the 2nd tree fit on the residuals.    
+3. And update the residuals, 
+$$
+r_i = r_i - \lambda \hat{f}(x_i).
+$$  
+So, after the 2nd iteration, $r_i = y_i - \lambda \hat{f}^1(x_i) - \lambda \hat{f}^2(x_i)$.  
+
+**Iteration t**:
+
+1. Fit the next tree, $\hat{f}^t$, with $d$ splits on the residuals updated from the previous model, $r_i$.
+
+2. Update the fitted values to 
+$$
+\hat{f}(x) = \hat{f}(x) + \lambda \hat{f}^t(x).
+$$ 
+
+3. Update the residuals, 
+$$
+r_i = r_i - \lambda \hat{f}(x_i).
+$$    
+
+**Final model**:
+
+The final model is defined below, where $T$ is the number of trees. $T$ is another parameter that is tuned.
 
 $$
  \hat{f}(x) = \sum_{j = 1}^{T} \lambda \hat{f}^j(x)
@@ -123,6 +170,12 @@ house_testing <- testing(house_split)
 
 We do some transformations. I used one-hot dummy encoding as suggested by the `use_xgboost()` function.
 
+```{r}
+use_xgboost(log_price ~ ., 
+         data = house_training)
+```
+
+
 ```{r recipe}
 # set up recipe and transformation steps and roles
 boost_recipe <- 
@@ -133,8 +186,9 @@ boost_recipe <-
   # Make these evaluative variables, not included in modeling
   update_role(date,
               new_role = "evaluative") %>% 
-  step_novel(all_nominal(), -all_outcomes()) %>% 
-  step_dummy(all_nominal(), -all_outcomes(), one_hot = TRUE) 
+  step_novel(all_nominal_predictors()) %>% # recently learned about this helper 
+  step_dummy(all_nominal_predictors(), one_hot = TRUE)  %>% 
+  step_zv(all_predictors()) 
 ```
 
 ```{r}
@@ -144,7 +198,7 @@ boost_recipe %>%
 ```
 
 
-Next, we specify the model. This is where we can set the parameters we would like to tune. You can read details about what each of the arguments mean [here](https://parsnip.tidymodels.org/reference/boost_tree.html). We have seen some of these before with random forests. I initially tried tuning three of the parameters but the `tune_grid()` ran for over 90 minutes. So, I'm using the advice in [HOML](https://bradleyboehmke.github.io/HOML/gbm.html#xgb-tuning-strategy) to tune the learning rate first.
+Next, we specify the model. This is where we can set the parameters we would like to tune. You can read details about what each of the arguments mean [here](https://parsnip.tidymodels.org/reference/boost_tree.html). We have seen some of these before with random forests. I initially tried tuning three of the parameters but the `tune_grid()` ran for over 90 minutes. So, I'm using the advice in [HOML](https://bradleyboehmke.github.io/HOML/gbm.html#xgb-tuning-strategy) to tune the learning rate first. (It also seems the definition of `mtry` might have [changed](https://parsnip.tidymodels.org/news/#model-specification-changes-1) since I last used it. I have a [question](https://community.rstudio.com/t/tidymodels-xgboost-counts-true/116064) posted now and hope to have it answered soon.)
 
 ```{r}
 boost_spec <- boost_tree(
@@ -153,11 +207,10 @@ boost_spec <- boost_tree(
   min_n = 5,               # min points required for node to be further split
   loss_reduction = 10^-5,  # when to stop - smaller = more since it only has to get a little bit better 
   sample_size = 1,         # proportion of training data to use
-  mtry = 1/3,              # proportion of predictors used
   learn_rate = tune(),     # lambda from the equations above
   stop_iter = 50           # number of iterations w/o improvement b4 stopping
 ) %>% 
-  set_engine("xgboost") %>% 
+  set_engine("xgboost", colsample_bytree = 1) %>% #colsample_bytree = proportion of predictors used, 1 = all. Use rather than mtry in boost_tree()
   set_mode("regression")
 ```
 
@@ -186,10 +239,11 @@ val_split <- validation_split(house_training,
 val_split
 ```
 
-Now we can train these models. I also saved the predictions. This takes between 2-5 minutes to run (I left my office while it ran, so not positive the exact time).
+Now we can train these models. I also saved the predictions. This takes between less than a minute to run on my computere (it used to take more than 2 minutes before I added the `registerDoParallel()` so it helps!).
 
 ```{r}
 set.seed(494)
+registerDoParallel() # Meant to help with parallelizing (is that a word?) ... not sure how much it helps on my computer
 
 boost_tune <- tune_grid(
   boost_wf, 
@@ -272,7 +326,7 @@ test_preds %>%
        y = "Predicted log(price)")
 ```
 
-The test rmse is similar to the validation rmse, indicating that we are not overfitting. These results are similar, maybe slightly better than the [random forest model](https://advanced-ds-in-r.netlify.app/posts/2021-03-22-stacking/#this-isnt-so-new). It's possible we could improve this even further by tuning some of the other parameters. 
+The test rmse is similar to the validation rmse, indicating that we are not overfitting. These results are similar, maybe slightly worse than the [random forest model](https://advanced-ds-in-r.netlify.app/posts/2021-03-22-stacking/#this-isnt-so-new). It's possible we could improve this even further by tuning some of the other parameters. 
 
 For an example that uses a binary response variable, see Julia Silge's [tutorial](https://juliasilge.com/blog/xgboost-tune-volleyball/) involving beach volleyball data.
 
