@@ -65,7 +65,28 @@ download_file(
 )
 ```
 
-More assignments coming later!
+#### Assignment #3
+
+Goals:
+
+* Continue using and become more comfortable with Git and GitHub.  
+* Build more machine learning models using `tidymodels`, including `xgboost`.    
+* Build and use a stacked model.  
+* Start thinking about a shiny app.  
+* Explore new packages from "Function Friday".
+* Continue learning about bias and fairness in data science.  
+
+```{r}
+download_file(
+  path = "assignments/2021_fall/03_assignment.html",
+  button_label = "Download Assignment #3!",
+  button_type = "warning",
+  has_icon = TRUE,
+  icon = "fa fa-save",
+  self_contained = FALSE
+)
+```
+
 
 ### Spring 2021 Assignments
 

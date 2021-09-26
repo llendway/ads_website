@@ -1,0 +1,245 @@
+---
+title: 'Assignment #3'
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    df_print: paged
+    code_download: true
+---
+
+```{r setup, include=FALSE}
+#knitr::opts_chunk$set(echo = TRUE, message=FALSE, warning=FALSE)
+```
+
+```{r libraries}
+library(tidyverse)         # for graphing and data cleaning
+library(tidymodels)        # for modeling
+library(themis)            # for step functions for unbalanced data
+library(doParallel)        # for parallel processing
+library(stacks)            # for stacking models
+library(naniar)            # for examining missing values (NAs)
+library(lubridate)         # for date manipulation
+library(moderndive)        # for King County housing data
+library(vip)               # for variable importance plots
+library(patchwork)         # for combining plots nicely
+theme_set(theme_minimal()) # Lisa's favorite theme
+```
+
+```{r data}
+data("lending_club")
+# Data dictionary (as close as I could find): https://www.kaggle.com/wordsforthewise/lending-club/discussion/170691
+```
+
+
+When you finish the assignment, remove the `#` from the options chunk at the top, so that messages and warnings aren't printed. If you are getting errors in your code, add `error = TRUE` so that the file knits. I would recommend not removing the `#` until you are completely finished.
+
+## Put it on GitHub!        
+
+From now on, GitHub should be part of your routine when doing assignments. I recommend making it part of your process anytime you are working in R, but I'll make you show it's part of your process for assignments.
+
+**Task**: When you are finished with the assignment, post a link below to the GitHub repo for the assignment. Make sure the link goes to a spot in the repo where I can easily find this assignment. For example, if you have a website with a blog and post the assignment as a blog post, link to the post's folder in the repo. As an example, I've linked to my GitHub stacking material [here](https://github.com/llendway/ads_website/tree/master/_posts/2021-03-22-stacking).
+
+## Modeling
+
+We'll be using the `lending_club` dataset from the `modeldata` library, which is part of `tidymodels`. The data dictionary they reference doesn't seem to exist anymore, but it seems the one on this [kaggle discussion](https://www.kaggle.com/wordsforthewise/lending-club/discussion/170691) is pretty close. It might also help to read a bit about [Lending Club](https://en.wikipedia.org/wiki/LendingClub) before starting in on the exercises.
+
+The outcome we are interested in predicting is `Class`. And according to the dataset's help page, its values are "either 'good' (meaning that the loan was fully paid back or currently on-time) or 'bad' (charged off, defaulted, or 21-120 days late)".
+
+**Tasks:** 
+
+1. Explore the data, concentrating on examining distributions of variables and examining missing values. 
+
+
+2. Split the data into training and test, putting 75\% in the training data. Stratify by `Class` (add `strata = `Class` to the `initial_split()` function).
+
+```{r}
+set.seed(494) # for reproducibility
+
+# remove the #'s once you've defined these - this is so we all have the same name
+#lending_split <- 
+
+#lending_training <- 
+#lending_test <- 
+```
+
+
+3. Set up the recipe and the pre-processing steps to build a lasso model. Some steps you should take:
+
+* Use `step_upsample()` from the `themis` library to upsample the "bad" category so that it is 50\% of the "good" category. Do this by setting `over_ratio = .5`.
+* Use `step_downsample()` from the `themis` library to downsample the "good" category so the bads and goods are even - set `under_ratio = 1`. Make sure to do this step AFTER `step_upsample()`.  
+* Make all integer variables numeric (I'd highly recommend using `step_mutate_at()` and using the `all_numeric()` helper or this will be a lot of code). This step might seem really weird right now, but we'll want to do this for the model interpretation we'll do in a later assignment.  
+* Think about grouping factor variables with many levels.  
+* Make categorical variables dummy variables (make sure NOT to do this to the outcome variable).  
+* Normalize quantitative variables.  
+
+Once you have that, use `prep()`, `juice()`, and `count()` to count the number of observations in each class. They should be equal. This dataset will be used in building the model, but the data without up and down sampling will be used in evaluation.
+
+```{r}
+set.seed(456)
+
+#lasso_recipe <- 
+```
+
+
+4. Set up the lasso model and workflow. We will tune the `penalty` parameter.
+
+```{r}
+#lasso_mod <- 
+
+#lasso_wf <-
+```
+
+
+5. Set up the model tuning for the `penalty` parameter. Be sure to add the `control_stack_grid()` for the `control` argument so we can use these results later when we stack. Find the accuracy and area under the roc curve for the model with the best tuning parameter.  Use 5-fold cv.
+
+Tune:
+
+```{r}
+set.seed(494) #for reproducible 5-fold
+#lending_cv <- 
+
+# tune the model
+#lasso_tune <- 
+
+```
+
+
+6. Set up the recipe and the pre-processing steps to build a random forest model. You shouldn't have to do as many steps. The only steps you should need to do are making all integers numeric and the up and down sampling. 
+
+```{r}
+set.seed(456)
+#rf_recipe <- 
+
+```
+
+
+7. Set up the random forest model and workflow. We will tune the `mtry` and `min_n` parameters and set the number of trees, `trees`, to 100 (otherwise the next steps take too long).
+
+```{r}
+#rf_model <- 
+
+#rf_workflow <-
+```
+
+8. Set up the model tuning for both the `mtry` and `min_n` parameters. Be sure to add the `control_stack_grid()` for the `control` argument so we can use these results later when we stack. Use only 3 levels in the grid. For the `mtry` parameter, you need to put `finalize(mtry(), lending_training %>% select(-Class))` in as an argument instead of just `mtry()`, where `lending_training` is the name of your training data. This is because the `mtry()` grid will otherwise have unknowns in it. This part can take a while to run.
+
+```{r}
+#rf_tune <- 
+
+```
+
+9. Find the best tuning parameters. What are the accuracy and area under the ROC curve for the model with those tuning parameters?
+
+```{r}
+
+```
+
+
+10. Next, we will fit a boosted tree using xgboost. We will only tune the `learn_rate` parameter. I have specified the model, recipe, and workflow below already (uncomment the code - you can this by highlighting it and then in the code tab at the top, choose comment/uncomment lines). You need to set up a grid of ten values for the tuning parameter and tune the model. Be sure to add the `control_stack_grid()` for the `control` argument so we can use these results later when we stack.
+
+```{r}
+# xgboost_spec <- 
+#   boost_tree(
+#     trees = 1000, 
+#     min_n = 5, 
+#     tree_depth = 2, 
+#     learn_rate = tune(), 
+#     loss_reduction = 10^-5, 
+#     sample_size = 1) %>% 
+#   set_mode("classification") %>% 
+#   set_engine("xgboost") 
+# 
+# xgboost_recipe <- recipe(formula = Class ~ ., data = lending_training) %>% 
+#   step_upsample(Class, over_ratio = .5) %>% 
+#   step_downsample(Class, under_ratio = 1) %>% 
+#   step_mutate_at(all_numeric(), 
+#                  fn = ~as.numeric(.)) %>% 
+#   step_novel(all_nominal_predictors()) %>% 
+#   step_dummy(all_nominal_predictors(), one_hot = TRUE) %>% 
+#   step_zv(all_predictors()) 
+# 
+# xgboost_workflow <- 
+#   workflow() %>% 
+#   add_recipe(xgboost_recipe) %>% 
+#   add_model(xgboost_spec) 
+
+set.seed(494)
+registerDoParallel() 
+
+# boost_tune <- 
+
+```
+
+11. Find the best tuning parameters. What are the accuracy and area under the ROC curve for the model with those tuning parameters?
+
+```{r}
+```
+
+
+12. Create a model stack with the candidate models from the previous parts of the exercise and use the `blend_predictions()` function to find the coefficients of the stacked model. Create a plot examining the performance metrics for the different penalty parameters to assure you have captured the best one. If not, adjust the penalty. (HINT: use the `autoplot()` function). Which models are contributing most?
+
+```{r}
+#lending_stack <- 
+```
+
+```{r}
+#lending_blend <-
+```
+
+
+13. Fit the final stacked model using `fit_members()`. Apply the model to the training data. Compute the accuracy, construct a confusion matrix, and create a density plot with `.pred_good` on the x-axis (the probability of a response of "good"), filled by `Class`. Comment on what you see. 
+
+```{r}
+#lending_final_stack <- 
+```
+
+
+14. In the previous problem, you saw that although the accuracy was quite high, the true negative rate (aka sensitivity) was terrible. It's common to see this when one of the classes has low representation. What we want to do now is investigate what happens in each of our models. Below I've provided code to investigate the lasso model (where `lasso_tune` is the name of my tuning step). Do similar things for the random forest and xgboost models. If you'd like to have a better true negative rate, which models would you choose and how would you go about doing this in a less manual way (you don't need to write code to do it - just describe it in words). Be sure to remove the `eval=FALSE` when you are finished.
+
+```{r, eval=FALSE}
+lasso_tune %>% 
+  collect_predictions() %>% 
+  group_by(id, penalty) %>% 
+  summarize(accuracy = sum((Class == .pred_class))/n(),
+            true_neg_rate = sum(Class == "bad" & .pred_class == "bad")/sum(Class == "bad"),
+            true_pos_rate = sum(Class == "good" & .pred_class == "good")/sum(Class == "good")) %>% 
+  group_by(penalty) %>% 
+  summarize(across(accuracy:true_pos_rate, mean))
+```
+
+
+## Shiny app
+
+For this week, there is no code to turn in for this part. You are just going to need to think about the steps to take.
+
+If you are new to Shiny apps or it's been awhile since you've made one, visit the Shiny links on our course [Resource](https://advanced-ds-in-r.netlify.app/resources.html) page. I would recommend starting with my resource because it will be the most basic. 
+
+Everyone should watch the [Theming Shiny](https://youtu.be/b9WWNO4P2nY) talk by Carson Sievert so you can make your app look amazing.
+
+**Tasks:**
+
+In the future, you are going to create an app that allows a user to explore how the predicted probability of a loan being paid back (or maybe just the predicted class - either "good" or "bad") changes depending on the values of the predictor variables.
+
+For this week, I want you to answer the following questions:
+
+1. How can you save a model you built to use it later (like in the shiny app you'll create)?
+
+2. For shiny apps that get published (like yours will), it's very important to have ALL the libraries that are used within the app loaded. If we were going to use the stacked model, which libraries do you think we'd need to load in our app?  
+
+3. You'll want the user to be able to choose values for each variable in the model. How will you come up with the values they can choose for quantitative and categorical data? Give one example for each, either using code or in words.  
+
+4. You will need to populate each variable with an initial value. Which value will you choose? Is there a nice way to do this programatically (ie. with code)?
+
+## Function Friday problems
+
+I will link to these separately. They will be posted by Tuesday.
+
+## Coded Bias
+
+We will be watching some of the [Coded Bias](https://www.codedbias.com/) film together on Thursday. It is streaming on Netflix. Write a short reflection. If you want some prompts, reflect on: What part of the film impacted you the most? Was there a part that surprised you and why? What emotions did you experience while watching?
+
+
+REMEMBER TO ADD YOUR GITHUB LINK AT THE TOP OF THE PAGE AND UNCOMMENT THE `knitr` OPTIONS.
+
+
