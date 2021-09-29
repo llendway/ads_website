@@ -318,9 +318,9 @@ flights_20_df
 class(flights_20_df)
 ```
 
-2. In this example, we will compute some summary statistics about the `flights` dataset. We will find the minimum and maximum years in the dataset, the total number of flights, and the number of distinct carriers. Just like when we did this with a SQL query, this does take a minute to run.
+2. In this example, we will compute some summary statistics about the `flights` dataset. We will find the minimum and maximum years in the dataset, the total number of flights, and the number of distinct carriers. Just like when we did this with a SQL query, this does take a minute to run. (**NOTE**: This chunk no longer works! There are [workarounds](https://community.rstudio.com/t/dbplyr-summarize-without-a-group-by/116466), but it does not seem necessary to discuss at this point in time.)
 
-```{r}
+```{r, eval=FALSE}
 overall_smry <-
   tbl(con_air, "flights") %>% 
   summarize(min_year = min(year),
@@ -331,9 +331,9 @@ overall_smry <-
 overall_smry
 ```
 
-   We can also look at the SQL code that was written in the background. This looks similar to the code I wrote above, although I tried to make it a little more readable.
+   We can also look at the SQL code that was written in the background. This looks similar to the code I wrote above, although I tried to make it a little more readable. (This chunk also doesn't work since the previous one wasn't run. I am keeping it here in hopes that it will be fixed next time I teach this.)
 
-```{r}
+```{r, eval=FALSE}
 overall_smry %>% 
   show_query()
 ```
