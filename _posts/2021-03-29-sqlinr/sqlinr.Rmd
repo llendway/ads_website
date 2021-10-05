@@ -2,6 +2,7 @@
 title: "Using SQL in R"
 description: |
   A short intro to SQL and learning how to "cheat" with `dbplyr`.
+date: 03-29-2021
 output:
   distill::distill_article:
     toc: true
