@@ -87,6 +87,26 @@ download_file(
 )
 ```
 
+#### Assignment #4
+
+Goals:
+
+* Continue using and become more comfortable with Git and GitHub.  
+* Use SQL inside of R.  
+* Make some amazing graphs!  
+* Create a shiny app using the slightly more advanced Shiny tips we covered in class.    
+* Explore new packages from "Function Friday".
+
+```{r}
+download_file(
+  path = "assignments/2021_fall/04_assignment.html",
+  button_label = "Download Assignment #4!",
+  button_type = "warning",
+  has_icon = TRUE,
+  icon = "fa fa-save",
+  self_contained = FALSE
+)
+```
 
 ### Spring 2021 Assignments
 
