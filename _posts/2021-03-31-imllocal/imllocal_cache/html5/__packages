@@ -33,3 +33,5 @@ rlang
 vctrs
 Matrix
 glmnet
+workflowsets
+lime

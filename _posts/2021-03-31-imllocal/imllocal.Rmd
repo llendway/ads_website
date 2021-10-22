@@ -2,6 +2,7 @@
 title: "Interpretable Machine Learning"
 description: |
   This tutorial focuses on local interpretation.
+date: 04-01-2021
 output:
   distill::distill_article:
     toc: true
@@ -59,6 +60,8 @@ download_file(
 
 * [Interpretable Machine Learning](https://christophm.github.io/interpretable-ml-book/agnostic.html) book by Christoph Molnar, specifically chapter 5.
 
+* [Explaining Models and Predictions](https://www.tmwr.org/explain.html) chapter of Tidymodels with R textbook by Julia Silge and Max Kuhn.
+
 
 ## Set up
 
@@ -92,7 +95,7 @@ house_prices <- house_prices %>%
 
 ## Intro
 
-As mentioned in the global model interpretation tutorial last week, local model interpretation helps us understand the impact variables have on individual observations. In this tutorial, I will give a general overview of a few methods and show you some R code that can help you execute them. I highly suggest reading the resources I listed above, especially [Explanatory Model Analysis](https://ema.drwhy.ai/InstanceLevelExploration.html), which is a companion to the `DALEX` package we will be using.
+As mentioned in the global model interpretation tutorial, local model interpretation helps us understand the impact variables have on individual observations. In this tutorial, I will give a general overview of a few methods and show you some R code that can help you execute them. I highly suggest reading the resources I listed above, especially [Explanatory Model Analysis](https://ema.drwhy.ai/InstanceLevelExploration.html), which is a companion to the `DALEX` package we will be using.
 
 ## Recreate some models
 
@@ -263,7 +266,7 @@ new_obs <- house_testing %>% slice(5377)
 10^(new_obs$log_price)
 ```
 
-Now create the plot, and output a few other things. The plot shows the variables on the y-axis and this observation's value for that variable. One sort of weird thing that I haven't quite figured out yet is it shows that the observation's `grade` is `10` when it is actually `11`. I think the `grade` factor may have been changed to an integer and then back to a factor at some point since `as.integer(new_obs$grade) =` `r  as.integer(new_obs$grade)`. For now, we won't worry about it. Just know that `grade = 10` really means `grade = 11`.
+Now create the plot, and output a few other things. The plot shows the variables on the y-axis and this observation's value for that variable. One sort of weird thing that I haven't quite figured out yet is it shows that the observation's `grade` is `8` when it is actually `9`. I think the `grade` factor may have been changed to an integer and then back to a factor at some point since `as.integer(new_obs$grade) =` `r  as.integer(new_obs$grade)`. For now, we won't worry about it. Just know that `grade = 8` really means `grade = 9`.
 
 ```{r}
 # Pulls together the data needed for the break-down plot
@@ -297,43 +300,43 @@ intercept <-
 intercept
 ```
 
-Then, the `+.254` for the `grade = 10`  bar (remember, that's actually `grade = 11`), is the change in average prediction if grade was fixed at 11. We can also do that "by hand". First, we set all `grade`s in the training set to `11`. Then find the new average predicted `log_price` when the lasso model is applied to this modified training data. And, lastly, compute the difference.
+Then, the `+0.141` for the `grade = 8`  bar (remember, that's actually `grade = 9`), is the change in average prediction if grade was fixed at 9. We can also do that "by hand". First, we set all `grade`s in the training set to `9`. Then find the new average predicted `log_price` when the lasso model is applied to this modified training data. And, lastly, compute the difference.
 
 ```{r}
-# Put in grade = "11" for all observations
-data_grade11 <- house_training %>% 
-  mutate(grade = "11")
+# Put in grade = "9" for all observations
+data_grade9 <- house_training %>% 
+  mutate(grade = "9")
 
 # Find predictions
-avg_grade11 <-
-  predict(house_lasso_final_mod, new_data = data_grade11) %>% 
-  summarize(avg_grade11 = mean(.pred)) %>% 
-  pull(avg_grade11)
+avg_grade9 <-
+  predict(house_lasso_final_mod, new_data = data_grade9) %>% 
+  summarize(avg_grade9 = mean(.pred)) %>% 
+  pull(avg_grade9)
 
 # Compute difference
-avg_grade11 - intercept
+avg_grade9 - intercept
 ```
 
-So, a `grade` of 11 contributes `r round(avg_grade11 - intercept, 3)` to the average predicted score, for this observation.  Let's do one more level "by hand", the `sqft_living = 3790` bar. Now set `grade = 11` and `sqft_living = 3790` and find the new average predicted `log_price` when the lasso model is applied to this modified training data. Then, compute the difference between this and the previous average predicted `log_price`, when only fixing `grade`, `r avg_grade11`.
+So, a `grade` of 9 contributes `r round(avg_grade9 - intercept, 3)` to the average predicted score, for this observation.  Let's do one more level "by hand", the `yr_built=2004` bar. Now set `grade = 9` and `yr_built=2004` and find the new average predicted `log_price` when the lasso model is applied to this modified training data. Then, compute the difference between this and the previous average predicted `log_price`, when only fixing `grade`, `r avg_grade9`.
 
 
 ```{r}
-# Put in grade = "11" and sqft_living = 3790 for all observations
-data_grade11_sqft3790 <- house_training %>% 
-  mutate(grade = "11",
-         sqft_living = 3790)
+# Put in grade = "9" and yr_built=2004 for all observations
+data_grade9_yr2004 <- house_training %>% 
+  mutate(grade = "9",
+         yr_built = 2004)
 
 # Find predictions
-avg_grade11_sqft3790 <-
-  predict(house_lasso_final_mod, new_data = data_grade11_sqft3790) %>% 
-  summarize(avg_grade11_sqft3790 = mean(.pred)) %>% 
-  pull(avg_grade11_sqft3790)
+avg_grade8_yr2004 <-
+  predict(house_lasso_final_mod, new_data = data_grade9_yr2004) %>% 
+  summarize(avg_grade8_yr2004 = mean(.pred)) %>% 
+  pull(avg_grade8_yr2004)
 
 # Compute difference
-avg_grade11_sqft3790 - avg_grade11
+avg_grade8_yr2004 - avg_grade9
 ```
 
-So, `sqft_living` of 3790 contributes `r round(avg_grade11_sqft3790 - avg_grade11, 3)` to the average predicted score, for this observation.
+So, `year` of 2004 contributes `r round(avg_grade8_yr2004 - avg_grade9, 3)` to the average predicted score, for this observation.
 
 In additive models, like lasso without interactions, contributions don't change due to which variables are considered first. In the code below, we give a new order in which to consider the variables. The plot looks different, but the length of the bars is the same, thus the contribution is the same
 
@@ -404,12 +407,12 @@ rf_avg_pred <-
 rf_avg_pred
 ```
 
-Then, the `+0.114` next to the `lat = 47.6351` bar, is the change in average prediction if latitude was fixed at 47.6351. So `lat = 47.6351` increased the `log_price` by `0.114`.
+Then, the `+0.112` next to the `lat = 47.6689` bar, is the change in average prediction if latitude was fixed at 47.6689 So `lat = 47.6689` increased the `log_price` by `0.112`.
 
 ```{r}
-# Fix latitude at 47.6351
+# Fix latitude at 47.6689
 data_lat <- house_training %>% 
-  mutate(lat = 47.6351)
+  mutate(lat = 47.6689)
 
 # Find average predictions
 rf_lat47 <-
@@ -462,7 +465,7 @@ pp_rf_ord1 %>%
   arrange(desc(abs(diff)))
 ```
 
-I have ordered the variables by their differences in contribution. We can see that the order in which the variables are considered affects the results. Notice that the `bathrooms = 3.75` contribution even changes sign.
+I have ordered the variables by their differences in contribution. We can see that the order in which the variables are considered affects the results. Notice that the signs of the contributions sometimes even change.
 
 The original ordering is based on a variable importance score, discussed in depth [here](https://ema.drwhy.ai/breakDown.html#BDMethodGen). Next, we will learn about SHapley Additive exPlanations (SHAP), another way we can try to account for these differences.
 
@@ -470,7 +473,7 @@ The original ordering is based on a variable importance score, discussed in dept
 
 SHAPs are based on Shapley values. I am not going to go into the theoretical detail here. Please see the chapter in [Explanatory Model Analysis](https://ema.drwhy.ai/shapley.html#SHAPMethod) or [Interpretable Machine Learning](https://christophm.github.io/interpretable-ml-book/shap.html#treeshap) if you are interested. Instead, I will explain the intuition and how to run it in R and interpret the results. 
 
-The idea is to take change the order in which we consider the variables in the break-down plots, ie. a permutation or reordering of the variables, and then to average the contributions. That's it! Ideally, we would look at every possible permutation, but since that takes a lot of time, we will only look at a sample of them.
+The idea is to change the order in which we consider the variables in the break-down plots, ie. a permutation or reordering of the variables, and then to average the contributions. That's it! Ideally, we would look at every possible permutation, but since that takes a lot of time, we will only look at a sample of them.
 
 And, the R code to execute this once again uses the `predict_parts()` function. The `type = "shap"` and there is an additional argument, `B`, which is how many permutations of the variables we desire. I recommend starting small. In this case, 10 already ran for quite a while, so I'll stick with that. You might consider adding `cache=TRUE` to the code chunk options so you don't have to re-run this section every time you knit the file. 
 
@@ -486,7 +489,7 @@ plot(rf_shap)
 
 **What does this graph show?**
 
-Each bar shows the average contribution of each variable's value to the predicted response for this observation. So, the grade of 11 contributes almost an additional `0.15` to the predicted `log_price` for this observation, on average. The boxplot shows the variation across permutations of the variables' order of consideration. If the variation is large, and especially if the boxplot encompasses both postitive and negative values, we will be less confident in its exact effect.
+Each bar shows the average contribution of each variable's value to the predicted response for this observation. So, the grade of 9 (it shows up correctly as 9 in this one `r emo::ji("woman_shrugging")`) contributes about an additional `0.075` to the predicted `log_price` for this observation, on average. The boxplot shows the variation across permutations of the variables' order of consideration. If the variation is large, and especially if the boxplot encompasses both postitive and negative values, we will be less confident in its exact effect.
 
 Notice that when we apply this to the lasso model, the boxplots are just a point because permuting the order in which we consider the variables doesn't matter with additive models. So, you should only bother to do this with non-additive models. 
 
@@ -548,7 +551,7 @@ plot(lime_rf) +
 
 **What does this show us?**
 
-* The predicted value from the original random forest model (**Prediction**) is about 6.17. 
+* The predicted value from the original random forest model (**Prediction**) is about `r lime_rf %>% pull(prediction)`.
 * The predicted value from the local model is not shown, but we saw that in the output above.  
 * The (**Explanation fit**) is an overall performance metric for the local model - `model_r2` from the output above.  
-* The bars show the variables orderd by weight, giving an indication of which variables are most important in the local model.
+* The bars show the variables ordered by weight, giving an indication of which variables are most important in the local model.
