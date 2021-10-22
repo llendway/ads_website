@@ -3,24 +3,24 @@ title: "Resources"
 description: |
 ---
 
-* Review material
+## Review material
   - [Lisa's Intro DS course](https://ds112-lendway.netlify.app/)  
   - [Prof. Brianna Heggeseth's Machine Learning course](https://bcheggeseth.github.io/253_fall_2021/) - she'll be building the site throughough the fall 2021 semester and is using `tidymodels`
   - [Hands on Machine Learning with R](https://bradleyboehmke.github.io/HOML/) by Bradley Boehmke and Brandon Greenwell  
   - [Johns Hopkins SPH ADS course site](http://jtleek.com/ads2020/index.html) by Jeff Leek and Roger Peng (Has both review and new material)
   
-* Getting help/advise  
+## Getting help/advise  
   - [Create a reprex!](https://www.tidyverse.org/help/) (**repr**oducible **ex**ample)  
   - [Build a Career in Data Science podcast](https://podcast.bestbook.cool/) by Jacqueline Nolis and Emily Robinson
 
-* git/GitHub in R  
+## git/GitHub in R  
   - [Lisa's GitHub for collaboration](https://github.com/llendway/github_for_collaboration/blob/master/github_for_collaboration.md)  
   - [Lisa's more in-depth post and video](https://lisalendway.netlify.app/posts/2021-02-24-gitinrstudio/) that goes more in-depth on how to collaborate
   - [Happy git with R](https://happygitwithr.com/) by Jenny Bryan
   - [R Packages - making a PR](https://r-pkgs.org/git.html#git-pullreq) from the *R Packages* boook by Hadley Wickham and Jenny Bryan  
   - [Pull request helpers](https://usethis.r-lib.org/articles/articles/pr-functions.html) from the `usethis` package
   
-* Building a website  
+## Building a website  
   - [Sharing on Short Notice](https://rstudio.com/resources/webinars/sharing-on-short-notice-how-to-get-your-materials-online-with-r-markdown/) with Alison Hill and Desirée De Leon from R Studio
   - [Lisa's Building a distill website blog post](https://lisalendway.netlify.app/posts/2020-12-09-buildingdistill/)  
   - [Tom Mock's distill post](https://themockup.blog/posts/2020-08-01-building-a-blog-with-distill/)  
@@ -28,44 +28,45 @@ description: |
   - [Emily Zabor's tutorial](https://www.emilyzabor.com/tutorials/rmarkdown_websites_tutorial.html)  
   - [blogdown book site](https://bookdown.org/yihui/blogdown/) by Yihui Xie, Amber Thomas, and Alison Hill and check out recent updates [here](https://blog.rstudio.com/2021/01/18/blogdown-v1.0/)
   
-* Building an R package  
+## Building an R package  
   - [Lisa's example of building a data package](https://lisalendway.netlify.app/posts/2020-12-30-welcometothejungle/) 
   - [Your first R package in 1 hour](https://www.pipinghotdata.com/posts/2020-10-25-your-first-r-package-in-1-hour/) blog post by Shannon Pileggi
   - [Tom Westlake's Writing an R Package From Scratch ](https://r-mageddon.netlify.app/post/writing-an-r-package-from-scratch/)  
   - [R Packages](https://r-pkgs.org/) book by Wickham and Bryan
   
-* Custom `ggplot2` themes  
+## Custom `ggplot2` themes  
   - [`theme()` documentation](https://ggplot2.tidyverse.org/reference/theme.html) (if you're like me, you might as well keep this tab open at all times on your computer)
   - [Joey Stanley's blog post](https://joeystanley.com/blog/custom-themes-in-ggplot2)  
   - [Maddie Pickens' tutorial](https://rpubs.com/mclaire19/ggplot2-custom-themes)
   
-* Shiny
+## Shiny
   - [Lisa's intro to building a shiny app](https://animation-and-interactivity-in-r.netlify.app/#creating-an-app-with-shiny)  
   - [Lisa's Shiny tips](https://github.com/llendway/shiny_tips) for a "bit more than the basics" in Shiny  
   - [R Studio tutorials](https://shiny.rstudio.com/tutorial/) by Garret Grolemund  
-  - [a gRadual intRoduction to Shiny](https://laderast.github.io/gradual_shiny/) by Ted Laderas
+  - [a gRadual intRoduction to Shiny](https://laderast.github.io/gradual_shiny/) by Ted Laderas  
+  - [Intro to Shiny](https://bios2.github.io/posts/2021-06-22-introduction-to-shiny-apps/) by Katherine Hébert, Andrew MacDonald, Jake Lawlor, and Vincent Bellevance  
   - [Mastering Shiny](https://mastering-shiny.org/) by Hadley Wickham
   - [Theming Shiny and R markdown with {`thematic`} and {`bslib`}](https://youtu.be/b9WWNO4P2nY) with Carson Sievert from R Studio (formerly, I had a [similar but older talk](https://youtu.be/4OxokLdZQgQ) posted)
   - [Using CSS to style your shiny app](https://sharla.party/post/2021-03-12-big-bud-press/) by Sharla Gelfand
   
-* Tidymodels
+## Tidymodels
   - [tidymodels.org main page](https://www.tidymodels.org/)
   - [Tidy Models with R textbook](https://www.tmwr.org/) by Julia Silge and Max Kuhn
   - [Lisa's tidymodels noRth presentation](https://youtu.be/tVZO-aoXStE)
   - [Julia Silge's blog](https://juliasilge.com/) with great examples
   
-* Model stacking / ensembles  
+## Model stacking / ensembles  
   - [stacks R package documentation](https://stacks.tidymodels.org/articles/basics.html) by Simon Couch and Max Kuhn and Simon's [lightnight talk](https://youtu.be/E7uygsmx3-Y).
   - [Hands on Machine Learning](https://bradleyboehmke.github.io/HOML/stacking.html) by Bradley Boehmke & Brandon Greenwell
   
-* Model interpretation
+## Interpretable Machine Learning
   - [DALExtra R package](https://modeloriented.github.io/DALEXtra/reference/explain_tidymodels.html) by Szymon Maksymiuk, Przemyslaw Biecek
   - [lime R package](https://uc-r.github.io/lime) tutorial by Bradley Boemke
   - [Interpretable Machine Learning](https://christophm.github.io/interpretable-ml-book/) by Christoph Molnar
   - [Explanatory Model Analysis](http://ema.drwhy.ai/) by Przemyslaw Biecek and Tomasz Burzykowski
   - [Hands on Machine Learning](https://bradleyboehmke.github.io/HOML/iml.html)
   
-* Data ethics / justice
+## Data ethics / justice
   - [fast.ai ethics course](https://ethics.fast.ai/videos/?lesson=1) by Rachel Thomas
   - [Data Justice intro](https://journals.sagepub.com/doi/10.1177/2053951717736335#:~:text=This%20paper%20posits%20that%20just,paths%20through%20a%20datafying%20world.) by Linnet Taylor
   - [Prediction-Based Decisions and Fairness](https://arxiv.org/abs/1811.07867)  by Shira Mitchell, Eric Potash, Solon Barocas, Alexander D'Amour, Kristian Lum  
@@ -73,26 +74,26 @@ description: |
   - [Data Science Ethics](https://mdsr-book.github.io/mdsr2e/ch-ethics.html#ethics-intro)  chapter of *Modern Data Science with R* by Baumer, Kaplan, and Horton
   - [Calling Bullshit](https://www.callingbullshit.org/syllabus.html) course materials by Bergstrom and West.
 
-* Using databases with R / SQL
+## Using databases with R / SQL
   - [Vebash Naidoo's blog posts](https://sciencificity-blog.netlify.app/posts/2020-12-12-using-the-tidyverse-with-databases/)  
   - [Dr. Simona Picardi's course material](https://ecorepsci.github.io/reproducible-science/rsqlite.html) from  WILD 6900: Tools for Reproducible Science, Spring 2021, Utah State University  
   - [SQL chapter](https://mdsr-book.github.io/mdsr2e/ch-sql.html#sec:dplyr-sql) of *Modern Data Science with R* by Baumer, Kaplan, and Horton  
   - [Jacqueline Nolis blog post](https://jnolis.com/blog/sql_database_rstudio/): Pretending to have a SQL database with RStudio  
   - [Databases using R](https://db.rstudio.com/) from RStudio
   
-* Putting R into production
+## Putting R into production
   - [Put R in prod](https://putrinprod.com/)
   - [Simple model example](https://raybuhr.github.io/blog/posts/making-predictions-over-http/) on Ray Buhr's blog  
   - [Simple `plumber` example](https://solutions.rstudio.com/examples/rest-apis/plumber-ml/) on R Studio's site (thanks for the link, Thomas Mock)
   
-* Gradient boosted machines (GBM) and H20
+## Gradient boosted machines (GBM) and H20
   - [Hands on Machine Learning](https://bradleyboehmke.github.io/HOML/gbm.html)  
   - [xgboost](https://xgboost.readthedocs.io/en/latest/R-package/xgboostPresentation.html) R package documentation  
   - [xgboost with tidymodels](https://juliasilge.com/blog/xgboost-tune-volleyball/) example by Julia Silge.  
   - [H20 documentation](https://docs.h2o.ai/h2o/latest-stable/h2o-docs/welcome.html)
   - [H20 booklet](https://www.h2o.ai/wp-content/uploads/2018/01/RBooklet.pdf)
   
-* Deep Learning
+## Deep Learning
   - [Deep Learning with R](https://www.manning.com/books/deep-learning-with-r#toc)
   - [Hands on Machine Learning](https://bradleyboehmke.github.io/HOML/deep-learning.html)  
   - [Neural Networks](https://youtube.com/playlist?list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi) YouTube video series by 3Blue1Brown  
