@@ -551,7 +551,7 @@ plot(lime_rf) +
 
 **What does this show us?**
 
-* The predicted value from the original random forest model (**Prediction**) is about `r lime_rf %>% pull(prediction)`.
+* The predicted value from the original random forest model (**Prediction**) is about `r lime_rf %>% distinct(prediction) %>% pull(prediction)`.
 * The predicted value from the local model is not shown, but we saw that in the output above.  
 * The (**Explanation fit**) is an overall performance metric for the local model - `model_r2` from the output above.  
 * The bars show the variables ordered by weight, giving an indication of which variables are most important in the local model.
