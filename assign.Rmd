@@ -108,6 +108,27 @@ download_file(
 )
 ```
 
+#### Assignment #5
+
+Goals:
+
+* Continue using and become more comfortable with Git and GitHub.  
+* Use some global model interpretation tools.  
+* Create a shiny app that allows you to interact with a model.  
+* Use some local model interpretation tools.  
+* Continue learning about bias and fairness in data science.  
+
+```{r}
+download_file(
+  path = "assignments/2021_fall/05_assignment.html",
+  button_label = "Download Assignment #5!",
+  button_type = "warning",
+  has_icon = TRUE,
+  icon = "fa fa-save",
+  self_contained = FALSE
+)
+```
+
 ### Spring 2021 Assignments
 
 
