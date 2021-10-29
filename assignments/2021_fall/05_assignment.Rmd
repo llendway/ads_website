@@ -136,11 +136,9 @@ If you need help with function writing check out the [Functions](https://r4ds.ha
   
 6. Describe how you would use the interpretable machine learning tools we've learned (both local and global) in future machine learning projects? How does each of them help you?
 
-7. (WARNING: I may have to make some changes to how you save this. I will do that by Friday at the latest.) Save this final model using the `saveRDS()` function - see the [Use the model](https://advanced-ds-in-r.netlify.app/posts/2021-03-16-ml-review/#use-the-model) section of the `tidymodels` intro. We are going to use the model in the next part. You'll want to save it in the folder where you create your shiny app.
+7. Save this final model using the `write_rds()` function - see the [Use the model](https://advanced-ds-in-r.netlify.app/posts/2021-03-16-ml-review/#use-the-model) section of the `tidymodels` intro for a similar example, but we're using `write_rds()` instead of `saveRDS()`. We are going to use the model in the next part. You'll want to save it in the folder where you create your shiny app. Run the code, and then add `eval=FALSE` to the code chunk options (next to the r inside the curly brackets) so it doesn't rerun this each time you knit. 
 
 ## Shiny app
-
-(WARNING: I may make some small changes to this as well which I will also update by Friday.)
 
 You are going to create an app that allows a user to explore how the predicted probability of a loan being paid back (or maybe just the predicted class - either "good" or "bad") changes depending on the values of the predictor variables.
 
@@ -148,14 +146,15 @@ Specifically, you will do the following:
 
 * Set up a separate project and GitHub repo for this app. Make sure the saved model from the previous problem is also in that folder. The app needs to be created in a file called *exactly* app.R that is also in the project folder.   
 * At the top of the file, load any libraries you use in the app.  
-* Use the `readRDS()` function to load the model.  
-* You may want to load some of the data to use
-* Create a user interface (using the various `*Input()` functions) where someone could enter values for each variable that feeds into the model. You will want to think hard about which types of `*Input()` functions to use. Think about how you can best prevent mistakes (eg. entering free text could lead to many mistakes). 
+* Use the `read_rds()` function to load the model.  
+* You may want to load some of the lending data to use to help in the design of your app. The original data are in `tidymodels` which you will also have to load in the shiny app. 
+* Create a user interface (using the various `*Input()` functions) where someone could enter values for each variable that feeds into the model. You will want to think hard about which types of `*Input()` functions to use. Think about how you can best prevent mistakes (eg. entering free text could lead to many mistakes). I'd recommend using sliders and drop-downs as often as possible.
 * Another part of the user interface will allow them to choose a variable (you can limit this to only the quantitative variables) where they can explore the effects of changing that variable, holding all others constant.  
 * After the user has entered all the required values, the output will be a CP profile with the the predicted value for the data that was entered, indicated by a point. You may be able to use the functions from `DALEX` and `DALEXtra` or you can do some of your own coding. 
 * Use the `bslib` to theme your shiny app!  
-* Publish your app to [shinyapps.io](https://www.shinyapps.io/). There are instructions for doing that on the tutorial I linked to above.   
+* Publish your app to [shinyapps.io](https://www.shinyapps.io/). There are instructions for doing that on my tutorial page from Intro Data Science: https://animation-and-interactivity-in-r.netlify.app/#publishing-your-app. Make sure to load ALL the libraries that you use at the top of your file. This includes the ranger library, which is used "behind the scenes" when your model is fit. If you try to publish and are unsuccessful, forgetting a library you need is the most common reason I have seen.     
 * Write a paragraph or two describing your app on your website! Link to the app and your GitHub repository in your post. Include a link to your post here. 
+
 
 ## Data Ethics: Data visualization principles
 
